@@ -9,87 +9,193 @@
   gtag('js', new Date());
   gtag('config', 'G-003ETVX66J');
 </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped</title>
-    <meta name="description" content="Trace the network route to any host. See every hop, IP address, and response time along the path. Free online traceroute tool for network diagnostics.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped">
-    <meta property="og:description" content="Trace the network route to any host. See every hop, IP address, and response time along the path. Free online traceroute tool for network diagnostics.">
-    <meta property="og:url" content="https://ducktyped.xyz/traceroute/">
-    <meta property="og:site_name" content="duckTyped">
-    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped">
-    <meta name="twitter:description" content="Trace the network route to any host. See every hop, IP address, and response time along the path. Free online traceroute tool for network diagnostics.">
-    <link rel="canonical" href="https://ducktyped.xyz/traceroute/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
-    <link rel="stylesheet" href="/utility/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>duckTyped — Technical tools without the noise.</title>
+<meta name="description" content="Free technical tools for IT professionals. DNS checker, SSL validator, password generator, WHOIS lookup, port scanner, and 15+ more utilities. No registration, no noise.">
+<meta name="author" content="duckTyped">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="duckTyped — Technical tools without the noise.">
+<meta property="og:description" content="21+ free IT tools: DNS, SSL, passwords, WHOIS, port scanning, QR codes, and more. No registration required.">
+<meta property="og:url" content="https://ducktyped.xyz">
+<meta property="og:site_name" content="duckTyped">
+<meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="duckTyped — Technical tools without the noise.">
+<meta name="twitter:description" content="21+ free IT tools. No registration, no noise.">
+<link rel="canonical" href="https://ducktyped.xyz">
+<link rel="icon" type="image/png" href="quacktools-logo-dark.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"duckTyped","applicationCategory":"DeveloperApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free IT professional tools including DNS checker, SSL certificate validator, password generator, WHOIS lookup, port scanner, and 15+ more utilities.","browserRequirements":"Requires JavaScript","softwareVersion":"3.0","author":{"@type":"Organization","name":"duckTyped"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-0:#0F1114;--bg-1:#12161C;--panel:rgba(21,26,34,.70);--panel-solid:#151A22;--border:#232A35;--text-0:#E9EEF5;--text-1:#B8C0CC;--muted:#8892A0;--brand-yellow:#F2C200;--brand-teal:#48E0C7;--brand-orange:#FA6216;--radius-xl:20px;--radius-lg:16px;--radius-md:12px;--font-display:'Orbitron',monospace;--font-body:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);color:var(--text-0);background:var(--bg-0);line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 800px at 30% 15%,rgba(255,255,255,.06),transparent 55%),radial-gradient(1000px 700px at 70% 60%,rgba(72,224,199,.04),transparent 60%),linear-gradient(180deg,#0F1114,#0B0D10)}
+body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.container{width:100%;max-width:1160px;margin:0 auto;padding:0 24px}
+.nav{position:sticky;top:0;z-index:100;padding:14px 24px}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;background:rgba(21,26,34,.65);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border:1px solid var(--border);border-radius:var(--radius-xl);padding:12px 24px;max-width:1160px;margin:0 auto}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text-0)}
+.nav-brand img{height:36px;width:auto}
+.nav-brand-text{font-family:var(--font-display);font-weight:700;font-size:1.1rem;letter-spacing:1.5px}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links a{font-weight:500;font-size:.88rem;color:var(--text-1);text-decoration:none;padding:8px 16px;border-radius:var(--radius-md);letter-spacing:.4px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--text-0);background:rgba(255,255,255,.04)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:.9rem;letter-spacing:.3px;padding:11px 26px;border-radius:var(--radius-md);cursor:pointer;text-decoration:none;border:none;white-space:nowrap;transition:transform .2s,box-shadow .25s,background .2s,border-color .2s}
+.btn-primary{background:var(--brand-yellow);color:#111318;border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(242,194,0,.18)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(242,194,0,.26);background:#FFD020}
+.btn-ghost{background:transparent;color:var(--text-0);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.btn-sm{padding:8px 18px;font-size:.82rem}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--text-0);margin:5px 0;border-radius:2px;transition:transform .25s,opacity .25s}
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:80px 24px 60px;overflow:hidden}
+.hero-bg-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:900px;height:600px;pointer-events:none;z-index:0;background:radial-gradient(circle at 40% 45%,rgba(242,194,0,.06) 0%,transparent 50%),radial-gradient(circle at 65% 55%,rgba(72,224,199,.04) 0%,transparent 45%)}
+.hero-mascot{position:relative;z-index:1;height:130px;width:auto;margin-bottom:28px;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 12px 30px rgba(242,194,0,.2))}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-wordmark{position:relative;z-index:1;font-family:var(--font-display);font-weight:700;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:2px;color:var(--text-0);margin-bottom:16px}
+.hero-wordmark .cursor{display:inline-block;color:var(--brand-teal);animation:blink 1s step-end infinite;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-headline{position:relative;z-index:1;font-weight:500;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--text-1);margin-bottom:14px;max-width:520px;line-height:1.5}
+.hero-headline .accent{color:var(--brand-yellow);font-weight:700}
+.hero-sub{position:relative;z-index:1;font-size:.92rem;color:var(--muted);margin-bottom:36px;max-width:460px}
+.hero-ctas{position:relative;z-index:1;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.stats-bar{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;padding:32px 0 0;position:relative;z-index:1}
+.stat{text-align:center}
+.stat-number{font-family:var(--font-display);font-weight:700;font-size:1.8rem;color:var(--brand-yellow);letter-spacing:1px}
+.stat-label{font-size:.78rem;color:var(--muted);letter-spacing:.5px;margin-top:4px}
+.features{padding:40px 0 80px}
+.features-label{text-align:center;font-family:var(--font-display);font-size:.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.features-title{text-align:center;font-weight:600;font-size:clamp(1.4rem,3vw,2rem);color:var(--text-0);margin-bottom:50px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feature-card{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 28px 32px;position:relative;overflow:hidden;transition:transform .25s ease,border-color .25s,box-shadow .25s}
+.feature-card::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.012;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(242,194,0,.15) 2px,rgba(242,194,0,.15) 3px)}
+.feature-card:hover{transform:translateY(-4px);border-color:rgba(242,194,0,.2);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.feature-icon{width:48px;height:48px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md);background:rgba(242,194,0,.06);border:1px solid rgba(242,194,0,.1)}
+.feature-icon svg{width:24px;height:24px;stroke:var(--brand-yellow);stroke-width:1.8;fill:none}
+.feature-card h3{font-weight:600;font-size:1.05rem;color:var(--text-0);margin-bottom:10px}
+.feature-card p{font-size:.88rem;color:var(--muted);line-height:1.6}
+.categories{padding:0 0 80px}
+.categories-title{text-align:center;font-weight:600;font-size:clamp(1.4rem,3vw,2rem);color:var(--text-0);margin-bottom:16px}
+.categories-sub{text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;max-width:800px;margin:0 auto}
+.cat-pill{display:flex;align-items:center;gap:10px;padding:16px 20px;background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;color:var(--text-1);font-weight:500;font-size:.88rem;transition:all .2s}
+.cat-pill:hover{border-color:rgba(242,194,0,.25);color:var(--text-0);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.cat-pill .cat-emoji{font-size:1.2em}
+.cat-pill .cat-count{margin-left:auto;font-size:.72rem;color:var(--muted);font-family:var(--font-display);letter-spacing:1px}
+.cta-banner{text-align:center;padding:60px 24px 80px}
+.cta-banner-card{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:var(--radius-xl);padding:60px 40px;max-width:700px;margin:0 auto;position:relative;overflow:hidden}
+.cta-banner-card::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.015;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(242,194,0,.15) 2px,rgba(242,194,0,.15) 3px)}
+.cta-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.2rem,2.5vw,1.6rem);color:var(--text-0);margin-bottom:12px;letter-spacing:1px}
+.cta-sub{color:var(--muted);font-size:.92rem;margin-bottom:28px;max-width:440px;margin-left:auto;margin-right:auto}
+.footer{border-top:1px solid var(--border);padding:36px 0;text-align:center}
+.footer-brand{font-family:var(--font-display);font-weight:600;font-size:.8rem;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:14px;list-style:none}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.82rem;transition:color .2s}
+.footer-links a:hover{color:var(--text-0)}
+.footer-copy{font-size:.75rem;color:rgba(136,146,160,.5)}
+.fade-up{opacity:0;transform:translateY(24px)}
+.fade-up.visible{animation:fadeUp .65s ease forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}
+@media(max-width:768px){.nav-links{display:none}.nav-toggle{display:block}.features-grid{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 40px}.hero-mascot{height:90px}.stats-bar{gap:24px}.cat-grid{grid-template-columns:repeat(2,1fr)}.cta-banner-card{padding:40px 24px}}
+@media(min-width:769px) and (max-width:1024px){.features-grid{grid-template-columns:repeat(2,1fr)}}
+.nav-links.open{display:flex;position:fixed;top:0;right:0;bottom:0;width:260px;background:var(--panel-solid);border-left:1px solid var(--border);flex-direction:column;padding:80px 24px 40px;gap:4px;z-index:200;animation:slideIn .3s ease}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
+.mobile-overlay.open{display:block}
+</style>
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <!-- SEO Content -->
-        <div class="standalone-hero">
-            <h1>Traceroute</h1>
-            <p class="standalone-intro">Trace the network path from our server to any destination. See every router hop along the way, including IP addresses, hostnames, and round-trip times. Essential for diagnosing routing issues, latency spikes, and network bottlenecks.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Diagnosing slow connections to a remote server, identifying which network hop is causing packet loss, verifying traffic is routed through expected ISPs, or troubleshooting VPN routing paths.</p></div>
-        </div>
-
-        <!-- Tool -->
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="traceroute">
-                <h2>Traceroute</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Trace the network path to any host. See every hop your data takes, with IP addresses and response times. Essential for diagnosing routing issues.
-                </p>
-                <div class="input-group">
-                    <label>Host (Domain or IP):</label>
-                    <input type="text" id="tracerouteHost" placeholder="example.com or 8.8.8.8" aria-label="Host for traceroute" onkeypress="if(event.key==='Enter') runTraceroute()">
-                </div>
-                <button onclick="runTraceroute()">🛤️ Run Traceroute</button>
-                <div id="tracerouteResults"></div>
-            </div>
-        </div>
-
-        <!-- Explore More -->
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+<nav class="nav"><div class="nav-inner">
+  <a href="/" class="nav-brand"><img src="quacktools-logo-dark.png" alt="duckTyped"><span class="nav-brand-text">duckTyped</span></a>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/">Home</a></li>
+    <li><a href="/utility/">Tools</a></li>
+    <li><a href="/utility/#dnsChecker">DNS</a></li>
+    <li><a href="/utility/#sslChecker">SSL</a></li>
+    <li><a href="/utility/" class="btn btn-primary btn-sm" style="margin-left:8px;">Launch Tools</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+</div></nav>
+<section class="hero">
+  <div class="hero-bg-glow"></div>
+  <a href="/"><img src="quacktools-logo-dark.png" alt="duckTyped mascot" class="hero-mascot"></a>
+  <h1 class="hero-wordmark fade-up">duckTyped<span class="cursor">_</span></h1>
+  <p class="hero-headline fade-up delay-1">Technical tools without the <span class="accent">noise.</span></p>
+  <p class="hero-sub fade-up delay-2">21+ free utilities for IT pros, sysadmins, and developers. No registration. No tracking. Just tools.</p>
+  <div class="hero-ctas fade-up delay-3">
+    <a href="/utility/" class="btn btn-primary"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg> Launch Tools</a>
+    <a href="#features" class="btn btn-ghost">See What's Inside</a>
+  </div>
+  <div class="stats-bar fade-up delay-4">
+    <div class="stat"><div class="stat-number">21+</div><div class="stat-label">Free Tools</div></div>
+    <div class="stat"><div class="stat-number">0</div><div class="stat-label">Accounts Required</div></div>
+    <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Client-Side Privacy</div></div>
+  </div>
+</section>
+<section class="features" id="features"><div class="container">
+  <div class="features-label">Why duckTyped</div>
+  <h2 class="features-title">Built for people who build things.</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <h3>Privacy First</h3>
+      <p>Everything runs client-side in your browser. Your data never touches a server. No cookies, no analytics, no tracking.</p>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-network.js"></script>
-    <script>
-        function changeTheme(theme) {
-            if (theme === 'light') { document.body.classList.add('light-theme'); } else { document.body.classList.remove('light-theme'); }
-            localStorage.setItem('selectedTheme', theme);
-            const logo = document.getElementById('siteLogo');
-            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
-        }
-        function toggleTheme() { const isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
-        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
-        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
-        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
-        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
-    </script>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
+      <h3>IT-Grade Tools</h3>
+      <p>DNS records, SSL validation, port scanning, WHOIS, SMTP checks, email header analysis — real tools for real work.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+      <h3>Fully Customizable</h3>
+      <p>Search, filter, drag-and-drop, hide tools you don't need. Dark and light themes. Your layout is saved locally.</p>
+    </div>
+  </div>
+</div></section>
+<section class="categories"><div class="container">
+  <h2 class="categories-title">Everything you need, organized.</h2>
+  <p class="categories-sub">Jump into any category or search across all 21+ tools from the dashboard.</p>
+  <div class="cat-grid">
+    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🌐</span> Network <span class="cat-count">6</span></a>
+    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🔒</span> Security <span class="cat-count">5</span></a>
+    <a href="/utility/" class="cat-pill"><span class="cat-emoji">📧</span> Email <span class="cat-count">4</span></a>
+    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🔗</span> URL / Web <span class="cat-count">4</span></a>
+    <a href="/utility/" class="cat-pill"><span class="cat-emoji">📱</span> QR Codes <span class="cat-count">2</span></a>
+    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🔍</span> Lookup <span class="cat-count">4</span></a>
+  </div>
+</div></section>
+<section class="cta-banner"><div class="cta-banner-card">
+  <div class="cta-title">Ready to get to work?</div>
+  <p class="cta-sub">No sign-up, no install, no nonsense. Open the dashboard and start using tools immediately.</p>
+  <a href="/utility/" class="btn btn-primary"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg> Launch Tools</a>
+</div></section>
+<footer class="footer"><div class="container">
+  <div class="footer-brand">DUCKTYPED</div>
+  <ul class="footer-links">
+    <li><a href="/utility/">Tools</a></li>
+    <li><a href="/utility/#dnsChecker">DNS</a></li>
+    <li><a href="/utility/#sslChecker">SSL</a></li>
+    <li><a href="/utility/#passwordGen">Passwords</a></li>
+  </ul>
+  <p class="footer-copy">&copy; <script>document.write(new Date().getFullYear())</script> duckTyped. All rights reserved.</p>
+</div></footer>
+<script>
+const navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks'),overlay=document.getElementById('mobileOverlay');
+navToggle.addEventListener('click',()=>{navLinks.classList.toggle('open');overlay.classList.toggle('open')});
+overlay.addEventListener('click',()=>{navLinks.classList.remove('open');overlay.classList.remove('open')});
+const observer=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');observer.unobserve(el.target)}})},{threshold:.15});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>
