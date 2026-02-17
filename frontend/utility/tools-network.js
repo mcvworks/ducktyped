@@ -255,28 +255,33 @@ async function lookupWhois() {
 async function checkSSL() {
     const domain = document.getElementById('sslDomain').value.trim();
     const resultsDiv = document.getElementById('sslResults');
-
     if (!domain) {
         resultsDiv.innerHTML = '<div class="error">Please enter a domain name!</div>';
         return;
     }
-
     if (!workerAvailable) {
         resultsDiv.innerHTML = '<div class="error">Backend service unavailable. Please try again later.</div>';
         return;
     }
-
     resultsDiv.innerHTML = '<div class="success">Checking SSL certificate...</div>';
-
     try {
         const data = await callWorker('ssl', { domain });
         
+        const isValid = !data.isExpired && data.validTo;
+        const statusIcon = isValid ? '✅' : '❌';
+        const expiryWarning = data.isExpiringSoon ? ' ⚠️ Expiring soon!' : '';
+        
         let html = '<div class="dns-record">';
-        html += `<strong>SSL Certificate for ${domain}</strong>`;
+        html += `<strong>SSL Certificate for ${data.domain || domain}</strong>`;
         html += `<div class="dns-record-value">`;
-        html += `<strong>Status:</strong> ${data.valid ? '✅ Valid' : '❌ Invalid'}<br>`;
-        html += `<strong>HTTPS:</strong> ${data.status === 200 ? '✅ Enabled' : '❌ Not Available'}<br>`;
-        html += `<strong>URL:</strong> ${data.url}<br>`;
+        html += `<strong>Status:</strong> ${statusIcon} ${isValid ? 'Valid' : 'Invalid / Expired'}${expiryWarning}<br>`;
+        html += `<strong>Subject:</strong> ${data.subject || 'N/A'}<br>`;
+        html += `<strong>Issuer:</strong> ${data.issuer || 'N/A'}<br>`;
+        html += `<strong>Valid From:</strong> ${data.validFrom || 'N/A'}<br>`;
+        html += `<strong>Valid To:</strong> ${data.validTo || 'N/A'}<br>`;
+        html += `<strong>Days Remaining:</strong> ${data.daysRemaining !== null ? data.daysRemaining + ' days' : 'N/A'}<br>`;
+        html += `<strong>Serial:</strong> <span style="word-break: break-all;">${data.serial || 'N/A'}</span><br>`;
+        html += `<strong>Fingerprint:</strong> <span style="word-break: break-all;">${data.fingerprint || 'N/A'}</span><br>`;
         html += `</div></div>`;
         
         resultsDiv.innerHTML = html;
@@ -284,7 +289,6 @@ async function checkSSL() {
         resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     }
 }
-
 // ============================================
 // PORT SCANNER (Uses Worker)
 // ============================================
