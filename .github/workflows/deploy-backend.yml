@@ -1,0 +1,67 @@
+# .github/workflows/deploy-backend.yml
+name: Deploy Backend
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+
+            echo "── Pulling latest code ──"
+            cd /home/dt_lower/api
+
+            # If this is the first deploy, clone the repo
+            if [ ! -d ".git" ]; then
+              cd /home/dt_lower
+              git clone git@github.com:${{ github.repository }}.git api-repo
+              cp -r api-repo/backend/* api/
+              rm -rf api-repo
+              cd /home/dt_lower/api
+              npm install --production
+            else
+              # Normal deploy: pull and update
+              cd /home/dt_lower/api-repo 2>/dev/null || {
+                cd /home/dt_lower
+                git clone https://github.com/${{ github.repository }}.git api-repo
+              }
+              cd /home/dt_lower/api-repo
+              git fetch origin main
+              git reset --hard origin/main
+
+              # Copy backend files
+              rsync -av --delete \
+                --exclude='node_modules' \
+                --exclude='.env' \
+                --exclude='uploads' \
+                backend/ /home/dt_lower/api/
+
+              cd /home/dt_lower/api
+              npm install --production
+            fi
+
+            echo "── Reloading PM2 ──"
+            pm2 reload dt_lower-api || pm2 start ecosystem.config.js
+
+            echo "── Health check ──"
+            sleep 2
+            curl -sf http://127.0.0.1:3000/health || {
+              echo "Health check failed!"
+              pm2 logs dt_lower-api --lines 20
+              exit 1
+            }
+
+            echo "── Deploy complete ──"
