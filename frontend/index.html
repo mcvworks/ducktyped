@@ -1,193 +1,1591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>duckTyped — Technical tools without the noise.</title>
-<meta name="description" content="Free technical tools for IT professionals. DNS checker, SSL validator, password generator, WHOIS lookup, port scanner, and 15+ more utilities. No registration, no noise.">
-<meta name="author" content="duckTyped">
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:title" content="duckTyped — Technical tools without the noise.">
-<meta property="og:description" content="21+ free IT tools: DNS, SSL, passwords, WHOIS, port scanning, QR codes, and more. No registration required.">
-<meta property="og:url" content="https://ducktyped.xyz">
-<meta property="og:site_name" content="duckTyped">
-<meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="duckTyped — Technical tools without the noise.">
-<meta name="twitter:description" content="21+ free IT tools. No registration, no noise.">
-<link rel="canonical" href="https://ducktyped.xyz">
-<link rel="icon" type="image/png" href="quacktools-logo-dark.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"duckTyped","applicationCategory":"DeveloperApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free IT professional tools including DNS checker, SSL certificate validator, password generator, WHOIS lookup, port scanner, and 15+ more utilities.","browserRequirements":"Requires JavaScript","softwareVersion":"3.0","author":{"@type":"Organization","name":"duckTyped"}}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg-0:#0F1114;--bg-1:#12161C;--panel:rgba(21,26,34,.70);--panel-solid:#151A22;--border:#232A35;--text-0:#E9EEF5;--text-1:#B8C0CC;--muted:#8892A0;--brand-yellow:#F2C200;--brand-teal:#48E0C7;--brand-orange:#FA6216;--radius-xl:20px;--radius-lg:16px;--radius-md:12px;--font-display:'Orbitron',monospace;--font-body:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:var(--font-body);color:var(--text-0);background:var(--bg-0);line-height:1.6;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 800px at 30% 15%,rgba(255,255,255,.06),transparent 55%),radial-gradient(1000px 700px at 70% 60%,rgba(72,224,199,.04),transparent 60%),linear-gradient(180deg,#0F1114,#0B0D10)}
-body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-.container{width:100%;max-width:1160px;margin:0 auto;padding:0 24px}
-.nav{position:sticky;top:0;z-index:100;padding:14px 24px}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;background:rgba(21,26,34,.65);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border:1px solid var(--border);border-radius:var(--radius-xl);padding:12px 24px;max-width:1160px;margin:0 auto}
-.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text-0)}
-.nav-brand img{height:36px;width:auto}
-.nav-brand-text{font-family:var(--font-display);font-weight:700;font-size:1.1rem;letter-spacing:1.5px}
-.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
-.nav-links a{font-weight:500;font-size:.88rem;color:var(--text-1);text-decoration:none;padding:8px 16px;border-radius:var(--radius-md);letter-spacing:.4px;transition:color .2s,background .2s}
-.nav-links a:hover{color:var(--text-0);background:rgba(255,255,255,.04)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:.9rem;letter-spacing:.3px;padding:11px 26px;border-radius:var(--radius-md);cursor:pointer;text-decoration:none;border:none;white-space:nowrap;transition:transform .2s,box-shadow .25s,background .2s,border-color .2s}
-.btn-primary{background:var(--brand-yellow);color:#111318;border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(242,194,0,.18)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(242,194,0,.26);background:#FFD020}
-.btn-ghost{background:transparent;color:var(--text-0);border:1px solid var(--border)}
-.btn-ghost:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
-.btn-sm{padding:8px 18px;font-size:.82rem}
-.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
-.nav-toggle span{display:block;width:22px;height:2px;background:var(--text-0);margin:5px 0;border-radius:2px;transition:transform .25s,opacity .25s}
-.hero{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:80px 24px 60px;overflow:hidden}
-.hero-bg-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:900px;height:600px;pointer-events:none;z-index:0;background:radial-gradient(circle at 40% 45%,rgba(242,194,0,.06) 0%,transparent 50%),radial-gradient(circle at 65% 55%,rgba(72,224,199,.04) 0%,transparent 45%)}
-.hero-mascot{position:relative;z-index:1;height:130px;width:auto;margin-bottom:28px;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 12px 30px rgba(242,194,0,.2))}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hero-wordmark{position:relative;z-index:1;font-family:var(--font-display);font-weight:700;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:2px;color:var(--text-0);margin-bottom:16px}
-.hero-wordmark .cursor{display:inline-block;color:var(--brand-teal);animation:blink 1s step-end infinite;margin-left:2px}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.hero-headline{position:relative;z-index:1;font-weight:500;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--text-1);margin-bottom:14px;max-width:520px;line-height:1.5}
-.hero-headline .accent{color:var(--brand-yellow);font-weight:700}
-.hero-sub{position:relative;z-index:1;font-size:.92rem;color:var(--muted);margin-bottom:36px;max-width:460px}
-.hero-ctas{position:relative;z-index:1;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
-.stats-bar{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;padding:32px 0 0;position:relative;z-index:1}
-.stat{text-align:center}
-.stat-number{font-family:var(--font-display);font-weight:700;font-size:1.8rem;color:var(--brand-yellow);letter-spacing:1px}
-.stat-label{font-size:.78rem;color:var(--muted);letter-spacing:.5px;margin-top:4px}
-.features{padding:40px 0 80px}
-.features-label{text-align:center;font-family:var(--font-display);font-size:.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.features-title{text-align:center;font-weight:600;font-size:clamp(1.4rem,3vw,2rem);color:var(--text-0);margin-bottom:50px}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.feature-card{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 28px 32px;position:relative;overflow:hidden;transition:transform .25s ease,border-color .25s,box-shadow .25s}
-.feature-card::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.012;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(242,194,0,.15) 2px,rgba(242,194,0,.15) 3px)}
-.feature-card:hover{transform:translateY(-4px);border-color:rgba(242,194,0,.2);box-shadow:0 20px 50px rgba(0,0,0,.35)}
-.feature-icon{width:48px;height:48px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md);background:rgba(242,194,0,.06);border:1px solid rgba(242,194,0,.1)}
-.feature-icon svg{width:24px;height:24px;stroke:var(--brand-yellow);stroke-width:1.8;fill:none}
-.feature-card h3{font-weight:600;font-size:1.05rem;color:var(--text-0);margin-bottom:10px}
-.feature-card p{font-size:.88rem;color:var(--muted);line-height:1.6}
-.categories{padding:0 0 80px}
-.categories-title{text-align:center;font-weight:600;font-size:clamp(1.4rem,3vw,2rem);color:var(--text-0);margin-bottom:16px}
-.categories-sub{text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;max-width:800px;margin:0 auto}
-.cat-pill{display:flex;align-items:center;gap:10px;padding:16px 20px;background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;color:var(--text-1);font-weight:500;font-size:.88rem;transition:all .2s}
-.cat-pill:hover{border-color:rgba(242,194,0,.25);color:var(--text-0);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.cat-pill .cat-emoji{font-size:1.2em}
-.cat-pill .cat-count{margin-left:auto;font-size:.72rem;color:var(--muted);font-family:var(--font-display);letter-spacing:1px}
-.cta-banner{text-align:center;padding:60px 24px 80px}
-.cta-banner-card{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:var(--radius-xl);padding:60px 40px;max-width:700px;margin:0 auto;position:relative;overflow:hidden}
-.cta-banner-card::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.015;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(242,194,0,.15) 2px,rgba(242,194,0,.15) 3px)}
-.cta-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.2rem,2.5vw,1.6rem);color:var(--text-0);margin-bottom:12px;letter-spacing:1px}
-.cta-sub{color:var(--muted);font-size:.92rem;margin-bottom:28px;max-width:440px;margin-left:auto;margin-right:auto}
-.footer{border-top:1px solid var(--border);padding:36px 0;text-align:center}
-.footer-brand{font-family:var(--font-display);font-weight:600;font-size:.8rem;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
-.footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:14px;list-style:none}
-.footer-links a{color:var(--muted);text-decoration:none;font-size:.82rem;transition:color .2s}
-.footer-links a:hover{color:var(--text-0)}
-.footer-copy{font-size:.75rem;color:rgba(136,146,160,.5)}
-.fade-up{opacity:0;transform:translateY(24px)}
-.fade-up.visible{animation:fadeUp .65s ease forwards}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}
-@media(max-width:768px){.nav-links{display:none}.nav-toggle{display:block}.features-grid{grid-template-columns:1fr;gap:16px}.hero{padding:60px 16px 40px}.hero-mascot{height:90px}.stats-bar{gap:24px}.cat-grid{grid-template-columns:repeat(2,1fr)}.cta-banner-card{padding:40px 24px}}
-@media(min-width:769px) and (max-width:1024px){.features-grid{grid-template-columns:repeat(2,1fr)}}
-.nav-links.open{display:flex;position:fixed;top:0;right:0;bottom:0;width:260px;background:var(--panel-solid);border-left:1px solid var(--border);flex-direction:column;padding:80px 24px 40px;gap:4px;z-index:200;animation:slideIn .3s ease}
-@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
-.mobile-overlay.open{display:block}
-</style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>duckTyped — Technical tools without the noise.</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free technical tools: DNS checker, SSL validator, password generator, WHOIS lookup, port scanner, and more. No noise, no registration.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="duckTyped — Technical tools without the noise.">
+    <meta property="og:description" content="Free technical tools: DNS, SSL, passwords, WHOIS, port scanning, and more. No registration required.">
+    <meta property="og:url" content="https://ducktyped.xyz">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="duckTyped — Free IT & Network Tools">
+    <meta name="twitter:description" content="Technical tools without the noise. DNS, SSL, passwords, and network utilities.">
+    <meta name="twitter:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    
+    <!-- Schema.org Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "duckTyped",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Web Browser)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free IT professional tools including DNS checker, SSL certificate validator, password generator, WHOIS lookup, port scanner, MAC address lookup, ping latency checker, ISP checker, and network utilities. No registration required.",
+      "featureList": [
+        "DNS Record Checker (A, AAAA, MX, NS, TXT, SPF, DKIM, DMARC)",
+        "SSL Certificate Checker and Validator",
+        "Secure Password Generator",
+        "WHOIS Domain Lookup",
+        "Port Scanner and Connectivity Tester",
+        "MAC Address Vendor Lookup",
+        "Ping and Latency Checker",
+        "ISP Checker by IP Address",
+        "Encrypted Note Sender",
+        "Plain Text Notes with Auto-save"
+      ],
+      "browserRequirements": "Requires JavaScript",
+      "softwareVersion": "3.0",
+      "author": {
+        "@type": "Organization",
+        "name": "duckTyped"
+      }
+    }
+    </script>
+    
+    <!-- BreadcrumbList Schema for better search results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://ducktyped.xyz"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "IT Tools",
+          "item": "https://ducktyped.xyz/utility/#tools"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ducktyped.xyz">
+    
+    <!-- Preconnect to external APIs for faster loading -->
+    <link rel="preconnect" href="https://dns.google">
+    <!-- ip-api.com doesn't support HTTPS preconnect, removing -->
+    <link rel="dns-prefetch" href="https://api.macvendors.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="quacktools-logo-dark.png">
+    <link rel="apple-touch-icon" href="quacktools-logo-dark.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    <!-- AdSense: uncomment and replace ca-pub-XXXXXXXXXX with your publisher ID when ready
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
+         crossorigin="anonymous"></script>
+    -->
+    
+    <!-- QR Code Libraries (deferred for performance) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 <body>
-<nav class="nav"><div class="nav-inner">
-  <a href="/" class="nav-brand"><img src="quacktools-logo-dark.png" alt="duckTyped"><span class="nav-brand-text">duckTyped</span></a>
-  <div class="mobile-overlay" id="mobileOverlay"></div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="/">Home</a></li>
-    <li><a href="/utility/">Tools</a></li>
-    <li><a href="/utility/#dnsChecker">DNS</a></li>
-    <li><a href="/utility/#sslChecker">SSL</a></li>
-    <li><a href="/utility/" class="btn btn-primary btn-sm" style="margin-left:8px;">Launch Tools</a></li>
-  </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-</div></nav>
-<section class="hero">
-  <div class="hero-bg-glow"></div>
-  <a href="/"><img src="quacktools-logo-dark.png" alt="duckTyped mascot" class="hero-mascot"></a>
-  <h1 class="hero-wordmark fade-up">duckTyped<span class="cursor">_</span></h1>
-  <p class="hero-headline fade-up delay-1">Technical tools without the <span class="accent">noise.</span></p>
-  <p class="hero-sub fade-up delay-2">21+ free utilities for IT pros, sysadmins, and developers. No registration. No tracking. Just tools.</p>
-  <div class="hero-ctas fade-up delay-3">
-    <a href="/utility/" class="btn btn-primary"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg> Launch Tools</a>
-    <a href="#features" class="btn btn-ghost">See What's Inside</a>
-  </div>
-  <div class="stats-bar fade-up delay-4">
-    <div class="stat"><div class="stat-number">21+</div><div class="stat-label">Free Tools</div></div>
-    <div class="stat"><div class="stat-number">0</div><div class="stat-label">Accounts Required</div></div>
-    <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Client-Side Privacy</div></div>
-  </div>
-</section>
-<section class="features" id="features"><div class="container">
-  <div class="features-label">Why duckTyped</div>
-  <h2 class="features-title">Built for people who build things.</h2>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
-      <h3>Privacy First</h3>
-      <p>Everything runs client-side in your browser. Your data never touches a server. No cookies, no analytics, no tracking.</p>
+    <a href="#toolsGrid" class="skip-nav" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;" onfocus="this.style.cssText='position:fixed;top:10px;left:10px;z-index:9999;background:var(--primary-color);color:#16131c;padding:12px 20px;border-radius:8px;font-weight:700;font-family:var(--font-mono);text-decoration:none;'" onblur="this.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;'">Skip to tools</a>
+    <div class="container">
+        <header>
+            <!-- Logo - Left side -->
+            <div class="logo-container">
+                <img src="quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+            </div>
+
+            <!-- Theme Controls - Right side -->
+            <div class="theme-controls">
+                <button id="dayNightToggle" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Day/Night Mode" aria-label="Toggle light and dark theme">
+                    <svg class="plug-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Left prong -->
+                        <rect class="plug-prong plug-prong-left" x="7" y="3" width="2.5" height="6" fill="currentColor" rx="1.25"/>
+                        <!-- Right prong -->
+                        <rect class="plug-prong plug-prong-right" x="14.5" y="3" width="2.5" height="6" fill="currentColor" rx="1.25"/>
+                        <!-- Plug body/head -->
+                        <path class="plug-body" d="M6 9 C6 8.5 6.5 8 7 8 L17 8 C17.5 8 18 8.5 18 9 L18 15 C18 17 16 18 12 18 C8 18 6 17 6 15 Z" fill="currentColor"/>
+                        <!-- Plug cord -->
+                        <rect class="plug-cord" x="11" y="18" width="2" height="3" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Tool Visibility Toggles -->
+        <!-- Site Info Section -->
+        <div class="site-info-section">
+            <div class="site-info-header" onclick="toggleSiteInfo()">
+                <span class="site-info-toggle" id="siteInfoToggle">+</span>
+                <h3>Site Info & FAQ</h3>
+            </div>
+            <div class="site-info-content" id="siteInfoContent">
+                <p><strong>🔒 Privacy & Security:</strong> All tools run entirely in your browser. No data is sent to external servers—your information never leaves your device.</p>
+                
+                <p><strong>💾 Settings Storage:</strong> Your preferences (tool visibility, theme, layout) are saved locally in your browser using localStorage. These settings persist across visits.</p>
+                
+                <p><strong>🎨 Customization Features:</strong></p>
+                <ul>
+                    <li><strong>Quick Search:</strong> Press <code style="background: #F2C200; color: #111318; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 600;">/</code> anywhere on the page to jump to the search bar. Press <code style="background: #F2C200; color: #111318; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 600;">Esc</code> to clear and close</li>
+                    <li><strong>Category Filters:</strong> Use the filter pills below the search bar to narrow tools by category</li>
+                    <li><strong>Recently Used:</strong> Tools you use are remembered and shown as quick-access chips at the top of the page</li>
+                    <li><strong>Drag & Drop:</strong> Rearrange tool cards by clicking and dragging them to your preferred order</li>
+                    <li><strong>Show/Hide Tools:</strong> Toggle individual tools on/off in the Filter & Customize section</li>
+                    <li><strong>Day/Night Theme:</strong> Switch between dark and light themes with the plug toggle button</li>
+                    <li><strong>Layout Reset:</strong> Return all tools to their original order with the "Reset Layout" button</li>
+                </ul>
+                
+                <p><strong>⚡ Smart Caching & Performance:</strong> Responses are cached locally to speed up repeated queries and reduce API usage. Cache durations vary by tool type (1 minute to 30 days based on data stability).</p>
+                
+                <p><strong>📊 Rate Limits & API Usage:</strong> To ensure fair usage and stay within free tier API limits, the following rate limits apply:</p>
+                <ul style="font-size: 0.9em; line-height: 1.6;">
+                    <li><strong>DNS Checker:</strong> 45 requests/minute, 1,500/day</li>
+                    <li><strong>WHOIS Lookup:</strong> 45 requests/minute, 1,000/day</li>
+                    <li><strong>ISP Checker:</strong> 45 requests/minute, 1,000/day</li>
+                    <li><strong>MAC Lookup:</strong> 30 requests/minute, 1,000/day</li>
+                    <li><strong>SSL/Port Scanner:</strong> 60 requests/minute, 10,000/day</li>
+                    <li><em>Note: You'll receive warnings when approaching limits. Type <code style="background: #F2C200; color: #111318; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 600;">showAPIUsage()</code> in browser console to view your current usage.</em></li>
+                </ul>
+                
+                <p><strong>🗑️ Settings Reset:</strong> Your saved settings will be cleared if you:</p>
+                <ul>
+                    <li>Clear your browser cache or cookies</li>
+                    <li>Use incognito/private browsing mode</li>
+                    <li>Switch to a different browser or device</li>
+                </ul>
+                
+                <button class="clear-cache-btn" onclick="clearLocalSettings()">🗑️ Clear All Settings & Reset</button>
+                
+                <div class="faq-divider"></div>
+                
+                <div class="faq-section-header" onclick="toggleFAQSection()">
+                    <span class="faq-section-toggle" id="faqSectionToggle">+</span>
+                    <h4 class="faq-section-title">❓ Frequently Asked Questions</h4>
+                </div>
+                
+                <div class="faq-questions-container" id="faqQuestionsContainer">
+                    <div class="faq-item">
+                        <div class="faq-question-static">
+                            <strong>What is duckTyped?</strong>
+                        </div>
+                        <div class="faq-answer-static">
+                            <p>duckTyped is a free collection of IT professional tools for DNS checking, SSL validation, password generation, WHOIS lookup, and network diagnostics. All tools work in your browser with no registration required.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question-static">
+                            <strong>Is duckTyped completely free?</strong>
+                        </div>
+                        <div class="faq-answer-static">
+                            <p>Yes! All tools are 100% free with no hidden fees, no registration, and no credit card required. We believe IT tools should be accessible to everyone.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question-static">
+                            <strong>Is my data private and secure?</strong>
+                        </div>
+                        <div class="faq-answer-static">
+                            <p>Yes! Most tools process everything client-side in your browser. Your data never leaves your device. We don't collect, store, or share any personal information.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question-static">
+                            <strong>Can I use these tools offline?</strong>
+                        </div>
+                        <div class="faq-answer-static">
+                            <p>Most tools work offline! The Password Generator, Plain Notes, and Encrypted Note Sender work without internet. Network tools like DNS Checker and WHOIS Lookup require connectivity.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question-static">
+                            <strong>What tools are included?</strong>
+                        </div>
+                        <div class="faq-answer-static">
+                            <p>We offer 21 professional tools including: Password Generator, Encrypted Note Sender, SSL Certificate Checker, WHOIS/IP Lookup, Port Scanner, Plain Notes, HTTP Latency Checker, ISP Checker, MAC Address Lookup, Email Header Analyzer, SMTP Checker, Email Validator, DNS Record Checker with SPF/DKIM/DMARC validation, QR Code Generator, QR Code Scanner, WiFi QR Generator, vCard QR Generator, URL Safety Checker, Redirect Checker, Broken Link Checker, and URL Metadata Extractor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Filter & Customize Tools Section -->
+        <div class="site-info-section" style="margin-bottom: 15px;">
+            <div class="site-info-header" onclick="toggleFilterCustomize()">
+                <span class="site-info-toggle" id="filterCustomizeToggle">+</span>
+                <h3>Filter & Customize Tools</h3>
+            </div>
+            <div class="site-info-content" id="filterContent">
+
+        <!-- Category Filter Tags with Flip Toggle -->
+        <div style="max-width: 900px; margin: 12px auto 15px; padding: 0;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 0.85em; font-weight: 600; color: var(--text-secondary);">Filter by:</span>
+                
+                <!-- iOS-Style Toggle Switch -->
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="label-category" style="font-size: 0.75em; font-weight: 600; color: var(--primary-color); transition: color 0.3s;">Categories</span>
+                    
+                    <div onclick="toggleFilterMode()" style="
+                        position: relative;
+                        width: 46px;
+                        height: 24px;
+                        background: var(--primary-color);
+                        border-radius: 12px;
+                        cursor: pointer;
+                        transition: background 0.3s;
+                        box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+                    " id="toggle-track">
+                        <!-- Moving circle -->
+                        <div id="toggle-circle" style="
+                            position: absolute;
+                            top: 2px;
+                            left: 2px;
+                            width: 20px;
+                            height: 20px;
+                            background: #16131c;
+                            border-radius: 50%;
+                            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                        "></div>
+                    </div>
+                    
+                    <span id="label-usertype" style="font-size: 0.75em; font-weight: 600; color: var(--text-secondary); transition: color 0.3s;">User Type</span>
+                </div>
+            </div>
+            
+            <!-- Category Tags (default visible) -->
+            <div id="category-filters" style="display: flex; gap: 4px; flex-wrap: nowrap; align-items: center; transition: opacity 0.3s; overflow-x: auto; overflow-y: hidden;">
+                <button onclick="filterByCategory('all')" id="filter-all" class="category-tag filter-tag active">All</button>
+                
+                <button onclick="filterByCategory('security')" id="filter-security" class="category-tag filter-tag">🔒 Security</button>
+                
+                <button onclick="filterByCategory('network')" id="filter-network" class="category-tag filter-tag">🌐 Network</button>
+                
+                <button onclick="filterByCategory('email')" id="filter-email" class="category-tag filter-tag">📧 Email</button>
+                
+                <button onclick="filterByCategory('url')" id="filter-url" class="category-tag filter-tag">🔗 URL</button>
+                
+                <button onclick="filterByCategory('qr')" id="filter-qr" class="category-tag filter-tag">📱 QR</button>
+                
+                <button onclick="filterByCategory('lookup')" id="filter-lookup" class="category-tag filter-tag">🔍 Lookup</button>
+            </div>
+            
+            <!-- User Type Tags (hidden by default) -->
+            <div id="usertype-filters" style="display: none; gap: 4px; flex-wrap: nowrap; align-items: center; transition: opacity 0.3s; overflow-x: auto; overflow-y: hidden;">
+                <button onclick="filterByUserType('all')" id="userfilter-all" class="usertype-tag filter-tag active">All</button>
+                
+                <button onclick="filterByUserType('itpro')" id="userfilter-itpro" class="usertype-tag filter-tag">💼 IT Pro</button>
+                
+                <button onclick="filterByUserType('webdev')" id="userfilter-webdev" class="usertype-tag filter-tag">💻 Web Dev</button>
+                
+                <button onclick="filterByUserType('security')" id="userfilter-security" class="usertype-tag filter-tag">🛡️ Security</button>
+                
+                <button onclick="filterByUserType('marketing')" id="userfilter-marketing" class="usertype-tag filter-tag">📢 Marketing</button>
+                
+                <button onclick="filterByUserType('netadmin')" id="userfilter-netadmin" class="usertype-tag filter-tag">🖥️ Network Admin</button>
+            </div>
+        </div>
+
+        <div class="tool-toggle-bar" style="border: none; background: transparent; padding: 12px 0 0; margin-bottom: 0; backdrop-filter: none;">
+            <button class="toggle-all-btn" onclick="toggleAllTools()" id="toggleAllBtn">
+                <span class="toggle-icon eye-closed"></span>
+                <span class="toggle-text">Show All</span>
+            </button>
+            <div class="info-icon">
+                i
+                <div class="info-tooltip">
+                    <strong>💾 Settings Saved Locally</strong>
+                    Your preferences are saved in your browser:
+                    <ul>
+                        <li>Tool order & visibility</li>
+                        <li>Color theme & day/night</li>
+                    </ul>
+                    <strong>⚠️ Settings Clear When:</strong>
+                    <ul>
+                        <li>You clear browser cache/cookies</li>
+                        <li>Using incognito/private mode</li>
+                        <li>Using a different browser/device</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tool-toggles">
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-passwordGen" checked onchange="toggleToolVisibility('passwordGen')">
+                    <label for="toggle-passwordGen">Password Generator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-noteSender" checked onchange="toggleToolVisibility('noteSender')">
+                    <label for="toggle-noteSender">Secure Note Sender</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-sslChecker" checked onchange="toggleToolVisibility('sslChecker')">
+                    <label for="toggle-sslChecker">SSL Certificate Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-whoisChecker" checked onchange="toggleToolVisibility('whoisChecker')">
+                    <label for="toggle-whoisChecker">WHOIS / IP Lookup</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-portScanner" checked onchange="toggleToolVisibility('portScanner')">
+                    <label for="toggle-portScanner">Port Scanner</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-plainNotes" checked onchange="toggleToolVisibility('plainNotes')">
+                    <label for="toggle-plainNotes">Plain Notes</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-pingChecker" checked onchange="toggleToolVisibility('pingChecker')">
+                    <label for="toggle-pingChecker">HTTP Latency Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-ispChecker" checked onchange="toggleToolVisibility('ispChecker')">
+                    <label for="toggle-ispChecker">ISP Checker by IP</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-macLookup" checked onchange="toggleToolVisibility('macLookup')">
+                    <label for="toggle-macLookup">MAC Address Lookup</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-emailHeaderAnalyzer" checked onchange="toggleToolVisibility('emailHeaderAnalyzer')">
+                    <label for="toggle-emailHeaderAnalyzer">Email Header Analyzer</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-smtpChecker" checked onchange="toggleToolVisibility('smtpChecker')">
+                    <label for="toggle-smtpChecker">SMTP Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-emailValidator" checked onchange="toggleToolVisibility('emailValidator')">
+                    <label for="toggle-emailValidator">Email Validator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-dnsChecker" checked onchange="toggleToolVisibility('dnsChecker')">
+                    <label for="toggle-dnsChecker">DNS Record Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-qrGenerator" checked onchange="toggleToolVisibility('qrGenerator')">
+                    <label for="toggle-qrGenerator">QR Code Generator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-qrScanner" checked onchange="toggleToolVisibility('qrScanner')">
+                    <label for="toggle-qrScanner">QR Code Scanner</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-urlSafety" checked onchange="toggleToolVisibility('urlSafety')">
+                    <label for="toggle-urlSafety">URL Safety Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-urlRedirect" checked onchange="toggleToolVisibility('urlRedirect')">
+                    <label for="toggle-urlRedirect">Redirect Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-urlStatus" checked onchange="toggleToolVisibility('urlStatus')">
+                    <label for="toggle-urlStatus">Broken Link Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-urlMetadata" checked onchange="toggleToolVisibility('urlMetadata')">
+                    <label for="toggle-urlMetadata">URL Metadata Extractor</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-traceroute" checked onchange="toggleToolVisibility('traceroute')">
+                    <label for="toggle-traceroute">Traceroute</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-reverseDns" checked onchange="toggleToolVisibility('reverseDns')">
+                    <label for="toggle-reverseDns">Reverse DNS Lookup</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-subnetCalc" checked onchange="toggleToolVisibility('subnetCalc')">
+                    <label for="toggle-subnetCalc">Subnet Calculator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-secHeaders" checked onchange="toggleToolVisibility('secHeaders')">
+                    <label for="toggle-secHeaders">Security Headers Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-breachChecker" checked onchange="toggleToolVisibility('breachChecker')">
+                    <label for="toggle-breachChecker">Password Breach Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-blacklistChecker" checked onchange="toggleToolVisibility('blacklistChecker')">
+                    <label for="toggle-blacklistChecker">Blacklist / RBL Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-techDetector" checked onchange="toggleToolVisibility('techDetector')">
+                    <label for="toggle-techDetector">Tech Stack Detector</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-robotsAnalyzer" checked onchange="toggleToolVisibility('robotsAnalyzer')">
+                    <label for="toggle-robotsAnalyzer">Robots.txt & Sitemap Analyzer</label>
+                </div>
+            </div>
+        </div>
+            </div> <!-- end filterContent -->
+        </div> <!-- end collapsible -->
+
+        <!-- STICKY COMMAND BAR -->
+        <div class="command-bar" id="commandBar">
+            <div class="command-bar-inner">
+                <div class="search-row">
+                    <div class="search-wrapper">
+                        <input type="text" class="search-input" id="toolSearch"
+                            placeholder="Search tools..." autocomplete="off" spellcheck="false" aria-label="Search tools">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <span class="search-shortcut" aria-hidden="true">/</span>
+                        <button class="search-clear" id="searchClear" onclick="clearToolSearch()" aria-label="Clear search">×</button>
+                    </div>
+                    <div class="tool-count-badge" id="toolCountBadge"><span id="visibleToolCount">27</span> tools</div>
+                </div>
+                <div class="filter-row" id="filterRow">
+                    <button class="filter-pill active" onclick="filterByCat(this, 'all')">All</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'network')">🌐 Network</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'security')">🔒 Security</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'email')">📧 Email</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'url')">🔗 Web / URL</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'lookup')">🔍 Lookup</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'qr')">📱 QR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recently Used Tools -->
+        <div class="recent-tools-section" id="recentSection" style="display: none;">
+            <div class="recent-tools-header">
+                <span>Recently Used</span>
+            </div>
+            <div class="recent-tools-row" id="recentRow"></div>
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults">
+            <div class="nr-icon">🔍</div>
+            <div class="nr-title">No tools found</div>
+            <div class="nr-desc">Try a different search term or clear filters</div>
+        </div>
+
+        <div class="tools-grid" id="toolsGrid">
+            <!-- Password Generator -->
+            <div class="tool-card" id="passwordGen" draggable="true" data-categories="security,lookup" data-usertypes="security" data-keywords="password generate random secure strong crypto uppercase lowercase symbols">
+                <h2>Random Password Generator</h2>
+                <a href="/password-generator/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Generate cryptographically secure random passwords with customizable length (8-64 characters) and character types. Free password generator for creating strong, unique passwords.
+                </p>
+                
+                <!-- Password Length Controls -->
+                <div style="margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-primary); text-align: center;">
+                        Password Length: <span id="lengthValue" style="color: var(--primary-color); font-size: 1.05em;">16</span> characters
+                    </label>
+                    
+                    <!-- Input Field Only -->
+                    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                        <input type="text" id="passwordLengthInput" value="16" aria-label="Password length" 
+                            oninput="updateLengthFromInput(this.value)"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                            style="
+                                padding: 10px;
+                                font-size: 1em;
+                                text-align: center;
+                                font-weight: 600;
+                                background: var(--input-background);
+                                color: var(--text-primary);
+                                border: 2px solid var(--border-color);
+                                border-radius: 6px;
+                                width: 80px;
+                            ">
+                    </div>
+                    
+                    <!-- Preset Buttons -->
+                    <div style="display: flex; gap: 6px; justify-content: center; max-width: 300px;">
+                        <button onclick="setPasswordLength(12)" class="preset-btn green" style="flex: 1 1 0; min-width: 0;">
+                            Min (12)
+                        </button>
+                        
+                        <button onclick="setPasswordLength(16)" class="preset-btn blue" style="flex: 1 1 0; min-width: 0;">
+                            Med (16)
+                        </button>
+                        
+                        <button onclick="setPasswordLength(32)" class="preset-btn red" style="flex: 1 1 0; min-width: 0;">
+                            Max (32)
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="includeUppercase" checked> Uppercase (A-Z)</label>
+                    <label><input type="checkbox" id="includeLowercase" checked> Lowercase (a-z)</label>
+                    <label><input type="checkbox" id="includeNumbers" checked> Numbers (0-9)</label>
+                    <label><input type="checkbox" id="includeSymbols" checked> Symbols (!@#$...)</label>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button onclick="generatePassword()" style="max-width: 250px;">Generate Password</button>
+                </div>
+                <div class="output" id="passwordOutput">
+                    <div class="output-label" style="color: var(--primary-color); font-weight: 700;">Generated Password:</div>
+                    <div class="output-content" id="passwordText"></div>
+                    <button class="copy-btn" onclick="copyPassword()">Copy to Clipboard</button>
+                </div>
+            </div>
+
+            <!-- Encrypted Note Sender -->
+            <div class="tool-card" id="noteSender" draggable="true" data-categories="security" data-usertypes="security" data-keywords="encrypted note message secure send private aes 256 password expiration">
+                <h2>Secure Note Sender</h2>
+                <a href="/secure-note/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Send encrypted messages securely. Messages are encrypted client-side using AES-256 encryption with customizable expiration times. Optional password protection for added security.
+                </p>
+                <div id="encryptView">
+                    <div class="input-group">
+                        <label>Your Message:</label>
+                        <textarea id="noteMessage" placeholder="Enter your confidential message here..." aria-label="Secret message to encrypt"></textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="requirePassword" checked onchange="togglePasswordField()"> 
+                            Require Password
+                        </label>
+                        <small style="color: var(--text-secondary); font-size: 0.85em; display: block; margin-top: 5px;">
+                            If unchecked, anyone with the link can read the message
+                        </small>
+                    </div>
+                    
+                    <div class="input-group" id="passwordFieldGroup">
+                        <label>Encryption Password:</label>
+                        <input type="text" id="encryptPassword" placeholder="Create a strong password" aria-label="Encryption password">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Message Expires After:</label>
+                        <select id="expirationTime" style="
+                            width: 100%;
+                            padding: 10px;
+                            background: var(--input-background);
+                            color: var(--text-primary);
+                            border: 2px solid var(--border-color);
+                            border-radius: 8px;
+                            font-size: 1em;
+                        ">
+                            <option value="1">1 Hour</option>
+                            <option value="24">24 Hours (1 Day)</option>
+                            <option value="72">3 Days</option>
+                            <option value="168" selected>7 Days (1 Week)</option>
+                            <option value="720">30 Days (1 Month)</option>
+                        </select>
+                        <small style="color: var(--text-secondary); font-size: 0.85em; display: block; margin-top: 5px;">
+                            Messages automatically expire for security
+                        </small>
+                    </div>
+                    
+                    <button onclick="encryptNote()" id="createLinkBtn">Create Secure Link</button>
+                    <div class="output" id="encryptOutput">
+                        <div class="output-label" style="color: var(--primary-color); font-weight: 700;">Share this link with the recipient:</div>
+                        <div class="output-content" id="encryptedLink" style="word-break: break-all;"></div>
+                        <button class="copy-btn" onclick="copyLink()">Copy Link</button>
+                        <div class="info-box" id="passwordInfo">
+                            <strong>🔒 Password Protected:</strong> Share the password separately (via phone, in person, etc.) for maximum security.<br>
+                            <small>⏱️ Note: Messages automatically expire for security.</small>
+                        </div>
+                        <div class="info-box hidden" id="noPasswordInfo">
+                            <strong>⚠️ No Password:</strong> Anyone with this link can read the message. Use this only for non-sensitive information.<br>
+                            <small>⏱️ Note: Messages automatically expire for security.</small>
+                        </div>
+                    </div>
+                    <div class="warning" id="backendWarning" style="display: none;">
+                        <strong>⚠️ Backend Not Configured</strong><br>
+                        The tracking backend is not set up. Please configure the WORKER_URL in the code or limits won't be enforced.
+                    </div>
+                </div>
+                <div id="decryptView" style="display: none;">
+                    <div class="success" style="margin-bottom: 15px;" id="decryptHeader">
+                        <strong>🔒 Encrypted message received</strong><br>
+                        Enter the password to decrypt and read the message.
+                    </div>
+                    <div class="input-group">
+                        <label>Decryption Password:</label>
+                        <input type="text" id="decryptPassword" placeholder="Enter the password shared with you" aria-label="Decryption password">
+                    </div>
+                    <button onclick="decryptNote()" id="decryptBtn">Decrypt Message</button>
+                    <div class="output" id="decryptOutput">
+                        <div class="output-label">Decrypted Message:</div>
+                        <div class="output-content" id="decryptedText"></div>
+                    </div>
+                    <button onclick="resetNoteApp()" style="background: var(--text-secondary); color: #ffffff; margin-top: 15px;">Create New Message</button>
+                </div>
+            </div>
+
+            <!-- SSL Certificate Checker -->
+            <div class="tool-card" id="sslChecker" draggable="true" data-categories="security,network" data-usertypes="itpro,webdev,security,netadmin" data-keywords="ssl tls certificate https expiry chain issuer validate secure">
+                <h2>SSL Certificate Checker</h2>
+                <a href="/ssl-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check SSL certificate validity, expiration dates, and issuer information for any domain. Free SSL certificate validator for website security monitoring.
+                </p>
+                <div class="input-group">
+                    <label>Domain Name:</label>
+                    <input type="text" id="sslDomain" placeholder="example.com" aria-label="Domain for SSL check" onkeypress="if(event.key==='Enter') checkSSL()">
+                </div>
+                <button onclick="checkSSL()">Check SSL Certificate</button>
+                <div id="sslResults"></div>
+            </div>
+
+            <!-- WHOIS / IP Lookup -->
+            <div class="tool-card" id="whoisChecker" draggable="true" data-categories="network,lookup" data-usertypes="itpro,netadmin" data-keywords="whois domain registrar registration expiry nameserver ip lookup owner">
+                <h2>WHOIS / IP Lookup</h2>
+                <a href="/whois-lookup/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Lookup domain registration information, IP address details, ISP, location, and network information. Leave blank to automatically check your own IP. Free WHOIS lookup tool for domain research.
+                </p>
+                <div class="input-group">
+                    <label>Domain or IP Address:</label>
+                    <input type="text" id="whoisInput" placeholder="example.com, 8.8.8.8, or leave blank for your IP" aria-label="Domain or IP for WHOIS lookup" onkeypress="if(event.key==='Enter') lookupWhois()">
+                </div>
+                <button onclick="lookupWhois()">Lookup Information</button>
+                <div id="whoisResults"></div>
+            </div>
+
+            <!-- Port Scanner -->
+            <div class="tool-card" id="portScanner" draggable="true" data-categories="network,security" data-usertypes="itpro,security,netadmin" data-keywords="port scan open closed firewall nmap service tcp connection">
+                <h2>Port Scanner</h2>
+                <a href="/port-scanner/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if specific ports are open or closed on any server. Select which ports to scan below.
+                </p>
+                <div class="input-group">
+                    <label>Host (Domain or IP):</label>
+                    <input type="text" id="portScanHost" placeholder="example.com or 192.168.1.1" aria-label="Host for port scan" onkeypress="if(event.key==='Enter') scanSelectedPorts()">
+                </div>
+                
+                <div style="margin: 15px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Select Ports to Scan:</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 15px;">
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="80" data-name="HTTP" checked >
+                            <span>80 - HTTP</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="443" data-name="HTTPS" checked >
+                            <span>443 - HTTPS</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="22" data-name="SSH" checked >
+                            <span>22 - SSH</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="21" data-name="FTP" checked >
+                            <span>21 - FTP</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="25" data-name="SMTP" checked >
+                            <span>25 - SMTP</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="3389" data-name="RDP" checked >
+                            <span>3389 - RDP</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="110" data-name="POP3" >
+                            <span>110 - POP3</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="143" data-name="IMAP" >
+                            <span>143 - IMAP</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="3306" data-name="MySQL" >
+                            <span>3306 - MySQL</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="5432" data-name="PostgreSQL" >
+                            <span>5432 - PostgreSQL</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="8080" data-name="HTTP Alt" >
+                            <span>8080 - HTTP Alt</span>
+                        </label>
+                        <label class="port-label">
+                            <input type="checkbox" class="port-checkbox" value="8443" data-name="HTTPS Alt" >
+                            <span>8443 - HTTPS Alt</span>
+                        </label>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 0.9em; color: var(--text-secondary);">Or scan a custom port:</label>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <input type="number" id="customPortNumber" placeholder="e.g., 8888" aria-label="Custom port number" min="1" max="65535" style="flex: 1; max-width: 150px; font-size: 0.9em;" onkeypress="if(event.key==='Enter') addCustomPort()">
+                            <button onclick="addCustomPort()" style="width: auto; margin: 0; padding: 8px 16px; font-size: 0.85em;">+ Add</button>
+                        </div>
+                        <div id="customPortsList" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px;"></div>
+                    </div>
+                </div>
+                
+                <button onclick="scanSelectedPorts()" style="width: 100%;">🔍 Scan Ports</button>
+                <div id="portResults"></div>
+            </div>
+
+            <!-- AdSense Ad #1 - Hidden until approval
+            <div class="ad-container" style="grid-column: 1 / -1; margin: 20px 0; text-align: center;">
+                <p style="font-size: 0.75em; color: var(--text-secondary); margin-bottom: 8px;">Advertisement</p>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"
+                     data-ad-client="ca-pub-XXXXXXXXXX"
+                     data-ad-slot="YYYYYYYYYY"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            -->
+
+            <!-- Plain Notes -->
+            <div class="tool-card" id="plainNotes" draggable="true" data-categories="lookup" data-usertypes="itpro" data-keywords="plain notes text editor notepad save local scratchpad">
+                <h2>Plain Notes</h2>
+                <a href="/plain-notes/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Simple notepad with auto-save functionality. Your notes are saved locally in your browser with automatic backup every 30 seconds.
+                </p>
+                <div class="input-group">
+                    <label>Your Notes:</label>
+                    <textarea id="notesTextarea" aria-label="Plain notes" placeholder="Type your notes here... (auto-saves every 30 seconds)" style="min-height: 300px;"></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                    <button onclick="saveNotes()" style="flex: 1; min-width: 120px;">💾 Save Notes</button>
+                    <button onclick="clearNotes()" style="flex: 1; min-width: 120px; background: var(--error-color); color: #ffffff;">🗑️ Clear</button>
+                    <button onclick="downloadNotes()" style="flex: 1; min-width: 120px;">⬇️ Download</button>
+                </div>
+                <div id="notesSaveStatus" style="margin-top: 10px; font-size: 0.9em; color: var(--success-color); display: none;">
+                    ✓ Notes saved!
+                </div>
+            </div>
+
+            <!-- Ping/Latency Checker -->
+            <div class="tool-card" id="pingChecker" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="ping latency rtt packet loss jitter http response time">
+                <h2>HTTP Latency Checker</h2>
+                <a href="/http-latency/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Measure website HTTP response time and connection latency. Test server connectivity and network performance. For true ICMP ping, use the external tools below.
+                </p>
+                <div class="input-group">
+                    <label>Target URL or IP:</label>
+                    <input type="text" id="pingHost" placeholder="google.com or 8.8.8.8" aria-label="Host for latency check" onkeypress="if(event.key==='Enter') checkPing()">
+                </div>
+                <button onclick="checkPing()">Check Latency</button>
+                <div id="pingResults"></div>
+            </div>
+
+            <!-- ISP Checker by IP -->
+            <div class="tool-card" id="ispChecker" draggable="true" data-categories="network,lookup" data-usertypes="itpro,netadmin" data-keywords="isp provider geolocation asn ip address organization internet service">
+                <h2>ISP Checker by IP</h2>
+                <a href="/isp-lookup/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Identify ISP provider, organization, and geolocation from any IP address. Leave blank to automatically check your own IP, or enter any public IP address.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="ispInput" placeholder="8.8.8.8 or leave blank for your IP" aria-label="IP address for ISP lookup" onkeypress="if(event.key==='Enter') checkISP()">
+                </div>
+                <button onclick="checkISP()">Check ISP Info</button>
+                <div id="ispResults"></div>
+            </div>
+
+            <!-- MAC Address Lookup -->
+            <div class="tool-card" id="macLookup" draggable="true" data-categories="lookup" data-usertypes="itpro" data-keywords="mac address vendor manufacturer oui ethernet hardware">
+                <h2>MAC Address Lookup</h2>
+                <a href="/mac-lookup/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Find network device manufacturer and vendor information from MAC addresses. Lookup OUI (Organizationally Unique Identifier) database.
+                </p>
+                <div class="input-group">
+                    <label>MAC Address:</label>
+                    <input type="text" id="macInput" placeholder="00:1A:2B:3C:4D:5E or 001A2B3C4D5E" aria-label="MAC address to look up" onkeypress="if(event.key==='Enter') lookupMAC()">
+                </div>
+                <button onclick="lookupMAC()">Lookup Vendor</button>
+                <button onclick="generateRandomMAC()" >Generate Random MAC</button>
+                <div id="macResults"></div>
+                <div class="output" style="margin-top: 15px;">
+                    <strong>MAC Address Format:</strong>
+                    <div class="output-content" style="margin-top: 10px;">
+                        Accepted formats: <code>00:1A:2B:3C:4D:5E</code>, <code>00-1A-2B-3C-4D-5E</code>, <code>001A.2B3C.4D5E</code>, <code>001A2B3C4D5E</code>
+                        <br><br>
+                        <strong>OUI (First 6 characters):</strong> Identifies the manufacturer/vendor<br>
+                        <strong>Device ID (Last 6 characters):</strong> Unique device identifier
+                        <br><br>
+                        <strong>Useful Links:</strong><br>
+                        • <a href="https://maclookup.app/" target="_blank" rel="noopener noreferrer">MAC Lookup Database</a><br>
+                        • <a href="https://www.wireshark.org/tools/oui-lookup.html" target="_blank" rel="noopener noreferrer">Wireshark OUI Lookup</a><br>
+                        • <a href="https://standards-oui.ieee.org/" target="_blank" rel="noopener noreferrer">IEEE OUI Registry</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AdSense Ad #2 - Hidden until approval
+            <div class="ad-container" style="grid-column: 1 / -1; margin: 20px 0; text-align: center;">
+                <p style="font-size: 0.75em; color: var(--text-secondary); margin-bottom: 8px;">Advertisement</p>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"
+                     data-ad-client="ca-pub-XXXXXXXXXX"
+                     data-ad-slot="ZZZZZZZZZZ"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            -->
+
+            <!-- Email Header Analyzer -->
+            <div class="tool-card" id="emailHeaderAnalyzer" draggable="true" data-categories="email,lookup" data-usertypes="itpro" data-keywords="email header analyze trace route delay authentication spf dkim dmarc received">
+                <h2>Email Header Analyzer</h2>
+                <a href="/email-header-analyzer/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Parse and analyze email headers to troubleshoot delivery issues. Check SPF, DKIM, DMARC authentication and trace email routing path.
+                </p>
+                <div class="input-group">
+                    <label>Email Headers:</label>
+                    <textarea id="emailHeaders" aria-label="Email headers to analyze" placeholder="Paste full email headers here (including Received:, From:, To:, Subject:, etc.)..." style="min-height: 200px; font-family: var(--font-mono); font-size: 0.88em;"></textarea>
+                </div>
+                <button onclick="analyzeEmailHeaders()">Analyze Headers</button>
+                <div id="emailHeaderResults"></div>
+                <div class="output" style="margin-top: 15px;">
+                    <strong>How to get email headers:</strong>
+                    <div class="output-content" style="margin-top: 10px;">
+                        <strong>Gmail:</strong> Open email → Click ⋮ (three dots) → "Show original" → Copy all text<br>
+                        <strong>Outlook:</strong> Open email → File → Properties → Copy "Internet headers"<br>
+                        <strong>Yahoo:</strong> Open email → More → "View Raw Message"<br>
+                        <strong>Apple Mail:</strong> View → Message → All Headers → Select and copy<br><br>
+                        <strong>What we analyze:</strong><br>
+                        • Email routing path (all servers the email passed through)<br>
+                        • Delivery timeline and delays<br>
+                        • Sender information (IP, domain, SPF/DKIM/DMARC status)<br>
+                        • Authentication results (SPF, DKIM, DMARC)<br>
+                        • Spam score and filtering information<br>
+                        • Reply-To and Return-Path details<br>
+                        • Message-ID and threading information
+                    </div>
+                </div>
+            </div>
+
+            <!-- SMTP Checker -->
+            <div class="tool-card" id="smtpChecker" draggable="true" data-categories="email,security,network" data-usertypes="itpro,security" data-keywords="smtp mail server connection test banner port 25 mx relay">
+                <h2>SMTP Server Checker</h2>
+                <a href="/smtp-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Test SMTP server connectivity and verify email server configuration. Check if your mail server accepts connections on common SMTP ports (25, 465, 587).
+                </p>
+                <div class="input-group">
+                    <label>Mail Server (MX Record or Domain):</label>
+                    <input type="text" id="smtpHost" placeholder="mail.example.com or example.com" aria-label="SMTP host to check" onkeypress="if(event.key==='Enter') checkSMTP()">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">SMTP Ports to Check:</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <label class="smtp-label">
+                            <input type="checkbox" class="smtp-port-checkbox" value="25" data-name="SMTP" checked >
+                            <span>25 - SMTP</span>
+                        </label>
+                        <label class="smtp-label">
+                            <input type="checkbox" class="smtp-port-checkbox" value="465" data-name="SMTPS (SSL)" checked >
+                            <span>465 - SMTPS (SSL)</span>
+                        </label>
+                        <label class="smtp-label">
+                            <input type="checkbox" class="smtp-port-checkbox" value="587" data-name="Submission (TLS)" checked >
+                            <span>587 - Submission (TLS)</span>
+                        </label>
+                    </div>
+                </div>
+                <button onclick="checkSMTP()">Check SMTP Server</button>
+                <div id="smtpResults"></div>
+            </div>
+
+            <!-- Email Address Validator -->
+            <div class="tool-card" id="emailValidator" draggable="true" data-categories="email,security" data-usertypes="itpro,security" data-keywords="email validate verify mx syntax disposable check address">
+                <h2>Email Address Validator</h2>
+                <a href="/email-validator/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Validate email address format, check domain existence, and verify MX records. Performs syntax validation, DNS lookup, and disposable email detection.
+                </p>
+                <div class="input-group">
+                    <label>Email Address:</label>
+                    <input type="email" id="emailToValidate" placeholder="user@example.com" aria-label="Email address to validate" onkeypress="if(event.key==='Enter') validateEmail()">
+                </div>
+                <button onclick="validateEmail()">Validate Email</button>
+                <div id="emailValidationResults"></div>
+            </div>
+
+            <!-- DNS Checker -->
+            <div class="tool-card" id="dnsChecker" draggable="true" data-categories="network,email,security,lookup" data-usertypes="itpro,webdev,security,netadmin" data-keywords="dns records mx txt nameserver domain spf dkim dmarc a aaaa ns soa cname caa">
+                <h2>DNS Record Checker</h2>
+                <a href="/dns-lookup/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check all DNS records for any domain including A, AAAA, MX, NS, TXT, SPF, DKIM, and DMARC. Free DNS lookup tool for troubleshooting email delivery and domain configuration.
+                </p>
+                <div class="input-group">
+                    <label>Domain Name:</label>
+                    <input type="text" id="domainName" placeholder="example.com" aria-label="Domain for DNS lookup" onkeypress="if(event.key==='Enter') checkDNS()">
+                </div>
+                <button onclick="checkDNS()">Check All DNS Records</button>
+                <div id="dnsResults"></div>
+            </div>
+
+            <!-- QR Code Generator (Combined) -->
+            <div class="tool-card" id="qrGenerator" draggable="true" data-categories="qr" data-usertypes="marketing" data-keywords="qr code generate create url wifi vcard barcode">
+                <h2>QR Code Generator</h2>
+                <a href="/qr-generator/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Generate QR codes for URLs, text, WiFi networks, and contact cards. Customize size and download as PNG.
+                </p>
+                
+                <!-- Mode Selector -->
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">QR Code Type:</label>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button onclick="switchQRMode('text')" id="qrModeText" class="qr-mode-btn active" >📝 Text/URL</button>
+                        
+                        <button onclick="switchQRMode('wifi')" id="qrModeWifi" class="qr-mode-btn" >📶 WiFi</button>
+                        
+                        <button onclick="switchQRMode('vcard')" id="qrModeVcard" class="qr-mode-btn" >👤 Contact</button>
+                    </div>
+                </div>
+                
+                <!-- Text/URL Mode -->
+                <div id="qrModeTextContent">
+                    <div class="input-group">
+                        <label>QR Code Type:</label>
+                        <select id="qrType" onchange="updateQRInputs()" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
+                            <option value="url">URL / Website</option>
+                            <option value="text">Plain Text</option>
+                            <option value="email">Email Address</option>
+                            <option value="phone">Phone Number</option>
+                            <option value="sms">SMS Message</option>
+                        </select>
+                    </div>
+                    <div id="qrInputContainer">
+                        <div class="input-group">
+                            <label>URL:</label>
+                            <input type="url" id="qrURL" placeholder="https://example.com" aria-label="URL for QR code">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WiFi Mode -->
+                <div id="qrModeWifiContent" style="display: none;">
+                    <div class="input-group">
+                        <label>Network Name (SSID):</label>
+                        <input type="text" id="wifiSSID" placeholder="MyWiFiNetwork" aria-label="WiFi network name">
+                    </div>
+                    <div class="input-group">
+                        <label>Password:</label>
+                        <input type="text" id="wifiPassword" placeholder="YourWiFiPassword" aria-label="WiFi password">
+                    </div>
+                    <div class="input-group">
+                        <label>Security Type:</label>
+                        <select id="wifiSecurity" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
+                            <option value="WPA">WPA/WPA2</option>
+                            <option value="WEP">WEP</option>
+                            <option value="">None (Open Network)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="wifiHidden" style="width: auto; margin-right: 5px;">
+                            Hidden Network (SSID not broadcast)
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- vCard Mode -->
+                <div id="qrModeVcardContent" style="display: none;">
+                    <div class="input-group">
+                        <label>Full Name:</label>
+                        <input type="text" id="vcardName" placeholder="John Doe" aria-label="Contact full name">
+                    </div>
+                    <div class="input-group">
+                        <label>Organization/Company:</label>
+                        <input type="text" id="vcardOrg" placeholder="Acme Corp (optional)" aria-label="Organization name">
+                    </div>
+                    <div class="input-group">
+                        <label>Job Title:</label>
+                        <input type="text" id="vcardTitle" placeholder="CEO (optional)" aria-label="Job title">
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number:</label>
+                        <input type="tel" id="vcardPhone" placeholder="+1-555-123-4567" aria-label="Phone number">
+                    </div>
+                    <div class="input-group">
+                        <label>Email:</label>
+                        <input type="email" id="vcardEmail" placeholder="john@example.com" aria-label="Email address">
+                    </div>
+                    <div class="input-group">
+                        <label>Website:</label>
+                        <input type="url" id="vcardWebsite" placeholder="https://example.com (optional)" aria-label="Website URL">
+                    </div>
+                    <div class="input-group">
+                        <label>Address:</label>
+                        <textarea id="vcardAddress" aria-label="Mailing address" placeholder="123 Main St, City, State, ZIP (optional)" style="min-height: 60px;"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Common QR Settings -->
+                <div class="input-group">
+                    <label>Size:</label>
+                    <select id="qrSize" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
+                        <option value="200">Small (200x200)</option>
+                        <option value="300" selected>Medium (300x300)</option>
+                        <option value="400">Large (400x400)</option>
+                        <option value="500">Extra Large (500x500)</option>
+                    </select>
+                </div>
+                
+                <button onclick="generateUnifiedQR()" id="generateQRBtn">Generate QR Code</button>
+                <div id="qrOutput" style="margin-top: 15px; text-align: center;"></div>
+            </div>
+
+            <!-- QR Code Scanner -->
+            <div class="tool-card" id="qrScanner" draggable="true" data-categories="qr" data-usertypes="marketing" data-keywords="qr code scan read decode camera image upload">
+                <h2>QR Code Scanner</h2>
+                <a href="/qr-scanner/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Scan and decode QR codes from images. Upload a QR code image or use your camera to scan. Free QR code reader and decoder.
+                </p>
+                <div class="input-group">
+                    <label>Upload QR Code Image:</label>
+                    <input type="file" id="qrImageUpload" accept="image/*" aria-label="Upload image to scan for QR code" onchange="scanQRFromFile()" style="padding: 8px;">
+                </div>
+                <div style="text-align: center; margin: 15px 0;">
+                    <strong style="color: var(--text-secondary);">- OR -</strong>
+                </div>
+                <button onclick="scanQRFromCamera()" >📷 Scan with Camera</button>
+                <div id="qrCameraContainer" style="margin-top: 15px; display: none;">
+                    <video id="qrVideo" style="width: 100%; max-width: 400px; border-radius: 8px; border: 2px solid var(--border-color);"></video>
+                    <button onclick="stopQRCamera()" style="margin-top: 10px; background: var(--error-color); color: #ffffff;">Stop Camera</button>
+                </div>
+                <div id="qrScanResults"></div>
+            </div>
+
+            <!-- URL Safety Checker -->
+            <div class="tool-card" id="urlSafety" draggable="true" data-categories="url,security" data-usertypes="webdev,security" data-keywords="url safety scan malware phishing virus check safe link">
+                <h2>URL Safety Checker</h2>
+                <a href="/url-safety/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if a URL is safe before clicking. Detects phishing, malware, suspicious patterns, and verifies SSL certificates. Protect yourself from malicious links.
+                </p>
+                <div class="input-group">
+                    <label>URL to Check:</label>
+                    <input type="url" id="urlToCheck" placeholder="https://example.com" aria-label="URL to check safety" onkeypress="if(event.key==='Enter') checkURLSafety()">
+                </div>
+                <button onclick="checkURLSafety()">🔒 Check URL Safety</button>
+                <div id="urlSafetyResults"></div>
+            </div>
+
+            <!-- URL Redirect Checker -->
+            <div class="tool-card" id="urlRedirect" draggable="true" data-categories="url,network" data-usertypes="webdev,itpro" data-keywords="redirect chain 301 302 trace follow url hop location">
+                <h2>URL Redirect Checker</h2>
+                <a href="/redirect-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Follow URL redirects and see the complete redirect chain. Identify all 301, 302, and other HTTP redirects. Essential for SEO and debugging.
+                </p>
+                <div class="input-group">
+                    <label>URL to Trace:</label>
+                    <input type="url" id="urlToTrace" placeholder="https://example.com" aria-label="URL to trace redirects" onkeypress="if(event.key==='Enter') checkRedirects()">
+                </div>
+                <button onclick="checkRedirects()">🔄 Trace Redirects</button>
+                <div id="urlRedirectResults"></div>
+            </div>
+
+            <!-- Broken Link Checker -->
+            <div class="tool-card" id="urlStatus" draggable="true" data-categories="url,network" data-usertypes="webdev,itpro" data-keywords="broken link status http response code 404 check alive dead">
+                <h2>Broken Link Checker</h2>
+                <a href="/link-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if a URL is working or broken. Get HTTP status code, response time, and server information. Quick uptime verification.
+                </p>
+                <div class="input-group">
+                    <label>URL to Test:</label>
+                    <input type="url" id="urlToTest" placeholder="https://example.com" aria-label="URL to test for broken links" onkeypress="if(event.key==='Enter') checkLinkStatus()">
+                </div>
+                <button onclick="checkLinkStatus()">✓ Check Link Status</button>
+                <div id="urlStatusResults"></div>
+            </div>
+
+            <!-- URL Metadata Extractor -->
+            <div class="tool-card" id="urlMetadata" draggable="true" data-categories="url,email,lookup" data-usertypes="webdev,marketing" data-keywords="metadata og opengraph twitter card seo meta tags extract title description">
+                <h2>URL Metadata Extractor</h2>
+                <a href="/metadata-extractor/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Extract page title, description, Open Graph tags, and metadata from any URL. See how links appear when shared on social media.
+                </p>
+                <div class="input-group">
+                    <label>URL to Extract:</label>
+                    <input type="url" id="urlToExtract" placeholder="https://example.com" aria-label="URL to extract metadata from" onkeypress="if(event.key==='Enter') extractMetadata()">
+                </div>
+                <button onclick="extractMetadata()">📄 Extract Metadata</button>
+                <div id="urlMetadataResults"></div>
+            </div>
+
+            <!-- Traceroute -->
+            <div class="tool-card" id="traceroute" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="traceroute trace route hops path network latency hop gateway">
+                <h2>Traceroute</h2>
+                <a href="/traceroute/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Trace the network path to any host. See every hop your data takes, with IP addresses and response times. Essential for diagnosing routing issues.
+                </p>
+                <div class="input-group">
+                    <label>Host (Domain or IP):</label>
+                    <input type="text" id="tracerouteHost" placeholder="example.com or 8.8.8.8" aria-label="Host for traceroute" onkeypress="if(event.key==='Enter') runTraceroute()">
+                </div>
+                <button onclick="runTraceroute()">🛤️ Run Traceroute</button>
+                <div id="tracerouteResults"></div>
+            </div>
+
+            <!-- Reverse DNS -->
+            <div class="tool-card" id="reverseDns" draggable="true" data-categories="network,lookup" data-usertypes="itpro,netadmin" data-keywords="reverse dns ptr record ip hostname lookup rdns pointer">
+                <h2>Reverse DNS Lookup</h2>
+                <a href="/reverse-dns/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Look up the hostname associated with an IP address. Reverse DNS (PTR record) lookup helps identify servers and verify email sending infrastructure.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="reverseDnsInput" placeholder="8.8.8.8" aria-label="IP address for reverse DNS" onkeypress="if(event.key==='Enter') lookupReverseDns()">
+                </div>
+                <button onclick="lookupReverseDns()">🔄 Lookup Hostname</button>
+                <div id="reverseDnsResults"></div>
+            </div>
+
+            <!-- Subnet Calculator -->
+            <div class="tool-card" id="subnetCalc" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="subnet calculator cidr network broadcast mask hosts ip address range wildcard">
+                <h2>Subnet Calculator</h2>
+                <a href="/subnet-calculator/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Calculate network address, broadcast address, subnet mask, and usable host range from an IP address and CIDR notation.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="subnetIp" placeholder="192.168.1.0" aria-label="IP address for subnet calculation" onkeypress="if(event.key==='Enter') calculateSubnet()">
+                </div>
+                <div class="input-group">
+                    <label>CIDR Prefix Length:</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="font-size: 1.1em; font-weight: 600;">/</span>
+                        <input type="number" id="subnetCidr" placeholder="24" min="0" max="32" value="24" aria-label="CIDR prefix" style="max-width: 100px;" onkeypress="if(event.key==='Enter') calculateSubnet()">
+                    </div>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+                        <button onclick="document.getElementById('subnetCidr').value='8'; calculateSubnet()" class="preset-btn green" style="padding: 6px 12px; font-size: 0.8em;">/8</button>
+                        <button onclick="document.getElementById('subnetCidr').value='16'; calculateSubnet()" class="preset-btn green" style="padding: 6px 12px; font-size: 0.8em;">/16</button>
+                        <button onclick="document.getElementById('subnetCidr').value='24'; calculateSubnet()" class="preset-btn blue" style="padding: 6px 12px; font-size: 0.8em;">/24</button>
+                        <button onclick="document.getElementById('subnetCidr').value='25'; calculateSubnet()" class="preset-btn blue" style="padding: 6px 12px; font-size: 0.8em;">/25</button>
+                        <button onclick="document.getElementById('subnetCidr').value='28'; calculateSubnet()" class="preset-btn red" style="padding: 6px 12px; font-size: 0.8em;">/28</button>
+                        <button onclick="document.getElementById('subnetCidr').value='30'; calculateSubnet()" class="preset-btn red" style="padding: 6px 12px; font-size: 0.8em;">/30</button>
+                    </div>
+                </div>
+                <button onclick="calculateSubnet()">🔢 Calculate Subnet</button>
+                <div id="subnetResults"></div>
+            </div>
+
+            <!-- Security Headers Checker -->
+            <div class="tool-card" id="secHeaders" draggable="true" data-categories="security,url" data-usertypes="webdev,security" data-keywords="security headers hsts csp xss content-security-policy x-frame-options grade">
+                <h2>Security Headers Checker</h2>
+                <a href="/security-headers/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Analyze a website's HTTP security headers and get a grade from A+ to F. Check for HSTS, CSP, X-Frame-Options, and more.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="secHeadersUrl" placeholder="https://example.com" aria-label="URL for security headers check" onkeypress="if(event.key==='Enter') checkSecurityHeaders()">
+                </div>
+                <button onclick="checkSecurityHeaders()">🛡️ Check Security Headers</button>
+                <div id="secHeadersResults"></div>
+            </div>
+
+            <!-- Password Breach Checker -->
+            <div class="tool-card" id="breachChecker" draggable="true" data-categories="security" data-usertypes="security,itpro" data-keywords="password breach pwned haveibeenpwned hibp data leak compromised check">
+                <h2>Password Breach Checker</h2>
+                <a href="/breach-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if a password has appeared in known data breaches using the Have I Been Pwned API. Uses k-anonymity — your full password is never sent over the network.
+                </p>
+                <div class="input-group">
+                    <label>Password to Check:</label>
+                    <div style="position: relative;">
+                        <input type="password" id="breachPassword" placeholder="Enter a password to check" aria-label="Password to check for breaches" onkeypress="if(event.key==='Enter') checkPasswordBreach()">
+                        <button onclick="toggleBreachPasswordVisibility()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; width: auto; min-width: auto;">👁️</button>
+                    </div>
+                </div>
+                <button onclick="checkPasswordBreach()">🔓 Check for Breaches</button>
+                <div id="breachResults"></div>
+                <div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--primary-color);">
+                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9em; line-height: 1.5;">
+                        <strong>🔒 Privacy Note:</strong> Your password is hashed locally using SHA-1. Only the first 5 characters of the hash are sent to the API (k-anonymity). Your actual password never leaves your browser.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Blacklist / RBL Checker -->
+            <div class="tool-card" id="blacklistChecker" draggable="true" data-categories="email,security,network" data-usertypes="itpro,netadmin" data-keywords="blacklist rbl dnsbl spamhaus barracuda spamcop email ip reputation blocklist">
+                <h2>Blacklist / RBL Checker</h2>
+                <a href="/blacklist-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if an IP address is listed on major email blacklists (DNSBL/RBL). Checks Spamhaus, Barracuda, SpamCop, SORBS, and more.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="blacklistIp" placeholder="203.0.113.1" aria-label="IP address for blacklist check" onkeypress="if(event.key==='Enter') checkBlacklist()">
+                </div>
+                <button onclick="checkBlacklist()">📋 Check Blacklists</button>
+                <div id="blacklistResults"></div>
+            </div>
+
+            <!-- Tech Stack Detector -->
+            <div class="tool-card" id="techDetector" draggable="true" data-categories="url,lookup" data-usertypes="webdev,marketing" data-keywords="technology stack detect wappalyzer framework cms wordpress react angular vue server hosting">
+                <h2>Tech Stack Detector</h2>
+                <a href="/tech-detector/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Detect what technologies a website uses — CMS, frameworks, analytics, CDNs, hosting, and more. Analyze server headers and HTML source.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="techDetectUrl" placeholder="https://example.com" aria-label="URL for technology detection" onkeypress="if(event.key==='Enter') detectTechStack()">
+                </div>
+                <button onclick="detectTechStack()">🔍 Detect Technologies</button>
+                <div id="techDetectResults"></div>
+            </div>
+
+            <!-- Robots.txt & Sitemap Analyzer -->
+            <div class="tool-card" id="robotsAnalyzer" draggable="true" data-categories="url,lookup" data-usertypes="webdev,marketing" data-keywords="robots txt sitemap xml seo crawl index search engine spider bot allow disallow">
+                <h2>Robots.txt & Sitemap Analyzer</h2>
+                <a href="/robots-analyzer/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Analyze a website's robots.txt file and sitemap. Check crawl rules, find sitemaps, and see how search engines interact with the site.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="robotsUrl" placeholder="https://example.com" aria-label="URL for robots.txt analysis" onkeypress="if(event.key==='Enter') analyzeRobots()">
+                </div>
+                <button onclick="analyzeRobots()">🤖 Analyze Robots & Sitemap</button>
+                <div id="robotsResults"></div>
+            </div>
+        </div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
-      <h3>IT-Grade Tools</h3>
-      <p>DNS records, SSL validation, port scanning, WHOIS, SMTP checks, email header analysis — real tools for real work.</p>
+
+    <!-- Affiliate Resources Section -->
+    <section class="affiliate-section" style="max-width: 900px; margin: 60px auto 40px; padding: 30px; background: var(--card-background); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; margin-bottom: 30px; font-size: 1.8em; color: var(--primary-color);">🛠️ Recommended IT Resources & Tools</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            <!-- Cloud Hosting -->
+            <div style="padding: 20px; background: var(--input-background); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 1.1em;">☁️ Cloud Hosting</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 15px; line-height: 1.6; font-size: 0.95em;">
+                    Professional hosting for your projects and servers.
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://www.digitalocean.com/?refcode=YOUR_REFERRAL_CODE" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            DigitalOcean
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - $200 credit</span>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://www.vultr.com/?ref=YOUR_REFERRAL_CODE" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            Vultr
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - $100 credit</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Domain & DNS -->
+            <div style="padding: 20px; background: var(--input-background); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 1.1em;">🌐 Domains & DNS</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 15px; line-height: 1.6; font-size: 0.95em;">
+                    Register domains and manage DNS easily.
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://www.namecheap.com/?aff=YOUR_AFFILIATE_ID" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            Namecheap
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - Affordable domains</span>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://www.cloudflare.com/" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            Cloudflare
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - Free DNS & CDN</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Security Tools -->
+            <div style="padding: 20px; background: var(--input-background); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 1.1em;">🔒 Security & Privacy</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 15px; line-height: 1.6; font-size: 0.95em;">
+                    Protect your accounts and data.
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://1password.com/" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            1Password
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - Password manager</span>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://nordvpn.com/" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            NordVPN
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - Secure VPN</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Learning Resources -->
+            <div style="padding: 20px; background: var(--input-background); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 1.1em;">📚 Learning</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 15px; line-height: 1.6; font-size: 0.95em;">
+                    Expand your IT knowledge and skills.
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://www.amazon.com/s?k=network+security&tag=YOUR_AMAZON_TAG" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            Network Security Books
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - Amazon</span>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="https://www.udemy.com/courses/search/?q=cybersecurity" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
+                            Cybersecurity Courses
+                        </a>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;"> - Udemy</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 25px; font-size: 0.85em; color: var(--text-secondary);">
+            💡 <em>Some links above are affiliate links. We may earn a commission if you make a purchase, at no extra cost to you.</em>
+        </p>
+    </section>
+
+    <!-- Modals -->
+
+    <!-- AdSense Ad #3 - Hidden until approval
+    <div class="ad-container" style="max-width: 900px; margin: 40px auto; text-align: center; padding: 20px;">
+        <p style="font-size: 0.75em; color: var(--text-secondary); margin-bottom: 8px;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="auto"
+             data-full-width-responsive="true"
+             data-ad-client="ca-pub-XXXXXXXXXX"
+             data-ad-slot="AAAAAAAAAA"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
-      <h3>Fully Customizable</h3>
-      <p>Search, filter, drag-and-drop, hide tools you don't need. Dark and light themes. Your layout is saved locally.</p>
-    </div>
-  </div>
-</div></section>
-<section class="categories"><div class="container">
-  <h2 class="categories-title">Everything you need, organized.</h2>
-  <p class="categories-sub">Jump into any category or search across all 21+ tools from the dashboard.</p>
-  <div class="cat-grid">
-    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🌐</span> Network <span class="cat-count">6</span></a>
-    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🔒</span> Security <span class="cat-count">5</span></a>
-    <a href="/utility/" class="cat-pill"><span class="cat-emoji">📧</span> Email <span class="cat-count">4</span></a>
-    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🔗</span> URL / Web <span class="cat-count">4</span></a>
-    <a href="/utility/" class="cat-pill"><span class="cat-emoji">📱</span> QR Codes <span class="cat-count">2</span></a>
-    <a href="/utility/" class="cat-pill"><span class="cat-emoji">🔍</span> Lookup <span class="cat-count">4</span></a>
-  </div>
-</div></section>
-<section class="cta-banner"><div class="cta-banner-card">
-  <div class="cta-title">Ready to get to work?</div>
-  <p class="cta-sub">No sign-up, no install, no nonsense. Open the dashboard and start using tools immediately.</p>
-  <a href="/utility/" class="btn btn-primary"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg> Launch Tools</a>
-</div></section>
-<footer class="footer"><div class="container">
-  <div class="footer-brand">DUCKTYPED</div>
-  <ul class="footer-links">
-    <li><a href="/utility/">Tools</a></li>
-    <li><a href="/utility/#dnsChecker">DNS</a></li>
-    <li><a href="/utility/#sslChecker">SSL</a></li>
-    <li><a href="/utility/#passwordGen">Passwords</a></li>
-  </ul>
-  <p class="footer-copy">&copy; <script>document.write(new Date().getFullYear())</script> duckTyped. All rights reserved.</p>
-</div></footer>
-<script>
-const navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks'),overlay=document.getElementById('mobileOverlay');
-navToggle.addEventListener('click',()=>{navLinks.classList.toggle('open');overlay.classList.toggle('open')});
-overlay.addEventListener('click',()=>{navLinks.classList.remove('open');overlay.classList.remove('open')});
-const observer=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');observer.unobserve(el.target)}})},{threshold:.15});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
-</script>
+    -->
+
+    <!-- FAQ Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is duckTyped?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "duckTyped is a free collection of IT professional tools for DNS checking, SSL validation, password generation, WHOIS lookup, and network diagnostics. All tools work in your browser with no registration required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is duckTyped completely free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! All tools are 100% free with no hidden fees, no registration, and no credit card required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No account needed! All tools work immediately in your browser. Your settings are saved locally on your device using browser localStorage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private and secure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Most tools process everything client-side in your browser. Your data never leaves your device. We don't collect, store, or share any personal information."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use these tools offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most tools work offline! The Password Generator, Plain Notes, and Encrypted Note Sender work without internet. Network tools like DNS Checker and WHOIS Lookup require connectivity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What tools are included?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We offer 21 professional tools including: Password Generator, Encrypted Note Sender, SSL Certificate Checker, WHOIS/IP Lookup, Port Scanner, Plain Notes, HTTP Latency Checker, ISP Checker, MAC Address Lookup, Email Header Analyzer, SMTP Checker, Email Validator, DNS Record Checker with SPF/DKIM/DMARC validation, QR Code Generator, QR Code Scanner, WiFi QR Generator, vCard QR Generator, URL Safety Checker, Redirect Checker, Broken Link Checker, and URL Metadata Extractor."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+                <!-- About Section -->
+                <div class="footer-section">
+                    <h3>About duckTyped</h3>
+                    <p>Free technical tools for IT professionals, system administrators, and network engineers. Generate secure passwords, check DNS records, analyze SSL certificates, and perform network diagnostics - all in one place.</p>
+                    <p>No registration required. All tools work client-side for maximum privacy and security.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section">
+                    <h3>Helpful Resources</h3>
+                    <ul>
+                        <li><a href="https://www.iana.org/" target="_blank" rel="noopener noreferrer">IANA - Internet Assigned Numbers Authority</a></li>
+                        <li><a href="https://www.icann.org/" target="_blank" rel="noopener noreferrer">ICANN - Domain Name System</a></li>
+                        <li><a href="https://tools.ietf.org/" target="_blank" rel="noopener noreferrer">IETF Tools</a></li>
+                        <li><a href="https://www.nist.gov/cybersecurity" target="_blank" rel="noopener noreferrer">NIST Cybersecurity Resources</a></li>
+                        <li><a href="https://owasp.org/" target="_blank" rel="noopener noreferrer">OWASP Security Standards</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="footer-section">
+                    <div style="background: var(--card-background); border: 1px solid var(--border-color); border-radius: 10px; padding: 24px; max-width: 400px; position: relative; overflow: hidden;">
+                        <h3 style="margin-top: 0; margin-bottom: 20px; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.82em; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase;">Questions, Requests, Contact</h3>
+                        <form id="contactForm" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Honeypot field - hidden from humans, visible to bots -->
+                            <input 
+                                type="text" 
+                                name="_honey" 
+                                id="contactHoneypot" 
+                                tabindex="-1" 
+                                autocomplete="off"
+                                style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+                            
+                            <!-- Time tracking - detects instant bot submissions -->
+                            <input type="hidden" id="formLoadTime" value="">
+                            
+                            <input 
+                                type="text" 
+                                id="contactName" aria-label="Your name" 
+                                placeholder="Your Name" 
+                                required
+                                style="padding: 10px 12px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-background); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.88em;">
+                            <input 
+                                type="email" 
+                                id="contactEmail" aria-label="Your email address" 
+                                placeholder="Your Email" 
+                                required
+                                style="padding: 10px 12px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-background); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.88em;">
+                            <textarea 
+                                id="contactMessage" aria-label="Your message" 
+                                placeholder="Your Message" 
+                                required
+                                rows="4"
+                                style="padding: 10px 12px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-background); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.88em; resize: vertical;"></textarea>
+                            <button 
+                                type="submit"
+                                style="padding: 10px 20px; background: #F2C200; color: #111318; border: none; border-radius: 8px; cursor: pointer; font-weight: 650; font-family: var(--font-mono); letter-spacing: 0.04em; transition: transform 0.2s, box-shadow 0.2s;">
+                                Send →
+                            </button>
+                            <div id="contactFormStatus" style="font-size: 0.9em; display: none;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> duckTyped. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+    <!-- Core (config, cache, worker, toast, utilities) - must load first -->
+    <script defer src="core.js"></script>
+    <!-- Tool modules (order doesn't matter, all depend on core) -->
+    <script defer src="tools-password.js"></script>
+    <script defer src="tools-network.js"></script>
+    <script defer src="tools-email.js"></script>
+    <script defer src="tools-qr.js"></script>
+    <script defer src="tools-url.js"></script>
+    <!-- UI (depends on everything above) - must load last -->
+    <script defer src="ui.js"></script>
+
+    
 </body>
 </html>
