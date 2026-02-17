@@ -370,7 +370,7 @@ async function checkWorkerHealth() {
         const response = await fetch(`${WORKER_URL}/health`);
         if (response.ok) {
             const data = await response.json();
-            if (data.status === 'ok') {
+            if (data.data && data.data.status === 'ok') {
                 workerAvailable = true;
                 if (CONFIG.DEBUG) console.log('✅ Worker is online and ready');
                 return true;
