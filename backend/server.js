@@ -113,6 +113,14 @@ app.post('/', (req, res) => {
         'urlstatus':  '/api/web/url-status',
         'redirect':   '/api/web/redirects',
         'metadata':   '/api/web/metadata',
+        'traceroute': '/api/network/traceroute',
+        'reversedns': '/api/network/reverse-dns',
+        'subnet':     '/api/network/subnet',
+        'secheaders': '/api/security/security-headers',
+        'breachcheck':'/api/security/breach-check',
+        'blacklist':  '/api/email/blacklist',
+        'techdetect': '/api/web/tech-detect',
+        'robots':     '/api/web/robots',
     };
 
     const route = toolRouteMap[tool];

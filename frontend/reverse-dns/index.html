@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse DNS Lookup — IP to Hostname (PTR Record) — duckTyped</title>
+    <meta name="description" content="Look up the hostname for any IP address with reverse DNS (PTR record) lookup. Verify mail server identity and audit network infrastructure. Free rDNS tool.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Reverse DNS Lookup — IP to Hostname (PTR Record) — duckTyped">
+    <meta property="og:description" content="Look up the hostname for any IP address with reverse DNS (PTR record) lookup. Verify mail server identity and audit network infrastructure. Free rDNS tool.">
+    <meta property="og:url" content="https://ducktyped.xyz/reverse-dns/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Reverse DNS Lookup — IP to Hostname (PTR Record) — duckTyped">
+    <meta name="twitter:description" content="Look up the hostname for any IP address with reverse DNS (PTR record) lookup. Verify mail server identity and audit network infrastructure. Free rDNS tool.">
+    <link rel="canonical" href="https://ducktyped.xyz/reverse-dns/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="standalone-hero">
+            <h1>Reverse DNS Lookup</h1>
+            <p class="standalone-intro">Map any IP address back to its hostname using reverse DNS (PTR record) lookup. Commonly used to verify mail server identity, investigate suspicious IPs, and audit network infrastructure.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Verifying that a mail server's IP has a valid PTR record (required by many spam filters), investigating unknown IPs in server logs, or confirming CDN and hosting provider assignments.</p></div>
+        </div>
+
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="reverseDns">
+                <h2>Reverse DNS Lookup</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Look up the hostname associated with an IP address. Reverse DNS (PTR record) lookup helps identify servers and verify email sending infrastructure.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="reverseDnsInput" placeholder="8.8.8.8" aria-label="IP address for reverse DNS" onkeypress="if(event.key==='Enter') lookupReverseDns()">
+                </div>
+                <button onclick="lookupReverseDns()">🔄 Lookup Hostname</button>
+                <div id="reverseDnsResults"></div>
+            </div>
+        </div>
+
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-network.js"></script>
+    <script>
+        function changeTheme(theme) {
+            if (theme === 'light') { document.body.classList.add('light-theme'); } else { document.body.classList.remove('light-theme'); }
+            localStorage.setItem('selectedTheme', theme);
+            const logo = document.getElementById('siteLogo');
+            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+        }
+        function toggleTheme() { const isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
+        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
+        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
+        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+    </script>
+</body>
+</html>

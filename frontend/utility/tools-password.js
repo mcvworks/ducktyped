@@ -345,3 +345,70 @@ function generateId() {
 }
 
 // ============================================
+// PASSWORD BREACH CHECKER (Uses Worker)
+// ============================================
+function toggleBreachPasswordVisibility() {
+    const input = document.getElementById('breachPassword');
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
+
+async function checkPasswordBreach() {
+    const password = document.getElementById('breachPassword').value;
+    const resultsDiv = document.getElementById('breachResults');
+
+    if (!password) {
+        resultsDiv.innerHTML = '<div class="error">Please enter a password to check!</div>';
+        return;
+    }
+
+    if (!workerAvailable) {
+        resultsDiv.innerHTML = '<div class="error">Backend service unavailable. Please try again later.</div>';
+        return;
+    }
+
+    resultsDiv.innerHTML = '<div class="success">🔓 Checking password against breach databases...</div>';
+
+    try {
+        const data = await callWorker('breachcheck', { password });
+
+        let html = '<div class="dns-results">';
+
+        if (data.breached) {
+            html += `<div class="dns-record">`;
+            html += `<strong>🚨 Password Compromised!</strong>`;
+            html += `<div class="dns-record-value" style="color: var(--error-color);">`;
+            html += `${escapeHtml(data.message)}`;
+            html += `</div></div>`;
+
+            html += `<div style="margin-top: 15px; padding: 15px; background: var(--input-background); border-radius: 8px; border-left: 4px solid var(--error-color);">`;
+            html += `<strong style="color: var(--error-color);">⚠️ Action Required</strong><br>`;
+            html += `<span style="color: var(--text-secondary); font-size: 0.9em; line-height: 1.6;">`;
+            html += `This password has been exposed in data breaches and is not safe to use. Attackers use lists of breached passwords in automated attacks. `;
+            html += `If you use this password anywhere, change it immediately and use a unique password for each account.`;
+            html += `</span></div>`;
+        } else {
+            html += `<div class="dns-record">`;
+            html += `<strong>✅ Password Not Found in Breaches</strong>`;
+            html += `<div class="dns-record-value" style="color: var(--success-color);">`;
+            html += `${escapeHtml(data.message)}`;
+            html += `</div></div>`;
+
+            html += `<div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--success-color);">`;
+            html += `<span style="color: var(--text-secondary); font-size: 0.9em;">`;
+            html += `Good news! This doesn't guarantee the password is strong — it just means it hasn't appeared in known breaches. Always use long, unique passwords for each account.`;
+            html += `</span></div>`;
+        }
+
+        html += '</div>';
+        resultsDiv.innerHTML = html;
+
+    } catch (error) {
+        resultsDiv.innerHTML = `<div class="error">Error checking breach database: ${error.message}</div>`;
+    }
+}
+
+// ============================================

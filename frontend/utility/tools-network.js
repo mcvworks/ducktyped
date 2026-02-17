@@ -784,6 +784,205 @@ if (document.getElementById('notesTextarea')) {
 }
 
 // ============================================
+// TRACEROUTE (Uses Worker)
+// ============================================
+async function runTraceroute() {
+    const host = document.getElementById('tracerouteHost').value.trim();
+    const resultsDiv = document.getElementById('tracerouteResults');
+
+    if (!host) {
+        resultsDiv.innerHTML = '<div class="error">Please enter a host!</div>';
+        return;
+    }
+
+    if (!workerAvailable) {
+        resultsDiv.innerHTML = '<div class="error">Backend service unavailable. Please try again later.</div>';
+        return;
+    }
+
+    resultsDiv.innerHTML = '<div class="success">🛤️ Running traceroute... This may take up to 30 seconds.</div>';
+
+    try {
+        const data = await callWorker('traceroute', { host });
+
+        let html = '<div style="margin-bottom: 15px;"><strong style="font-size: 1.1em;">Traceroute to ' + escapeHtml(data.host || host) + '</strong></div>';
+        html += '<div class="dns-results">';
+
+        if (data.hops && data.hops.length > 0) {
+            data.hops.forEach(hop => {
+                let statusIcon = hop.timeout ? '⏳' : '✅';
+                let hopColor = hop.timeout ? 'var(--warning-color)' : 'var(--text-secondary)';
+
+                html += `<div class="dns-record">`;
+                html += `<strong>${statusIcon} Hop ${hop.hop}</strong>`;
+                html += `<div class="dns-record-value" style="color: ${hopColor};">`;
+
+                if (hop.timeout) {
+                    html += `* * * (no response)`;
+                } else {
+                    if (hop.hostname && hop.hostname !== hop.ip) {
+                        html += `<strong>Host:</strong> ${escapeHtml(hop.hostname)}<br>`;
+                    }
+                    if (hop.ip) {
+                        html += `<strong>IP:</strong> ${hop.ip}<br>`;
+                    }
+                    if (hop.times && hop.times.length > 0) {
+                        const avg = (hop.times.reduce((a, b) => a + b, 0) / hop.times.length).toFixed(1);
+                        html += `<strong>RTT:</strong> ${hop.times.map(t => t + 'ms').join(' / ')} (avg: ${avg}ms)`;
+                    }
+                }
+
+                html += `</div></div>`;
+            });
+        } else {
+            html += '<div class="error">No hops returned. Host may be unreachable.</div>';
+        }
+
+        html += '</div>';
+
+        // Summary
+        if (data.hops && data.hops.length > 0) {
+            const totalHops = data.hops.length;
+            const timeoutHops = data.hops.filter(h => h.timeout).length;
+            html += `<div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border: 1px solid var(--border-color);">`;
+            html += `<strong>Summary:</strong> ${totalHops} hops total, ${timeoutHops} timed out`;
+            html += `</div>`;
+        }
+
+        resultsDiv.innerHTML = html;
+    } catch (error) {
+        resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    }
+}
+
+// ============================================
+// REVERSE DNS LOOKUP (Uses Worker)
+// ============================================
+async function lookupReverseDns() {
+    const ip = document.getElementById('reverseDnsInput').value.trim();
+    const resultsDiv = document.getElementById('reverseDnsResults');
+
+    if (!ip) {
+        resultsDiv.innerHTML = '<div class="error">Please enter an IP address!</div>';
+        return;
+    }
+
+    if (!workerAvailable) {
+        resultsDiv.innerHTML = '<div class="error">Backend service unavailable. Please try again later.</div>';
+        return;
+    }
+
+    resultsDiv.innerHTML = '<div class="success">🔄 Looking up reverse DNS...</div>';
+
+    try {
+        const data = await callWorker('reversedns', { ip });
+
+        let html = '<div class="dns-results">';
+
+        html += `<div class="dns-record">`;
+        html += `<strong>🔍 Reverse DNS for ${escapeHtml(data.ip || ip)}</strong>`;
+        html += `<div class="dns-record-value">`;
+
+        if (data.hostnames && data.hostnames.length > 0) {
+            html += `<strong>Hostname(s):</strong><br>`;
+            data.hostnames.forEach(hostname => {
+                html += `✅ ${escapeHtml(hostname)}<br>`;
+            });
+        } else {
+            html += `<span style="color: var(--warning-color);">⚠️ No reverse DNS (PTR) record found for this IP.</span>`;
+            if (data.error) {
+                html += `<br><small style="color: var(--text-secondary);">${escapeHtml(data.error)}</small>`;
+            }
+        }
+
+        html += `</div></div>`;
+        html += '</div>';
+
+        // Info note
+        html += `<div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--primary-color);">`;
+        html += `<p style="color: var(--text-secondary); margin: 0; font-size: 0.9em; line-height: 1.5;">`;
+        html += `<strong>What is Reverse DNS?</strong> A PTR record maps an IP address back to a hostname. It's commonly used to verify mail server identity and for security auditing.`;
+        html += `</p></div>`;
+
+        resultsDiv.innerHTML = html;
+    } catch (error) {
+        resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    }
+}
+
+// ============================================
+// SUBNET CALCULATOR (Uses Worker)
+// ============================================
+async function calculateSubnet() {
+    const ip = document.getElementById('subnetIp').value.trim();
+    const cidr = document.getElementById('subnetCidr').value.trim();
+    const resultsDiv = document.getElementById('subnetResults');
+
+    if (!ip) {
+        resultsDiv.innerHTML = '<div class="error">Please enter an IP address!</div>';
+        return;
+    }
+
+    // Validate IP format
+    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+    if (!ipRegex.test(ip)) {
+        resultsDiv.innerHTML = '<div class="error">Invalid IP format! Use format: 192.168.1.0</div>';
+        return;
+    }
+
+    const cidrNum = parseInt(cidr);
+    if (isNaN(cidrNum) || cidrNum < 0 || cidrNum > 32) {
+        resultsDiv.innerHTML = '<div class="error">CIDR must be between 0 and 32!</div>';
+        return;
+    }
+
+    if (!workerAvailable) {
+        resultsDiv.innerHTML = '<div class="error">Backend service unavailable. Please try again later.</div>';
+        return;
+    }
+
+    resultsDiv.innerHTML = '<div class="success">🔢 Calculating subnet...</div>';
+
+    try {
+        const data = await callWorker('subnet', { ip, cidr: cidrNum });
+
+        let html = '<div style="margin-bottom: 15px;"><strong style="font-size: 1.1em;">Subnet Details for ' + escapeHtml(ip) + '/' + cidrNum + '</strong></div>';
+        html += '<div class="dns-results">';
+
+        html += `<div class="dns-record">`;
+        html += `<strong>🌐 Network Information</strong>`;
+        html += `<div class="dns-record-value">`;
+        html += `<strong>Network Address:</strong> ${escapeHtml(data.network)}<br>`;
+        html += `<strong>Broadcast Address:</strong> ${escapeHtml(data.broadcast)}<br>`;
+        html += `<strong>Subnet Mask:</strong> ${escapeHtml(data.netmask)}<br>`;
+        html += `<strong>Wildcard Mask:</strong> ${escapeHtml(data.wildcardMask)}<br>`;
+        html += `</div></div>`;
+
+        html += `<div class="dns-record">`;
+        html += `<strong>📊 Host Range</strong>`;
+        html += `<div class="dns-record-value">`;
+        html += `<strong>First Usable Host:</strong> ${escapeHtml(data.firstHost)}<br>`;
+        html += `<strong>Last Usable Host:</strong> ${escapeHtml(data.lastHost)}<br>`;
+        html += `<strong>Total Usable Hosts:</strong> ${data.totalHosts.toLocaleString()}<br>`;
+        html += `</div></div>`;
+
+        html += `<div class="dns-record">`;
+        html += `<strong>ℹ️ Additional Info</strong>`;
+        html += `<div class="dns-record-value">`;
+        html += `<strong>CIDR Notation:</strong> /${data.cidr}<br>`;
+        html += `<strong>IP Class:</strong> ${escapeHtml(data.ipClass)}<br>`;
+        html += `<strong>Private Address:</strong> ${data.isPrivate ? '✅ Yes (RFC 1918)' : '❌ No (Public)'}<br>`;
+        html += `</div></div>`;
+
+        html += '</div>';
+
+        resultsDiv.innerHTML = html;
+    } catch (error) {
+        resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    }
+}
+
+// ============================================
 // SMTP CHECKER
 // ============================================
 

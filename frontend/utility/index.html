@@ -409,6 +409,38 @@
                     <input type="checkbox" id="toggle-urlMetadata" checked onchange="toggleToolVisibility('urlMetadata')">
                     <label for="toggle-urlMetadata">URL Metadata Extractor</label>
                 </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-traceroute" checked onchange="toggleToolVisibility('traceroute')">
+                    <label for="toggle-traceroute">Traceroute</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-reverseDns" checked onchange="toggleToolVisibility('reverseDns')">
+                    <label for="toggle-reverseDns">Reverse DNS Lookup</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-subnetCalc" checked onchange="toggleToolVisibility('subnetCalc')">
+                    <label for="toggle-subnetCalc">Subnet Calculator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-secHeaders" checked onchange="toggleToolVisibility('secHeaders')">
+                    <label for="toggle-secHeaders">Security Headers Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-breachChecker" checked onchange="toggleToolVisibility('breachChecker')">
+                    <label for="toggle-breachChecker">Password Breach Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-blacklistChecker" checked onchange="toggleToolVisibility('blacklistChecker')">
+                    <label for="toggle-blacklistChecker">Blacklist / RBL Checker</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-techDetector" checked onchange="toggleToolVisibility('techDetector')">
+                    <label for="toggle-techDetector">Tech Stack Detector</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-robotsAnalyzer" checked onchange="toggleToolVisibility('robotsAnalyzer')">
+                    <label for="toggle-robotsAnalyzer">Robots.txt & Sitemap Analyzer</label>
+                </div>
             </div>
         </div>
             </div> <!-- end filterContent -->
@@ -427,7 +459,7 @@
                         <span class="search-shortcut" aria-hidden="true">/</span>
                         <button class="search-clear" id="searchClear" onclick="clearToolSearch()" aria-label="Clear search">×</button>
                     </div>
-                    <div class="tool-count-badge" id="toolCountBadge"><span id="visibleToolCount">19</span> tools</div>
+                    <div class="tool-count-badge" id="toolCountBadge"><span id="visibleToolCount">27</span> tools</div>
                 </div>
                 <div class="filter-row" id="filterRow">
                     <button class="filter-pill active" onclick="filterByCat(this, 'all')">All</button>
@@ -1115,6 +1147,149 @@
                 </div>
                 <button onclick="extractMetadata()">📄 Extract Metadata</button>
                 <div id="urlMetadataResults"></div>
+            </div>
+
+            <!-- Traceroute -->
+            <div class="tool-card" id="traceroute" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="traceroute trace route hops path network latency hop gateway">
+                <h2>Traceroute</h2>
+                <a href="/traceroute/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Trace the network path to any host. See every hop your data takes, with IP addresses and response times. Essential for diagnosing routing issues.
+                </p>
+                <div class="input-group">
+                    <label>Host (Domain or IP):</label>
+                    <input type="text" id="tracerouteHost" placeholder="example.com or 8.8.8.8" aria-label="Host for traceroute" onkeypress="if(event.key==='Enter') runTraceroute()">
+                </div>
+                <button onclick="runTraceroute()">🛤️ Run Traceroute</button>
+                <div id="tracerouteResults"></div>
+            </div>
+
+            <!-- Reverse DNS -->
+            <div class="tool-card" id="reverseDns" draggable="true" data-categories="network,lookup" data-usertypes="itpro,netadmin" data-keywords="reverse dns ptr record ip hostname lookup rdns pointer">
+                <h2>Reverse DNS Lookup</h2>
+                <a href="/reverse-dns/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Look up the hostname associated with an IP address. Reverse DNS (PTR record) lookup helps identify servers and verify email sending infrastructure.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="reverseDnsInput" placeholder="8.8.8.8" aria-label="IP address for reverse DNS" onkeypress="if(event.key==='Enter') lookupReverseDns()">
+                </div>
+                <button onclick="lookupReverseDns()">🔄 Lookup Hostname</button>
+                <div id="reverseDnsResults"></div>
+            </div>
+
+            <!-- Subnet Calculator -->
+            <div class="tool-card" id="subnetCalc" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="subnet calculator cidr network broadcast mask hosts ip address range wildcard">
+                <h2>Subnet Calculator</h2>
+                <a href="/subnet-calculator/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Calculate network address, broadcast address, subnet mask, and usable host range from an IP address and CIDR notation.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="subnetIp" placeholder="192.168.1.0" aria-label="IP address for subnet calculation" onkeypress="if(event.key==='Enter') calculateSubnet()">
+                </div>
+                <div class="input-group">
+                    <label>CIDR Prefix Length:</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="font-size: 1.1em; font-weight: 600;">/</span>
+                        <input type="number" id="subnetCidr" placeholder="24" min="0" max="32" value="24" aria-label="CIDR prefix" style="max-width: 100px;" onkeypress="if(event.key==='Enter') calculateSubnet()">
+                    </div>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+                        <button onclick="document.getElementById('subnetCidr').value='8'; calculateSubnet()" class="preset-btn green" style="padding: 6px 12px; font-size: 0.8em;">/8</button>
+                        <button onclick="document.getElementById('subnetCidr').value='16'; calculateSubnet()" class="preset-btn green" style="padding: 6px 12px; font-size: 0.8em;">/16</button>
+                        <button onclick="document.getElementById('subnetCidr').value='24'; calculateSubnet()" class="preset-btn blue" style="padding: 6px 12px; font-size: 0.8em;">/24</button>
+                        <button onclick="document.getElementById('subnetCidr').value='25'; calculateSubnet()" class="preset-btn blue" style="padding: 6px 12px; font-size: 0.8em;">/25</button>
+                        <button onclick="document.getElementById('subnetCidr').value='28'; calculateSubnet()" class="preset-btn red" style="padding: 6px 12px; font-size: 0.8em;">/28</button>
+                        <button onclick="document.getElementById('subnetCidr').value='30'; calculateSubnet()" class="preset-btn red" style="padding: 6px 12px; font-size: 0.8em;">/30</button>
+                    </div>
+                </div>
+                <button onclick="calculateSubnet()">🔢 Calculate Subnet</button>
+                <div id="subnetResults"></div>
+            </div>
+
+            <!-- Security Headers Checker -->
+            <div class="tool-card" id="secHeaders" draggable="true" data-categories="security,url" data-usertypes="webdev,security" data-keywords="security headers hsts csp xss content-security-policy x-frame-options grade">
+                <h2>Security Headers Checker</h2>
+                <a href="/security-headers/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Analyze a website's HTTP security headers and get a grade from A+ to F. Check for HSTS, CSP, X-Frame-Options, and more.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="secHeadersUrl" placeholder="https://example.com" aria-label="URL for security headers check" onkeypress="if(event.key==='Enter') checkSecurityHeaders()">
+                </div>
+                <button onclick="checkSecurityHeaders()">🛡️ Check Security Headers</button>
+                <div id="secHeadersResults"></div>
+            </div>
+
+            <!-- Password Breach Checker -->
+            <div class="tool-card" id="breachChecker" draggable="true" data-categories="security" data-usertypes="security,itpro" data-keywords="password breach pwned haveibeenpwned hibp data leak compromised check">
+                <h2>Password Breach Checker</h2>
+                <a href="/breach-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if a password has appeared in known data breaches using the Have I Been Pwned API. Uses k-anonymity — your full password is never sent over the network.
+                </p>
+                <div class="input-group">
+                    <label>Password to Check:</label>
+                    <div style="position: relative;">
+                        <input type="password" id="breachPassword" placeholder="Enter a password to check" aria-label="Password to check for breaches" onkeypress="if(event.key==='Enter') checkPasswordBreach()">
+                        <button onclick="toggleBreachPasswordVisibility()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; width: auto; min-width: auto;">👁️</button>
+                    </div>
+                </div>
+                <button onclick="checkPasswordBreach()">🔓 Check for Breaches</button>
+                <div id="breachResults"></div>
+                <div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--primary-color);">
+                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9em; line-height: 1.5;">
+                        <strong>🔒 Privacy Note:</strong> Your password is hashed locally using SHA-1. Only the first 5 characters of the hash are sent to the API (k-anonymity). Your actual password never leaves your browser.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Blacklist / RBL Checker -->
+            <div class="tool-card" id="blacklistChecker" draggable="true" data-categories="email,security,network" data-usertypes="itpro,netadmin" data-keywords="blacklist rbl dnsbl spamhaus barracuda spamcop email ip reputation blocklist">
+                <h2>Blacklist / RBL Checker</h2>
+                <a href="/blacklist-checker/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Check if an IP address is listed on major email blacklists (DNSBL/RBL). Checks Spamhaus, Barracuda, SpamCop, SORBS, and more.
+                </p>
+                <div class="input-group">
+                    <label>IP Address:</label>
+                    <input type="text" id="blacklistIp" placeholder="203.0.113.1" aria-label="IP address for blacklist check" onkeypress="if(event.key==='Enter') checkBlacklist()">
+                </div>
+                <button onclick="checkBlacklist()">📋 Check Blacklists</button>
+                <div id="blacklistResults"></div>
+            </div>
+
+            <!-- Tech Stack Detector -->
+            <div class="tool-card" id="techDetector" draggable="true" data-categories="url,lookup" data-usertypes="webdev,marketing" data-keywords="technology stack detect wappalyzer framework cms wordpress react angular vue server hosting">
+                <h2>Tech Stack Detector</h2>
+                <a href="/tech-detector/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Detect what technologies a website uses — CMS, frameworks, analytics, CDNs, hosting, and more. Analyze server headers and HTML source.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="techDetectUrl" placeholder="https://example.com" aria-label="URL for technology detection" onkeypress="if(event.key==='Enter') detectTechStack()">
+                </div>
+                <button onclick="detectTechStack()">🔍 Detect Technologies</button>
+                <div id="techDetectResults"></div>
+            </div>
+
+            <!-- Robots.txt & Sitemap Analyzer -->
+            <div class="tool-card" id="robotsAnalyzer" draggable="true" data-categories="url,lookup" data-usertypes="webdev,marketing" data-keywords="robots txt sitemap xml seo crawl index search engine spider bot allow disallow">
+                <h2>Robots.txt & Sitemap Analyzer</h2>
+                <a href="/robots-analyzer/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Analyze a website's robots.txt file and sitemap. Check crawl rules, find sitemaps, and see how search engines interact with the site.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="robotsUrl" placeholder="https://example.com" aria-label="URL for robots.txt analysis" onkeypress="if(event.key==='Enter') analyzeRobots()">
+                </div>
+                <button onclick="analyzeRobots()">🤖 Analyze Robots & Sitemap</button>
+                <div id="robotsResults"></div>
             </div>
         </div>
     </div>

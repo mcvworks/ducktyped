@@ -27,7 +27,15 @@ const CACHE_DURATIONS = {
     mac: 2592000000,   // 30 days (vendor info never changes)
     metadata: 3600000, // 1 hour (page metadata can change)
     redirect: 3600000, // 1 hour (redirects can change)
-    urlstatus: 300000  // 5 minutes (status can change)
+    urlstatus: 300000,  // 5 minutes (status can change)
+    traceroute: 300000, // 5 minutes (routes can change)
+    reversedns: 86400000, // 24 hours (reverse DNS rarely changes)
+    subnet: 2592000000,  // 30 days (calculations are static)
+    secheaders: 3600000, // 1 hour (headers can change)
+    breachcheck: 86400000, // 24 hours (breach data rarely changes)
+    blacklist: 3600000,  // 1 hour (blacklist status can change)
+    techdetect: 3600000, // 1 hour (tech stack rarely changes)
+    robots: 3600000      // 1 hour (robots.txt can change)
 };
 
 function getCacheKey(tool, params) {
@@ -128,7 +136,15 @@ const RATE_LIMITS = {
     isp: { perMinute: 60, perDay: 1500 },
     mac: { perMinute: 45, perDay: 1500 },
     ssl: { perMinute: 80, perDay: 12000 },
-    port: { perMinute: 80, perDay: 12000 }
+    port: { perMinute: 80, perDay: 12000 },
+    traceroute: { perMinute: 10, perDay: 200 },
+    secheaders: { perMinute: 30, perDay: 1000 },
+    breachcheck: { perMinute: 30, perDay: 1000 },
+    blacklist: { perMinute: 20, perDay: 500 },
+    techdetect: { perMinute: 30, perDay: 1000 },
+    robots: { perMinute: 30, perDay: 1000 },
+    reversedns: { perMinute: 45, perDay: 1500 },
+    subnet: { perMinute: 60, perDay: 5000 }
 };
 
 const apiUsage = {
@@ -139,6 +155,14 @@ const apiUsage = {
     ping: 0,
     isp: 0,
     mac: 0,
+    traceroute: 0,
+    secheaders: 0,
+    breachcheck: 0,
+    blacklist: 0,
+    techdetect: 0,
+    robots: 0,
+    reversedns: 0,
+    subnet: 0,
     startTime: Date.now(),
     lastMinuteReset: Date.now(),
     minuteCounts: {
@@ -147,7 +171,15 @@ const apiUsage = {
         ssl: 0,
         port: 0,
         isp: 0,
-        mac: 0
+        mac: 0,
+        traceroute: 0,
+        secheaders: 0,
+        breachcheck: 0,
+        blacklist: 0,
+        techdetect: 0,
+        robots: 0,
+        reversedns: 0,
+        subnet: 0
     },
     blocked: {} // tracks which tools are currently blocked
 };
@@ -157,7 +189,7 @@ function trackAPICall(apiName) {
         // Reset minute counter if needed
         const now = Date.now();
         if (now - apiUsage.lastMinuteReset > 60000) {
-            apiUsage.minuteCounts = { dns: 0, whois: 0, ssl: 0, port: 0, isp: 0, mac: 0 };
+            apiUsage.minuteCounts = { dns: 0, whois: 0, ssl: 0, port: 0, isp: 0, mac: 0, traceroute: 0, secheaders: 0, breachcheck: 0, blacklist: 0, techdetect: 0, robots: 0, reversedns: 0, subnet: 0 };
             apiUsage.lastMinuteReset = now;
         }
         
@@ -176,7 +208,7 @@ function isRateLimited(apiName) {
     // Reset minute counter if a minute has passed
     const now = Date.now();
     if (now - apiUsage.lastMinuteReset > 60000) {
-        apiUsage.minuteCounts = { dns: 0, whois: 0, ssl: 0, port: 0, isp: 0, mac: 0 };
+        apiUsage.minuteCounts = { dns: 0, whois: 0, ssl: 0, port: 0, isp: 0, mac: 0, traceroute: 0, secheaders: 0, breachcheck: 0, blacklist: 0, techdetect: 0, robots: 0, reversedns: 0, subnet: 0 };
         apiUsage.lastMinuteReset = now;
         // Clear any blocked state for minute limits
         Object.keys(apiUsage.blocked).forEach(key => {

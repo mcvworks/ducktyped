@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Tech Stack Detector — Identify CMS, Frameworks & More — duckTyped</title>
+    <meta name="description" content="Detect what technologies a website uses. Identify CMS, JavaScript frameworks, CSS libraries, analytics, CDNs, hosting providers, and more. Free technology lookup.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Website Tech Stack Detector — Identify CMS, Frameworks & More — duckTyped">
+    <meta property="og:description" content="Detect what technologies a website uses. Identify CMS, JavaScript frameworks, CSS libraries, analytics, CDNs, hosting providers, and more. Free technology lookup.">
+    <meta property="og:url" content="https://ducktyped.xyz/tech-detector/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Website Tech Stack Detector — Identify CMS, Frameworks & More — duckTyped">
+    <meta name="twitter:description" content="Detect what technologies a website uses. Identify CMS, JavaScript frameworks, CSS libraries, analytics, CDNs, hosting providers, and more. Free technology lookup.">
+    <link rel="canonical" href="https://ducktyped.xyz/tech-detector/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="standalone-hero">
+            <h1>Tech Stack Detector</h1>
+            <p class="standalone-intro">Analyze any website to discover its technology stack. Detects web servers, CMS platforms, JavaScript frameworks, CSS libraries, analytics services, CDNs, hosting providers, and payment systems by inspecting HTTP headers and HTML source code.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Researching competitor tech stacks, evaluating potential vendors' infrastructure, identifying what frameworks a site uses before a redesign, or checking which analytics and tracking tools are deployed.</p></div>
+        </div>
+
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="techDetector">
+                <h2>Tech Stack Detector</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Detect what technologies a website uses — CMS, frameworks, analytics, CDNs, hosting, and more. Analyze server headers and HTML source.
+                </p>
+                <div class="input-group">
+                    <label>Website URL:</label>
+                    <input type="url" id="techDetectUrl" placeholder="https://example.com" aria-label="URL for technology detection" onkeypress="if(event.key==='Enter') detectTechStack()">
+                </div>
+                <button onclick="detectTechStack()">🔍 Detect Technologies</button>
+                <div id="techDetectResults"></div>
+            </div>
+        </div>
+
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-url.js"></script>
+    <script>
+        function changeTheme(theme) {
+            if (theme === 'light') { document.body.classList.add('light-theme'); } else { document.body.classList.remove('light-theme'); }
+            localStorage.setItem('selectedTheme', theme);
+            const logo = document.getElementById('siteLogo');
+            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+        }
+        function toggleTheme() { const isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
+        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
+        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
+        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+    </script>
+</body>
+</html>
