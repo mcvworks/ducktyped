@@ -21,37 +21,32 @@ jobs:
           script: |
             set -e
 
-            echo "── Pulling latest code ──"
-            cd /home/dt_lower/api
+            REPO="https://github.com/${{ github.repository }}.git"
+            REPO_DIR="/home/dt_lower/api-repo"
+            API_DIR="/home/dt_lower/api"
 
-            # If this is the first deploy, clone the repo
-            if [ ! -d ".git" ]; then
-              cd /home/dt_lower
-              git clone git@github.com:${{ github.repository }}.git api-repo
-              cp -r api-repo/backend/* api/
-              rm -rf api-repo
-              cd /home/dt_lower/api
-              npm install --production
-            else
-              # Normal deploy: pull and update
-              cd /home/dt_lower/api-repo 2>/dev/null || {
-                cd /home/dt_lower
-                git clone https://github.com/${{ github.repository }}.git api-repo
-              }
-              cd /home/dt_lower/api-repo
+            echo "── Pulling latest code ──"
+
+            # Clone or update the repo (always HTTPS, no SSH key needed)
+            if [ -d "$REPO_DIR/.git" ]; then
+              cd "$REPO_DIR"
               git fetch origin main
               git reset --hard origin/main
-
-              # Copy backend files
-              rsync -av --delete \
-                --exclude='node_modules' \
-                --exclude='.env' \
-                --exclude='uploads' \
-                backend/ /home/dt_lower/api/
-
-              cd /home/dt_lower/api
-              npm install --production
+            else
+              rm -rf "$REPO_DIR"
+              git clone "$REPO" "$REPO_DIR"
+              cd "$REPO_DIR"
             fi
+
+            echo "── Syncing backend files ──"
+            rsync -av --delete \
+              --exclude='node_modules' \
+              --exclude='.env' \
+              --exclude='uploads' \
+              "$REPO_DIR/backend/" "$API_DIR/"
+
+            cd "$API_DIR"
+            npm install --production
 
             echo "── Reloading PM2 ──"
             pm2 reload dt_lower-api || pm2 start ecosystem.config.js
