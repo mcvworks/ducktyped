@@ -1,0 +1,10 @@
+# robots.txt for ducktyped.xyz
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://ducktyped.xyz/sitemap.xml
+
+# Crawl-delay (optional - prevents aggressive crawling)
+Crawl-delay: 1

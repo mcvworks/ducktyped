@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Note - duckTyped</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #F2C200;
+            --background: #0F1114;
+            --card-background: #151A22;
+            --text-primary: #E9EEF5;
+            --text-secondary: #B8C0CC;
+            --border-color: #232A35;
+            --input-background: #0B0D10;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image:
+                linear-gradient(rgba(242,194,0,0.35) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(242,194,0,0.35) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2em;
+            font-weight: 650;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.02;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 2px,
+                rgba(242,194,0,0.3) 2px, rgba(242,194,0,0.3) 3px
+            );
+        }
+
+        .card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 600;
+            font-size: 0.72em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--input-background);
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95em;
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(253, 210, 7, 0.08);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: #111318;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.88em;
+            font-weight: 650;
+            font-family: 'Space Grotesk', monospace;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(253, 210, 7, 0.25);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message-box-wrapper {
+            position: relative;
+        }
+
+        .message-box-wrapper .copy-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s, background 0.2s;
+            padding: 0;
+        }
+
+        .message-box-wrapper:hover .copy-icon {
+            opacity: 1;
+        }
+
+        .message-box-wrapper .copy-icon:hover {
+            background: var(--primary-color);
+            color: #111318;
+            border-color: var(--primary-color);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .message-box-wrapper .copy-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .message-box {
+            background: var(--input-background);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .error {
+            background: #fee;
+            color: #c00;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #fcc;
+        }
+
+        .success {
+            background: #efe;
+            color: #060;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #cfc;
+        }
+
+        .info {
+            background: rgba(253, 210, 7, 0.06);
+            color: var(--text-secondary);
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(253, 210, 7, 0.15);
+            font-size: 0.88em;
+        }
+
+        .info strong {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.82em;
+            letter-spacing: 0.06em;
+            color: var(--primary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-secondary);
+            font-size: 0.78em;
+            font-family: 'Space Grotesk', monospace;
+            letter-spacing: 0.04em;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <a href="/"><img src="quacktools-logo-dark.png" alt="duckTyped" style="height: 80px; width: auto;"></a>
+            </div>
+            <h1>Encrypted Note</h1>
+        </div>
+
+        <div class="card">
+            <!-- Password Entry View -->
+            <div id="passwordView">
+                <div class="info">
+                    <strong>🔒 This message is encrypted</strong><br>
+                    <span id="passwordRequired">Enter the password to decrypt and view the message.</span>
+                    <span id="noPasswordRequired" class="hidden">Click the button below to view the message.</span>
+                </div>
+
+                <div id="passwordInputGroup" class="input-group">
+                    <label for="decryptPassword">Password:</label>
+                    <input type="password" id="decryptPassword" placeholder="Enter password" autofocus>
+                </div>
+
+                <button onclick="decryptMessage()" id="decryptBtn">Decrypt Message</button>
+
+                <div id="errorMessage" class="error hidden"></div>
+            </div>
+
+            <!-- Message Display View -->
+            <div id="messageView" class="hidden">
+                <div class="success">
+                    <strong>✅ Message decrypted successfully!</strong>
+                </div>
+
+                <div class="input-group">
+                    <label>Message:</label>
+                    <div class="message-box-wrapper">
+                        <div class="message-box" id="decryptedMessage"></div>
+                        <button class="copy-icon" onclick="copyDecryptedMessage()" title="Copy message">
+                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info">
+                    <strong>⚠️ Security Notice:</strong> This message will be destroyed after you close this page. Make sure to save any important information.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Secured by <a href="/">duckTyped</a> • Client-side AES-256 Encryption
+        </div>
+    </div>
+
+    <script>
+        // Get encrypted data from URL hash
+        const urlHash = window.location.hash.substring(1);
+        const urlParams = new URLSearchParams(window.location.search);
+        const requiresPassword = urlParams.get('pwd') !== '0';
+
+        // Update UI based on password requirement
+        if (!requiresPassword) {
+            document.getElementById('passwordRequired').classList.add('hidden');
+            document.getElementById('noPasswordRequired').classList.remove('hidden');
+            document.getElementById('passwordInputGroup').classList.add('hidden');
+        }
+
+        if (!urlHash) {
+            document.getElementById('passwordView').innerHTML = `
+                <div class="error">
+                    <strong>❌ No encrypted data found</strong><br>
+                    This link appears to be invalid or incomplete.
+                </div>
+            `;
+        }
+
+        async function decryptMessage() {
+            const password = requiresPassword ? document.getElementById('decryptPassword').value : 'no-password';
+            const errorDiv = document.getElementById('errorMessage');
+            const decryptBtn = document.getElementById('decryptBtn');
+
+            if (requiresPassword && !password) {
+                errorDiv.textContent = 'Please enter a password';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            errorDiv.classList.add('hidden');
+            decryptBtn.disabled = true;
+            decryptBtn.textContent = 'Decrypting...';
+
+            try {
+                // Decode base64 URL-safe
+                const encryptedData = urlHash
+                    .replace(/-/g, '+')
+                    .replace(/_/g, '/');
+                
+                // Validate base64 format
+                if (!/^[A-Za-z0-9+/]*=*$/.test(encryptedData)) {
+                    throw new Error('Invalid encrypted data format');
+                }
+                
+                const combined = Uint8Array.from(atob(encryptedData), c => c.charCodeAt(0));
+
+                // Extract salt, IV, and encrypted data
+                const salt = combined.slice(0, 16);
+                const iv = combined.slice(16, 28);
+                const encrypted = combined.slice(28);
+
+                // Derive key from password
+                const encoder = new TextEncoder();
+                const passwordKey = await crypto.subtle.importKey(
+                    'raw',
+                    encoder.encode(password),
+                    'PBKDF2',
+                    false,
+                    ['deriveBits', 'deriveKey']
+                );
+
+                const key = await crypto.subtle.deriveKey(
+                    {
+                        name: 'PBKDF2',
+                        salt: salt,
+                        iterations: 100000,
+                        hash: 'SHA-256'
+                    },
+                    passwordKey,
+                    { name: 'AES-GCM', length: 256 },
+                    false,
+                    ['decrypt']
+                );
+
+                // Decrypt the message
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv: iv },
+                    key,
+                    encrypted
+                );
+
+                const decoder = new TextDecoder();
+                const decryptedText = decoder.decode(decrypted);
+                
+                // Check if message has expiration (format: "TIMESTAMP|||MESSAGE")
+                if (decryptedText.includes('|||')) {
+                    const parts = decryptedText.split('|||');
+                    const expirationTimestamp = parseInt(parts[0]);
+                    const message = parts.slice(1).join('|||'); // In case message contains |||
+                    
+                    // Check if expired
+                    const now = new Date().getTime();
+                    if (now > expirationTimestamp) {
+                        const expiredDate = new Date(expirationTimestamp);
+                        errorDiv.innerHTML = `
+                            <strong>❌ This message has expired</strong><br>
+                            Expired on: ${expiredDate.toLocaleString()}<br>
+                            <small>Messages expire 7 days after creation for security.</small>
+                        `;
+                        errorDiv.classList.remove('hidden');
+                        decryptBtn.disabled = false;
+                        decryptBtn.textContent = 'Decrypt Message';
+                        return;
+                    }
+                    
+                    // Show decrypted message
+                    document.getElementById('decryptedMessage').textContent = message;
+                } else {
+                    // Old format without expiration (backward compatibility)
+                    document.getElementById('decryptedMessage').textContent = decryptedText;
+                }
+
+                document.getElementById('passwordView').classList.add('hidden');
+                document.getElementById('messageView').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Decryption error:', error);
+                errorDiv.textContent = requiresPassword 
+                    ? '❌ Incorrect password or corrupted message' 
+                    : '❌ Failed to decrypt message';
+                errorDiv.classList.remove('hidden');
+                decryptBtn.disabled = false;
+                decryptBtn.textContent = 'Decrypt Message';
+            }
+        }
+
+        function copyDecryptedMessage() {
+            const message = document.getElementById('decryptedMessage').textContent;
+            navigator.clipboard.writeText(message).then(() => {
+                const btn = document.querySelector('.message-box-wrapper .copy-icon');
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+                setTimeout(() => {
+                    btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+                }, 2000);
+            });
+        }
+
+        // Allow Enter key to decrypt
+        document.getElementById('decryptPassword')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                decryptMessage();
+            }
+        });
+
+        // Auto-decrypt if no password required
+        if (!requiresPassword && urlHash) {
+            setTimeout(() => {
+                decryptMessage();
+            }, 500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Latency Checker — Measure Response Time — duckTyped</title>
+    <meta name="description" content="Measure HTTP response time and latency for any URL. Check site speed and uptime with real-time latency testing. Free ping alternative.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="HTTP Latency Checker — Measure Response Time — duckTyped">
+    <meta property="og:description" content="Measure HTTP response time and latency for any URL. Check site speed and uptime with real-time latency testing. Free ping alternative.">
+    <meta property="og:url" content="https://ducktyped.xyz/http-latency/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HTTP Latency Checker — Measure Response Time — duckTyped">
+    <meta name="twitter:description" content="Measure HTTP response time and latency for any URL. Check site speed and uptime with real-time latency testing. Free ping alternative.">
+    <link rel="canonical" href="https://ducktyped.xyz/http-latency/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>HTTP Latency Checker</h1>
+            <p class="standalone-intro">Measure how fast a server responds to HTTP requests. Get response time data to troubleshoot slow sites, compare hosting performance, or monitor uptime from your browser.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Checking if a website is slow or just your connection, comparing CDN performance, verifying a new server deployment responds quickly, or monitoring API endpoint latency.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="pingChecker">
+                <h2>HTTP Latency Checker</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Measure website HTTP response time and connection latency. Test server connectivity and network performance. For true ICMP ping, use the external tools below.
+                </p>
+                <div class="input-group">
+                    <label>Target URL or IP:</label>
+                    <input type="text" id="pingHost" placeholder="google.com or 8.8.8.8" aria-label="Host for latency check" onkeypress="if(event.key==='Enter') checkPing()">
+                </div>
+                <button onclick="checkPing()">Check Latency</button>
+                <div id="pingResults"></div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-network.js"></script>
+    <script>
+        // Minimal theme support
+        function changeTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            localStorage.setItem('selectedTheme', theme);
+            // Update logo
+            const logo = document.getElementById('siteLogo');
+            if (logo) {
+                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
+            }
+        }
+        function toggleTheme() {
+            const isLight = document.body.classList.contains('light-theme');
+            changeTheme(isLight ? 'dark' : 'light');
+        }
+        // Stubs for functions that might be called
+        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
+        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
+        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
+        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner — Read QR Codes from Camera or Image — duckTyped</title>
+    <meta name="description" content="Scan and decode QR codes using your camera or by uploading an image. Instant results, no app required. Free online QR code reader.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="QR Code Scanner — Read QR Codes from Camera or Image — duckTyped">
+    <meta property="og:description" content="Scan and decode QR codes using your camera or by uploading an image. Instant results, no app required. Free online QR code reader.">
+    <meta property="og:url" content="https://ducktyped.xyz/qr-scanner/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QR Code Scanner — Read QR Codes from Camera or Image — duckTyped">
+    <meta name="twitter:description" content="Scan and decode QR codes using your camera or by uploading an image. Instant results, no app required. Free online QR code reader.">
+    <link rel="canonical" href="https://ducktyped.xyz/qr-scanner/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>QR Code Scanner</h1>
+            <p class="standalone-intro">Decode QR codes using your device camera or by uploading an image file. No app install needed — works directly in your browser with instant results.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Reading a QR code from a screenshot, decoding a QR code received via email, verifying what URL a QR code points to before visiting, or extracting WiFi credentials from a QR code.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="qrScanner">
+                <h2>QR Code Scanner</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Scan and decode QR codes from images. Upload a QR code image or use your camera to scan. Free QR code reader and decoder.
+                </p>
+                <div class="input-group">
+                    <label>Upload QR Code Image:</label>
+                    <input type="file" id="qrImageUpload" accept="image/*" aria-label="Upload image to scan for QR code" onchange="scanQRFromFile()" style="padding: 8px;">
+                </div>
+                <div style="text-align: center; margin: 15px 0;">
+                    <strong style="color: var(--text-secondary);">- OR -</strong>
+                </div>
+                <button onclick="scanQRFromCamera()" >📷 Scan with Camera</button>
+                <div id="qrCameraContainer" style="margin-top: 15px; display: none;">
+                    <video id="qrVideo" style="width: 100%; max-width: 400px; border-radius: 8px; border: 2px solid var(--border-color);"></video>
+                    <button onclick="stopQRCamera()" style="margin-top: 10px; background: var(--error-color); color: #ffffff;">Stop Camera</button>
+                </div>
+                <div id="qrScanResults"></div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-qr.js"></script>
+    <script>
+        // Minimal theme support
+        function changeTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            localStorage.setItem('selectedTheme', theme);
+            // Update logo
+            const logo = document.getElementById('siteLogo');
+            if (logo) {
+                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
+            }
+        }
+        function toggleTheme() {
+            const isLight = document.body.classList.contains('light-theme');
+            changeTheme(isLight ? 'dark' : 'light');
+        }
+        // Stubs for functions that might be called
+        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
+        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
+        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
+        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+    </script>
+</body>
+</html>

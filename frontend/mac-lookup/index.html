@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAC Address Lookup — Find Device Vendor — duckTyped</title>
+    <meta name="description" content="Look up the manufacturer of any network device by its MAC address. Identify vendor from OUI database. Free MAC address lookup tool.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MAC Address Lookup — Find Device Vendor — duckTyped">
+    <meta property="og:description" content="Look up the manufacturer of any network device by its MAC address. Identify vendor from OUI database. Free MAC address lookup tool.">
+    <meta property="og:url" content="https://ducktyped.xyz/mac-lookup/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MAC Address Lookup — Find Device Vendor — duckTyped">
+    <meta name="twitter:description" content="Look up the manufacturer of any network device by its MAC address. Identify vendor from OUI database. Free MAC address lookup tool.">
+    <link rel="canonical" href="https://ducktyped.xyz/mac-lookup/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>MAC Address Lookup</h1>
+            <p class="standalone-intro">Identify the manufacturer of a network device from its MAC address. The first 6 characters (OUI) of a MAC address are assigned to specific vendors — this tool decodes that for you instantly.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Identifying unknown devices on your network, verifying hardware manufacturer during inventory, troubleshooting network issues by device type, or auditing IoT devices.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="macLookup">
+                <h2>MAC Address Lookup</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Find network device manufacturer and vendor information from MAC addresses. Lookup OUI (Organizationally Unique Identifier) database.
+                </p>
+                <div class="input-group">
+                    <label>MAC Address:</label>
+                    <input type="text" id="macInput" placeholder="00:1A:2B:3C:4D:5E or 001A2B3C4D5E" aria-label="MAC address to look up" onkeypress="if(event.key==='Enter') lookupMAC()">
+                </div>
+                <button onclick="lookupMAC()">Lookup Vendor</button>
+                <button onclick="generateRandomMAC()" >Generate Random MAC</button>
+                <div id="macResults"></div>
+                <div class="output" style="margin-top: 15px;">
+                    <strong>MAC Address Format:</strong>
+                    <div class="output-content" style="margin-top: 10px;">
+                        Accepted formats: <code>00:1A:2B:3C:4D:5E</code>, <code>00-1A-2B-3C-4D-5E</code>, <code>001A.2B3C.4D5E</code>, <code>001A2B3C4D5E</code>
+                        <br><br>
+                        <strong>OUI (First 6 characters):</strong> Identifies the manufacturer/vendor<br>
+                        <strong>Device ID (Last 6 characters):</strong> Unique device identifier
+                        <br><br>
+                        <strong>Useful Links:</strong><br>
+                        • <a href="https://maclookup.app/" target="_blank" rel="noopener noreferrer">MAC Lookup Database</a><br>
+                        • <a href="https://www.wireshark.org/tools/oui-lookup.html" target="_blank" rel="noopener noreferrer">Wireshark OUI Lookup</a><br>
+                        • <a href="https://standards-oui.ieee.org/" target="_blank" rel="noopener noreferrer">IEEE OUI Registry</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-network.js"></script>
+    <script>
+        // Minimal theme support
+        function changeTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            localStorage.setItem('selectedTheme', theme);
+            // Update logo
+            const logo = document.getElementById('siteLogo');
+            if (logo) {
+                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
+            }
+        }
+        function toggleTheme() {
+            const isLight = document.body.classList.contains('light-theme');
+            changeTheme(isLight ? 'dark' : 'light');
+        }
+        // Stubs for functions that might be called
+        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
+        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
+        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
+        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+    </script>
+</body>
+</html>

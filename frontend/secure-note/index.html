@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Note Sender — Send Secret Messages — duckTyped</title>
+    <meta name="description" content="Send encrypted, self-destructing notes with AES-256 encryption. Password-protected, client-side encryption. No data stored on any server.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Encrypted Note Sender — Send Secret Messages — duckTyped">
+    <meta property="og:description" content="Send encrypted, self-destructing notes with AES-256 encryption. Password-protected, client-side encryption. No data stored on any server.">
+    <meta property="og:url" content="https://ducktyped.xyz/secure-note/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Encrypted Note Sender — Send Secret Messages — duckTyped">
+    <meta name="twitter:description" content="Send encrypted, self-destructing notes with AES-256 encryption. Password-protected, client-side encryption. No data stored on any server.">
+    <link rel="canonical" href="https://ducktyped.xyz/secure-note/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>Secure Note Sender</h1>
+            <p class="standalone-intro">Send encrypted messages that can only be read with the right password. Everything is encrypted in your browser using AES-256-GCM before a shareable link is generated. No data ever touches a server.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Sharing a Wi-Fi password with a guest, sending login credentials to a coworker, transmitting sensitive project details, or sharing one-time codes securely.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="noteSender">
+                <h2>Secure Note Sender</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Send encrypted messages securely. Messages are encrypted client-side using AES-256 encryption with customizable expiration times. Optional password protection for added security.
+                </p>
+                <div id="encryptView">
+                    <div class="input-group">
+                        <label>Your Message:</label>
+                        <textarea id="noteMessage" placeholder="Enter your confidential message here..." aria-label="Secret message to encrypt"></textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="requirePassword" checked onchange="togglePasswordField()"> 
+                            Require Password
+                        </label>
+                        <small style="color: var(--text-secondary); font-size: 0.85em; display: block; margin-top: 5px;">
+                            If unchecked, anyone with the link can read the message
+                        </small>
+                    </div>
+                    
+                    <div class="input-group" id="passwordFieldGroup">
+                        <label>Encryption Password:</label>
+                        <input type="text" id="encryptPassword" placeholder="Create a strong password" aria-label="Encryption password">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Message Expires After:</label>
+                        <select id="expirationTime" style="
+                            width: 100%;
+                            padding: 10px;
+                            background: var(--input-background);
+                            color: var(--text-primary);
+                            border: 2px solid var(--border-color);
+                            border-radius: 8px;
+                            font-size: 1em;
+                        ">
+                            <option value="1">1 Hour</option>
+                            <option value="24">24 Hours (1 Day)</option>
+                            <option value="72">3 Days</option>
+                            <option value="168" selected>7 Days (1 Week)</option>
+                            <option value="720">30 Days (1 Month)</option>
+                        </select>
+                        <small style="color: var(--text-secondary); font-size: 0.85em; display: block; margin-top: 5px;">
+                            Messages automatically expire for security
+                        </small>
+                    </div>
+                    
+                    <button onclick="encryptNote()" id="createLinkBtn">Create Secure Link</button>
+                    <div class="output" id="encryptOutput">
+                        <div class="output-label" style="color: var(--primary-color); font-weight: 700;">Share this link with the recipient:</div>
+                        <div class="output-content" id="encryptedLink" style="word-break: break-all;"></div>
+                        <button class="copy-btn" onclick="copyLink()">Copy Link</button>
+                        <div class="info-box" id="passwordInfo">
+                            <strong>🔒 Password Protected:</strong> Share the password separately (via phone, in person, etc.) for maximum security.<br>
+                            <small>⏱️ Note: Messages automatically expire for security.</small>
+                        </div>
+                        <div class="info-box hidden" id="noPasswordInfo">
+                            <strong>⚠️ No Password:</strong> Anyone with this link can read the message. Use this only for non-sensitive information.<br>
+                            <small>⏱️ Note: Messages automatically expire for security.</small>
+                        </div>
+                    </div>
+                    <div class="warning" id="backendWarning" style="display: none;">
+                        <strong>⚠️ Backend Not Configured</strong><br>
+                        The tracking backend is not set up. Please configure the WORKER_URL in the code or limits won't be enforced.
+                    </div>
+                </div>
+                <div id="decryptView" style="display: none;">
+                    <div class="success" style="margin-bottom: 15px;" id="decryptHeader">
+                        <strong>🔒 Encrypted message received</strong><br>
+                        Enter the password to decrypt and read the message.
+                    </div>
+                    <div class="input-group">
+                        <label>Decryption Password:</label>
+                        <input type="text" id="decryptPassword" placeholder="Enter the password shared with you" aria-label="Decryption password">
+                    </div>
+                    <button onclick="decryptNote()" id="decryptBtn">Decrypt Message</button>
+                    <div class="output" id="decryptOutput">
+                        <div class="output-label">Decrypted Message:</div>
+                        <div class="output-content" id="decryptedText"></div>
+                    </div>
+                    <button onclick="resetNoteApp()" style="background: var(--text-secondary); color: #ffffff; margin-top: 15px;">Create New Message</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-password.js"></script>
+    <script>
+        // Minimal theme support
+        function changeTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+            localStorage.setItem('selectedTheme', theme);
+            // Update logo
+            const logo = document.getElementById('siteLogo');
+            if (logo) {
+                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
+            }
+        }
+        function toggleTheme() {
+            const isLight = document.body.classList.contains('light-theme');
+            changeTheme(isLight ? 'dark' : 'light');
+        }
+        // Stubs for functions that might be called
+        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
+        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
+        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
+        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+    </script>
+</body>
+</html>
