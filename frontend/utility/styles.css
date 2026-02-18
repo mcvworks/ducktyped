@@ -444,6 +444,9 @@
         /* Inputs */
         body.light-theme input[type="text"],
         body.light-theme input[type="number"],
+        body.light-theme input[type="email"],
+        body.light-theme input[type="url"],
+        body.light-theme input[type="password"],
         body.light-theme textarea,
         body.light-theme select {
             background: #ffffff;
@@ -2002,6 +2005,9 @@
 
         input[type="text"],
         input[type="number"],
+        input[type="email"],
+        input[type="url"],
+        input[type="password"],
         textarea,
         select {
             width: 100%;

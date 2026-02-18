@@ -213,7 +213,7 @@ router.post('/traceroute', async (req, res) => {
         if (!host) return res.status(400).json(fail('Invalid host'));
 
         const { stdout } = await execAsync(
-            `traceroute -m 20 -w 2 ${host}`,
+            `traceroute -I -m 20 -w 2 ${host}`,
             { timeout: 30000 }
         );
 

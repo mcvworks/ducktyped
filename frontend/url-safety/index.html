@@ -1,107 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-003ETVX66J');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-003ETVX66J');</script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Safety Checker — Scan Links for Threats — duckTyped</title>
     <meta name="description" content="Check if a URL is safe before clicking. Analyze links for phishing, malware patterns, suspicious characters, and security red flags. Free URL scanner.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="URL Safety Checker — Scan Links for Threats — duckTyped">
+    <meta name="author" content="duckTyped"><meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"><meta property="og:title" content="URL Safety Checker — Scan Links for Threats — duckTyped">
     <meta property="og:description" content="Check if a URL is safe before clicking. Analyze links for phishing, malware patterns, suspicious characters, and security red flags. Free URL scanner.">
-    <meta property="og:url" content="https://ducktyped.xyz/url-safety/">
-    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:url" content="https://ducktyped.xyz/url-safety/"><meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="URL Safety Checker — Scan Links for Threats — duckTyped">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="URL Safety Checker — Scan Links for Threats — duckTyped">
     <meta name="twitter:description" content="Check if a URL is safe before clicking. Analyze links for phishing, malware patterns, suspicious characters, and security red flags. Free URL scanner.">
     <link rel="canonical" href="https://ducktyped.xyz/url-safety/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
-    <link rel="stylesheet" href="/utility/styles.css">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
+    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button></div></nav>
     <div class="container">
-        <!-- SEO Content -->
-        <div class="standalone-hero">
-            <h1>URL Safety Checker</h1>
-            <p class="standalone-intro">Analyze any URL for potential security threats before you click. Checks for phishing patterns, suspicious characters, non-standard ports, and other red flags — all client-side with no data sent externally.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Checking a link before clicking it in a suspicious email, verifying shortened URLs, analyzing links shared in chat messages, or auditing URLs in marketing campaigns.</p></div>
-        </div>
-
-        <!-- Tool -->
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="urlSafety">
-                <h2>URL Safety Checker</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Check if a URL is safe before clicking. Detects phishing, malware, suspicious patterns, and verifies SSL certificates. Protect yourself from malicious links.
-                </p>
-                <div class="input-group">
-                    <label>URL to Check:</label>
-                    <input type="url" id="urlToCheck" placeholder="https://example.com" aria-label="URL to check safety" onkeypress="if(event.key==='Enter') checkURLSafety()">
-                </div>
-                <button onclick="checkURLSafety()">🔒 Check URL Safety</button>
-                <div id="urlSafetyResults"></div>
-            </div>
-        </div>
-
-        <!-- Explore More -->
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+        <div class="standalone-hero"><h1>URL Safety Checker</h1><p class="standalone-intro">Analyze any URL for potential security threats before you click. Checks for phishing patterns, suspicious characters, non-standard ports, and other red flags — all client-side with no data sent externally.</p><div class="example-box"><strong>Example uses:</strong><p>Checking a link before clicking it in a suspicious email, verifying shortened URLs, analyzing links shared in chat messages, or auditing URLs in marketing campaigns.</p></div></div>
+        <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="urlSafety"><h2>URL Safety Checker</h2>
+            <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Check if a URL is safe before clicking. Detects phishing, malware, suspicious patterns, and verifies SSL certificates.</p>
+            <div class="input-group"><label>URL to Check:</label><input type="url" id="urlToCheck" placeholder="https://example.com" aria-label="URL to Check:" onkeypress="if(event.key==='Enter') checkURLSafety()"></div>
+            <button onclick="checkURLSafety()">🔒 Check URL Safety</button>
+            <div id="urlSafetyResults"></div></div></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-url.js"></script>
+    <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
+    <script src="/utility/core.js"></script><script src="/utility/tools-url.js"></script>
     <script>
-        // Minimal theme support
+        // Theme support
         function changeTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-theme');
-            } else {
-                document.body.classList.remove('light-theme');
-            }
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+            else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            // Update logo
-            const logo = document.getElementById('siteLogo');
-            if (logo) {
-                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
-            }
+            var logo = document.getElementById('siteLogo');
+            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() {
-            const isLight = document.body.classList.contains('light-theme');
-            changeTheme(isLight ? 'dark' : 'light');
-        }
-        // Stubs for functions that might be called
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
         if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
     </script>
 </body>
 </html>
