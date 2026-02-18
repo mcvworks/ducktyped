@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Notes Explained — End-to-End Encryption &amp; Secure Sharing — duckTyped</title>
+    <meta name="description" content="Learn how end-to-end encrypted notes work, how AES-GCM encryption and PBKDF2 key derivation protect your messages, and how to share secrets securely with duckTyped's Secure Note Sender.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Encrypted Notes Explained — End-to-End Encryption & Secure Sharing — duckTyped">
+    <meta property="og:description" content="Learn how end-to-end encrypted notes work, how AES-GCM and PBKDF2 protect your messages, and how to share secrets securely.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/encrypted-note/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Encrypted Notes Explained — End-to-End Encryption & Secure Sharing — duckTyped">
+    <meta name="twitter:description" content="Learn how end-to-end encrypted notes work, how AES-GCM and PBKDF2 protect your messages, and how to share secrets securely.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/encrypted-note/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Secure Note Sender</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Encrypted Notes Explained</h1>
+            <p class="standalone-intro">Understand how end-to-end encryption protects sensitive messages, how AES-GCM and PBKDF2 work together to secure your data, and how duckTyped's Secure Note Sender lets you share secrets without exposing plaintext to any server.</p>
+
+            <h2>What Is End-to-End Encryption?</h2>
+            <p><strong>End-to-end encryption (E2EE)</strong> is a method of securing data so that only the sender and the intended recipient can read it. When a message is end-to-end encrypted, it is encrypted on the sender's device before it leaves and can only be decrypted on the recipient's device. No intermediary -- not the server hosting the data, not the network provider, not even the service operator -- can access the plaintext content.</p>
+            <p>This stands in contrast to <strong>encryption in transit</strong> (like HTTPS), which protects data while it travels between your device and a server but leaves the server able to read the content once it arrives. With E2EE, the server only ever handles ciphertext -- encrypted data that is computationally infeasible to decrypt without the correct key.</p>
+            <p>End-to-end encryption is used in messaging apps like Signal, in file-sharing services, and in tools like duckTyped's Secure Note Sender. The core principle is always the same: the encryption key never touches the server.</p>
+
+            <h2>How the Secure Note Tool Works</h2>
+            <p>The duckTyped Secure Note Sender implements a zero-knowledge architecture where all encryption and decryption happens entirely in your browser. Here is the process step by step:</p>
+            <ol>
+                <li><strong>You write your message</strong> in the input field. The plaintext never leaves your browser.</li>
+                <li><strong>A cryptographic key is derived</strong> from a randomly generated passphrase or password using PBKDF2 (Password-Based Key Derivation Function 2).</li>
+                <li><strong>The message is encrypted</strong> using AES-GCM (Advanced Encryption Standard in Galois/Counter Mode) with the derived key. A random initialization vector (IV) is generated for each encryption operation.</li>
+                <li><strong>The ciphertext is sent to the server</strong> for storage. The server receives only the encrypted blob -- it has no access to the key or the plaintext.</li>
+                <li><strong>A shareable link is generated</strong> that contains the decryption key in the URL fragment (the part after the <code>#</code> symbol). URL fragments are never sent to the server in HTTP requests, so the key remains client-side only.</li>
+                <li><strong>The recipient opens the link</strong>, and their browser extracts the key from the URL fragment, fetches the ciphertext from the server, and decrypts the message locally.</li>
+            </ol>
+            <p>At no point does the server have access to both the ciphertext and the key simultaneously. This is the foundation of the tool's security model.</p>
+
+            <h2>Symmetric vs. Asymmetric Encryption</h2>
+            <p>Encryption algorithms fall into two broad categories, and understanding the distinction is important for evaluating any encryption tool.</p>
+            <p><strong>Symmetric encryption</strong> uses a single key for both encryption and decryption. The sender and recipient must both possess the same secret key. AES is the most widely used symmetric cipher. Symmetric encryption is fast and efficient, making it ideal for encrypting large amounts of data. The challenge is key distribution -- how do you securely share the key with the recipient?</p>
+            <p><strong>Asymmetric encryption</strong> (also called public-key cryptography) uses a pair of mathematically related keys: a public key for encryption and a private key for decryption. RSA and elliptic-curve cryptography (ECC) are common asymmetric algorithms. Asymmetric encryption solves the key distribution problem because the public key can be shared openly, but it is significantly slower than symmetric encryption.</p>
+            <p>In practice, most secure systems use a <strong>hybrid approach</strong>: asymmetric encryption to exchange a symmetric key, then symmetric encryption for the actual data. The Secure Note Sender uses a simpler model -- pure symmetric encryption with the key embedded in the URL fragment -- because the link itself serves as the secure key distribution channel.</p>
+
+            <h2>AES-GCM Explained</h2>
+            <p><strong>AES (Advanced Encryption Standard)</strong> is a symmetric block cipher adopted by the U.S. National Institute of Standards and Technology (NIST) in 2001. It operates on fixed-size 128-bit blocks and supports key sizes of 128, 192, or 256 bits. AES has withstood over two decades of cryptanalysis and remains the gold standard for symmetric encryption.</p>
+            <p><strong>GCM (Galois/Counter Mode)</strong> is an authenticated encryption mode that provides both <strong>confidentiality</strong> and <strong>integrity</strong>. This means AES-GCM not only encrypts your data but also produces an authentication tag that detects any tampering with the ciphertext. If an attacker modifies even a single bit of the encrypted data, decryption will fail rather than producing corrupted plaintext.</p>
+            <p>AES-GCM requires three inputs:</p>
+            <ul>
+                <li><strong>Key</strong> -- the symmetric encryption key (typically 256 bits for maximum security).</li>
+                <li><strong>Initialization Vector (IV)</strong> -- a random 96-bit value that ensures the same plaintext encrypted with the same key produces different ciphertext each time. The IV must never be reused with the same key.</li>
+                <li><strong>Plaintext</strong> -- the data to encrypt.</li>
+            </ul>
+            <p>The output is the ciphertext plus a 128-bit authentication tag. AES-GCM is the cipher suite recommended by TLS 1.3, and it is natively supported by the Web Crypto API in all modern browsers, which is what makes client-side encryption tools like this one possible.</p>
+
+            <h2>Key Derivation with PBKDF2</h2>
+            <p>Raw passwords or passphrases are not suitable as encryption keys directly. They tend to have low entropy (predictable patterns, limited character sets) and are not the right length for AES. <strong>PBKDF2 (Password-Based Key Derivation Function 2)</strong> solves this by transforming a password into a cryptographically strong key.</p>
+            <p>PBKDF2 works by applying a pseudorandom function (typically HMAC-SHA-256) to the password along with a <strong>salt</strong> -- a random value unique to each encryption operation -- and repeating this process for a specified number of <strong>iterations</strong>. The output is a key of the desired length.</p>
+            <ul>
+                <li><strong>Salt</strong> -- prevents precomputed attacks (rainbow tables). Even if two users choose the same password, different salts produce different keys. The salt does not need to be secret and is stored alongside the ciphertext.</li>
+                <li><strong>Iterations</strong> -- control the computational cost of deriving the key. A higher iteration count makes brute-force attacks slower. Modern recommendations suggest at least 100,000 iterations for PBKDF2 with HMAC-SHA-256, though higher values (600,000+) provide better protection against GPU-accelerated attacks.</li>
+            </ul>
+            <p>While newer key derivation functions like Argon2 offer better resistance to GPU and ASIC attacks by requiring large amounts of memory, PBKDF2 remains widely supported and is available natively in the Web Crypto API, making it the practical choice for browser-based tools.</p>
+
+            <h2>The Link-Based Sharing Model</h2>
+            <p>One of the most elegant aspects of browser-based encrypted notes is how the decryption key is delivered to the recipient. The key is placed in the <strong>URL fragment</strong> -- the portion of the URL after the <code>#</code> character.</p>
+            <p>According to the HTTP specification (RFC 3986), the fragment identifier is processed entirely by the client and is <strong>never sent to the server</strong> in HTTP requests. When you visit a URL like <code>https://example.com/note/abc123#secretkey</code>, your browser sends a request for <code>/note/abc123</code> but the <code>#secretkey</code> part stays in the browser. This means:</p>
+            <ul>
+                <li>The server never sees the decryption key in access logs.</li>
+                <li>The key is not visible to network intermediaries.</li>
+                <li>The key does not appear in server-side analytics or monitoring.</li>
+            </ul>
+            <p>The recipient simply clicks the link, and their browser automatically has everything needed to fetch the ciphertext and decrypt it. No password entry is required unless an additional password layer has been configured.</p>
+
+            <h2>Self-Destructing Notes</h2>
+            <p>To further limit exposure, secure note tools often support <strong>self-destructing messages</strong> that are automatically deleted after being read once or after a set time period. The duckTyped Secure Note Sender supports this feature -- once the recipient opens and reads the note, the encrypted data is permanently removed from the server.</p>
+            <p>Self-destruction reduces the attack surface significantly. Even if the server's storage were compromised at a later date, previously read notes would no longer exist. Combined with the fact that the server never held the decryption key, this creates a strong defense-in-depth model: the ciphertext is transient, and the key was never stored server-side in the first place.</p>
+
+            <h2>Zero-Knowledge Architecture</h2>
+            <p>The term <strong>zero-knowledge</strong> in this context means that the server operator has zero knowledge of the content being stored. The server functions as a blind relay -- it stores and delivers encrypted blobs without any ability to inspect or understand them. Even if compelled by legal process or compromised by an attacker, the server cannot produce plaintext because it never possessed the decryption key.</p>
+            <p>This architecture requires trust only in the client-side code running in the browser. Users can verify the encryption implementation by inspecting the page source, since all cryptographic operations use the browser's built-in Web Crypto API rather than custom or obfuscated code.</p>
+
+            <h2>When to Use Secure Notes</h2>
+            <p>Encrypted notes are ideal for sharing sensitive information that should not persist in email inboxes, chat logs, or other message archives:</p>
+            <ul>
+                <li><strong>Passwords and credentials</strong> -- sharing login details with a colleague or client without leaving them in a Slack message or email thread.</li>
+                <li><strong>API keys and tokens</strong> -- transmitting secrets that grant access to services or infrastructure.</li>
+                <li><strong>Private personal information</strong> -- Social Security numbers, financial details, or medical information that should not be stored in plaintext anywhere.</li>
+                <li><strong>One-time codes and PINs</strong> -- sharing temporary access codes that are only needed once.</li>
+            </ul>
+
+            <h2>Limitations</h2>
+            <p>No security tool is perfect, and it is important to understand the boundaries of what encrypted notes can and cannot protect against:</p>
+            <ul>
+                <li><strong>Link interception</strong> -- if the link is shared over an insecure channel and intercepted, the attacker has both the ciphertext location and the key. Always share links over secure channels (encrypted messaging apps, HTTPS-protected email, etc.).</li>
+                <li><strong>Endpoint compromise</strong> -- if the sender's or recipient's device is compromised by malware, encryption cannot help. A keylogger or screen capture tool can capture the plaintext before or after encryption.</li>
+                <li><strong>No recipient authentication</strong> -- the tool does not verify the identity of the person opening the link. Anyone with the link can decrypt the note. For sensitive scenarios, consider adding a password known only to the intended recipient.</li>
+                <li><strong>Browser trust</strong> -- the security model depends on the browser correctly implementing the Web Crypto API and the page code not being tampered with. Using a modern, updated browser mitigates this risk.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Secure Note Sender makes it straightforward to share encrypted messages:</p>
+            <ol>
+                <li><strong>Type or paste your secret</strong> into the message field. The content stays in your browser -- nothing is sent until you explicitly create the note.</li>
+                <li><strong>Configure options</strong> such as self-destruction after reading or an expiration time limit.</li>
+                <li><strong>Click "Create Note"</strong> to encrypt the message and generate a shareable link.</li>
+                <li><strong>Copy the link</strong> and send it to your recipient through a secure channel.</li>
+                <li><strong>The recipient opens the link</strong> and sees the decrypted message. If self-destruct is enabled, the note is permanently deleted after viewing.</li>
+            </ol>
+            <p>The entire process takes seconds, and no account or registration is required.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Secure Note Sender for security-related tasks:</p>
+            <ul>
+                <li><a href="/password-generator/">Password Generator</a> -- generate strong, random passwords to use as additional encryption passphrases or for the credentials you are sharing.</li>
+                <li><a href="/hash-generator/">Hash Generator</a> -- create cryptographic hashes of text or files to verify data integrity.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/encrypted-note/" class="standalone-nav-btn">Try Secure Note Sender</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

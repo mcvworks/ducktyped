@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanning Explained — Camera Decoding &amp; Image Upload — duckTyped</title>
+    <meta name="description" content="Learn how QR code scanning works, camera-based and image upload decoding, supported data formats, scanning tips, security considerations, and how to scan QR codes with duckTyped.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="QR Code Scanning Explained — Camera Decoding & Image Upload — duckTyped">
+    <meta property="og:description" content="Learn how QR code scanning works, camera-based and image upload decoding, supported data formats, and security considerations.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/qr-scanner/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QR Code Scanning Explained — Camera Decoding & Image Upload — duckTyped">
+    <meta name="twitter:description" content="Learn how QR code scanning works, decoding methods, and security considerations.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/qr-scanner/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>QR Code Scanner</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>QR Code Scanning Explained</h1>
+            <p class="standalone-intro">Understand how QR code scanning and decoding works, the difference between camera-based and image upload scanning, what data formats QR codes can contain, tips for reliable scanning, security risks to be aware of, and how to use duckTyped's QR Code Scanner.</p>
+
+            <h2>What Is QR Scanning?</h2>
+            <p><strong>QR code scanning</strong> is the process of capturing an image of a QR code and decoding it to extract the data stored within. Modern smartphones have QR scanning built into their camera apps, but dedicated scanning tools -- like browser-based scanners -- offer additional features such as displaying the raw decoded data before acting on it, scanning from uploaded images, and handling a wider variety of QR code formats.</p>
+            <p>The decoding process is the reverse of encoding: the scanner must locate the QR code in an image, determine its orientation and grid structure, read the individual modules (black and white squares), apply error correction to recover any damaged data, and finally interpret the decoded bytes into meaningful content like a URL, text, or WiFi configuration.</p>
+
+            <h2>How QR Decoding Works</h2>
+            <p>Decoding a QR code from a raw image is a multi-step process that requires sophisticated image processing. Here is what happens behind the scenes when you scan a QR code.</p>
+
+            <h3>Step 1: Image Capture</h3>
+            <p>The scanner captures a frame from the camera feed or receives an uploaded image file. The image may contain the QR code at any angle, distance, or lighting condition, surrounded by other visual elements. The decoding algorithm must isolate the QR code from this complex visual environment.</p>
+
+            <h3>Step 2: Finder Pattern Detection</h3>
+            <p>The decoder searches the image for the three distinctive <strong>finder patterns</strong> -- the large black and white squares in three corners of every QR code. These patterns have a unique ratio of black-white-black-white-black modules (1:1:3:1:1) that remains constant regardless of scale or rotation. By scanning horizontal and vertical lines across the image and looking for this ratio, the decoder can quickly locate candidate finder patterns.</p>
+            <p>Once three finder patterns are identified, the decoder knows the approximate location, size, and rotation of the QR code. The arrangement of the three patterns also determines the code's orientation -- the corner without a finder pattern is the bottom-right.</p>
+
+            <h3>Step 3: Perspective Correction</h3>
+            <p>Real-world scanning rarely captures a perfectly straight-on view of the QR code. The code may be photographed at an angle, on a curved surface, or from an oblique perspective. The decoder uses the known positions of the finder patterns (and alignment patterns in larger codes) to compute a <strong>perspective transformation</strong> that maps the distorted image back to a flat, square grid. This step is critical for accurate module reading.</p>
+
+            <h3>Step 4: Grid Sampling</h3>
+            <p>With the perspective corrected, the decoder overlays a grid on the image to determine the value (black or white) of each module. The decoder reads the <strong>format information</strong> (adjacent to the finder patterns) to determine the error correction level and the <strong>data mask pattern</strong> that was applied during encoding. The mask pattern is a mathematical function that was XORed with the data modules to ensure the QR code does not contain large areas of uniform color that could confuse scanners.</p>
+            <p>The decoder reverses the mask, then reads the data bits in the specified zigzag order, collecting all data and error correction codewords.</p>
+
+            <h3>Step 5: Error Correction</h3>
+            <p>The decoder applies <strong>Reed-Solomon error correction</strong> to the extracted codewords. This algorithm can detect and correct errors caused by image noise, partial obscuring, printing defects, or physical damage to the QR code. Depending on the error correction level (L, M, Q, or H), the decoder can recover from 7% to 30% of the codewords being corrupted or missing. If the damage exceeds the error correction capacity, the decode fails and the scanner reports an unreadable code.</p>
+
+            <h3>Step 6: Data Extraction</h3>
+            <p>After error correction, the decoder interprets the corrected data stream. It reads mode indicators that specify the encoding (numeric, alphanumeric, byte, or kanji), character count indicators, and the actual encoded characters. The result is the original data -- a URL, text string, WiFi configuration, or other content -- ready to be displayed or acted upon.</p>
+
+            <h2>Camera-Based Scanning</h2>
+            <p>Camera-based scanning uses the device's camera to capture and decode QR codes in real time. In a web browser, this is powered by the <strong>getUserMedia API</strong>, which grants access to the camera with the user's permission.</p>
+            <p>The scanning process works by continuously capturing video frames and running the QR detection algorithm on each frame. Modern implementations can process dozens of frames per second, making scanning feel instantaneous. When a QR code is detected and successfully decoded, the scanner presents the result immediately.</p>
+            <p>Camera scanning has several advantages: it works with QR codes in the physical world (on posters, products, screens, business cards), provides real-time feedback as the user positions the camera, and requires no additional steps beyond pointing and scanning. The main limitations are that it requires a working camera with adequate resolution and that it depends on sufficient lighting conditions.</p>
+
+            <h2>Image Upload Scanning</h2>
+            <p>Image upload scanning decodes QR codes from static image files -- screenshots, photos, downloads, or any image saved to your device. This approach is useful when you receive a QR code as an image (via email, messaging apps, or on a website) and want to decode it without printing it out and scanning with a camera.</p>
+            <p>Upload scanning supports common image formats including <strong>PNG, JPEG, GIF, BMP, and WebP</strong>. The decoding algorithm is the same as camera-based scanning but operates on a single high-resolution image rather than a video stream. This often produces more reliable results because the image is typically captured under controlled conditions with good resolution and focus.</p>
+
+            <h2>Supported Data Formats</h2>
+            <p>QR codes are format-agnostic -- they simply encode raw data. However, scanning applications recognize certain patterns and prefixes to trigger specific actions:</p>
+            <ul>
+                <li><strong>URLs</strong> -- the most common QR content. Links starting with <code>http://</code> or <code>https://</code> are offered for opening in a browser. The scanner should display the URL before navigating so users can verify the destination.</li>
+                <li><strong>Plain text</strong> -- arbitrary text content displayed as-is. Used for messages, codes, serial numbers, and other textual data.</li>
+                <li><strong>WiFi credentials</strong> -- encoded in the format <code>WIFI:T:WPA;S:NetworkName;P:Password;;</code>, allowing one-tap WiFi connection. Supported by most mobile scanning apps.</li>
+                <li><strong>vCard contacts</strong> -- contact information (name, phone, email, organization, address) encoded in the vCard standard. Scanning prompts the user to add the contact to their device.</li>
+                <li><strong>Calendar events</strong> -- event details encoded in iCalendar format, including title, date, time, location, and description. Scanning offers to add the event to the user's calendar.</li>
+                <li><strong>Email composition</strong> -- <code>mailto:</code> links that open the email client with pre-filled recipient, subject, and body fields.</li>
+                <li><strong>Phone calls</strong> -- <code>tel:</code> links that initiate a phone call to the encoded number.</li>
+                <li><strong>SMS messages</strong> -- <code>sms:</code> or <code>smsto:</code> links that open the messaging app with a pre-filled recipient and message.</li>
+                <li><strong>Geographic coordinates</strong> -- <code>geo:</code> links that open a map application centered on the specified latitude and longitude.</li>
+                <li><strong>Cryptocurrency addresses</strong> -- protocols like <code>bitcoin:</code> and <code>ethereum:</code> that open wallet applications for payments.</li>
+            </ul>
+
+            <h2>Tips for Reliable Scanning</h2>
+            <p>Not every QR code scans perfectly on the first attempt. These tips help maximize scan success rates:</p>
+
+            <h3>Lighting</h3>
+            <p>Adequate, even lighting is the most important factor for reliable scanning. Avoid harsh shadows that fall across the code, strong backlighting that reduces contrast, and extremely dim environments. If scanning in low light, use your phone's flashlight feature. Glare from glossy surfaces can also interfere -- tilt the code slightly to eliminate reflections.</p>
+
+            <h3>Distance and Angle</h3>
+            <p>Hold the camera at a distance where the QR code fills roughly <strong>half to two-thirds</strong> of the viewfinder. Too close and the camera may not focus; too far and the modules become too small to resolve. Try to scan as straight-on as possible -- while the perspective correction algorithm handles moderate angles, extreme oblique views reduce accuracy.</p>
+
+            <h3>Focus</h3>
+            <p>Ensure the camera has focused on the QR code before the decoder attempts to read it. Most cameras auto-focus, but you may need to tap the screen to force focus on the code, especially if other objects at different distances are in the frame.</p>
+
+            <h3>Damage Tolerance</h3>
+            <p>Thanks to Reed-Solomon error correction, QR codes can tolerate significant damage. A code generated with error correction level H can lose up to 30% of its modules and still be decoded. This means codes with scratches, stains, faded areas, or even intentional design elements (like a centered logo) can often still be read. However, damage to the <strong>finder patterns</strong>, <strong>timing patterns</strong>, or <strong>format information</strong> areas is more critical than damage to the data area.</p>
+
+            <h3>Code Quality</h3>
+            <p>Low-resolution printing, excessive scaling, or JPEG compression artifacts can make modules ambiguous (neither clearly black nor clearly white). For best results, QR codes should be printed or displayed at sufficient resolution with crisp, high-contrast modules.</p>
+
+            <h2>Security Considerations</h2>
+            <p>QR codes present unique security challenges because the encoded content is invisible to the human eye until scanned. This opacity makes them a vector for several types of attacks.</p>
+
+            <h3>Malicious URLs</h3>
+            <p>The most common QR-based attack is encoding a link to a <strong>phishing site</strong> or a page that downloads malware. Attackers place malicious QR codes over legitimate ones (e.g., pasting a sticker on a restaurant menu QR code or a parking meter) or distribute them in emails and flyers. Because users cannot visually inspect the encoded URL before scanning, they may unknowingly visit dangerous sites.</p>
+
+            <h3>URL Verification</h3>
+            <p>Always <strong>preview the URL before opening it</strong>. A well-designed scanner displays the decoded content and lets the user decide whether to proceed. Check the domain name carefully -- phishing URLs often use misspelled domains (<code>g00gle.com</code>) or deceptive subdomains (<code>secure.bank-login.malicious-site.com</code>). If the URL looks suspicious, do not open it.</p>
+
+            <h3>QR Code Tampering</h3>
+            <p>In public spaces, attackers can place their own QR codes on top of legitimate ones. Before scanning a QR code at a business, check that it has not been covered with a sticker or printout. If a QR code appears to have been tampered with, avoid scanning it and alert the business.</p>
+
+            <h3>Automatic Actions</h3>
+            <p>Some QR codes trigger automatic actions beyond opening a URL -- connecting to a WiFi network, adding a contact, or initiating a payment. A malicious WiFi QR code could connect your device to a rogue access point that intercepts your traffic. Always review what action the scanner proposes before confirming it.</p>
+
+            <h2>QR Codes in the Real World</h2>
+            <p>QR codes have become deeply integrated into daily life across numerous industries:</p>
+            <ul>
+                <li><strong>Mobile payments</strong> -- in many countries, QR codes are the primary interface for digital payments. Systems like Alipay, WeChat Pay, UPI (India), and Pix (Brazil) use QR codes for merchant and peer-to-peer transactions.</li>
+                <li><strong>Restaurant menus</strong> -- table-side QR codes linking to digital menus became standard during the pandemic and remain widely used.</li>
+                <li><strong>Two-factor authentication</strong> -- TOTP (Time-based One-Time Password) setup typically involves scanning a QR code that contains the shared secret and account information, used by apps like Google Authenticator and Authy.</li>
+                <li><strong>Boarding passes and tickets</strong> -- airlines, transit systems, and event venues use QR codes for paperless ticketing and check-in.</li>
+                <li><strong>Product tracking</strong> -- manufacturers embed QR codes for supply chain tracking, authenticity verification, and linking to product information or warranty registration.</li>
+                <li><strong>Healthcare</strong> -- QR codes appear on prescription labels, vaccination records, and patient wristbands for quick information access.</li>
+                <li><strong>Marketing</strong> -- print advertisements, business cards, and product packaging include QR codes linking to websites, promotional offers, social media profiles, and app downloads.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped QR Code Scanner provides two ways to decode QR codes directly in your browser:</p>
+            <ol>
+                <li><strong>Camera scanning</strong> -- click the camera option and grant camera permission when prompted. Point your camera at a QR code and the scanner will automatically detect and decode it in real time.</li>
+                <li><strong>Image upload</strong> -- click the upload option and select an image file containing a QR code. The scanner decodes the image immediately and displays the result.</li>
+                <li><strong>Review the result</strong> -- the decoded content is displayed in full, whether it is a URL, text, WiFi credentials, or other data. For URLs, always verify the domain before choosing to open the link.</li>
+            </ol>
+            <p>The scanner runs entirely in your browser -- no images or decoded data are sent to any server, ensuring complete privacy.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the QR Code Scanner:</p>
+            <ul>
+                <li><a href="/qr-generator/">QR Code Generator</a> -- create your own QR codes for URLs, text, WiFi credentials, and other data types.</li>
+                <li><a href="/url-safety/">URL Safety Checker</a> -- verify that URLs decoded from QR codes are safe before opening them in your browser.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/qr-scanner/" class="standalone-nav-btn">Try QR Code Scanner</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

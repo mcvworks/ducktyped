@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Safety Checking Explained — Phishing Detection &amp; Link Analysis — duckTyped</title>
+    <meta name="description" content="Learn what makes a URL unsafe, how phishing and malware URLs work, common attack techniques, and how to analyze suspicious links with duckTyped's URL Safety Checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="URL Safety Checking Explained — Phishing Detection & Link Analysis — duckTyped">
+    <meta property="og:description" content="Learn what makes a URL unsafe, how phishing and malware URLs work, and how to analyze suspicious links.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/url-safety/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="URL Safety Checking Explained — Phishing Detection & Link Analysis — duckTyped">
+    <meta name="twitter:description" content="Learn what makes a URL unsafe, how phishing URLs work, and how to analyze suspicious links.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/url-safety/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>URL Safety Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>URL Safety Checking Explained</h1>
+            <p class="standalone-intro">Understand what makes a URL dangerous, how phishing and malware attacks use deceptive links, common techniques attackers employ, and how to analyze suspicious URLs before clicking them using duckTyped's URL Safety Checker.</p>
+
+            <h2>What Makes a URL Unsafe?</h2>
+            <p>A <strong>URL (Uniform Resource Locator)</strong> is the address you use to navigate to a website. While most URLs are harmless, some are crafted by attackers to steal credentials, install malware, or defraud users. An unsafe URL is any link that, when visited, exposes the user to a security threat -- whether that is a phishing page impersonating a bank, a download that installs ransomware, or a scam site designed to extract money.</p>
+            <p>The challenge is that <strong>unsafe URLs often look legitimate at first glance</strong>. Attackers invest significant effort in making their links appear trustworthy, using techniques that exploit how humans read and interpret web addresses. A URL safety checker helps by analyzing the link against known threat databases, pattern heuristics, and reputation data before you ever visit the page.</p>
+            <p>According to industry reports, phishing attacks consistently account for the majority of reported security incidents. Most of these attacks begin with a single malicious URL delivered via email, text message, social media, or messaging apps.</p>
+
+            <h2>Types of URL-Based Threats</h2>
+            <p>Malicious URLs serve as the entry point for several categories of online threats:</p>
+
+            <h3>Phishing</h3>
+            <p><strong>Phishing</strong> is the most common URL-based threat. A phishing URL leads to a fake website designed to impersonate a legitimate service -- such as a bank, email provider, social media platform, or online store. The page looks nearly identical to the real site and prompts the user to enter sensitive information like login credentials, credit card numbers, or personal details. Once submitted, the data goes directly to the attacker.</p>
+
+            <h3>Malware Distribution</h3>
+            <p>Some URLs lead to pages that attempt to install malicious software on the visitor's device. This can happen through <strong>direct downloads</strong> (the page prompts you to download and run a file) or through <strong>drive-by downloads</strong> (the page exploits browser or plugin vulnerabilities to install malware without any user interaction). Drive-by downloads are particularly dangerous because the user may not realize anything has happened.</p>
+
+            <h3>Scam and Fraud Pages</h3>
+            <p>Scam URLs lead to pages designed to defraud users through fake offers, counterfeit product sales, fraudulent investment schemes, or tech support scams. These pages often create a sense of urgency ("Your account will be suspended!") or offer deals that seem too good to be true.</p>
+
+            <h3>Exploit Kits</h3>
+            <p>An <strong>exploit kit</strong> is a server-side toolkit that probes the visitor's browser for known vulnerabilities. When a user visits a URL hosting an exploit kit, the kit silently identifies and exploits weaknesses in the browser, operating system, or plugins (especially outdated Java, Flash, or PDF readers) to deliver a malware payload. While less common now due to improved browser security, exploit kits remain a threat.</p>
+
+            <h2>Anatomy of a Suspicious URL</h2>
+            <p>Learning to read URLs carefully is one of the most effective defenses against phishing. Here are the structural elements attackers manipulate:</p>
+
+            <h3>Lookalike Domains</h3>
+            <p>Attackers register domains that closely resemble legitimate ones. Examples include <code>paypa1.com</code> (using the numeral "1" instead of the letter "l"), <code>arnazon.com</code> (using "rn" to mimic "m"), or <code>g00gle.com</code> (using zeros instead of the letter "o"). These rely on the human tendency to skim rather than carefully read each character.</p>
+
+            <h3>Subdomain Abuse</h3>
+            <p>A URL like <code>https://login.bankofamerica.com.evil-site.com/account</code> appears at first glance to belong to Bank of America. However, the actual domain is <code>evil-site.com</code> -- everything before it is a subdomain under the attacker's control. The critical rule is: the <strong>real domain is always the last two parts before the path</strong> (or last three for country-code TLDs like <code>.co.uk</code>).</p>
+
+            <h3>URL Shorteners</h3>
+            <p>Services like <code>bit.ly</code>, <code>t.co</code>, and <code>tinyurl.com</code> compress long URLs into short, opaque links. While URL shorteners have legitimate uses, they are also used by attackers to hide the true destination. A link like <code>bit.ly/3xK9mP2</code> reveals nothing about where it leads until you click it -- or check it with a URL safety tool first.</p>
+
+            <h3>Encoded Characters</h3>
+            <p>URLs can contain <strong>percent-encoded characters</strong> (like <code>%2F</code> for a slash or <code>%40</code> for an @ symbol) that obscure the true destination. Attackers also use <strong>Unicode characters</strong> that look identical to ASCII letters but are technically different. For instance, the Cyrillic letter "a" (U+0430) looks identical to the Latin "a" (U+0061) in most fonts, enabling attackers to create domains that are visually indistinguishable from legitimate ones.</p>
+
+            <h3>Homograph Attacks</h3>
+            <p><strong>Internationalized Domain Name (IDN) homograph attacks</strong> exploit the fact that characters from different scripts can look identical. An attacker can register a domain using Cyrillic, Greek, or other script characters that visually match a Latin domain name. For example, <code>xn--pple-43d.com</code> (the Punycode representation) renders as what appears to be <code>apple.com</code> in the browser, but uses a Cyrillic "a". Modern browsers mitigate this by displaying Punycode for mixed-script domains, but the threat persists in contexts where Punycode is not shown (emails, documents, messaging apps).</p>
+
+            <h3>Typosquatting</h3>
+            <p><strong>Typosquatting</strong> involves registering domains that are common misspellings of popular websites: <code>gogle.com</code>, <code>facebok.com</code>, <code>amazn.com</code>. These prey on users who mistype URLs in the address bar. Typosquatted domains often host phishing pages, advertising, or malware.</p>
+
+            <h2>How URL Safety Checking Works</h2>
+            <p>URL safety tools use multiple techniques to assess whether a link is dangerous:</p>
+
+            <h3>Reputation Databases</h3>
+            <p>The primary method is checking the URL against <strong>known-threat databases</strong> -- curated lists of URLs, domains, and IP addresses that have been confirmed as malicious. These databases are maintained by security organizations and updated continuously as new threats are discovered. Major databases include:</p>
+            <ul>
+                <li><strong>Google Safe Browsing</strong> -- Google's threat detection service protects over four billion devices. It identifies phishing, malware, and unwanted software sites and is integrated into Chrome, Firefox, Safari, and Android. Google Safe Browsing processes billions of URLs daily and maintains one of the most comprehensive threat databases in the world.</li>
+                <li><strong>PhishTank</strong> -- a community-driven platform operated by Cisco where users submit and verify suspected phishing URLs. PhishTank's data is freely available and widely used by security tools and researchers.</li>
+                <li><strong>VirusTotal</strong> -- aggregates results from over 70 antivirus engines and URL scanning services, providing a comprehensive multi-vendor assessment of any URL.</li>
+                <li><strong>OpenPhish</strong> -- an automated phishing intelligence platform that identifies phishing sites using machine learning algorithms.</li>
+            </ul>
+
+            <h3>Pattern Analysis and Heuristics</h3>
+            <p>Beyond checking databases, safety tools analyze the URL itself for suspicious patterns. Heuristic indicators include:</p>
+            <ul>
+                <li>Excessive use of subdomains (e.g., <code>secure.login.account.verify.example.com</code>).</li>
+                <li>IP addresses used instead of domain names (e.g., <code>http://192.168.1.1/login</code>).</li>
+                <li>Suspicious keywords in the URL path (e.g., <code>/login</code>, <code>/verify</code>, <code>/secure</code>, <code>/update-account</code>).</li>
+                <li>Unusually long URLs designed to push the actual domain out of the visible portion of the address bar.</li>
+                <li>Recently registered domains (most phishing domains are less than 30 days old).</li>
+                <li>Use of free hosting or dynamic DNS services.</li>
+            </ul>
+
+            <h3>Content Analysis</h3>
+            <p>Advanced URL safety tools may also fetch and analyze the content of the page itself, looking for phishing indicators such as login forms that submit to a different domain, brand logos and styling copied from legitimate sites, or JavaScript that disables right-click and browser security warnings.</p>
+
+            <h2>Common Phishing Techniques</h2>
+            <p>Understanding how phishing campaigns operate helps you recognize and avoid them:</p>
+            <ul>
+                <li><strong>Spear phishing</strong> -- targeted attacks directed at specific individuals or organizations, using personal information to make the message appear legitimate. Spear phishing emails often reference the target's name, job title, or recent activities.</li>
+                <li><strong>Clone phishing</strong> -- the attacker takes a legitimate email the victim previously received, replaces the links or attachments with malicious versions, and resends it from a spoofed or compromised address.</li>
+                <li><strong>Watering hole attacks</strong> -- instead of targeting individuals directly, the attacker compromises a website that the target group frequently visits, injecting malicious redirects or exploit code.</li>
+                <li><strong>Open redirect abuse</strong> -- attackers exploit open redirect vulnerabilities on trusted websites to create URLs that appear to belong to a legitimate domain but redirect to a malicious site. For example: <code>https://trusted-site.com/redirect?url=https://evil-site.com</code>.</li>
+            </ul>
+
+            <h2>What to Do If a Link Is Suspicious</h2>
+            <p>If you encounter a URL that seems suspicious, follow these steps:</p>
+            <ol>
+                <li><strong>Do not click it</strong> -- the safest action is to avoid visiting the URL entirely. If you receive a suspicious email claiming to be from a service you use, navigate to that service directly by typing the known URL into your browser.</li>
+                <li><strong>Check the URL with a safety tool</strong> -- use a URL safety checker to analyze the link before visiting it. Copy the URL without clicking (right-click and select "Copy link address") and paste it into the checker.</li>
+                <li><strong>Examine the URL carefully</strong> -- look at the actual domain name (not the display text), check for character substitutions, and verify the domain matches the expected service.</li>
+                <li><strong>Report the URL</strong> -- report phishing URLs to <a href="https://safebrowsing.google.com/safebrowsing/report_phish/">Google Safe Browsing</a>, PhishTank, or the organization being impersonated. Reporting helps protect other users.</li>
+                <li><strong>If you already clicked</strong> -- do not enter any credentials or personal information. Close the tab, clear your browser cache, run a malware scan, and change passwords for any accounts you may have exposed.</li>
+            </ol>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped URL Safety Checker lets you analyze any URL before visiting it:</p>
+            <ol>
+                <li><strong>Enter or paste a URL</strong> in the input field (e.g., <code>https://suspicious-link.example.com/verify</code>).</li>
+                <li><strong>Click "Check"</strong> to initiate the analysis.</li>
+                <li><strong>Review the results</strong>, which include the URL's reputation status across threat databases, any suspicious patterns detected in the URL structure, and safety recommendations.</li>
+            </ol>
+            <p>Use this tool whenever you receive an unexpected link -- whether in an email, text message, social media post, or messaging app. Checking a URL takes seconds and can prevent credential theft, malware infection, or financial fraud.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the URL Safety Checker for comprehensive link and site analysis:</p>
+            <ul>
+                <li><a href="/redirect-checker/">Redirect Checker</a> -- trace the full redirect chain of a URL to see where it ultimately leads, which is essential for evaluating shortened or suspicious links.</li>
+                <li><a href="/ssl-checker/">SSL Certificate Checker</a> -- verify that a site's SSL certificate is valid and properly configured, which is a basic indicator of legitimacy.</li>
+                <li><a href="/whois-lookup/">WHOIS Lookup</a> -- check when a domain was registered and who owns it. Recently registered domains are a common phishing indicator.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/url-safety/" class="standalone-nav-btn">Try URL Safety Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

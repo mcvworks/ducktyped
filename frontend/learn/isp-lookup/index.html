@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISP &amp; IP Lookup Explained — Geolocation &amp; ASN Data — duckTyped</title>
+    <meta name="description" content="Learn how ISP and IP lookups work, understand IPv4 vs IPv6, geolocation accuracy, Autonomous System Numbers, BGP routing basics, and how to use duckTyped's ISP lookup tool.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ISP & IP Lookup Explained — Geolocation & ASN Data — duckTyped">
+    <meta property="og:description" content="Learn how ISP and IP lookups work, understand geolocation accuracy, Autonomous System Numbers, and BGP routing basics.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/isp-lookup/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ISP & IP Lookup Explained — Geolocation & ASN Data — duckTyped">
+    <meta name="twitter:description" content="Learn how ISP and IP lookups work, understand geolocation databases, ASN data, and BGP routing basics.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/isp-lookup/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>ISP Lookup</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>ISP and IP Lookup Explained</h1>
+            <p class="standalone-intro">Understand how ISP and IP address lookups work, the difference between IPv4 and IPv6, how geolocation databases estimate physical location from an IP address, what Autonomous System Numbers reveal, and how to use duckTyped's ISP lookup tool.</p>
+
+            <h2>What Is an ISP Lookup?</h2>
+            <p>An <strong>ISP (Internet Service Provider) lookup</strong> takes an IP address and identifies the organization responsible for it -- typically the ISP or hosting provider that manages that address block. Beyond just the provider name, a comprehensive IP lookup also returns geolocation data, ASN (Autonomous System Number) information, and metadata about the type of connection.</p>
+            <p>Every device connected to the internet has an IP address assigned by its network provider. That IP address carries implicit information about the network it belongs to, because IP addresses are allocated in contiguous blocks to specific organizations. By consulting databases that map these address blocks to their owners and approximate locations, an ISP lookup can reveal a surprising amount of information about any IP address.</p>
+
+            <h2>IP Addresses: IPv4 vs IPv6</h2>
+            <p>IP addresses come in two versions, each with distinct characteristics.</p>
+
+            <h3>IPv4</h3>
+            <p><strong>IPv4 (Internet Protocol version 4)</strong> addresses are 32-bit numbers, typically written in <strong>dotted-decimal notation</strong> as four octets separated by periods (e.g., <code>192.168.1.1</code>). The total IPv4 address space contains approximately 4.3 billion unique addresses. This seemed more than sufficient when the protocol was designed in the 1980s, but the explosive growth of the internet has exhausted the available pool. The last blocks of IPv4 addresses were allocated by IANA in 2011, and Regional Internet Registries (RIRs) have since depleted their reserves.</p>
+            <p>To cope with IPv4 exhaustion, technologies like <strong>NAT (Network Address Translation)</strong> allow multiple devices on a private network to share a single public IP address. While NAT has extended the usable life of IPv4, it complicates peer-to-peer communication and certain network configurations.</p>
+
+            <h3>IPv6</h3>
+            <p><strong>IPv6 (Internet Protocol version 6)</strong> addresses are 128-bit numbers, written in hexadecimal and separated by colons (e.g., <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>). The IPv6 address space is astronomically large -- approximately 3.4 x 10^38 addresses, which is enough to assign a unique address to every atom on the surface of the Earth and still have addresses left over. IPv6 adoption has been growing steadily, with major ISPs and content providers now supporting it alongside IPv4 in a <strong>dual-stack</strong> configuration.</p>
+
+            <h2>How Geolocation Databases Work</h2>
+            <p>IP geolocation is the process of estimating the physical location associated with an IP address. This is not based on GPS or any direct measurement -- instead, it relies on databases that map IP address ranges to geographic locations.</p>
+            <p>These databases are built from multiple data sources:</p>
+            <ul>
+                <li><strong>Regional Internet Registry (RIR) records</strong> -- ARIN, RIPE NCC, APNIC, LACNIC, and AFRINIC maintain records of IP address allocations to organizations, including their registered address.</li>
+                <li><strong>ISP data sharing</strong> -- some ISPs voluntarily share information about which IP ranges serve which geographic areas.</li>
+                <li><strong>Active probing</strong> -- geolocation providers measure latency from known locations to target IPs, using the speed of light as a constraint to estimate distance.</li>
+                <li><strong>User-contributed data</strong> -- some services use opt-in location data from users to refine their databases.</li>
+                <li><strong>Web scraping and public records</strong> -- information from websites, public Wi-Fi registrations, and other public sources.</li>
+            </ul>
+
+            <h3>Accuracy Limitations</h3>
+            <p>IP geolocation is inherently imprecise. Accuracy varies significantly based on several factors:</p>
+            <ul>
+                <li><strong>Country-level accuracy</strong> is typically 95--99% reliable for most databases.</li>
+                <li><strong>City-level accuracy</strong> drops to roughly 50--80%, depending on the provider and region.</li>
+                <li><strong>Street-level accuracy</strong> is generally not achievable through IP geolocation alone.</li>
+            </ul>
+            <p>Several factors can degrade accuracy further. <strong>VPNs and proxies</strong> make an IP address appear to originate from a different location. <strong>Mobile networks</strong> may route traffic through centralized gateways, causing a user's IP to geolocate to a city far from their actual position. <strong>Corporate networks</strong> with centralized internet breakouts show all users at the headquarters location regardless of where individual offices are. <strong>Satellite internet</strong> providers often register their IP blocks at the ground station location rather than the user's location.</p>
+
+            <h2>Autonomous System Numbers (ASN)</h2>
+            <p>An <strong>Autonomous System (AS)</strong> is a collection of IP networks and routers under the control of a single organization that presents a common routing policy to the internet. Each AS is identified by a unique <strong>Autonomous System Number (ASN)</strong>, assigned by a Regional Internet Registry.</p>
+            <p>ASNs are essential to how the internet routes traffic. Major ISPs, cloud providers, content delivery networks, and large enterprises each operate one or more autonomous systems. For example, Cloudflare operates AS13335, Google operates AS15169, and Amazon Web Services operates AS16509. When you look up an IP address, the associated ASN tells you which network is responsible for routing traffic to and from that address.</p>
+
+            <h2>BGP: How the Internet Routes Traffic</h2>
+            <p>The <strong>Border Gateway Protocol (BGP)</strong> is the routing protocol that glues the internet together. Each autonomous system uses BGP to announce which IP prefixes (address ranges) it is responsible for and to learn about prefixes announced by other ASes. When you send a packet across the internet, BGP determines the path it takes through multiple autonomous systems to reach its destination.</p>
+            <p>BGP routing decisions are based on AS path length, policy preferences, and other attributes. Understanding BGP is important for diagnosing routing issues -- if traffic to a particular destination is slow or unreachable, the problem may lie in how BGP routes are propagated rather than in the destination server itself. BGP hijacking, where a malicious AS announces someone else's IP prefixes, is a real security threat that can redirect or intercept internet traffic.</p>
+
+            <h2>What Data Does an ISP Lookup Return?</h2>
+            <p>A comprehensive ISP lookup for an IP address typically provides the following information:</p>
+            <ul>
+                <li><strong>ISP / Organization name</strong> -- the company or entity responsible for the IP address block (e.g., "Comcast Cable Communications", "Amazon Technologies Inc.").</li>
+                <li><strong>ASN</strong> -- the Autonomous System Number and name associated with the IP.</li>
+                <li><strong>Country and region</strong> -- the estimated country, state/province, and city.</li>
+                <li><strong>Connection type</strong> -- whether the IP belongs to a residential ISP, a hosting/data center provider, a mobile carrier, or a corporate network.</li>
+                <li><strong>Proxy/VPN detection</strong> -- some databases flag IP addresses known to be associated with VPN services, proxy networks, or Tor exit nodes.</li>
+                <li><strong>Abuse contact</strong> -- the email address to contact for reporting abuse originating from that IP address.</li>
+            </ul>
+
+            <h2>Common Use Cases</h2>
+            <p>ISP and IP lookups serve a variety of practical purposes across different domains.</p>
+
+            <h3>Security Analysis</h3>
+            <p>When investigating suspicious network activity -- such as unauthorized login attempts, DDoS traffic, or malware communication -- security analysts use ISP lookups to identify the source. Knowing whether an IP belongs to a residential ISP, a known hosting provider, or a VPN service helps determine the nature and severity of the threat. IP addresses from certain hosting providers or geographic regions may correlate with known attack patterns.</p>
+
+            <h3>Geo-Targeting and Content Localization</h3>
+            <p>Websites and applications use IP geolocation to customize content based on the user's estimated location -- displaying prices in local currency, showing relevant regional content, or directing users to the nearest server. Streaming services use geolocation to enforce regional content licensing restrictions.</p>
+
+            <h3>Network Troubleshooting</h3>
+            <p>When diagnosing connectivity issues, an ISP lookup helps identify which networks are involved in the path between source and destination. If a traceroute shows high latency at a particular hop, looking up the IP of that hop reveals which ISP or transit provider is responsible, helping you direct your troubleshooting efforts or contact the right support team.</p>
+
+            <h3>Fraud Prevention</h3>
+            <p>E-commerce platforms and financial services use IP lookups as one signal in fraud detection. If a user's claimed billing address is in one country but their IP address geolocates to another, this discrepancy may warrant additional verification. Similarly, connections from known VPN or proxy IP addresses may trigger enhanced security checks.</p>
+
+            <h2>Privacy Considerations</h2>
+            <p>IP addresses are considered <strong>personal data</strong> under regulations like GDPR, because they can be used to identify individuals (especially when combined with other data). Organizations that collect and process IP addresses must comply with applicable privacy laws, including providing notice to users and maintaining a legal basis for processing.</p>
+            <p>From the end-user perspective, IP-based tracking is one reason many people use VPNs -- to prevent websites and services from inferring their location or linking their activity to a consistent identifier. While ISP lookups are a legitimate tool for network administration and security, they should be used responsibly and in compliance with privacy regulations.</p>
+
+            <h2>How to Use the ISP Lookup Tool</h2>
+            <p>The duckTyped ISP Lookup tool makes it straightforward to investigate any IP address:</p>
+            <ol>
+                <li><strong>Enter an IP address</strong> in the input field (e.g., <code>8.8.8.8</code> or <code>2001:4860:4860::8888</code>). Both IPv4 and IPv6 addresses are supported.</li>
+                <li><strong>Click "Lookup"</strong> to submit the query.</li>
+                <li><strong>Review the results</strong>, which display the ISP name, organization, ASN, estimated geographic location, and connection type information.</li>
+            </ol>
+            <p>The tool queries multiple data sources to provide comprehensive information about the IP address. Keep in mind that geolocation results are estimates and may not reflect the exact physical location of the device using the address, particularly for mobile, VPN, or corporate network connections.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the ISP Lookup for comprehensive network investigation:</p>
+            <ul>
+                <li><a href="/dns-lookup/">DNS Record Checker</a> -- resolve domain names to IP addresses and inspect DNS configuration.</li>
+                <li><a href="/whois-lookup/">WHOIS Lookup</a> -- investigate domain registration details, registrar information, and expiry dates.</li>
+                <li><a href="/traceroute/">Traceroute</a> -- trace the network path to a destination and identify each hop along the route.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/isp-lookup/" class="standalone-nav-btn">Try ISP Lookup</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

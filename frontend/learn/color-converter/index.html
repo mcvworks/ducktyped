@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Models Explained — HEX, RGB, HSL &amp; Conversion — duckTyped</title>
+    <meta name="description" content="Learn how HEX, RGB, and HSL color models work, how to convert between them, alpha transparency, CSS color functions, and accessibility contrast guidelines.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Color Models Explained — HEX, RGB, HSL & Conversion — duckTyped">
+    <meta property="og:description" content="Learn how HEX, RGB, and HSL color models work, how to convert between them, and color accessibility guidelines.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/color-converter/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Color Models Explained — HEX, RGB, HSL & Conversion — duckTyped">
+    <meta name="twitter:description" content="Learn how HEX, RGB, and HSL color models work and how to convert between them.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/color-converter/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Color Converter</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Color Models Explained</h1>
+            <p class="standalone-intro">Understand how digital color models work -- from the RGB system your screen uses to the HEX shorthand in your stylesheets and the HSL model that makes color manipulation intuitive -- along with alpha transparency, CSS color functions, and accessibility guidelines.</p>
+
+            <h2>What Are Color Models?</h2>
+            <p>A <strong>color model</strong> is a mathematical system for describing colors as numbers. Every color you see on a screen is ultimately a combination of numerical values that tell the display hardware how much light to emit at each pixel. Different color models represent the same colors using different coordinate systems, each with its own strengths.</p>
+            <p>In web development, three color models dominate: <strong>RGB</strong> (used internally by displays), <strong>HEX</strong> (a compact notation for RGB values), and <strong>HSL</strong> (a more intuitive model for humans to reason about). Understanding all three -- and how to convert between them -- is essential for front-end development, design systems, and accessibility work.</p>
+
+            <h2>The RGB Model</h2>
+            <p>RGB stands for <strong>Red, Green, Blue</strong> -- the three primary colors of light. It is an <strong>additive color model</strong>, meaning that colors are created by adding light together. When all three channels are at maximum intensity, the result is white. When all three are at zero, the result is black.</p>
+            <p>Each channel is represented as an integer from <strong>0 to 255</strong> (8 bits per channel), giving each channel 256 possible values. The total number of representable colors is 256 x 256 x 256 = <strong>16,777,216</strong> -- commonly cited as "16.7 million colors."</p>
+            <pre><code>rgb(255, 0, 0)      // Pure red
+rgb(0, 255, 0)      // Pure green
+rgb(0, 0, 255)      // Pure blue
+rgb(255, 255, 255)  // White
+rgb(0, 0, 0)        // Black
+rgb(128, 128, 128)  // Medium gray
+rgb(255, 165, 0)    // Orange</code></pre>
+            <p>The RGB model maps directly to how screens work -- each pixel on an LCD or OLED display contains red, green, and blue sub-pixels whose brightness is controlled independently. This direct correspondence makes RGB the fundamental color model in digital systems.</p>
+
+            <h2>HEX Notation</h2>
+            <p>HEX color codes are simply RGB values written in <strong>hexadecimal</strong> (base-16) notation, prefixed with a <code>#</code> sign. Each pair of hex digits represents one channel:</p>
+            <pre><code>#RRGGBB
+
+#FF0000  = rgb(255, 0, 0)    // Red
+#00FF00  = rgb(0, 255, 0)    // Green
+#0000FF  = rgb(0, 0, 255)    // Blue
+#FFFFFF  = rgb(255, 255, 255) // White
+#000000  = rgb(0, 0, 0)      // Black
+#FFA500  = rgb(255, 165, 0)  // Orange</code></pre>
+            <p>Each hex digit represents a value from 0 to 15 (0--9 and A--F). Two hex digits together represent a value from 0 to 255 (00 to FF). The conversion is straightforward: the hex value <code>FF</code> is 15 x 16 + 15 = 255, and <code>A5</code> is 10 x 16 + 5 = 165.</p>
+
+            <h3>Shorthand HEX</h3>
+            <p>When each pair of hex digits consists of the same character repeated, CSS allows a three-character shorthand:</p>
+            <pre><code>#RGB expands to #RRGGBB
+
+#F00 = #FF0000  // Red
+#0F0 = #00FF00  // Green
+#FFF = #FFFFFF  // White
+#333 = #333333  // Dark gray</code></pre>
+            <p>This shorthand only works when each channel can be expressed as a repeated digit. <code>#FFA500</code> (orange) has no shorthand equivalent.</p>
+
+            <h3>Eight-Digit HEX (with Alpha)</h3>
+            <p>Modern CSS supports <strong>eight-digit hex codes</strong> that include an alpha (transparency) channel as the final two digits:</p>
+            <pre><code>#RRGGBBAA
+
+#FF000080  // Red at 50% opacity (80 hex = 128 decimal = ~50%)
+#00000000  // Fully transparent black
+#FFFFFFFF  // Fully opaque white</code></pre>
+            <p>The alpha value follows the same 00--FF range, where <code>00</code> is fully transparent and <code>FF</code> is fully opaque. A four-digit shorthand <code>#RGBA</code> is also supported.</p>
+
+            <h2>The HSL Model</h2>
+            <p>HSL stands for <strong>Hue, Saturation, Lightness</strong>. Unlike RGB, which describes how much of each primary light to mix, HSL describes color in terms that are more intuitive for humans to reason about:</p>
+            <ul>
+                <li><strong>Hue (0--360)</strong> -- The position on the color wheel, measured in degrees. 0 (and 360) is red, 120 is green, 240 is blue, 60 is yellow, 180 is cyan, 300 is magenta.</li>
+                <li><strong>Saturation (0--100%)</strong> -- The intensity or vividness of the color. 100% is fully saturated (pure color), 0% is completely desaturated (gray).</li>
+                <li><strong>Lightness (0--100%)</strong> -- How light or dark the color is. 0% is black, 100% is white, 50% is the "pure" color at normal brightness.</li>
+            </ul>
+            <pre><code>hsl(0, 100%, 50%)    // Pure red
+hsl(120, 100%, 50%)  // Pure green
+hsl(240, 100%, 50%)  // Pure blue
+hsl(0, 0%, 100%)     // White
+hsl(0, 0%, 0%)       // Black
+hsl(0, 0%, 50%)      // Medium gray</code></pre>
+            <p>HSL is especially useful when you need to create color variations programmatically. To lighten a color, increase the lightness. To desaturate it, decrease the saturation. To shift the hue, rotate the hue value. These operations are straightforward in HSL but awkward in RGB, where achieving a "lighter blue" requires knowing how to adjust all three channels proportionally.</p>
+
+            <h2>HSV/HSB</h2>
+            <p><strong>HSV</strong> (Hue, Saturation, Value) -- also called <strong>HSB</strong> (Hue, Saturation, Brightness) -- is closely related to HSL but defines the third component differently. In HSV, the "value" represents the maximum brightness of the color, while in HSL, "lightness" represents the midpoint between black and white.</p>
+            <p>HSV is commonly used in color pickers (like those in Photoshop and Figma) because it maps naturally to how users select colors: pick a hue on the wheel, then choose saturation and brightness on a square or triangle. CSS does not natively support HSV notation, so colors selected in HSV-based tools must be converted to RGB, HEX, or HSL for use in stylesheets.</p>
+
+            <h2>Converting Between Color Models</h2>
+            <p>Since HEX is just a different notation for RGB, converting between them is a matter of changing the number base. The more interesting conversions are between RGB and HSL.</p>
+
+            <h3>RGB to HEX</h3>
+            <p>Convert each RGB channel value (0--255) to its two-digit hexadecimal representation and concatenate with a <code>#</code> prefix:</p>
+            <pre><code>rgb(255, 165, 0)
+  255 = FF, 165 = A5, 0 = 00
+  Result: #FFA500</code></pre>
+
+            <h3>RGB to HSL (Conceptual)</h3>
+            <p>The conversion from RGB to HSL involves normalizing the RGB values to the 0--1 range, finding the minimum and maximum channel values, and computing:</p>
+            <ul>
+                <li><strong>Lightness</strong> = (max + min) / 2</li>
+                <li><strong>Saturation</strong> = (max - min) / (1 - |2L - 1|), or 0 if max equals min (gray)</li>
+                <li><strong>Hue</strong> = determined by which channel is the maximum, using a formula that places the result on the 0--360 degree color wheel</li>
+            </ul>
+            <p>The reverse conversion (HSL to RGB) works through an intermediate chroma value and temporary channel calculations. These formulas are well-documented and implemented in every color library, but the math is precise enough that hand-calculating is impractical -- which is exactly why converter tools exist.</p>
+
+            <h2>Alpha and Transparency</h2>
+            <p>The <strong>alpha channel</strong> controls opacity -- how see-through a color is. An alpha of 1 (or 100%) means fully opaque; an alpha of 0 means fully transparent. Alpha can be added to any color model:</p>
+            <pre><code>rgba(255, 0, 0, 0.5)   // Red at 50% opacity
+hsla(0, 100%, 50%, 0.5) // Same color in HSLA
+#FF000080               // Same in 8-digit hex</code></pre>
+            <p>In modern CSS (Level 4), the <code>rgba()</code> and <code>hsla()</code> functions have been merged into <code>rgb()</code> and <code>hsl()</code> -- you can now write <code>rgb(255 0 0 / 0.5)</code> using the space-separated syntax with a slash before the alpha value.</p>
+
+            <h2>CSS Color Functions</h2>
+            <p>CSS has evolved significantly in its color capabilities. Beyond the classic <code>rgb()</code> and <code>hsl()</code>, modern CSS introduces several powerful color functions:</p>
+            <ul>
+                <li><strong><code>rgb()</code> and <code>hsl()</code></strong> -- The classic functions, now supporting the space-separated syntax: <code>rgb(255 0 0 / 0.5)</code>.</li>
+                <li><strong><code>oklch()</code></strong> -- Uses the OKLCH color space, which provides perceptually uniform lightness and chroma. Colors that have the same lightness value in OKLCH actually appear equally bright to the human eye, which is not true in HSL. This is increasingly recommended for design systems.</li>
+                <li><strong><code>color-mix()</code></strong> -- Mixes two colors together in a specified color space: <code>color-mix(in srgb, red 50%, blue)</code> produces a purple. This function is powerful for creating dynamic color palettes without JavaScript.</li>
+                <li><strong>Named colors</strong> -- CSS defines 148 named colors, from <code>aliceblue</code> to <code>yellowgreen</code>. These are convenient for prototyping but their names are arbitrary and do not form a systematic palette. <code>transparent</code> is a special named color equivalent to <code>rgba(0, 0, 0, 0)</code>.</li>
+            </ul>
+
+            <h2>Accessibility and Contrast</h2>
+            <p>Color choice has direct implications for accessibility. The <strong>Web Content Accessibility Guidelines (WCAG)</strong> define minimum contrast ratios between foreground text and its background:</p>
+            <ul>
+                <li><strong>WCAG AA (minimum)</strong>: contrast ratio of at least <strong>4.5:1</strong> for normal text and <strong>3:1</strong> for large text (18pt or 14pt bold).</li>
+                <li><strong>WCAG AAA (enhanced)</strong>: contrast ratio of at least <strong>7:1</strong> for normal text and <strong>4.5:1</strong> for large text.</li>
+            </ul>
+            <p>The contrast ratio is calculated from the <strong>relative luminance</strong> of the two colors, which is derived from their linearized RGB values (not their raw RGB values). A ratio of 1:1 means no contrast (same color), while 21:1 is the maximum (pure black on pure white).</p>
+            <p>When designing color schemes, always verify contrast ratios for text elements. Beautiful colors that fail contrast requirements make your content inaccessible to users with low vision or color vision deficiency. Tools that calculate contrast ratios can save you from guessing.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Color Converter lets you convert between color formats instantly:</p>
+            <ol>
+                <li>Enter a color value in any supported format -- HEX, RGB, or HSL.</li>
+                <li>The tool converts to all other formats in real time.</li>
+                <li>A color preview swatch updates live so you can see the color.</li>
+                <li>Copy any output format with one click.</li>
+            </ol>
+            <p>All processing happens in your browser. No data is sent to any server.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/regex-tester/">Regex Tester</a> -- Test patterns for matching and validating HEX, RGB, and HSL color strings in code.</li>
+                <li><a href="/json-formatter/">JSON Formatter</a> -- Format design token JSON files that define color palettes and theme configurations.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/color-converter/" class="standalone-nav-btn">Try Color Converter</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

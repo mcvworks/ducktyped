@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generation Explained — Encoding, Formats &amp; Customization — duckTyped</title>
+    <meta name="description" content="Learn how QR codes work, encoding modes, error correction levels, data types like URLs and WiFi configs, design best practices, and how to generate QR codes with duckTyped.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="QR Code Generation Explained — Encoding, Formats & Customization — duckTyped">
+    <meta property="og:description" content="Learn how QR codes work, encoding modes, error correction levels, data types, and design best practices.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/qr-generator/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QR Code Generation Explained — Encoding, Formats & Customization — duckTyped">
+    <meta name="twitter:description" content="Learn how QR codes work, encoding modes, error correction, and design best practices.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/qr-generator/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>QR Code Generator</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>QR Code Generation Explained</h1>
+            <p class="standalone-intro">Understand what QR codes are, how they encode data, the different encoding modes and error correction levels, what types of data QR codes can carry, design best practices for reliable scanning, and how to create QR codes using duckTyped's QR Code Generator.</p>
+
+            <h2>What Are QR Codes?</h2>
+            <p><strong>QR codes</strong> (Quick Response codes) are two-dimensional barcodes that store data in a grid of black and white squares called <strong>modules</strong>. Unlike traditional one-dimensional barcodes that can only hold a limited string of numbers, QR codes can encode URLs, text, contact information, WiFi credentials, and much more -- up to approximately 4,296 alphanumeric characters in a single code.</p>
+            <p>QR codes were invented in <strong>1994</strong> by Masahiro Hara and his team at <strong>Denso Wave</strong>, a subsidiary of the Japanese automotive company Denso. The original purpose was to track automotive parts during manufacturing, where existing barcodes were too limited. Denso Wave chose not to enforce their patent rights, making the technology freely available for anyone to use. This open approach was key to QR codes becoming a global standard.</p>
+            <p>After decades of gradual adoption, QR codes experienced explosive growth during the COVID-19 pandemic, when businesses adopted them for contactless menus, check-ins, and payments. Today, QR codes are ubiquitous -- appearing on product packaging, business cards, billboards, concert tickets, airline boarding passes, and cryptocurrency wallets.</p>
+
+            <h2>How QR Encoding Works</h2>
+            <p>Generating a QR code involves several steps that transform raw data into the familiar square pattern.</p>
+
+            <h3>Step 1: Data Analysis</h3>
+            <p>The encoder first analyzes the input data to determine the most efficient <strong>encoding mode</strong>. The QR standard defines four primary modes, each optimized for different types of content:</p>
+            <ul>
+                <li><strong>Numeric mode</strong> -- encodes digits 0-9 only. This is the most efficient mode, packing 3 digits into 10 bits. It can store up to <strong>7,089 numeric characters</strong> in the largest QR version.</li>
+                <li><strong>Alphanumeric mode</strong> -- encodes digits, uppercase letters A-Z, and a set of special characters (space, $, %, *, +, -, ., /, :). Two characters are packed into 11 bits, allowing up to <strong>4,296 alphanumeric characters</strong>.</li>
+                <li><strong>Byte mode</strong> -- encodes arbitrary byte data, typically UTF-8 text. Each character uses 8 bits. This mode supports the full range of characters including lowercase letters, punctuation, and international characters, storing up to <strong>2,953 bytes</strong>.</li>
+                <li><strong>Kanji mode</strong> -- optimized for Japanese Kanji characters encoded in the Shift JIS system. Each character is encoded in 13 bits, making it more efficient than byte mode for Japanese text.</li>
+            </ul>
+            <p>The encoder can mix modes within a single QR code to optimize capacity. For example, a URL like <code>HTTPS://EXAMPLE.COM/page123</code> might use alphanumeric mode for the uppercase portion and byte mode for the lowercase path.</p>
+
+            <h3>Step 2: Error Correction Encoding</h3>
+            <p>One of the most remarkable features of QR codes is their built-in <strong>error correction</strong>, which allows codes to be read even when partially damaged, obscured, or dirty. QR codes use <strong>Reed-Solomon error correction</strong>, the same algorithm used in CDs, DVDs, and deep-space communication.</p>
+            <p>There are four error correction levels, each trading data capacity for damage resilience:</p>
+            <ul>
+                <li><strong>Level L (Low)</strong> -- recovers up to <strong>7%</strong> of damaged data. Maximizes data capacity.</li>
+                <li><strong>Level M (Medium)</strong> -- recovers up to <strong>15%</strong> of damaged data. The default level for most generators.</li>
+                <li><strong>Level Q (Quartile)</strong> -- recovers up to <strong>25%</strong> of damaged data. Good for environments where codes may get dirty or worn.</li>
+                <li><strong>Level H (High)</strong> -- recovers up to <strong>30%</strong> of damaged data. Essential if you plan to place a logo or image over part of the code.</li>
+            </ul>
+            <p>Higher error correction means more of the QR code is dedicated to redundancy rather than data, so the code must be larger (more modules) to hold the same amount of information. Choosing the right level depends on your use case -- a QR code printed on a clean indoor poster can use Level L, while one on an outdoor sticker exposed to weather should use Level Q or H.</p>
+
+            <h3>Step 3: Module Placement</h3>
+            <p>After encoding, the data and error correction codewords are arranged into the QR code's grid according to a specific pattern. The bits are placed in a zigzag pattern starting from the bottom-right corner, weaving right to left and bottom to top, skipping over reserved areas.</p>
+
+            <h2>QR Code Structure</h2>
+            <p>Every QR code contains several fixed structural elements that enable scanners to locate, orient, and decode the symbol:</p>
+            <ul>
+                <li><strong>Finder patterns</strong> -- the three large squares in the top-left, top-right, and bottom-left corners. These are the most recognizable feature of QR codes. Scanners use them to detect the code's presence, determine its orientation, and establish the coordinate system for reading data modules.</li>
+                <li><strong>Alignment patterns</strong> -- smaller squares that appear in larger QR codes (version 2 and above) to help scanners compensate for image distortion caused by perspective, curvature, or lens effects.</li>
+                <li><strong>Timing patterns</strong> -- alternating black and white modules in a row and column that connect the finder patterns. These help the scanner determine the size of individual modules and maintain proper grid alignment.</li>
+                <li><strong>Format information</strong> -- encoded next to the finder patterns, this stores the error correction level and the data mask pattern used. It is duplicated for redundancy.</li>
+                <li><strong>Version information</strong> -- present in QR codes version 7 and above, this identifies the code's version (size). It is encoded in two locations for redundancy.</li>
+                <li><strong>Data and error correction modules</strong> -- the remaining modules that carry the actual encoded data and Reed-Solomon error correction codewords.</li>
+                <li><strong>Quiet zone</strong> -- a mandatory margin of empty space (at least 4 modules wide) surrounding the QR code. This helps scanners distinguish the code from its surroundings.</li>
+            </ul>
+
+            <h2>Versions and Sizes</h2>
+            <p>QR codes come in <strong>40 versions</strong>, numbered 1 through 40. Each version increases the code size by 4 modules per side:</p>
+            <ul>
+                <li><strong>Version 1</strong> -- 21 x 21 modules. The smallest QR code. Can hold up to 25 alphanumeric characters with error correction level M.</li>
+                <li><strong>Version 10</strong> -- 57 x 57 modules. Suitable for medium-length URLs.</li>
+                <li><strong>Version 20</strong> -- 97 x 97 modules. Handles longer text content.</li>
+                <li><strong>Version 40</strong> -- 177 x 177 modules. The maximum size, capable of storing up to 4,296 alphanumeric characters.</li>
+            </ul>
+            <p>The generator automatically selects the smallest version that can contain your data at the chosen error correction level. Smaller versions produce simpler codes that are faster and easier to scan.</p>
+
+            <h2>Data Types</h2>
+            <p>While QR codes store raw data, certain prefixes and formats are recognized by scanning applications to trigger specific actions:</p>
+            <ul>
+                <li><strong>URL</strong> -- any text starting with <code>http://</code> or <code>https://</code> is recognized as a web link. The scanner typically offers to open it in a browser.</li>
+                <li><strong>Plain text</strong> -- arbitrary text with no special prefix. Displayed as-is by the scanner.</li>
+                <li><strong>WiFi configuration</strong> -- uses the format <code>WIFI:T:WPA;S:NetworkName;P:Password;;</code> to let users connect to a WiFi network by scanning, without manually entering credentials.</li>
+                <li><strong>vCard contact</strong> -- encodes contact information (name, phone, email, address) in the vCard format. Scanning prompts the user to add the contact to their address book.</li>
+                <li><strong>Email</strong> -- uses the <code>mailto:</code> prefix to compose an email, optionally including subject and body: <code>mailto:user@example.com?subject=Hello</code>.</li>
+                <li><strong>Phone number</strong> -- uses the <code>tel:</code> prefix to initiate a phone call: <code>tel:+15551234567</code>.</li>
+                <li><strong>SMS</strong> -- uses the <code>smsto:</code> or <code>sms:</code> prefix to compose a text message: <code>smsto:+15551234567:Hello there</code>.</li>
+                <li><strong>Geographic location</strong> -- uses the <code>geo:</code> prefix to open a map application at specific coordinates: <code>geo:40.7128,-74.0060</code>.</li>
+                <li><strong>Calendar event</strong> -- encodes event details in iCalendar format, allowing users to add events to their calendar.</li>
+            </ul>
+
+            <h2>Design Best Practices</h2>
+            <p>A QR code is useless if it cannot be scanned reliably. Follow these guidelines to ensure your codes work in the real world:</p>
+            <ul>
+                <li><strong>Maintain high contrast</strong> -- use dark modules on a light background. Black on white offers the highest contrast and best scan reliability. Avoid low-contrast color combinations like light gray on white or blue on purple.</li>
+                <li><strong>Respect the quiet zone</strong> -- maintain at least 4 modules of white space around the code. Do not let borders, backgrounds, or text encroach on this margin.</li>
+                <li><strong>Size appropriately</strong> -- the minimum recommended print size depends on the scanning distance. A general rule is that each module should be at least <strong>0.33mm</strong> (about 1/76 inch) for close-range scanning. For scanning at a distance, multiply the module size by the expected distance in meters divided by 10.</li>
+                <li><strong>Test before deploying</strong> -- always test your QR code with multiple devices and scanning apps before printing or publishing. What works on one device may not work on another.</li>
+                <li><strong>Use higher error correction for logos</strong> -- if you plan to place a logo or image in the center of the QR code, use error correction level H (30%) to ensure the code remains scannable despite the obstructed modules.</li>
+                <li><strong>Keep data short</strong> -- shorter data produces simpler codes with fewer modules, which are easier to scan. Use URL shorteners for long web addresses if necessary.</li>
+                <li><strong>Do not invert colors</strong> -- while some scanners can read white-on-black QR codes, many cannot. Stick to the standard dark-on-light pattern for maximum compatibility.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped QR Code Generator makes it straightforward to create QR codes for any purpose:</p>
+            <ol>
+                <li><strong>Enter your data</strong> in the input field -- a URL, text, WiFi credentials, or any other content you want to encode.</li>
+                <li><strong>Configure options</strong> if needed, including error correction level and output size.</li>
+                <li><strong>Generate the code</strong> by clicking the generate button. The QR code appears immediately.</li>
+                <li><strong>Download the image</strong> in your preferred format for use in print materials, websites, presentations, or digital documents.</li>
+            </ol>
+            <p>The generator runs entirely in your browser -- your data is never sent to a server, ensuring complete privacy for sensitive content like WiFi passwords or contact information.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the QR Code Generator:</p>
+            <ul>
+                <li><a href="/qr-scanner/">QR Code Scanner</a> -- scan and decode QR codes from your camera or uploaded images to verify your generated codes work correctly.</li>
+                <li><a href="/url-encoder/">URL Encoder/Decoder</a> -- properly encode special characters in URLs before embedding them in QR codes.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/qr-generator/" class="standalone-nav-btn">Try QR Code Generator</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

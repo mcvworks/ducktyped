@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subnet Calculator Explained — CIDR, Masks &amp; IP Ranges — duckTyped</title>
+    <meta name="description" content="Learn how IP subnetting works, understand CIDR notation and subnet masks, calculate network and broadcast addresses, and master VLSM with duckTyped's subnet calculator.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Subnet Calculator Explained — CIDR, Masks & IP Ranges — duckTyped">
+    <meta property="og:description" content="Learn how IP subnetting works, understand CIDR notation and subnet masks, and calculate network and broadcast addresses.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/subnet-calculator/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Subnet Calculator Explained — CIDR, Masks & IP Ranges — duckTyped">
+    <meta name="twitter:description" content="Learn how IP subnetting works, understand CIDR notation and subnet masks, and calculate network and broadcast addresses.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/subnet-calculator/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Subnet Calculator</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Subnet Calculator Explained</h1>
+            <p class="standalone-intro">Understand how IP subnetting works, learn to read CIDR notation and subnet masks, calculate network ranges, and plan efficient address allocation with duckTyped's subnet calculator.</p>
+
+            <h2>What Is Subnetting?</h2>
+            <p><strong>Subnetting</strong> is the practice of dividing a single IP network into two or more smaller, logical networks called subnets. Each subnet functions as an independent network segment with its own range of IP addresses, network address, and broadcast address. Subnetting is a foundational concept in network engineering and is essential for anyone managing routers, firewalls, cloud infrastructure, or even a home lab.</p>
+            <p>Without subnetting, every device on a network would share the same broadcast domain, leading to excessive broadcast traffic, security concerns, and inefficient use of IP address space. By breaking a large network into smaller subnets, administrators can isolate traffic between departments, improve performance, enforce security policies, and conserve IP addresses.</p>
+
+            <h2>IP Address Structure</h2>
+            <p>An IPv4 address is a 32-bit number, typically written in <strong>dotted decimal notation</strong> as four octets separated by periods -- for example, <code>192.168.1.100</code>. Each octet represents 8 bits, so the full address ranges from <code>0.0.0.0</code> to <code>255.255.255.255</code>.</p>
+            <p>Every IP address is logically divided into two parts:</p>
+            <ul>
+                <li><strong>Network portion</strong> -- identifies the specific network (subnet) the device belongs to. All devices on the same subnet share the same network bits.</li>
+                <li><strong>Host portion</strong> -- identifies the individual device within that network. Each device on the subnet must have a unique host portion.</li>
+            </ul>
+            <p>The boundary between the network portion and the host portion is determined by the <strong>subnet mask</strong>. Understanding this boundary is the key to all subnet calculations.</p>
+
+            <h2>Subnet Masks -- Dotted Decimal and CIDR Notation</h2>
+            <p>A <strong>subnet mask</strong> is a 32-bit value that indicates which bits of an IP address belong to the network and which belong to the host. In binary, a subnet mask is a contiguous sequence of 1s (network bits) followed by a contiguous sequence of 0s (host bits).</p>
+            <p>There are two common ways to express a subnet mask:</p>
+            <ul>
+                <li><strong>Dotted decimal notation</strong> -- the mask is written as four octets, for example <code>255.255.255.0</code>. This format is used in older configurations and operating system network settings.</li>
+                <li><strong>CIDR (Classless Inter-Domain Routing) notation</strong> -- the mask is written as a slash followed by the number of network bits, for example <code>/24</code>. This compact format is standard in modern networking, cloud platforms, and firewall rules.</li>
+            </ul>
+            <p>The mask <code>255.255.255.0</code> is equivalent to <code>/24</code> because the first 24 bits are set to 1. Similarly, <code>255.255.0.0</code> equals <code>/16</code>, and <code>255.0.0.0</code> equals <code>/8</code>.</p>
+
+            <h2>Calculating Network, Broadcast, and Host Range</h2>
+            <p>Given an IP address and a subnet mask, you can calculate three critical values:</p>
+            <h3>Network Address</h3>
+            <p>The <strong>network address</strong> is the first address in a subnet and identifies the subnet itself. It is obtained by performing a bitwise AND between the IP address and the subnet mask. For example, given <code>192.168.1.100/24</code>:</p>
+            <pre><code>IP address:    192.168.1.100  = 11000000.10101000.00000001.01100100
+Subnet mask:   255.255.255.0  = 11111111.11111111.11111111.00000000
+Network addr:  192.168.1.0    = 11000000.10101000.00000001.00000000</code></pre>
+            <p>The network address cannot be assigned to a host device.</p>
+
+            <h3>Broadcast Address</h3>
+            <p>The <strong>broadcast address</strong> is the last address in a subnet. It is obtained by setting all host bits to 1. For <code>192.168.1.0/24</code>, the broadcast address is <code>192.168.1.255</code>. Packets sent to the broadcast address are delivered to every device on the subnet. Like the network address, it cannot be assigned to a host.</p>
+
+            <h3>Usable Host Range</h3>
+            <p>The <strong>usable host range</strong> consists of all addresses between the network address and the broadcast address. For <code>192.168.1.0/24</code>, the range is <code>192.168.1.1</code> through <code>192.168.1.254</code>, giving 254 usable addresses. The formula for the number of usable hosts is <code>2^(32 - prefix) - 2</code>, where the subtraction of 2 accounts for the network and broadcast addresses.</p>
+
+            <h2>CIDR Reference Table</h2>
+            <p>The following table shows the relationship between CIDR prefix length, subnet mask, and the number of usable host addresses:</p>
+            <table>
+                <tr><th>CIDR</th><th>Subnet Mask</th><th>Total Addresses</th><th>Usable Hosts</th></tr>
+                <tr><td>/8</td><td>255.0.0.0</td><td>16,777,216</td><td>16,777,214</td></tr>
+                <tr><td>/12</td><td>255.240.0.0</td><td>1,048,576</td><td>1,048,574</td></tr>
+                <tr><td>/16</td><td>255.255.0.0</td><td>65,536</td><td>65,534</td></tr>
+                <tr><td>/20</td><td>255.255.240.0</td><td>4,096</td><td>4,094</td></tr>
+                <tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td></tr>
+                <tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td></tr>
+                <tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td></tr>
+                <tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td></tr>
+                <tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td></tr>
+                <tr><td>/29</td><td>255.255.255.248</td><td>8</td><td>6</td></tr>
+                <tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2</td></tr>
+                <tr><td>/31</td><td>255.255.255.254</td><td>2</td><td>2*</td></tr>
+                <tr><td>/32</td><td>255.255.255.255</td><td>1</td><td>1*</td></tr>
+            </table>
+            <p>* Per RFC 3021, /31 subnets are used for point-to-point links with no network or broadcast address. A /32 represents a single host address.</p>
+
+            <h2>Private IP Address Ranges</h2>
+            <p>RFC 1918 defines three blocks of IP addresses reserved for private use. These addresses are not routable on the public internet and are used within internal networks:</p>
+            <ul>
+                <li><strong>10.0.0.0/8</strong> (<code>10.0.0.0</code> -- <code>10.255.255.255</code>) -- 16,777,216 addresses. Commonly used in large enterprise networks and cloud VPCs.</li>
+                <li><strong>172.16.0.0/12</strong> (<code>172.16.0.0</code> -- <code>172.31.255.255</code>) -- 1,048,576 addresses. Often used in corporate networks and container orchestration platforms.</li>
+                <li><strong>192.168.0.0/16</strong> (<code>192.168.0.0</code> -- <code>192.168.255.255</code>) -- 65,536 addresses. The most common range for home and small office networks.</li>
+            </ul>
+            <p>Network Address Translation (NAT) allows devices with private addresses to communicate with the public internet by translating their addresses through a router or firewall.</p>
+
+            <h2>VLSM -- Variable Length Subnet Masking</h2>
+            <p><strong>VLSM (Variable Length Subnet Masking)</strong> allows you to use different subnet mask sizes within the same network, rather than applying a single uniform mask. This enables more efficient address allocation by sizing each subnet according to the actual number of hosts it needs to support.</p>
+            <p>For example, suppose you have the network <code>192.168.1.0/24</code> and need to create subnets for three departments: one with 100 hosts, one with 50 hosts, and one with 10 hosts. Instead of using three /24 networks (wasting hundreds of addresses), you could allocate:</p>
+            <ul>
+                <li><code>192.168.1.0/25</code> -- 126 usable hosts for the first department</li>
+                <li><code>192.168.1.128/26</code> -- 62 usable hosts for the second department</li>
+                <li><code>192.168.1.192/28</code> -- 14 usable hosts for the third department</li>
+            </ul>
+            <p>VLSM is essential for efficient IP address management in modern networks and is a prerequisite for routing protocols like OSPF and EIGRP.</p>
+
+            <h2>Supernetting (Route Aggregation)</h2>
+            <p><strong>Supernetting</strong> is the inverse of subnetting -- it combines multiple smaller networks into a single, larger network prefix. This technique is also called <strong>route aggregation</strong> or <strong>route summarization</strong>. For example, the four networks <code>192.168.0.0/24</code>, <code>192.168.1.0/24</code>, <code>192.168.2.0/24</code>, and <code>192.168.3.0/24</code> can be aggregated into a single <code>192.168.0.0/22</code> route.</p>
+            <p>Supernetting reduces the size of routing tables, decreases memory usage on routers, and speeds up routing lookups. It is a critical technique for internet backbone routers that must handle hundreds of thousands of routes.</p>
+
+            <h2>Practical Examples</h2>
+            <h3>Example 1: Home Network</h3>
+            <p>A typical home router assigns addresses from <code>192.168.1.0/24</code>. The router itself is usually <code>192.168.1.1</code>, and devices receive addresses from <code>192.168.1.2</code> through <code>192.168.1.254</code> via DHCP. This provides 253 usable addresses -- more than enough for most homes.</p>
+
+            <h3>Example 2: Cloud VPC</h3>
+            <p>When creating a VPC in AWS or Azure, you might define a <code>10.0.0.0/16</code> network and then carve it into subnets: <code>10.0.1.0/24</code> for public web servers, <code>10.0.2.0/24</code> for application servers, and <code>10.0.3.0/24</code> for databases. Each subnet can have its own route table and security group rules.</p>
+
+            <h2>How to Use the Subnet Calculator</h2>
+            <p>The duckTyped Subnet Calculator makes it easy to perform subnet calculations without manual binary math:</p>
+            <ol>
+                <li><strong>Enter an IP address</strong> in the input field (e.g., <code>192.168.1.0</code>).</li>
+                <li><strong>Select or enter a CIDR prefix</strong> or subnet mask (e.g., <code>/24</code> or <code>255.255.255.0</code>).</li>
+                <li><strong>View the results</strong>, including network address, broadcast address, usable host range, total host count, wildcard mask, and binary representation.</li>
+            </ol>
+            <p>The tool instantly recalculates as you adjust the prefix length, making it ideal for planning network architectures, configuring firewall rules, or studying for certifications like CCNA and CompTIA Network+.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Subnet Calculator for network analysis and troubleshooting:</p>
+            <ul>
+                <li><a href="/dns-lookup/">DNS Record Checker</a> -- look up A, AAAA, MX, TXT, and other DNS records for any domain.</li>
+                <li><a href="/isp-lookup/">ISP Lookup</a> -- identify the ISP, ASN, and geolocation information for any IP address.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/subnet-calculator/" class="standalone-nav-btn">Try Subnet Calculator</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

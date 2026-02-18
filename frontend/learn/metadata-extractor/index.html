@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Metadata Explained — Open Graph, Twitter Cards &amp; SEO Tags — duckTyped</title>
+    <meta name="description" content="Learn how URL metadata works, including Open Graph tags, Twitter Cards, SEO meta tags, structured data, and how to optimize social sharing previews with duckTyped's Metadata Extractor.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="URL Metadata Explained — Open Graph, Twitter Cards & SEO Tags — duckTyped">
+    <meta property="og:description" content="Learn how URL metadata works, including Open Graph tags, Twitter Cards, SEO meta tags, and how to optimize social sharing previews.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/metadata-extractor/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="URL Metadata Explained — Open Graph, Twitter Cards & SEO Tags — duckTyped">
+    <meta name="twitter:description" content="Learn how URL metadata works, including Open Graph tags, Twitter Cards, and SEO meta tags.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/metadata-extractor/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>URL Metadata Extractor</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>URL Metadata Explained</h1>
+            <p class="standalone-intro">Understand what URL metadata is, how Open Graph and Twitter Card tags control social sharing previews, which SEO meta tags matter most, and how to inspect and optimize metadata for any webpage using duckTyped's URL Metadata Extractor.</p>
+
+            <h2>What Is URL Metadata?</h2>
+            <p><strong>URL metadata</strong> refers to the structured information embedded in a webpage's HTML <code>&lt;head&gt;</code> section that describes the page's content to browsers, search engines, social platforms, and other automated systems. Unlike the visible content on a page, metadata is invisible to casual visitors but plays a critical role in how the page appears in search results, social media feeds, messaging apps, and browser tabs.</p>
+            <p>When you share a link on Twitter, LinkedIn, Slack, or iMessage, the platform fetches the target URL and reads its metadata to generate a <strong>rich preview</strong> -- the card with a title, description, and image that appears alongside the link. Without proper metadata, shared links appear as plain text URLs, which receive dramatically fewer clicks and engagement.</p>
+
+            <h2>Standard SEO Meta Tags</h2>
+            <p>Before social-specific protocols emerged, a handful of standard HTML meta tags defined how pages were described to search engines and browsers. These remain foundational.</p>
+
+            <h3>Title Tag</h3>
+            <p>The <code>&lt;title&gt;</code> element is arguably the single most important piece of metadata on any page. It appears in browser tabs, search engine results pages (SERPs), and as the default text when bookmarking a page. Best practices recommend keeping titles under <strong>60 characters</strong> to avoid truncation in search results, placing the primary keyword near the beginning, and making each page's title unique across your site. The title tag is not a meta tag technically -- it is its own HTML element -- but it is universally considered part of a page's metadata.</p>
+
+            <h3>Meta Description</h3>
+            <p>The <code>&lt;meta name="description"&gt;</code> tag provides a brief summary of the page's content. Search engines often display this as the snippet beneath the title in results. While Google has confirmed that meta descriptions are <strong>not a direct ranking factor</strong>, a well-written description significantly improves <strong>click-through rate (CTR)</strong>, which indirectly affects rankings. Keep descriptions between <strong>120 and 160 characters</strong>, include relevant keywords naturally, and write compelling copy that encourages clicks.</p>
+
+            <h3>Canonical Tag</h3>
+            <p>The <code>&lt;link rel="canonical"&gt;</code> tag tells search engines which URL is the authoritative version of a page. This is essential for preventing <strong>duplicate content issues</strong> when the same content is accessible at multiple URLs (e.g., with and without trailing slashes, with query parameters, or across HTTP and HTTPS). The canonical tag consolidates ranking signals to a single URL.</p>
+
+            <h3>Robots Meta Tag</h3>
+            <p>The <code>&lt;meta name="robots"&gt;</code> tag controls how search engines crawl and index the page. Common directives include <code>index</code>/<code>noindex</code> (whether to include the page in search results) and <code>follow</code>/<code>nofollow</code> (whether to follow links on the page). You can also target specific bots with tags like <code>&lt;meta name="googlebot"&gt;</code>. This is distinct from the robots.txt file, which controls crawl access at the path level.</p>
+
+            <h2>Open Graph Protocol</h2>
+            <p>The <strong>Open Graph protocol</strong> was introduced by Facebook in 2010 to give website owners control over how their pages appear when shared on social media. It uses meta tags with the <code>property</code> attribute and the <code>og:</code> prefix. Open Graph has become the de facto standard for social sharing metadata, supported by Facebook, LinkedIn, Pinterest, Discord, Slack, iMessage, and many other platforms.</p>
+
+            <h3>Essential Open Graph Tags</h3>
+            <ul>
+                <li><strong><code>og:title</code></strong> -- the title of the page as it should appear in social previews. This can differ from the HTML <code>&lt;title&gt;</code> tag, allowing you to optimize separately for search engines and social platforms.</li>
+                <li><strong><code>og:description</code></strong> -- a brief description of the content, typically displayed below the title in social cards. Keep it under 200 characters for optimal display.</li>
+                <li><strong><code>og:image</code></strong> -- the URL of the image displayed in the social preview. This is the single most impactful Open Graph tag, as posts with images receive significantly more engagement. Use an absolute URL and ensure the image is at least <strong>1200 x 630 pixels</strong> for high-quality display across platforms.</li>
+                <li><strong><code>og:url</code></strong> -- the canonical URL of the page. Social platforms use this to consolidate engagement metrics (likes, shares) across different URL variations.</li>
+                <li><strong><code>og:type</code></strong> -- the type of content. Common values include <code>website</code>, <code>article</code>, <code>product</code>, and <code>profile</code>. The type determines which additional properties are available (e.g., <code>article:published_time</code>).</li>
+                <li><strong><code>og:site_name</code></strong> -- the name of the overall website, displayed alongside the page title to provide context.</li>
+            </ul>
+
+            <h3>Additional Open Graph Tags</h3>
+            <p>Beyond the essentials, Open Graph supports tags for <code>og:locale</code> (language and territory), <code>og:video</code> (video content URL), <code>og:audio</code> (audio content URL), and <code>og:image:width</code> / <code>og:image:height</code> (which help platforms render the image correctly without downloading it first). The <code>article</code> type adds <code>article:published_time</code>, <code>article:modified_time</code>, <code>article:author</code>, and <code>article:tag</code>.</p>
+
+            <h2>Twitter Card Tags</h2>
+            <p><strong>Twitter Cards</strong> are Twitter's (now X's) proprietary metadata system for rich link previews. While Twitter does fall back to Open Graph tags when its own tags are missing, dedicated Twitter Card tags give you more precise control over how your content appears on the platform.</p>
+
+            <h3>Card Types</h3>
+            <ul>
+                <li><strong><code>summary</code></strong> -- a compact card with a small square image, title, and description. Suitable for general content.</li>
+                <li><strong><code>summary_large_image</code></strong> -- a card with a large, prominent image above the title and description. Ideal for articles, blog posts, and visual content.</li>
+                <li><strong><code>player</code></strong> -- embeds a media player for video or audio content directly in the timeline.</li>
+                <li><strong><code>app</code></strong> -- displays mobile app information with a direct download link.</li>
+            </ul>
+
+            <h3>Key Twitter Tags</h3>
+            <ul>
+                <li><strong><code>twitter:card</code></strong> -- specifies the card type (required). If missing, Twitter will not generate a rich preview.</li>
+                <li><strong><code>twitter:title</code></strong> -- the title for the card. Falls back to <code>og:title</code> if not specified.</li>
+                <li><strong><code>twitter:description</code></strong> -- the description text. Falls back to <code>og:description</code>.</li>
+                <li><strong><code>twitter:image</code></strong> -- the image URL. For <code>summary_large_image</code>, use images with a 2:1 aspect ratio, minimum 300 x 157 pixels, maximum 4096 x 4096 pixels.</li>
+                <li><strong><code>twitter:site</code></strong> -- the Twitter handle of the website (e.g., <code>@ducktyped</code>).</li>
+                <li><strong><code>twitter:creator</code></strong> -- the Twitter handle of the content author.</li>
+            </ul>
+
+            <h2>Structured Data and JSON-LD</h2>
+            <p><strong>Structured data</strong> provides machine-readable information about a page's content using standardized vocabularies, primarily <a href="https://schema.org">Schema.org</a>. While not visible on the page, structured data helps search engines understand the content more deeply and can trigger <strong>rich results</strong> in SERPs -- enhanced search listings with star ratings, images, FAQ accordions, event dates, recipe details, and more.</p>
+            <p>The recommended format is <strong>JSON-LD (JavaScript Object Notation for Linked Data)</strong>, embedded in a <code>&lt;script type="application/ld+json"&gt;</code> tag in the page's head. Google explicitly prefers JSON-LD over older formats like Microdata and RDFa. Common schema types include <code>Article</code>, <code>Product</code>, <code>FAQPage</code>, <code>Organization</code>, <code>BreadcrumbList</code>, and <code>HowTo</code>.</p>
+
+            <h2>Favicons and Touch Icons</h2>
+            <p>Favicons are the small icons displayed in browser tabs, bookmarks, and history. Modern browsers support multiple icon formats and sizes:</p>
+            <ul>
+                <li><strong><code>&lt;link rel="icon"&gt;</code></strong> -- the standard favicon, typically in ICO, PNG, or SVG format.</li>
+                <li><strong><code>&lt;link rel="apple-touch-icon"&gt;</code></strong> -- used when users add your site to their iOS home screen. Apple recommends a 180 x 180 pixel PNG.</li>
+                <li><strong><code>&lt;link rel="manifest"&gt;</code></strong> -- points to a web app manifest file (JSON) that defines icons for Progressive Web Apps (PWAs), including various sizes for Android devices.</li>
+            </ul>
+
+            <h2>Common Metadata Mistakes</h2>
+            <p>Even experienced developers make metadata mistakes that hurt their site's appearance in search results and social feeds:</p>
+            <ul>
+                <li><strong>Missing <code>og:image</code></strong> -- the most impactful error. Without a share image, social previews are text-only and receive far less engagement. Always include an og:image tag with a high-quality image.</li>
+                <li><strong>Wrong image dimensions</strong> -- images that are too small, too large, or have the wrong aspect ratio get cropped awkwardly or rejected entirely. Use 1200 x 630 pixels for Open Graph images.</li>
+                <li><strong>Duplicate titles and descriptions</strong> -- using the same title and meta description across multiple pages confuses search engines and makes your search results indistinguishable. Every page should have unique metadata.</li>
+                <li><strong>Relative image URLs</strong> -- Open Graph and Twitter Card tags require <strong>absolute URLs</strong> (starting with <code>https://</code>). Relative paths like <code>/images/share.png</code> will not work.</li>
+                <li><strong>Missing canonical tag</strong> -- without a canonical tag, search engines must guess which version of your page is authoritative, potentially splitting ranking signals across duplicates.</li>
+                <li><strong>Overly long titles</strong> -- titles exceeding 60 characters get truncated in search results, potentially cutting off important keywords or your brand name.</li>
+                <li><strong>Stale cached previews</strong> -- social platforms cache metadata aggressively. After updating your tags, use each platform's cache invalidation tool (e.g., Facebook's Sharing Debugger, Twitter's Card Validator) to refresh the preview.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped URL Metadata Extractor makes it easy to inspect the metadata of any webpage:</p>
+            <ol>
+                <li><strong>Enter a URL</strong> in the input field (e.g., <code>https://example.com/article</code>).</li>
+                <li><strong>Click "Extract"</strong> to fetch and parse the page's metadata.</li>
+                <li><strong>Review the results</strong>, which display the page's title, meta description, Open Graph tags, Twitter Card tags, canonical URL, favicon, and any structured data found. Missing or problematic tags are highlighted for easy identification.</li>
+            </ol>
+            <p>Use this tool to audit your own pages before publishing, to debug why a shared link does not preview correctly, or to analyze how competitors structure their metadata.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the URL Metadata Extractor for comprehensive site analysis:</p>
+            <ul>
+                <li><a href="/tech-detector/">Tech Stack Detector</a> -- identify the technologies, frameworks, and services powering any website.</li>
+                <li><a href="/robots-analyzer/">Robots.txt Analyzer</a> -- check how a site's robots.txt file controls search engine crawling behavior.</li>
+                <li><a href="/link-checker/">Broken Link Checker</a> -- scan a page for dead links that could undermine your carefully crafted metadata.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/metadata-extractor/" class="standalone-nav-btn">Try URL Metadata Extractor</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

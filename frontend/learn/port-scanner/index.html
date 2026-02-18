@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanning Explained — TCP Ports &amp; Common Services — duckTyped</title>
+    <meta name="description" content="Learn how TCP/UDP ports work, what common port numbers map to which services, how port scanning operates, and how to use duckTyped's port scanner to check open ports on any host.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Port Scanning Explained — TCP Ports & Common Services — duckTyped">
+    <meta property="og:description" content="Learn how TCP/UDP ports work, what common port numbers map to which services, and how port scanning operates.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/port-scanner/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Port Scanning Explained — TCP Ports & Common Services — duckTyped">
+    <meta name="twitter:description" content="Learn how TCP/UDP ports work, common port numbers and services, and how to check open ports on any host.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/port-scanner/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Port Scanner</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Port Scanning Explained</h1>
+            <p class="standalone-intro">Understand how network ports work, what services run on common port numbers, how port scanning techniques operate, and how to use duckTyped's port scanner to check which ports are open on any host.</p>
+
+            <h2>What Are Network Ports?</h2>
+            <p>A <strong>network port</strong> is a logical endpoint for communication on a computer. While an IP address identifies a specific machine on a network, a port number identifies a specific service or application running on that machine. Together, an IP address and port number form a <strong>socket</strong> -- the complete address needed to establish a network connection.</p>
+            <p>Port numbers are 16-bit unsigned integers, ranging from <strong>0 to 65,535</strong>. When your browser connects to a web server, it connects to the server's IP address on port 80 (HTTP) or port 443 (HTTPS). Meanwhile, your browser uses a randomly assigned high-numbered port on your own machine for its side of the connection. This pairing allows a single server to handle thousands of simultaneous connections to different services.</p>
+
+            <h2>TCP vs UDP</h2>
+            <p>Ports operate within two primary transport-layer protocols, each suited to different types of communication.</p>
+            <p><strong>TCP (Transmission Control Protocol)</strong> is connection-oriented. Before any data is exchanged, the client and server perform a <strong>three-way handshake</strong>: the client sends a SYN (synchronize) packet, the server responds with a SYN-ACK (synchronize-acknowledge), and the client sends a final ACK (acknowledge). This process establishes a reliable, ordered, and error-checked connection. TCP is used for web traffic, email, file transfers, and any application where data integrity matters.</p>
+            <p><strong>UDP (User Datagram Protocol)</strong> is connectionless. There is no handshake -- the sender simply transmits packets (datagrams) to the destination without waiting for confirmation. This makes UDP faster and more lightweight than TCP, but it provides no guarantees about delivery, ordering, or integrity. UDP is used for DNS queries, video streaming, online gaming, and VoIP, where speed is more important than perfect reliability.</p>
+
+            <h2>Port Number Ranges</h2>
+            <p>The Internet Assigned Numbers Authority (IANA) divides the port number space into three ranges:</p>
+
+            <h3>Well-Known Ports (0--1023)</h3>
+            <p>These ports are reserved for standard system services and protocols. On Unix-like operating systems, binding to a well-known port typically requires root or administrator privileges. Examples include port 22 (SSH), port 80 (HTTP), and port 443 (HTTPS). These assignments are globally recognized, so any administrator or security professional immediately knows what service to expect on these ports.</p>
+
+            <h3>Registered Ports (1024--49151)</h3>
+            <p>These ports are assigned by IANA to specific applications and services upon request, but they do not require special privileges to use. Examples include port 3306 (MySQL), port 5432 (PostgreSQL), and port 8080 (commonly used as an alternative HTTP port). While these assignments are standardized, nothing prevents a non-standard application from using a registered port number.</p>
+
+            <h3>Ephemeral Ports (49152--65535)</h3>
+            <p>Also called <strong>dynamic</strong> or <strong>private ports</strong>, these are used by the operating system for temporary, outgoing connections. When your browser connects to a web server, the OS assigns an ephemeral port for the client side of the connection. These ports are allocated dynamically and released when the connection closes.</p>
+
+            <h2>Common Ports and Services</h2>
+            <p>Knowing which services typically run on which ports is fundamental to network administration and security analysis. Here are the ports you will encounter most frequently:</p>
+            <ul>
+                <li><strong>Port 21</strong> -- FTP (File Transfer Protocol). Used for file transfers, though increasingly replaced by SFTP and SCP due to security concerns.</li>
+                <li><strong>Port 22</strong> -- SSH (Secure Shell). Provides encrypted remote login and command execution. Also used for SFTP and SCP file transfers.</li>
+                <li><strong>Port 25</strong> -- SMTP (Simple Mail Transfer Protocol). Used for sending and relaying email between mail servers.</li>
+                <li><strong>Port 53</strong> -- DNS (Domain Name System). Used for domain name resolution queries and zone transfers. Operates on both TCP and UDP.</li>
+                <li><strong>Port 80</strong> -- HTTP (Hypertext Transfer Protocol). The standard port for unencrypted web traffic.</li>
+                <li><strong>Port 110</strong> -- POP3 (Post Office Protocol v3). Used by email clients to retrieve mail from a server.</li>
+                <li><strong>Port 143</strong> -- IMAP (Internet Message Access Protocol). A more advanced email retrieval protocol that keeps mail on the server.</li>
+                <li><strong>Port 443</strong> -- HTTPS (HTTP Secure). The standard port for encrypted web traffic using TLS/SSL.</li>
+                <li><strong>Port 993</strong> -- IMAPS. IMAP over TLS/SSL for encrypted email retrieval.</li>
+                <li><strong>Port 995</strong> -- POP3S. POP3 over TLS/SSL for encrypted email retrieval.</li>
+                <li><strong>Port 3306</strong> -- MySQL. The default port for MySQL database connections.</li>
+                <li><strong>Port 3389</strong> -- RDP (Remote Desktop Protocol). Used for remote graphical access to Windows machines.</li>
+                <li><strong>Port 5432</strong> -- PostgreSQL. The default port for PostgreSQL database connections.</li>
+                <li><strong>Port 6379</strong> -- Redis. The default port for the Redis in-memory data store.</li>
+                <li><strong>Port 8080</strong> -- HTTP Alternative. Commonly used for web servers, proxies, and development environments.</li>
+                <li><strong>Port 27017</strong> -- MongoDB. The default port for MongoDB database connections.</li>
+            </ul>
+
+            <h2>How Port Scanning Works</h2>
+            <p>Port scanning is the process of probing a host's ports to determine which ones are open, closed, or filtered. This information reveals which services are running and potentially reachable from the network.</p>
+
+            <h3>TCP Connect Scan</h3>
+            <p>The simplest scanning technique is the <strong>TCP connect scan</strong>. The scanner attempts to complete a full three-way handshake with each target port. If the handshake succeeds (the server responds with SYN-ACK), the port is <strong>open</strong> and a service is listening. If the server responds with a RST (reset) packet, the port is <strong>closed</strong>. If there is no response or an ICMP unreachable message is returned, the port is likely <strong>filtered</strong> by a firewall. This scan is reliable but easily detected because it creates complete connections that appear in server logs.</p>
+
+            <h3>SYN Scan (Half-Open Scan)</h3>
+            <p>A <strong>SYN scan</strong> sends only the initial SYN packet without completing the handshake. If the server responds with SYN-ACK, the scanner knows the port is open and immediately sends a RST packet to tear down the connection before it fully establishes. This technique is faster than a full connect scan and historically was harder to detect (earning it the name "stealth scan"), though modern intrusion detection systems readily identify SYN scans.</p>
+
+            <h2>Firewalls and Port Filtering</h2>
+            <p>A <strong>firewall</strong> is a network security device (hardware or software) that controls incoming and outgoing traffic based on predefined rules. Firewalls are the primary reason ports appear as "filtered" during a scan.</p>
+            <p>Firewalls can implement different strategies for handling unwanted traffic:</p>
+            <ul>
+                <li><strong>Drop</strong> -- the firewall silently discards the packet with no response. The scanner sees a timeout and reports the port as filtered. This is the most common approach, as it reveals the least information to potential attackers.</li>
+                <li><strong>Reject</strong> -- the firewall sends back a RST packet or ICMP unreachable message. The scanner reports the port as closed, even though the firewall intervened rather than the actual service.</li>
+            </ul>
+            <p>Best practice is to configure firewalls to allow only the ports required for legitimate services and drop all other traffic. For example, a web server should typically expose only ports 80 and 443, with all other ports blocked.</p>
+
+            <h2>Security Implications</h2>
+            <p>Port scanning is a double-edged tool. System administrators use it to <strong>audit their own infrastructure</strong> -- verifying that only intended services are exposed, confirming firewall rules are working correctly, and identifying unauthorized services. Regular port scanning is a fundamental part of security hygiene.</p>
+            <p>However, port scanning is also the first step in many attack methodologies. An attacker scans a target to discover open ports, identifies the services behind them, and then looks for known vulnerabilities in those services. For this reason, security teams monitor for unexpected port scans as a potential indicator of reconnaissance activity.</p>
+            <p>Key security practices related to ports include:</p>
+            <ul>
+                <li><strong>Minimize your attack surface</strong> -- only open the ports that are absolutely necessary for your services.</li>
+                <li><strong>Keep services updated</strong> -- an open port running outdated software with known vulnerabilities is a prime target.</li>
+                <li><strong>Use non-standard ports with caution</strong> -- running SSH on port 2222 instead of 22 may reduce automated scanning noise but is not a substitute for proper security.</li>
+                <li><strong>Monitor for changes</strong> -- if a new port suddenly appears open on your server, investigate immediately.</li>
+            </ul>
+
+            <h2>How to Use the Port Scanner Tool</h2>
+            <p>The duckTyped Port Scanner makes it straightforward to check which ports are open on a target host:</p>
+            <ol>
+                <li><strong>Enter a hostname or IP address</strong> in the input field (e.g., <code>example.com</code> or <code>93.184.216.34</code>).</li>
+                <li><strong>Click "Scan"</strong> to initiate the scan.</li>
+                <li><strong>Review the results</strong>, which show each scanned port, its status (open, closed, or filtered), and the associated service name.</li>
+            </ol>
+            <p>The tool scans a curated set of the most common and security-relevant ports. For each open port, the results indicate the service typically associated with that port number, helping you quickly understand what is running on the target host.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Port Scanner for comprehensive network analysis:</p>
+            <ul>
+                <li><a href="/http-latency/">HTTP Latency Checker</a> -- measure response times and check HTTP status codes for any URL.</li>
+                <li><a href="/security-headers/">Security Headers Checker</a> -- analyze the HTTP security headers returned by a web server.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/port-scanner/" class="standalone-nav-btn">Try Port Scanner</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

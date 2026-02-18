@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamps Explained — Epoch Time &amp; Date Conversion — duckTyped</title>
+    <meta name="description" content="Learn what Unix timestamps are, how epoch time works, millisecond vs second precision, the Year 2038 problem, timezone handling, ISO 8601, and how to convert timestamps in code.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Unix Timestamps Explained — Epoch Time & Date Conversion — duckTyped">
+    <meta property="og:description" content="Learn what Unix timestamps are, how epoch time works, the Year 2038 problem, timezone handling, and conversion methods.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/timestamp-converter/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unix Timestamps Explained — Epoch Time & Date Conversion — duckTyped">
+    <meta name="twitter:description" content="Learn what Unix timestamps are, how epoch time works, and how to convert between formats.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/timestamp-converter/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Unix Timestamp Converter</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Unix Timestamps Explained</h1>
+            <p class="standalone-intro">Understand what Unix timestamps are, how epoch time provides a universal time reference, the difference between second and millisecond precision, the Year 2038 problem, timezone handling, ISO 8601, and how to work with timestamps across programming languages and databases.</p>
+
+            <h2>What Is a Unix Timestamp?</h2>
+            <p>A <strong>Unix timestamp</strong> (also called <strong>epoch time</strong> or <strong>POSIX time</strong>) is a way of representing a specific point in time as a single number: the count of seconds that have elapsed since <strong>January 1, 1970, at 00:00:00 UTC</strong>. This reference point is known as the <strong>Unix epoch</strong>.</p>
+            <p>For example, the timestamp <code>1700000000</code> represents November 14, 2023, at 22:13:20 UTC. The timestamp <code>0</code> represents the epoch itself -- midnight on January 1, 1970. The timestamp <code>86400</code> represents exactly one day later (24 hours x 60 minutes x 60 seconds = 86,400 seconds).</p>
+            <p>Unix timestamps are used extensively in computing because they reduce the complexity of time representation to a single integer. There are no format strings, no timezone abbreviations, no month names -- just a number. This simplicity makes timestamps easy to store, compare, sort, and perform arithmetic on.</p>
+
+            <h2>Why Epoch Time Matters</h2>
+            <p>Time is one of the hardest problems in software engineering. Human-readable date formats vary wildly across cultures, regions, and systems: <code>MM/DD/YYYY</code> in the US, <code>DD/MM/YYYY</code> in Europe, <code>YYYY-MM-DD</code> in ISO 8601. Timezone handling adds another layer of complexity -- the same moment in time has a different clock representation depending on where you are.</p>
+            <p>Unix timestamps cut through this complexity by providing a <strong>single, unambiguous, timezone-independent number</strong> that all systems can agree on. Two servers in different timezones producing the timestamp <code>1700000000</code> are referring to the exact same instant in time. This makes timestamps ideal for logging, event ordering, database storage, API communication, and distributed systems where consistency matters.</p>
+
+            <h2>Millisecond vs Second Precision</h2>
+            <p>The original Unix timestamp is measured in <strong>seconds</strong>. However, many modern systems use <strong>millisecond</strong> precision -- the count of milliseconds since the epoch. A millisecond timestamp is simply the second timestamp multiplied by 1,000, with additional precision for fractions of a second.</p>
+            <pre><code>Seconds:      1700000000
+Milliseconds: 1700000000000</code></pre>
+            <p>You can distinguish them by digit count: second-precision timestamps in the current era have 10 digits, while millisecond timestamps have 13 digits. Some systems also use <strong>microsecond</strong> (16 digits) or <strong>nanosecond</strong> (19 digits) precision for high-resolution timing.</p>
+            <p><strong>JavaScript</strong> uses milliseconds by default -- <code>Date.now()</code> returns a 13-digit number. <strong>Python's</strong> <code>time.time()</code> returns seconds as a floating-point number. <strong>Java's</strong> <code>System.currentTimeMillis()</code> returns milliseconds. Always check the documentation for your language or API to know which precision you are working with.</p>
+
+            <h2>The Year 2038 Problem</h2>
+            <p>On systems that store Unix timestamps as a <strong>signed 32-bit integer</strong>, the maximum representable value is 2,147,483,647 -- which corresponds to <strong>January 19, 2038, at 03:14:07 UTC</strong>. One second later, the integer overflows and wraps around to a large negative number, which the system interprets as a date in December 1901.</p>
+            <p>This is known as the <strong>Year 2038 problem</strong> (or Y2K38), and it is the Unix equivalent of the Y2K bug. The impact is real: embedded systems, IoT devices, databases, and legacy software that use 32-bit timestamps will malfunction if not updated before this date.</p>
+            <p>The solution is straightforward: use a <strong>64-bit integer</strong> for timestamps. A signed 64-bit timestamp can represent dates more than 292 billion years into the future -- far beyond any practical concern. Most modern operating systems, programming languages, and databases have already migrated to 64-bit timestamps. However, legacy systems and embedded devices with limited hardware may still be at risk.</p>
+
+            <h2>Negative Timestamps</h2>
+            <p>Unix timestamps can be negative, representing dates <strong>before</strong> the epoch (before January 1, 1970). The timestamp <code>-86400</code> represents December 31, 1969 -- one day before the epoch. The timestamp <code>-2208988800</code> represents January 1, 1900.</p>
+            <p>Negative timestamps are perfectly valid and are supported by most programming languages and databases. They are necessary for representing historical dates, birth dates, and events that predate 1970.</p>
+
+            <h2>Timezones and UTC</h2>
+            <p>A critical property of Unix timestamps is that they are <strong>timezone-agnostic</strong>. A timestamp represents an absolute instant in time, measured from the UTC epoch. It does not encode any timezone information.</p>
+            <p>When you convert a timestamp to a human-readable date, the timezone determines how that date is displayed. The timestamp <code>1700000000</code> is November 14, 2023, at 22:13:20 in UTC, but it is November 14, 2023, at 17:13:20 in Eastern Time (UTC-5), and November 15, 2023, at 07:13:20 in Japan Standard Time (UTC+9). The underlying timestamp is the same -- only the display changes.</p>
+            <p>This is why it is a best practice to <strong>store timestamps in UTC</strong> and convert to local time only at the presentation layer. Mixing timezones in storage leads to bugs that are notoriously difficult to debug.</p>
+
+            <h2>ISO 8601 Format</h2>
+            <p><strong>ISO 8601</strong> is the international standard for representing dates and times as strings. It is the human-readable counterpart to Unix timestamps and is the format recommended for data interchange:</p>
+            <pre><code>2023-11-14T22:13:20Z          (UTC, indicated by Z)
+2023-11-14T17:13:20-05:00     (Eastern Time, UTC offset)
+2023-11-14                    (date only)
+22:13:20                      (time only)</code></pre>
+            <p>The <code>T</code> separates the date from the time. The <code>Z</code> suffix indicates UTC (sometimes called "Zulu time" in military and aviation contexts). A numeric offset like <code>-05:00</code> indicates the difference from UTC.</p>
+            <p>ISO 8601 strings are unambiguous, sortable as plain text (when using the same timezone), and universally understood by date-parsing libraries. Many APIs accept and return ISO 8601 strings alongside or instead of Unix timestamps.</p>
+
+            <h2>Timestamps in Programming Languages</h2>
+            <p>Every major language provides built-in ways to get the current timestamp and convert between formats:</p>
+            <pre><code>// JavaScript (milliseconds)
+Date.now()                        // 1700000000000
+new Date(1700000000000)           // Date object
+new Date().toISOString()          // "2023-11-14T22:13:20.000Z"
+
+# Python (seconds, float)
+import time
+time.time()                       # 1700000000.0
+from datetime import datetime
+datetime.utcfromtimestamp(1700000000)
+
+// Java (milliseconds)
+System.currentTimeMillis()        // 1700000000000L
+Instant.ofEpochSecond(1700000000) // Instant object
+
+// PHP (seconds)
+time()                            // 1700000000
+date('Y-m-d H:i:s', 1700000000)  // "2023-11-14 22:13:20"
+
+# Ruby (seconds)
+Time.now.to_i                     // 1700000000
+Time.at(1700000000)               // Time object</code></pre>
+
+            <h2>Timestamps in APIs and Databases</h2>
+            <p>REST APIs typically represent time in one of two ways: Unix timestamps (as integers) or ISO 8601 strings. Both are widely accepted, but consistency within an API is important. If an API returns timestamps as seconds, sending milliseconds in a request will produce unexpected results.</p>
+            <p>Databases handle time differently depending on the engine:</p>
+            <ul>
+                <li><strong>PostgreSQL</strong> -- The <code>TIMESTAMP WITH TIME ZONE</code> type stores times in UTC internally and converts to the session timezone on output. The <code>EXTRACT(EPOCH FROM timestamp)</code> function returns the Unix timestamp.</li>
+                <li><strong>MySQL</strong> -- The <code>TIMESTAMP</code> type stores values as UTC and converts on read based on the session timezone. The <code>UNIX_TIMESTAMP()</code> function returns the current epoch time.</li>
+                <li><strong>SQLite</strong> -- Has no dedicated date type. Timestamps are commonly stored as integers (epoch seconds) or ISO 8601 text strings.</li>
+                <li><strong>MongoDB</strong> -- The <code>Date</code> type stores a 64-bit millisecond timestamp internally.</li>
+            </ul>
+
+            <h2>Leap Seconds</h2>
+            <p>The Earth's rotation is not perfectly constant, so astronomical time (UT1) gradually drifts out of sync with atomic time (TAI). To keep UTC aligned with the Earth's rotation, the International Earth Rotation and Reference Systems Service (IERS) occasionally inserts a <strong>leap second</strong> -- an extra second at the end of June 30 or December 31.</p>
+            <p>Unix time <strong>does not account for leap seconds</strong>. The POSIX standard defines each day as exactly 86,400 seconds, regardless of leap seconds. When a leap second occurs, Unix time effectively "replays" the same second value twice. This simplification means Unix timestamps are not perfectly aligned with UTC at the sub-second level, but the practical impact is negligible for virtually all applications.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Unix Timestamp Converter makes it easy to convert between timestamps and human-readable dates:</p>
+            <ol>
+                <li>Enter a Unix timestamp (in seconds or milliseconds) to convert it to a human-readable date and time with timezone information.</li>
+                <li>Alternatively, enter a date and time to get the corresponding Unix timestamp.</li>
+                <li>The tool automatically detects whether a numeric input is in seconds or milliseconds based on digit count.</li>
+                <li>Copy the result with one click.</li>
+            </ol>
+            <p>All conversions happen in your browser. No data is sent to any server.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/json-formatter/">JSON Formatter</a> -- Format and validate JSON payloads that commonly contain timestamp fields.</li>
+                <li><a href="/jwt-decoder/">JWT Decoder</a> -- Inspect JSON Web Tokens, which include <code>iat</code> (issued at), <code>exp</code> (expiration), and <code>nbf</code> (not before) timestamp claims.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/timestamp-converter/" class="standalone-nav-btn">Try Timestamp Converter</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

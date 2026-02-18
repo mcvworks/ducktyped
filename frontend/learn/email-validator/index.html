@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validation Explained — Syntax, MX Records &amp; Deliverability — duckTyped</title>
+    <meta name="description" content="Learn how email validation works across multiple levels -- syntax checking, DNS and MX record verification, SMTP handshake, and deliverability analysis. Use duckTyped's Email Validator.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Email Validation Explained — Syntax, MX Records & Deliverability — duckTyped">
+    <meta property="og:description" content="Learn how email validation works across multiple levels -- syntax checking, MX record verification, SMTP handshake, and deliverability analysis.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/email-validator/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Email Validation Explained — Syntax, MX Records & Deliverability — duckTyped">
+    <meta name="twitter:description" content="Learn how email validation works -- syntax rules, MX records, SMTP verification, and deliverability checks.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/email-validator/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Email Validator</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Email Validation Explained</h1>
+            <p class="standalone-intro">Understand the multiple layers of email validation -- from basic syntax checking and DNS lookups to SMTP verification and deliverability analysis -- and learn why validating email addresses is critical for data quality and sender reputation.</p>
+
+            <h2>What Is Email Validation?</h2>
+            <p><strong>Email validation</strong> is the process of verifying that an email address is correctly formatted, associated with an active domain, and capable of receiving messages. It is a fundamental step in any application that collects email addresses -- whether for user registration, newsletter signups, contact forms, or transactional communication.</p>
+            <p>A seemingly simple email address like <code>user@example.com</code> involves multiple systems that must all be configured correctly for delivery to succeed. The address must conform to syntax rules defined in internet standards, the domain must have DNS records pointing to active mail servers, and the mail server must accept messages for that specific mailbox. Email validation tools check as many of these layers as possible to determine whether an address is likely to receive mail.</p>
+            <p>Validation is not a binary pass/fail -- it is a spectrum of confidence. An address can be syntactically valid but have no mail server. A domain can have MX records but reject all incoming mail. A mailbox can exist but be full. Effective validation provides graduated results that help you make informed decisions about address quality.</p>
+
+            <h2>Levels of Email Validation</h2>
+            <p>Email validation is typically performed in progressive stages, each providing a deeper level of verification.</p>
+
+            <h3>Level 1: Syntax Validation</h3>
+            <p>The first check is purely structural: does the email address conform to the format rules defined in <strong>RFC 5321</strong> (the SMTP specification) and <strong>RFC 5322</strong> (the email message format specification)? This is the fastest check and catches obviously invalid input like missing <code>@</code> symbols, spaces, or illegal characters.</p>
+            <p>While a basic regex can catch common errors, fully RFC-compliant syntax validation is surprisingly complex. The specifications allow characters that most people would not expect in an email address, such as quoted strings containing spaces and special characters in the local part. In practice, most validators use a reasonable subset of the rules that covers real-world usage.</p>
+
+            <h3>Level 2: DNS and MX Record Verification</h3>
+            <p>Once the syntax is confirmed valid, the next step is verifying that the <strong>domain</strong> (the part after the <code>@</code>) exists and is configured to receive email. This is done by querying the domain's <strong>MX (Mail Exchange) records</strong> in DNS. MX records specify the mail servers responsible for accepting email on behalf of the domain.</p>
+            <p>If a domain has no MX records, the validator falls back to checking for an <strong>A record</strong> (as permitted by RFC 5321), since a server at the domain's IP address may accept mail directly. If neither MX nor A records exist, the domain cannot receive email, and the address is invalid regardless of its syntax.</p>
+
+            <h3>Level 3: SMTP Verification</h3>
+            <p>The most thorough validation level involves connecting to the mail server and simulating the beginning of an email delivery. The validator opens an SMTP connection to the server listed in the MX record and performs the following handshake:</p>
+            <ol>
+                <li><strong>EHLO/HELO</strong> -- the validator identifies itself to the mail server.</li>
+                <li><strong>MAIL FROM</strong> -- the validator specifies a sender address.</li>
+                <li><strong>RCPT TO</strong> -- the validator specifies the recipient address (the address being validated). The server's response to this command indicates whether it will accept mail for that specific mailbox.</li>
+            </ol>
+            <p>The validator disconnects before actually sending any message. A <code>250</code> response to the RCPT TO command typically indicates that the mailbox exists and will accept mail. A <code>550</code> response indicates the mailbox does not exist or is disabled. However, this check is not always definitive, as many servers implement protections that obscure mailbox existence.</p>
+
+            <h3>Level 4: Mailbox Existence</h3>
+            <p>Some advanced validation services attempt to determine whether the specific mailbox actively receives mail, beyond just whether the server accepts the RCPT TO command. This can involve analyzing bounce patterns, checking for historical delivery success, and evaluating engagement signals. This level of validation typically requires a commercial API with access to large delivery datasets.</p>
+
+            <h2>Email Address Anatomy</h2>
+            <p>Every email address follows the format <code>local-part@domain</code>, and each component has specific rules governing what is allowed.</p>
+
+            <h3>The Local Part</h3>
+            <p>The <strong>local part</strong> (everything before the <code>@</code>) identifies the specific mailbox on the mail server. According to RFC 5321:</p>
+            <ul>
+                <li>It can be up to 64 characters long.</li>
+                <li>Allowed characters include letters (a-z, A-Z), digits (0-9), and certain special characters: <code>.</code> <code>+</code> <code>-</code> <code>_</code> among others.</li>
+                <li>Dots cannot appear at the start or end, and consecutive dots are not permitted (though Gmail famously ignores dots entirely in its local parts).</li>
+                <li>The local part is technically case-sensitive, but in practice virtually all mail servers treat it as case-insensitive.</li>
+                <li>The <code>+</code> character is commonly used for <strong>sub-addressing</strong> (also called plus-addressing). For example, <code>user+newsletter@gmail.com</code> delivers to the same mailbox as <code>user@gmail.com</code> but allows filtering.</li>
+            </ul>
+
+            <h3>The Domain</h3>
+            <p>The <strong>domain</strong> (everything after the <code>@</code>) identifies the mail server responsible for the mailbox. It must be a valid domain name conforming to DNS naming rules: labels separated by dots, each label up to 63 characters, total domain up to 253 characters. The domain must have MX or A records pointing to a reachable mail server.</p>
+
+            <h2>Common Syntax Rules</h2>
+            <p>While the full RFC specifications are extensive, most email validation in practice enforces these commonly accepted rules:</p>
+            <ul>
+                <li>Exactly one <code>@</code> symbol separating the local part from the domain.</li>
+                <li>No spaces in either the local part or the domain (outside of quoted strings, which are rare in practice).</li>
+                <li>The domain must contain at least one dot (e.g., <code>user@localhost</code> is technically valid but not deliverable on the public internet).</li>
+                <li>The domain must not start or end with a hyphen.</li>
+                <li>The total address length must not exceed 254 characters.</li>
+            </ul>
+
+            <h2>Role-Based Addresses</h2>
+            <p><strong>Role-based email addresses</strong> are associated with a function rather than a specific person. Common examples include <code>admin@</code>, <code>info@</code>, <code>support@</code>, <code>sales@</code>, <code>webmaster@</code>, and <code>postmaster@</code>. These addresses are typically monitored by multiple people or routed to ticketing systems.</p>
+            <p>Role-based addresses are valid and deliverable, but they pose issues for marketing and transactional email. They often have higher complaint rates (since multiple recipients may mark messages as spam), lower engagement, and may be subject to stricter filtering. Many email validation tools flag role-based addresses so senders can make informed decisions about whether to include them in mailing lists.</p>
+
+            <h2>Disposable Email Detection</h2>
+            <p><strong>Disposable email addresses</strong> (also called temporary or throwaway addresses) are provided by services like Mailinator, Guerrilla Mail, and 10MinuteMail. They allow users to create short-lived addresses for one-time use, typically to bypass registration requirements without revealing their real email address.</p>
+            <p>From a validation perspective, disposable addresses are technically valid -- they have correct syntax, functioning MX records, and accepting mail servers. However, they are problematic for services that need to communicate with users over time. Messages sent to disposable addresses will bounce once the address expires, harming sender reputation and inflating bounce rates. Email validators typically maintain lists of known disposable email domains and flag addresses accordingly.</p>
+
+            <h2>Why Validate Emails?</h2>
+            <p>Email validation is not just a nice-to-have -- it directly impacts several critical business metrics:</p>
+            <ul>
+                <li><strong>Bounce rates</strong> -- sending to invalid addresses generates hard bounces (permanent delivery failures). High bounce rates damage your sender reputation with email service providers (ESPs) and can lead to your sending IP or domain being blacklisted.</li>
+                <li><strong>Sender reputation</strong> -- ESPs like Gmail, Outlook, and Yahoo assign reputation scores to sending domains and IP addresses. Consistently sending to invalid addresses, spam traps, or addresses that generate complaints degrades your reputation, causing legitimate emails to land in spam folders.</li>
+                <li><strong>Data quality</strong> -- invalid email addresses in your database indicate broader data quality issues. Validating at the point of collection ensures you capture accurate information from the start.</li>
+                <li><strong>Cost efficiency</strong> -- most email sending platforms charge based on list size or send volume. Removing invalid addresses reduces costs and improves the return on your email investment.</li>
+                <li><strong>Deliverability</strong> -- ultimately, validation improves the percentage of your emails that reach real inboxes rather than bouncing or landing in spam.</li>
+            </ul>
+
+            <h2>The SMTP Verification Process</h2>
+            <p>When an email validator performs SMTP-level checking, it opens a TCP connection to port 25 on the recipient's mail server and conducts a partial SMTP conversation. Here is what the exchange looks like:</p>
+            <pre><code>220 mail.example.com ESMTP ready
+EHLO validator.example.com
+250-mail.example.com Hello
+MAIL FROM:&lt;check@validator.example.com&gt;
+250 OK
+RCPT TO:&lt;user@example.com&gt;
+250 OK (mailbox exists)
+QUIT</code></pre>
+            <p>If the RCPT TO command returns a <code>550</code> or <code>553</code> error instead of <code>250</code>, the server is explicitly rejecting mail to that address, indicating the mailbox does not exist. The validator never proceeds to the DATA command, so no email is actually sent.</p>
+
+            <h2>Limitations of Email Validation</h2>
+            <p>Even thorough validation has inherent limitations:</p>
+            <ul>
+                <li><strong>Catch-all servers</strong> -- some domains are configured to accept mail for any address at the domain, regardless of whether the specific mailbox exists. For example, <code>anything@catchall-domain.com</code> would return a <code>250</code> response even if the mailbox does not exist. Validation cannot determine deliverability for catch-all domains beyond confirming the domain itself accepts mail.</li>
+                <li><strong>Greylisting</strong> -- a spam-fighting technique where the mail server temporarily rejects the first delivery attempt from an unknown sender. The expectation is that legitimate mail servers will retry, while spam bots will not. This causes validators to receive a temporary rejection (<code>450</code>) that does not indicate the mailbox is invalid.</li>
+                <li><strong>Rate limiting and blocking</strong> -- mail servers may block or throttle SMTP verification attempts, especially from IP addresses that send large volumes of RCPT TO queries without delivering mail. This is a legitimate anti-abuse measure that can prevent validators from completing their checks.</li>
+                <li><strong>Full mailboxes</strong> -- a mailbox that exists but has exceeded its storage quota will bounce messages. This is a temporary condition that syntax and DNS validation cannot detect.</li>
+                <li><strong>Privacy protections</strong> -- some mail servers deliberately return <code>250</code> for all RCPT TO queries to prevent address enumeration attacks. This makes SMTP verification unreliable for those domains.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Email Validator provides multi-level validation to assess email address quality:</p>
+            <ol>
+                <li><strong>Enter an email address</strong> in the input field (e.g., <code>user@example.com</code>).</li>
+                <li><strong>Click "Validate"</strong> to initiate the check.</li>
+                <li><strong>Review the results</strong>, which include syntax validation status, DNS and MX record verification, SMTP server response, and any flags for role-based or disposable addresses.</li>
+            </ol>
+            <p>The tool performs each validation level in sequence and reports results for each stage, giving you a comprehensive picture of the address's validity and likely deliverability.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Email Validator for comprehensive email and domain diagnostics:</p>
+            <ul>
+                <li><a href="/dns-lookup/">DNS Lookup</a> -- inspect the full DNS configuration for any domain, including MX, A, TXT, and other record types.</li>
+                <li><a href="/smtp-checker/">SMTP Checker</a> -- test SMTP server connectivity and configuration in detail beyond what the validator performs automatically.</li>
+                <li><a href="/blacklist-checker/">Blacklist Checker</a> -- verify whether a domain or IP address appears on email blacklists that could affect deliverability.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/email-validator/" class="standalone-nav-btn">Try Email Validator</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

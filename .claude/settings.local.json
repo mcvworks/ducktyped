@@ -4,7 +4,8 @@
       "Bash(ls:*)",
       "Bash(echo:*)",
       "Bash(dir frontenddns-lookupindex.html)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "WebFetch(domain:ducktyped.xyz)"
     ]
   }
 }

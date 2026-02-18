@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse DNS Explained — PTR Records &amp; IP Resolution — duckTyped</title>
+    <meta name="description" content="Learn how reverse DNS works, what PTR records are, the in-addr.arpa and ip6.arpa zones, why rDNS matters for email deliverability and security, and how to use duckTyped's reverse DNS tool.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Reverse DNS Explained — PTR Records & IP Resolution — duckTyped">
+    <meta property="og:description" content="Learn how reverse DNS works, what PTR records are, why rDNS matters for email deliverability and security.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/reverse-dns/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Reverse DNS Explained — PTR Records & IP Resolution — duckTyped">
+    <meta name="twitter:description" content="Learn how reverse DNS and PTR records work, and why they matter for email deliverability and network security.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/reverse-dns/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Reverse DNS</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Reverse DNS Explained</h1>
+            <p class="standalone-intro">Understand how reverse DNS translates IP addresses back to hostnames, what PTR records are, how the in-addr.arpa and ip6.arpa zones work, why rDNS is critical for email deliverability and security verification, and how to use duckTyped's reverse DNS lookup tool.</p>
+
+            <h2>What Is Reverse DNS?</h2>
+            <p><strong>Reverse DNS (rDNS)</strong> is the process of resolving an IP address back to a domain name -- the opposite of the standard forward DNS lookup. In forward DNS, you query a domain name like <code>mail.example.com</code> and receive an IP address like <code>93.184.216.34</code>. In reverse DNS, you query the IP address <code>93.184.216.34</code> and receive the hostname <code>mail.example.com</code>.</p>
+            <p>While forward DNS is essential for finding where to connect, reverse DNS serves a different purpose: it provides a way to verify the identity of an IP address. When a server connects to your mail server, reverse DNS lets you check whether the connecting IP address has a legitimate hostname associated with it. This verification is a foundational element of email security, logging, and network administration.</p>
+
+            <h2>PTR Records</h2>
+            <p>Reverse DNS lookups are powered by <strong>PTR (Pointer) records</strong>. A PTR record maps an IP address to a hostname, functioning as the reverse counterpart of an A record (which maps a hostname to an IPv4 address) or an AAAA record (which maps a hostname to an IPv6 address).</p>
+            <p>Unlike A and AAAA records, which are managed by the domain owner, <strong>PTR records are managed by whoever controls the IP address block</strong> -- typically the ISP or hosting provider. This is an important distinction. If you want to set up reverse DNS for your server, you must configure the PTR record through your hosting provider or ISP, not through your domain registrar or DNS provider.</p>
+            <p>A PTR record for the IP address <code>93.184.216.34</code> would look like this in DNS zone format:</p>
+            <pre><code>34.216.184.93.in-addr.arpa.  PTR  mail.example.com.</code></pre>
+
+            <h2>The in-addr.arpa and ip6.arpa Zones</h2>
+            <p>Reverse DNS uses a clever mechanism to fit IP-to-hostname mappings into the existing DNS hierarchy. Rather than creating an entirely new system, reverse DNS repurposes the standard DNS tree using special domains.</p>
+
+            <h3>IPv4: in-addr.arpa</h3>
+            <p>For IPv4 addresses, reverse DNS uses the <strong>in-addr.arpa</strong> domain. The IP address octets are reversed and appended to <code>in-addr.arpa</code>. For example, to look up the reverse DNS for <code>93.184.216.34</code>, you query:</p>
+            <pre><code>34.216.184.93.in-addr.arpa</code></pre>
+            <p>The octets are reversed because DNS is hierarchical from right to left (the most significant part is on the right), while IP addresses are hierarchical from left to right (the network portion comes first). Reversing the octets aligns the IP address hierarchy with the DNS hierarchy, allowing delegation to work correctly. The <code>/24</code> network <code>93.184.216.0</code> corresponds to the DNS zone <code>216.184.93.in-addr.arpa</code>, which can be delegated to the organization that controls that IP block.</p>
+
+            <h3>IPv6: ip6.arpa</h3>
+            <p>For IPv6 addresses, reverse DNS uses the <strong>ip6.arpa</strong> domain. The process is similar but more verbose -- each hexadecimal digit (nibble) of the full 128-bit address is reversed and separated by dots. For example, the IPv6 address <code>2001:0db8:85a3::8a2e:0370:7334</code> expands to:</p>
+            <pre><code>4.3.3.7.0.7.3.0.e.2.a.8.0.0.0.0.0.0.0.0.3.a.5.8.8.b.d.0.1.0.0.2.ip6.arpa</code></pre>
+            <p>This results in a 63-character domain name, which is unwieldy but works reliably within the existing DNS infrastructure. IPv6 reverse DNS is configured less frequently than IPv4, partly due to the vast address space making individual PTR records impractical for every address.</p>
+
+            <h2>Forward DNS vs Reverse DNS</h2>
+            <p>Forward and reverse DNS serve complementary purposes but operate independently:</p>
+            <ul>
+                <li><strong>Forward DNS</strong> (A/AAAA records): Maps a hostname to an IP address. Managed by the domain owner. Used to find where to connect.</li>
+                <li><strong>Reverse DNS</strong> (PTR records): Maps an IP address to a hostname. Managed by the IP address owner (ISP/hosting provider). Used to verify identity.</li>
+            </ul>
+            <p>Critically, forward and reverse DNS do not need to match. An IP address might have a PTR record pointing to <code>server1.hosting.example</code>, while the domain <code>mywebsite.com</code> has an A record pointing to that same IP. This is perfectly normal for shared hosting environments. However, for certain use cases -- particularly email -- matching forward and reverse DNS is important, as discussed below.</p>
+
+            <h2>Why Reverse DNS Matters</h2>
+            <p>Reverse DNS plays a vital role in several areas of internet infrastructure and security.</p>
+
+            <h3>Email Deliverability</h3>
+            <p>Reverse DNS is <strong>critically important for email</strong>. Most major email providers (Gmail, Microsoft 365, Yahoo, etc.) check the reverse DNS of connecting mail servers as part of their spam filtering. If your mail server's IP address has no PTR record, or if the PTR record does not match the server's hostname, your emails are significantly more likely to be rejected or classified as spam.</p>
+            <p>Many mail servers implement a strict policy: they will reject connections from IP addresses that have <strong>no PTR record at all</strong>. The logic is straightforward -- legitimate mail servers are almost always configured with proper reverse DNS, while spam botnets and compromised machines rarely are. If you run a mail server, configuring a correct PTR record is not optional; it is a baseline requirement for deliverability.</p>
+
+            <h3>Logging and Auditing</h3>
+            <p>Web servers, firewalls, and other network devices often use reverse DNS to convert IP addresses in log files to hostnames. This makes logs more readable and easier to analyze. Instead of seeing a connection from <code>203.0.113.42</code>, an administrator sees a connection from <code>crawler.searchengine.com</code>, immediately identifying the traffic source. However, relying on rDNS for logging can introduce latency if lookups are slow, which is why many systems perform reverse DNS lookups asynchronously or cache results aggressively.</p>
+
+            <h3>Security Verification</h3>
+            <p>Reverse DNS is used as one component of security verification in various contexts. Network intrusion detection systems use rDNS to enrich alerts with hostname information. Access control lists sometimes reference hostnames rather than IP addresses, requiring reverse DNS lookups. SSH servers can be configured to verify that a connecting client's IP address has a PTR record matching its claimed identity.</p>
+
+            <h3>Anti-Spam and Blacklisting</h3>
+            <p>DNS-based blacklists (DNSBLs) like Spamhaus use the reverse DNS infrastructure pattern for their lookup mechanism. To check whether an IP address is blacklisted, you query the reversed IP against the blacklist's domain (e.g., <code>34.216.184.93.zen.spamhaus.org</code>). This piggybacks on the same in-addr.arpa reversal concept, making blacklist checks extremely fast and efficient.</p>
+
+            <h2>Forward-Confirmed Reverse DNS (FCrDNS)</h2>
+            <p><strong>Forward-Confirmed Reverse DNS</strong> is a verification technique that checks whether forward and reverse DNS are consistent. The process works as follows:</p>
+            <ol>
+                <li>Take the IP address and perform a reverse DNS lookup to get a hostname.</li>
+                <li>Take that hostname and perform a forward DNS lookup to get an IP address.</li>
+                <li>If the IP address from step 2 matches the original IP address from step 1, the reverse DNS is "forward-confirmed."</li>
+            </ol>
+            <p>FCrDNS provides a stronger identity verification than reverse DNS alone, because it proves that the owner of the domain name has explicitly pointed it at that IP address. A malicious actor could potentially set a PTR record to claim any hostname, but they cannot control the forward DNS records for a domain they do not own. Many email servers and security systems use FCrDNS as a more reliable check than PTR records alone.</p>
+
+            <h2>Configuring PTR Records</h2>
+            <p>Setting up reverse DNS requires coordination with your IP address provider. The process varies depending on your hosting situation:</p>
+            <ul>
+                <li><strong>Cloud hosting (AWS, GCP, Azure)</strong> -- most cloud providers offer a self-service option to set PTR records for your allocated IP addresses through their control panel or API.</li>
+                <li><strong>Dedicated servers</strong> -- your hosting provider typically provides a control panel option for setting PTR records, or you may need to submit a support request.</li>
+                <li><strong>ISP-assigned IP addresses</strong> -- for static IPs from your ISP, you usually need to contact the ISP's support team to request a PTR record change.</li>
+            </ul>
+            <p>When configuring a PTR record for a mail server, best practice is to set the PTR to the server's <strong>FQDN (Fully Qualified Domain Name)</strong>, and ensure that FQDN has a matching A record pointing back to the same IP address. This establishes forward-confirmed reverse DNS.</p>
+
+            <h2>Common Issues</h2>
+
+            <h3>Missing PTR Record</h3>
+            <p>The most common reverse DNS issue is simply <strong>not having a PTR record at all</strong>. This is the default state for many IP addresses, especially those on residential ISP connections or newly provisioned cloud instances. For mail servers, this is a critical problem that will cause delivery failures.</p>
+
+            <h3>Mismatched PTR and A Records</h3>
+            <p>If the PTR record points to a hostname that does not resolve back to the same IP address (failing FCrDNS), some recipients will treat this as suspicious. Always verify that your PTR record and A record form a consistent pair.</p>
+
+            <h3>Generic ISP Hostnames</h3>
+            <p>Many ISPs automatically set PTR records for their IP addresses to generic hostnames like <code>host-93-184-216-34.example-isp.net</code>. While this is technically a valid PTR record, it does not help with email deliverability because it does not match your mail server's configured hostname. You need to replace this generic PTR with your server's actual FQDN.</p>
+
+            <h3>Propagation Delays</h3>
+            <p>After configuring a PTR record, it may take time to propagate. PTR records have TTL values just like any other DNS record, and resolvers will cache the previous value (or the absence of a value) until the TTL expires. Allow up to 24--48 hours for full propagation, though most changes take effect within a few hours.</p>
+
+            <h2>How to Use the Reverse DNS Tool</h2>
+            <p>The duckTyped Reverse DNS tool makes it easy to look up the PTR record for any IP address:</p>
+            <ol>
+                <li><strong>Enter an IP address</strong> in the input field (e.g., <code>8.8.8.8</code> or <code>2001:4860:4860::8888</code>). Both IPv4 and IPv6 addresses are supported.</li>
+                <li><strong>Click "Lookup"</strong> to perform the reverse DNS query.</li>
+                <li><strong>Review the results</strong>, which display the PTR record hostname associated with the IP address, or indicate if no PTR record exists.</li>
+            </ol>
+            <p>The tool queries authoritative DNS servers for the appropriate in-addr.arpa or ip6.arpa zone. If you are configuring a mail server, use this tool to verify that your PTR record is set correctly and matches your server's hostname.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Reverse DNS Lookup for comprehensive DNS and email diagnostics:</p>
+            <ul>
+                <li><a href="/dns-lookup/">DNS Record Checker</a> -- inspect forward DNS records (A, AAAA, MX, TXT, etc.) to verify domain configuration.</li>
+                <li><a href="/email-validator/">Email Validator</a> -- test email address validity, MX record existence, and mail server connectivity.</li>
+                <li><a href="/blacklist-checker/">Blacklist Checker</a> -- check whether an IP address or domain appears on DNS-based blacklists.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/reverse-dns/" class="standalone-nav-btn">Try Reverse DNS Lookup</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

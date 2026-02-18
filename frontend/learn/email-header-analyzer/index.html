@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Headers Explained — SPF, DKIM, DMARC &amp; Routing — duckTyped</title>
+    <meta name="description" content="Learn how to read email headers, understand SPF, DKIM, and DMARC authentication, trace message routing through the Received chain, and identify spam or phishing. Use duckTyped's Email Header Analyzer.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Email Headers Explained — SPF, DKIM, DMARC & Routing — duckTyped">
+    <meta property="og:description" content="Learn how to read email headers, understand SPF, DKIM, and DMARC authentication, trace message routing, and identify spam or phishing.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/email-header-analyzer/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Email Headers Explained — SPF, DKIM, DMARC & Routing — duckTyped">
+    <meta name="twitter:description" content="Learn how to read email headers, understand SPF, DKIM, and DMARC authentication, and trace email routing.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/email-header-analyzer/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Email Header Analyzer</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Email Headers Explained</h1>
+            <p class="standalone-intro">Understand how to read and interpret email headers, trace the path a message took from sender to recipient, and use SPF, DKIM, and DMARC authentication results to verify legitimacy and diagnose delivery issues.</p>
+
+            <h2>What Are Email Headers?</h2>
+            <p><strong>Email headers</strong> are metadata fields attached to every email message. While the average user sees only the From, To, Subject, and Date fields, every email carries dozens of additional headers that record how the message was created, authenticated, routed, and processed. Headers are added by the sending mail client, each mail server the message passes through, and the receiving server.</p>
+            <p>Think of email headers as a detailed shipping label and tracking log combined. They tell you who sent the package, where it originated, every warehouse it passed through, and whether its contents were verified at each stop. For anyone troubleshooting email delivery, investigating phishing attempts, or verifying email authentication, headers are an indispensable diagnostic tool.</p>
+            <p>Headers appear as key-value pairs, one per line, at the top of the raw email message (above the body). They are structured as <code>Header-Name: value</code> and can span multiple lines using whitespace continuation. Most email clients hide headers by default, but they can always be accessed through a "view source" or "show original" option.</p>
+
+            <h2>Key Email Headers</h2>
+            <p>While an email can contain dozens of headers, these are the most important ones for understanding message origin, routing, and authentication.</p>
+
+            <h3>From</h3>
+            <p>The <strong>From</strong> header displays the sender's name and email address as shown to the recipient. This is the address that appears in your inbox. Critically, the From header is easily spoofed -- any mail server can set it to any value. This is why email authentication mechanisms like SPF, DKIM, and DMARC exist: to verify that the From address is legitimate.</p>
+
+            <h3>To, Cc, and Bcc</h3>
+            <p>These headers list the intended recipients. The <strong>To</strong> header contains the primary recipients, <strong>Cc</strong> (carbon copy) contains secondary recipients visible to all parties, and <strong>Bcc</strong> (blind carbon copy) recipients are hidden from other recipients. Note that Bcc headers are stripped before delivery, so they do not appear in the received message's headers.</p>
+
+            <h3>Subject</h3>
+            <p>The <strong>Subject</strong> header contains the email's subject line. It is set by the sender and displayed prominently in the recipient's inbox.</p>
+
+            <h3>Date</h3>
+            <p>The <strong>Date</strong> header records when the message was composed by the sender's mail client. This timestamp is set by the originating client and may differ from when the message was actually received, especially if there were delivery delays.</p>
+
+            <h3>Received</h3>
+            <p>The <strong>Received</strong> headers are arguably the most important for diagnostics. Each mail server that handles the message adds a Received header at the top of the header block, creating a chronological chain that traces the message's path from origin to destination. A typical email has 3 to 8 Received headers.</p>
+
+            <h3>Message-ID</h3>
+            <p>The <strong>Message-ID</strong> header is a globally unique identifier assigned to the email by the originating mail server. It follows the format <code>&lt;unique-string@domain&gt;</code>. Message-IDs are used for threading conversations and tracking specific messages across mail systems. A missing or malformed Message-ID can be a sign of spam or a misconfigured sending system.</p>
+
+            <h3>Return-Path</h3>
+            <p>The <strong>Return-Path</strong> header (also called the envelope sender or bounce address) specifies where bounce notifications should be sent if the message cannot be delivered. This address is set during the SMTP MAIL FROM command and may differ from the From header. SPF authentication checks are performed against the Return-Path domain.</p>
+
+            <h3>X-Headers</h3>
+            <p><strong>X-headers</strong> are custom, non-standard headers added by mail servers, spam filters, or email services. Common examples include <code>X-Spam-Status</code>, <code>X-Mailer</code>, <code>X-Originating-IP</code>, and <code>X-Google-DKIM-Signature</code>. While not standardized, X-headers often contain valuable diagnostic information specific to the mail platform being used.</p>
+
+            <h2>Reading the Received Chain</h2>
+            <p>The Received headers form a chain that tells the story of the email's journey. Each hop -- from the sender's mail client to the first server, between relay servers, and finally to the recipient's server -- adds a Received header. The crucial rule for reading this chain is: <strong>read from bottom to top</strong>.</p>
+            <p>The oldest Received header (at the bottom) was added by the first server that handled the message. The newest (at the top) was added by the last server before delivery to your inbox. Here is an example chain:</p>
+            <pre><code>Received: from mx.recipient.com (mx.recipient.com [198.51.100.10])
+    by inbox.recipient.com; Wed, 15 Jan 2025 10:05:02 -0500
+Received: from relay.sender.com (relay.sender.com [203.0.113.50])
+    by mx.recipient.com; Wed, 15 Jan 2025 10:04:58 -0500
+Received: from mail.sender.com (mail.sender.com [203.0.113.25])
+    by relay.sender.com; Wed, 15 Jan 2025 10:04:55 -0500</code></pre>
+            <p>Reading bottom to top: the message originated at <code>mail.sender.com</code>, passed through <code>relay.sender.com</code>, was received by <code>mx.recipient.com</code>, and finally delivered to <code>inbox.recipient.com</code>. The timestamps at each hop let you identify where delays occurred. A large time gap between two consecutive Received headers indicates a slow server or queuing issue at that hop.</p>
+            <p>Each Received header typically includes the sending server's hostname and IP address (the <code>from</code> clause), the receiving server's hostname (the <code>by</code> clause), and a timestamp. Compare the IP addresses against known infrastructure to verify the message truly originated where it claims.</p>
+
+            <h2>SPF Explained</h2>
+            <p><strong>SPF (Sender Policy Framework)</strong> is an email authentication standard that allows domain owners to specify which mail servers are authorized to send email on behalf of their domain. SPF records are published as TXT records in DNS.</p>
+            <p>When a receiving mail server gets a message, it checks the SPF record for the domain in the Return-Path (envelope sender). The SPF record contains a list of authorized IP addresses and mechanisms. The server compares the connecting IP against this list and produces one of these results:</p>
+            <ul>
+                <li><strong>Pass</strong> -- the sending IP is explicitly authorized. The message passed the SPF check.</li>
+                <li><strong>Fail</strong> -- the sending IP is not authorized, and the domain owner has indicated that such messages should be rejected (using the <code>-all</code> mechanism).</li>
+                <li><strong>Softfail</strong> -- the sending IP is not authorized, but the domain owner has indicated a permissive policy (using the <code>~all</code> mechanism). The message is accepted but may be flagged.</li>
+                <li><strong>Neutral</strong> -- the domain owner has made no assertion about the IP (using the <code>?all</code> mechanism).</li>
+                <li><strong>None</strong> -- the domain has no SPF record published.</li>
+            </ul>
+            <p>A typical SPF record looks like this:</p>
+            <pre><code>v=spf1 ip4:203.0.113.0/24 include:_spf.google.com ~all</code></pre>
+            <p>This record authorizes the IP range <code>203.0.113.0/24</code> and any servers included in Google's SPF record, with a softfail for all other sources.</p>
+
+            <h2>DKIM Explained</h2>
+            <p><strong>DKIM (DomainKeys Identified Mail)</strong> provides cryptographic proof that an email was sent by an authorized server and that the message content has not been tampered with in transit. Unlike SPF, which checks the sending IP address, DKIM verifies the integrity of the message itself.</p>
+            <p>Here is how DKIM works:</p>
+            <ol>
+                <li><strong>The sending server signs the message</strong> using a private key. The signature covers specific headers (typically From, To, Subject, Date) and the message body. The signature is added as a <code>DKIM-Signature</code> header.</li>
+                <li><strong>The public key is published in DNS</strong> as a TXT record under a specific selector. For example, a DKIM record for selector <code>s1</code> at <code>example.com</code> is published at <code>s1._domainkey.example.com</code>.</li>
+                <li><strong>The receiving server verifies the signature</strong> by retrieving the public key from DNS and checking it against the signature in the DKIM-Signature header. If the signature is valid, the message has not been modified since it was signed.</li>
+            </ol>
+            <p>The DKIM-Signature header includes several important fields:</p>
+            <ul>
+                <li><code>d=</code> -- the signing domain.</li>
+                <li><code>s=</code> -- the selector, which identifies which public key to use (a domain can have multiple selectors for key rotation).</li>
+                <li><code>h=</code> -- the list of headers that were included in the signature.</li>
+                <li><code>b=</code> -- the actual cryptographic signature (Base64-encoded).</li>
+                <li><code>bh=</code> -- a hash of the message body, ensuring body integrity.</li>
+            </ul>
+            <p>DKIM signatures survive forwarding through most intermediaries, though mailing lists and forwarding services that modify the message body or signed headers will break the signature.</p>
+
+            <h2>DMARC Explained</h2>
+            <p><strong>DMARC (Domain-based Message Authentication, Reporting, and Conformance)</strong> builds on SPF and DKIM by adding two critical capabilities: <strong>alignment</strong> and <strong>policy enforcement</strong>.</p>
+            <p><strong>Alignment</strong> ensures that the domain in the visible From header matches the domain authenticated by SPF (the Return-Path domain) or DKIM (the <code>d=</code> domain). Without alignment, an attacker could pass SPF using their own domain in the Return-Path while spoofing a different domain in the From header. DMARC closes this gap by requiring that the authenticated domain and the From domain match (or be sub-domains of each other, in relaxed mode).</p>
+            <p>A DMARC record is published as a TXT record at <code>_dmarc.example.com</code> and specifies:</p>
+            <ul>
+                <li><code>p=</code> -- the <strong>policy</strong> to apply when authentication fails: <code>none</code> (monitor only), <code>quarantine</code> (send to spam), or <code>reject</code> (block the message entirely).</li>
+                <li><code>rua=</code> -- the address to receive <strong>aggregate reports</strong> containing daily statistics on authentication results for your domain.</li>
+                <li><code>ruf=</code> -- the address to receive <strong>forensic reports</strong> with details about individual authentication failures.</li>
+                <li><code>adkim=</code> and <code>aspf=</code> -- alignment mode for DKIM and SPF: <code>r</code> for relaxed (subdomain match allowed) or <code>s</code> for strict (exact match required).</li>
+                <li><code>pct=</code> -- the percentage of failing messages to which the policy should be applied, allowing gradual rollout.</li>
+            </ul>
+            <p>A typical DMARC record looks like this:</p>
+            <pre><code>v=DMARC1; p=reject; rua=mailto:dmarc@example.com; adkim=r; aspf=r</code></pre>
+
+            <h2>Authentication-Results Header</h2>
+            <p>The receiving mail server consolidates the results of SPF, DKIM, and DMARC checks into a single <strong>Authentication-Results</strong> header. This header provides a clear summary of whether the message passed or failed each authentication method:</p>
+            <pre><code>Authentication-Results: mx.recipient.com;
+    spf=pass (sender IP is 203.0.113.25) smtp.mailfrom=sender.com;
+    dkim=pass header.d=sender.com header.s=selector1;
+    dmarc=pass (p=REJECT) header.from=sender.com</code></pre>
+            <p>When troubleshooting email delivery or investigating a suspicious message, the Authentication-Results header is usually the first place to look. It tells you at a glance whether the message was properly authenticated.</p>
+
+            <h2>Identifying Spam and Phishing from Headers</h2>
+            <p>Email headers contain several telltale signs that can help you identify fraudulent messages:</p>
+            <ul>
+                <li><strong>SPF/DKIM/DMARC failures</strong> -- if any of these checks fail, the message may not have been sent by the claimed domain. A legitimate sender will almost always pass all three.</li>
+                <li><strong>Mismatched From and Return-Path</strong> -- while some legitimate scenarios cause these to differ (mailing lists, forwarding), a mismatch combined with authentication failures is a strong phishing indicator.</li>
+                <li><strong>Suspicious Received chain</strong> -- if the Received headers show the message originated from an unexpected country or IP range, or if the chain is unusually short or inconsistent, the message may be fraudulent.</li>
+                <li><strong>Missing or malformed Message-ID</strong> -- legitimate mail servers generate proper Message-IDs. A missing Message-ID or one that does not match the claimed sending domain is suspicious.</li>
+                <li><strong>X-Spam-Score headers</strong> -- many mail systems add headers indicating the spam score assigned to the message. A high score suggests the message triggered multiple spam detection rules.</li>
+                <li><strong>Inconsistent timestamps</strong> -- if the Date header shows a time significantly different from the Received timestamps, the message may have been crafted to appear sent at a different time.</li>
+            </ul>
+
+            <h2>How to Find Raw Headers</h2>
+            <p>Accessing raw email headers varies by email client:</p>
+
+            <h3>Gmail</h3>
+            <p>Open the email, click the three-dot menu in the upper right corner of the message, and select <strong>"Show original"</strong>. This opens a new tab displaying the full headers and the raw message source. Gmail also provides a summary showing SPF, DKIM, and DMARC results at the top.</p>
+
+            <h3>Outlook (Web)</h3>
+            <p>Open the email, click the three-dot menu (More actions), and select <strong>"View" then "View message source"</strong>. In the classic Outlook desktop application, open the message, go to <strong>File &gt; Properties</strong>, and the headers appear in the "Internet headers" text box at the bottom of the dialog.</p>
+
+            <h3>Apple Mail</h3>
+            <p>Open the email and go to <strong>View &gt; Message &gt; All Headers</strong>, or use the keyboard shortcut <strong>Cmd + Shift + H</strong>. This displays the full headers inline within the message view.</p>
+
+            <h3>Thunderbird</h3>
+            <p>Open the email and go to <strong>View &gt; Message Source</strong>, or press <strong>Ctrl + U</strong>. This opens the complete raw message including all headers in a separate window.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Email Header Analyzer parses raw email headers and presents them in a structured, readable format:</p>
+            <ol>
+                <li><strong>Copy the raw headers</strong> from your email client using the methods described above.</li>
+                <li><strong>Paste the headers</strong> into the analyzer's input field.</li>
+                <li><strong>Click "Analyze"</strong> to process the headers.</li>
+                <li><strong>Review the results</strong>, which include a parsed breakdown of all headers, the message route visualized as a hop-by-hop trace with timestamps and delays, SPF/DKIM/DMARC authentication results highlighted for quick assessment, and any flags for suspicious patterns.</li>
+            </ol>
+            <p>The analyzer transforms what is typically a wall of dense, unformatted text into an organized view that makes it easy to trace routing, check authentication, and identify anomalies.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Email Header Analyzer for comprehensive email diagnostics:</p>
+            <ul>
+                <li><a href="/email-validator/">Email Validator</a> -- verify that email addresses are syntactically valid, have functioning MX records, and are capable of receiving messages.</li>
+                <li><a href="/dns-lookup/">DNS Lookup</a> -- inspect SPF, DKIM, and DMARC records directly in DNS to verify they are published correctly.</li>
+                <li><a href="/smtp-checker/">SMTP Checker</a> -- test SMTP server connectivity and configuration to diagnose delivery issues identified in email headers.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/email-header-analyzer/" class="standalone-nav-btn">Try Email Header Analyzer</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

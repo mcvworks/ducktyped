@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broken Link Checking Explained — HTTP Status Codes &amp; Site Maintenance — duckTyped</title>
+    <meta name="description" content="Learn what broken links are, how HTTP status codes work, why dead links hurt SEO and user experience, and how to find and fix them with duckTyped's Broken Link Checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Broken Link Checking Explained — HTTP Status Codes & Site Maintenance — duckTyped">
+    <meta property="og:description" content="Learn what broken links are, how HTTP status codes work, why dead links hurt SEO and user experience, and how to find and fix them.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/link-checker/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Broken Link Checking Explained — HTTP Status Codes & Site Maintenance — duckTyped">
+    <meta name="twitter:description" content="Learn what broken links are, how HTTP status codes work, and how to find and fix them.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/link-checker/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Broken Link Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Broken Link Checking Explained</h1>
+            <p class="standalone-intro">Understand what broken links are, how HTTP status codes signal errors, why dead links damage your site's SEO and user experience, and how to systematically find and fix them using duckTyped's Broken Link Checker.</p>
+
+            <h2>What Are Broken Links?</h2>
+            <p>A <strong>broken link</strong> (also called a dead link or link rot) is a hyperlink that no longer leads to its intended destination. When a user or search engine crawler follows a broken link, the server returns an error response instead of the expected content. The most familiar example is the <strong>404 Not Found</strong> error, but broken links can manifest as several different HTTP status codes depending on the underlying cause.</p>
+            <p>Broken links are an inevitable part of the web. Pages get deleted, URLs get restructured, external sites shut down, and domains expire. A study by Harvard Law School found that roughly <strong>50% of URLs cited in U.S. Supreme Court opinions</strong> no longer point to the original content. Research from the Internet Archive confirms that the average lifespan of a web page is approximately 100 days before it is modified or removed. This phenomenon -- known as <strong>link rot</strong> -- affects every website over time, making regular link checking an essential maintenance task.</p>
+
+            <h2>HTTP Status Codes Explained</h2>
+            <p>Every time a browser or crawler requests a URL, the server responds with an <strong>HTTP status code</strong> -- a three-digit number that indicates what happened. Understanding these codes is essential for diagnosing broken links.</p>
+
+            <h3>1xx -- Informational</h3>
+            <p>Status codes in the <strong>100-199 range</strong> are informational responses. They indicate that the server has received the request and the client should continue. You rarely encounter these in the context of broken link checking, but <code>100 Continue</code> and <code>101 Switching Protocols</code> are the most common.</p>
+
+            <h3>2xx -- Success</h3>
+            <p>Codes in the <strong>200-299 range</strong> indicate success. <code>200 OK</code> is the standard response for a successful request -- this is what every working link should return. Other notable codes include <code>201 Created</code> (used after successful POST requests) and <code>204 No Content</code> (success, but no body to return).</p>
+
+            <h3>3xx -- Redirection</h3>
+            <p>The <strong>300-399 range</strong> covers redirects. These are not errors per se, but they indicate the resource has moved. <code>301 Moved Permanently</code> tells browsers and search engines to update their records to the new URL. <code>302 Found</code> (temporary redirect) means the resource is temporarily at a different location. <code>307 Temporary Redirect</code> and <code>308 Permanent Redirect</code> are their modern equivalents that preserve the HTTP method. Redirect chains (multiple redirects in sequence) slow down page loading and can cause issues if they become circular.</p>
+
+            <h3>4xx -- Client Errors</h3>
+            <p>The <strong>400-499 range</strong> indicates errors on the client side -- meaning the request itself is the problem. These are the codes most commonly associated with broken links:</p>
+            <ul>
+                <li><strong>400 Bad Request</strong> -- the server cannot process the request due to malformed syntax, often caused by special characters in URLs or incorrect encoding.</li>
+                <li><strong>401 Unauthorized</strong> -- the resource requires authentication. The link itself may not be broken, but it is inaccessible without valid credentials.</li>
+                <li><strong>403 Forbidden</strong> -- the server understood the request but refuses to fulfill it. This often occurs when directory listing is disabled or when access is restricted by IP, geographic location, or permissions.</li>
+                <li><strong>404 Not Found</strong> -- the most iconic error code. The server cannot find the requested resource. This typically means the page was deleted, the URL was changed, or the link contains a typo.</li>
+                <li><strong>405 Method Not Allowed</strong> -- the HTTP method (GET, POST, etc.) is not supported for the requested resource. Some link checkers use HEAD requests for efficiency, which certain servers reject.</li>
+                <li><strong>410 Gone</strong> -- similar to 404, but explicitly states that the resource has been intentionally and permanently removed. Search engines treat 410 as a stronger signal to de-index the URL compared to 404.</li>
+                <li><strong>429 Too Many Requests</strong> -- rate limiting. The client has sent too many requests in a given time window. This is common when scanning a site too aggressively.</li>
+            </ul>
+
+            <h3>5xx -- Server Errors</h3>
+            <p>The <strong>500-599 range</strong> indicates server-side failures:</p>
+            <ul>
+                <li><strong>500 Internal Server Error</strong> -- a generic catch-all for unexpected server failures. The link may work again once the server issue is resolved.</li>
+                <li><strong>502 Bad Gateway</strong> -- the server, acting as a gateway or proxy, received an invalid response from the upstream server. Common with reverse proxies and load balancers.</li>
+                <li><strong>503 Service Unavailable</strong> -- the server is temporarily unable to handle the request, typically due to maintenance or overload. Often accompanied by a <code>Retry-After</code> header.</li>
+                <li><strong>504 Gateway Timeout</strong> -- the gateway or proxy did not receive a timely response from the upstream server.</li>
+            </ul>
+
+            <h2>Why Broken Links Matter</h2>
+            <p>Broken links are more than a cosmetic problem. They have tangible consequences for user experience, search engine optimization, and site credibility.</p>
+
+            <h3>User Experience</h3>
+            <p>Encountering a dead link is frustrating for users. Instead of finding the information they expected, they hit a dead end. Studies show that users who encounter errors are significantly more likely to leave a site entirely rather than navigate back and try a different path. Every broken link is a potential lost visitor, lost customer, or lost subscriber.</p>
+
+            <h3>SEO Impact</h3>
+            <p>Search engines like Google use links as a fundamental ranking signal. When a crawler encounters broken links on your site, it sends negative quality signals. While Google has stated that a few 404 errors will not directly harm your rankings, a pattern of broken links suggests poor site maintenance. More importantly, broken internal links waste <strong>crawl budget</strong> -- the number of pages a search engine will crawl on your site in a given time window. Every request spent on a dead URL is a request not spent discovering or re-indexing your actual content.</p>
+
+            <h3>Link Equity Loss</h3>
+            <p>When external sites link to a page that no longer exists, the <strong>link equity</strong> (sometimes called "link juice") that would have boosted your page's authority is lost. If a high-authority site links to your deleted page, that valuable SEO signal disappears unless you set up a proper redirect to a relevant replacement page.</p>
+
+            <h2>Types of Broken Links</h2>
+            <p>Broken links can be categorized by their location and function:</p>
+            <ul>
+                <li><strong>Internal broken links</strong> -- links within your own site that point to pages, resources, or routes that no longer exist. These are entirely within your control to fix.</li>
+                <li><strong>External broken links</strong> -- links on your site that point to third-party websites that have gone offline, changed their URL structure, or removed content. These require replacing the link or removing the reference.</li>
+                <li><strong>Broken image links</strong> -- image <code>src</code> attributes that point to files that have been moved, deleted, or renamed. These result in broken image icons on the page.</li>
+                <li><strong>Broken anchor links</strong> -- links that point to a specific section of a page (using <code>#fragment</code> identifiers) where the target anchor no longer exists. The page loads, but the browser cannot scroll to the intended section.</li>
+                <li><strong>Broken resource links</strong> -- references to CSS files, JavaScript files, fonts, or other assets that are missing. These can cause layout issues, broken functionality, or degraded performance.</li>
+            </ul>
+
+            <h2>Common Causes of Broken Links</h2>
+            <p>Understanding why links break helps you prevent them in the first place:</p>
+            <ul>
+                <li><strong>Deleted or moved pages</strong> -- content is removed or reorganized without setting up redirects from the old URLs.</li>
+                <li><strong>URL restructuring</strong> -- site redesigns or CMS migrations often change URL patterns (e.g., from <code>/blog/2024/post-title</code> to <code>/articles/post-title</code>).</li>
+                <li><strong>Expired domains</strong> -- external sites you linked to may have let their domain registration lapse.</li>
+                <li><strong>Typos in URLs</strong> -- manual entry of links during content creation introduces misspellings or incorrect paths.</li>
+                <li><strong>Platform changes</strong> -- switching from one CMS or hosting platform to another without mapping old URLs to new ones.</li>
+                <li><strong>Dynamic content removal</strong> -- e-commerce products that go out of stock, job listings that expire, or event pages that are taken down.</li>
+                <li><strong>Case sensitivity</strong> -- some servers treat <code>/Page</code> and <code>/page</code> as different URLs. Moving between servers with different case sensitivity rules can break links.</li>
+            </ul>
+
+            <h2>How to Fix Broken Links</h2>
+            <p>Once you have identified broken links, there are several strategies to address them:</p>
+
+            <h3>Set Up 301 Redirects</h3>
+            <p>The best solution for moved content is a <strong>301 permanent redirect</strong> from the old URL to the new one. This preserves link equity, ensures users reach the correct page, and tells search engines to update their index. Implement redirects at the server level (in <code>.htaccess</code>, Nginx configuration, or your application's routing layer) for the fastest response.</p>
+
+            <h3>Update Internal References</h3>
+            <p>For internal broken links, update the href or src attributes throughout your site to point to the correct URLs. This is more efficient than relying on redirects for links you control directly.</p>
+
+            <h3>Replace External Links</h3>
+            <p>If an external resource has moved, update your link to the new URL. If the resource no longer exists anywhere, either find an alternative resource, link to an archived version on the Wayback Machine, or remove the link entirely.</p>
+
+            <h3>Create a Custom 404 Page</h3>
+            <p>A well-designed <strong>custom 404 page</strong> mitigates the damage of any remaining broken links. Include a search bar, links to popular pages, and clear navigation so users can find what they were looking for. Avoid generic "page not found" messages with no way forward.</p>
+
+            <h3>Use Canonical URLs Consistently</h3>
+            <p>Establish a canonical URL format for your site (with or without trailing slashes, with or without <code>www</code>) and stick to it. Inconsistent URL formats are a common source of links that work sometimes but not others.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Broken Link Checker makes it straightforward to scan any webpage for dead links:</p>
+            <ol>
+                <li><strong>Enter a URL</strong> in the input field (e.g., <code>https://example.com</code>). Include the full URL with the protocol.</li>
+                <li><strong>Click "Check"</strong> to start the scan. The tool fetches the page and tests every link it finds.</li>
+                <li><strong>Review the results</strong>, which list each link along with its HTTP status code. Broken links are clearly highlighted so you can identify and prioritize fixes.</li>
+            </ol>
+            <p>Run this check regularly -- monthly at minimum -- to catch new broken links before they accumulate. Prioritize fixing internal broken links first, as these are entirely within your control and have the most direct impact on user experience and SEO.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Broken Link Checker for comprehensive site maintenance:</p>
+            <ul>
+                <li><a href="/redirect-checker/">Redirect Checker</a> -- trace the full redirect chain for any URL and identify redirect loops or excessive hops.</li>
+                <li><a href="/url-safety/">URL Safety Checker</a> -- verify that links are safe and not flagged as malicious or phishing before clicking them.</li>
+                <li><a href="/metadata-extractor/">URL Metadata Extractor</a> -- inspect the meta tags, Open Graph data, and social preview information for any URL.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/link-checker/" class="standalone-nav-btn">Try Broken Link Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

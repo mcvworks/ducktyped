@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robots.txt Explained — Crawl Directives &amp; Search Engine Rules — duckTyped</title>
+    <meta name="description" content="Learn how robots.txt works, its syntax and directives, how search engines and AI crawlers interpret it, common mistakes to avoid, and how to analyze any site's robots.txt with duckTyped.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Robots.txt Explained — Crawl Directives & Search Engine Rules — duckTyped">
+    <meta property="og:description" content="Learn how robots.txt works, its syntax and directives, how search engines and AI crawlers interpret it, and common mistakes to avoid.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/robots-analyzer/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Robots.txt Explained — Crawl Directives & Search Engine Rules — duckTyped">
+    <meta name="twitter:description" content="Learn how robots.txt works, its syntax and directives, and how search engines interpret crawl rules.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/robots-analyzer/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Robots.txt Analyzer</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Robots.txt Explained</h1>
+            <p class="standalone-intro">Understand what the robots.txt file is, how its syntax controls search engine and bot behavior, how to target specific crawlers including AI bots, common configuration mistakes, and how to analyze any site's robots.txt using duckTyped's Robots.txt Analyzer.</p>
+
+            <h2>What Is Robots.txt?</h2>
+            <p>The <strong>robots.txt</strong> file is a plain text file that lives at the root of a website (e.g., <code>https://example.com/robots.txt</code>) and provides instructions to web crawlers about which parts of the site they are allowed or forbidden to access. It follows the <strong>Robots Exclusion Protocol</strong>, a standard originally proposed by Martijn Koster in 1994 and formalized as an Internet standard (RFC 9309) in 2022.</p>
+            <p>Every well-behaved crawler -- including Googlebot, Bingbot, and most legitimate bots -- checks for a robots.txt file before crawling a site. The file acts as a set of advisory guidelines: it tells crawlers what they <strong>should</strong> do, not what they <strong>can</strong> do. A malicious bot can easily ignore robots.txt, which is why it should never be relied upon as a security mechanism.</p>
+            <p>If a site does not have a robots.txt file, crawlers assume they are permitted to access everything. If the file exists but returns an HTTP error (like 500), most crawlers will pause crawling until the file becomes accessible, to avoid accidentally crawling restricted content.</p>
+
+            <h2>Robots.txt Syntax</h2>
+            <p>The robots.txt file uses a simple, line-based syntax. Each section begins with a <code>User-agent</code> directive that identifies which crawler the rules apply to, followed by one or more <code>Disallow</code> or <code>Allow</code> directives.</p>
+
+            <h3>User-agent</h3>
+            <p>The <code>User-agent</code> directive specifies which crawler the following rules apply to. Use <code>*</code> as a wildcard to target all crawlers:</p>
+            <pre><code>User-agent: *
+Disallow: /private/</code></pre>
+            <p>To target a specific crawler, use its name:</p>
+            <pre><code>User-agent: Googlebot
+Disallow: /no-google/</code></pre>
+            <p>Multiple <code>User-agent</code> lines can be grouped together before the directives to apply the same rules to several bots.</p>
+
+            <h3>Disallow</h3>
+            <p>The <code>Disallow</code> directive tells crawlers not to access a specific URL path or path prefix. The path is matched from the beginning of the URL:</p>
+            <pre><code>Disallow: /admin/          # Blocks /admin/ and everything under it
+Disallow: /search          # Blocks /search, /search/, /search?q=test, etc.
+Disallow: /file.html       # Blocks only this specific file</code></pre>
+            <p>An empty <code>Disallow:</code> directive (with no path) means nothing is disallowed -- the crawler can access everything.</p>
+
+            <h3>Allow</h3>
+            <p>The <code>Allow</code> directive overrides a matching <code>Disallow</code> for more granular control. This is particularly useful when you want to block a directory but allow specific files within it:</p>
+            <pre><code>User-agent: *
+Disallow: /private/
+Allow: /private/public-page.html</code></pre>
+            <p>When both <code>Allow</code> and <code>Disallow</code> match a URL, the more specific (longer) rule takes precedence. If they are the same length, <code>Allow</code> wins.</p>
+
+            <h3>Sitemap</h3>
+            <p>The <code>Sitemap</code> directive points crawlers to your XML sitemap, which lists all the pages you want indexed. Unlike other directives, <code>Sitemap</code> is not associated with any <code>User-agent</code> and applies globally:</p>
+            <pre><code>Sitemap: https://example.com/sitemap.xml
+Sitemap: https://example.com/sitemap-blog.xml</code></pre>
+            <p>You can list multiple sitemaps. This is a convenient way to ensure crawlers discover your sitemap even if it is not linked from your HTML pages.</p>
+
+            <h3>Crawl-delay</h3>
+            <p>The <code>Crawl-delay</code> directive requests that crawlers wait a specified number of seconds between successive requests. It was introduced by some search engines to help sites with limited server resources:</p>
+            <pre><code>User-agent: *
+Crawl-delay: 10</code></pre>
+            <p>Google does <strong>not</strong> honor <code>Crawl-delay</code> -- use Google Search Console to control Googlebot's crawl rate instead. Bing and Yandex do respect this directive.</p>
+
+            <h2>Wildcard Patterns</h2>
+            <p>While the original robots.txt specification did not include wildcards, Google and Bing support two special pattern characters:</p>
+            <ul>
+                <li><strong><code>*</code> (asterisk)</strong> -- matches any sequence of characters. For example, <code>Disallow: /*.pdf$</code> blocks all PDF files regardless of their path.</li>
+                <li><strong><code>$</code> (dollar sign)</strong> -- anchors the match to the end of the URL. Without it, <code>Disallow: /page</code> would block both <code>/page</code> and <code>/page/subpage</code>. With <code>$</code>, <code>Disallow: /page$</code> blocks only <code>/page</code> exactly.</li>
+            </ul>
+            <pre><code># Block all URLs containing "sort=" parameter
+Disallow: /*sort=
+
+# Block all .json files
+Disallow: /*.json$
+
+# Block all URLs with query strings
+Disallow: /*?</code></pre>
+
+            <h2>Targeting Specific Bots</h2>
+            <p>Different crawlers have different user-agent names, and you can create separate rule sets for each. Here are some of the most common crawler identifiers:</p>
+            <ul>
+                <li><strong><code>Googlebot</code></strong> -- Google's primary web crawler.</li>
+                <li><strong><code>Googlebot-Image</code></strong> -- Google's image crawler.</li>
+                <li><strong><code>Bingbot</code></strong> -- Microsoft Bing's crawler.</li>
+                <li><strong><code>Slurp</code></strong> -- Yahoo's crawler (now powered by Bing).</li>
+                <li><strong><code>DuckDuckBot</code></strong> -- DuckDuckGo's crawler.</li>
+                <li><strong><code>Baiduspider</code></strong> -- Baidu's crawler (Chinese search engine).</li>
+                <li><strong><code>YandexBot</code></strong> -- Yandex's crawler (Russian search engine).</li>
+                <li><strong><code>facebot</code></strong> -- Facebook's crawler for generating link previews.</li>
+                <li><strong><code>Twitterbot</code></strong> -- Twitter's crawler for generating Twitter Cards.</li>
+            </ul>
+
+            <h3>AI Crawler Blocking</h3>
+            <p>With the rise of large language models, many website owners now want to prevent AI companies from scraping their content for training data. Several AI crawlers have disclosed their user-agent names:</p>
+            <ul>
+                <li><strong><code>GPTBot</code></strong> -- OpenAI's crawler, used to gather training data for GPT models.</li>
+                <li><strong><code>ChatGPT-User</code></strong> -- OpenAI's crawler for ChatGPT's browsing feature.</li>
+                <li><strong><code>Google-Extended</code></strong> -- Google's crawler for AI training data (separate from Googlebot for search indexing).</li>
+                <li><strong><code>CCBot</code></strong> -- Common Crawl's bot, whose dataset is used by many AI projects.</li>
+                <li><strong><code>anthropic-ai</code></strong> -- Anthropic's crawler.</li>
+                <li><strong><code>cohere-ai</code></strong> -- Cohere's crawler.</li>
+            </ul>
+            <pre><code># Block AI training crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /</code></pre>
+            <p>Keep in mind that blocking these crawlers in robots.txt is advisory -- it depends on the AI companies choosing to respect the directive.</p>
+
+            <h2>Robots Meta Tag vs. Robots.txt</h2>
+            <p>The robots.txt file and the <code>&lt;meta name="robots"&gt;</code> HTML tag serve related but distinct purposes:</p>
+            <ul>
+                <li><strong>Robots.txt</strong> controls <strong>crawl access</strong> -- whether a bot is allowed to request a specific URL at all. It operates at the URL path level.</li>
+                <li><strong>Robots meta tag</strong> controls <strong>indexing behavior</strong> -- whether a page that was crawled should appear in search results, and whether its links should be followed. It operates at the page level.</li>
+            </ul>
+            <p>For example, if you block a page in robots.txt, search engines will not crawl it -- but if other sites link to it, search engines might still index the URL (displaying just the URL with no snippet). To prevent indexing entirely, you need the <code>noindex</code> meta tag, which requires that the crawler can actually access the page to read the tag. This creates a paradox: you cannot use robots.txt to block access and a meta tag to prevent indexing on the same page.</p>
+
+            <h3>X-Robots-Tag Header</h3>
+            <p>The <code>X-Robots-Tag</code> HTTP response header provides the same indexing directives as the robots meta tag but can be applied to <strong>any file type</strong> -- not just HTML pages. This is useful for controlling the indexing of PDFs, images, and other non-HTML resources:</p>
+            <pre><code>X-Robots-Tag: noindex, nofollow</code></pre>
+            <p>You can also target specific bots:</p>
+            <pre><code>X-Robots-Tag: googlebot: noindex</code></pre>
+
+            <h2>Common Robots.txt Mistakes</h2>
+            <p>Misconfigured robots.txt files can have serious consequences for your site's visibility:</p>
+            <ul>
+                <li><strong>Blocking CSS and JavaScript</strong> -- if you disallow crawlers from accessing your CSS and JS files, search engines cannot render your pages properly. Google has explicitly warned that blocking these resources can negatively impact rankings. Never disallow <code>/wp-content/</code>, <code>/static/</code>, or similar asset directories.</li>
+                <li><strong>Accidentally blocking the entire site</strong> -- a single <code>Disallow: /</code> under <code>User-agent: *</code> blocks all crawlers from your entire site. This is sometimes added during development and forgotten when launching.</li>
+                <li><strong>Contradictory rules</strong> -- conflicting <code>Allow</code> and <code>Disallow</code> directives with the same specificity can lead to unpredictable behavior across different crawlers.</li>
+                <li><strong>Wrong file location</strong> -- robots.txt must be at the root of the domain (<code>/robots.txt</code>). Placing it in a subdirectory or serving it at a different path means crawlers will never find it.</li>
+                <li><strong>Blocking search engine preview crawlers</strong> -- disallowing <code>facebot</code> or <code>Twitterbot</code> prevents social platforms from generating rich link previews, resulting in plain text URLs when your content is shared.</li>
+                <li><strong>Using it for security</strong> -- robots.txt is publicly accessible. Listing sensitive paths (like <code>/admin/</code> or <code>/secret-api/</code>) in your robots.txt actually advertises their existence. Use proper authentication and access controls for security -- not robots.txt.</li>
+                <li><strong>Forgetting trailing slashes</strong> -- <code>Disallow: /blog</code> blocks <code>/blog</code>, <code>/blog/</code>, and <code>/blog/post</code>. If you only meant to block the directory, include the trailing slash: <code>Disallow: /blog/</code>.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Robots.txt Analyzer makes it easy to inspect and understand any site's crawl directives:</p>
+            <ol>
+                <li><strong>Enter a domain</strong> in the input field (e.g., <code>example.com</code>). The tool automatically fetches the robots.txt file from the site's root.</li>
+                <li><strong>Click "Analyze"</strong> to parse and display the file's contents.</li>
+                <li><strong>Review the results</strong>, which break down each user-agent section, list all <code>Allow</code> and <code>Disallow</code> directives, identify referenced sitemaps, and highlight potential issues or misconfigurations.</li>
+            </ol>
+            <p>Use this tool to audit your own robots.txt before deploying changes, to verify that you are not accidentally blocking important content, or to study how other sites configure their crawl rules.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Robots.txt Analyzer for comprehensive site analysis:</p>
+            <ul>
+                <li><a href="/metadata-extractor/">URL Metadata Extractor</a> -- inspect meta tags including the robots meta tag that works alongside robots.txt.</li>
+                <li><a href="/tech-detector/">Tech Stack Detector</a> -- identify the CMS and hosting platform, which often determines the default robots.txt configuration.</li>
+                <li><a href="/redirect-checker/">Redirect Checker</a> -- verify that redirected URLs are not inadvertently blocked by robots.txt rules.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/robots-analyzer/" class="standalone-nav-btn">Try Robots.txt Analyzer</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Breach Checking Explained — Have I Been Pwned &amp; k-Anonymity — duckTyped</title>
+    <meta name="description" content="Learn how password breach checking works, how k-anonymity protects your privacy during lookups, and what to do if your credentials appear in a data breach. Use duckTyped's Password Breach Checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Password Breach Checking Explained — Have I Been Pwned & k-Anonymity — duckTyped">
+    <meta property="og:description" content="Learn how password breach checking works, how k-anonymity protects your privacy, and what to do if your credentials appear in a data breach.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/breach-checker/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Password Breach Checking Explained — Have I Been Pwned & k-Anonymity — duckTyped">
+    <meta name="twitter:description" content="Learn how password breach checking works, how k-anonymity keeps your lookups private, and what to do after a breach.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/breach-checker/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Password Breach Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Password Breach Checking Explained</h1>
+            <p class="standalone-intro">Understand how data breaches expose credentials, how the Have I Been Pwned service and k-anonymity model let you check passwords without revealing them, and what steps to take if your accounts have been compromised.</p>
+
+            <h2>What Is a Data Breach?</h2>
+            <p>A <strong>data breach</strong> occurs when an unauthorized party gains access to a system and extracts sensitive data -- typically user credentials, personal information, or financial records. Breaches can result from exploited software vulnerabilities, misconfigured databases, phishing attacks against employees, or insider threats. Once data is exfiltrated, it is typically sold on underground markets, shared on forums, or published openly on paste sites.</p>
+            <p>Data breaches are not rare events. They happen at a staggering scale. Major incidents have exposed hundreds of millions of records at a time: the Yahoo breaches (2013-2014) compromised 3 billion accounts, the LinkedIn breach (2012) exposed 164 million credentials, and the Collection #1 dump (2019) aggregated 773 million unique email addresses from multiple sources. Smaller breaches occur constantly across forums, startups, gaming platforms, and e-commerce sites, often without the affected company even realizing it.</p>
+            <p>The cumulative result is that <strong>billions of username-password pairs</strong> are circulating in breach databases. If you have used the internet for any length of time, there is a meaningful probability that at least one of your credentials has been exposed. Checking whether your passwords appear in known breaches is one of the most impactful security steps you can take.</p>
+
+            <h2>Have I Been Pwned (HIBP)</h2>
+            <p><strong>Have I Been Pwned</strong> is a free service created by security researcher Troy Hunt in 2013. It aggregates data from known breaches and provides a searchable database that lets individuals check whether their email addresses or passwords have been exposed. As of 2024, HIBP contains data from over 700 breached sites and more than 12 billion compromised accounts.</p>
+            <p>HIBP offers two primary lookup services:</p>
+            <ul>
+                <li><strong>Email/account search</strong> -- checks whether a given email address appears in any known breach dataset. This tells you which services were breached and what categories of data were exposed (passwords, IP addresses, physical addresses, etc.).</li>
+                <li><strong>Password search (Pwned Passwords)</strong> -- checks whether a specific password has ever appeared in any breach, regardless of which account it was associated with. This is the service that powers duckTyped's Password Breach Checker.</li>
+            </ul>
+            <p>The Pwned Passwords database contains over 800 million unique passwords collected from breach dumps. If a password appears in this list, it means attackers already have it in their dictionaries and will try it in credential stuffing and brute-force attacks.</p>
+
+            <h2>How k-Anonymity Works</h2>
+            <p>The obvious concern with checking a password against a breach database is: does the check itself expose the password? If you send your password to a server for comparison, you have just shared your secret with a third party. The Pwned Passwords API solves this problem elegantly using a technique called <strong>k-anonymity</strong>.</p>
+            <p>Here is exactly how the process works:</p>
+            <ol>
+                <li><strong>Hash the password locally</strong> -- your browser computes the <strong>SHA-1 hash</strong> of the password on your device. For example, the password <code>P@ssw0rd</code> produces the hash <code>21BD12DC183F740EE76F27B78EB39C8AD972A757</code>. SHA-1 is a one-way function -- you cannot reverse the hash to recover the password.</li>
+                <li><strong>Send only the first 5 characters</strong> -- instead of sending the full 40-character hash, only the first 5 characters (the hash prefix) are sent to the API. In this example, only <code>21BD1</code> is transmitted.</li>
+                <li><strong>Receive a list of matching suffixes</strong> -- the API returns all hash suffixes in its database that share the same 5-character prefix, along with breach counts. This list typically contains 500 to 800 entries.</li>
+                <li><strong>Compare locally</strong> -- your browser searches the returned list for the remaining 35 characters of your hash. If a match is found, the password has appeared in a breach. If not, it has not been seen in any known breach.</li>
+            </ol>
+            <p>The critical insight is that the API server never learns your actual password or even its full hash. It sees only a 5-character prefix that matches hundreds of other passwords. This is the k-anonymity property: your query is indistinguishable from at least <em>k</em> other possible queries, making it impossible for the server to determine which password you were checking.</p>
+
+            <h2>Why This Is Privacy-Safe</h2>
+            <p>The k-anonymity model provides strong privacy guarantees for several reasons:</p>
+            <ul>
+                <li><strong>No plaintext transmission</strong> -- the password itself is never sent over the network. Only a 5-character hash prefix is transmitted, and SHA-1 is irreversible.</li>
+                <li><strong>Ambiguity by design</strong> -- the 5-character prefix matches hundreds of different passwords in the database. The server cannot distinguish your password from any of the others.</li>
+                <li><strong>All comparison is local</strong> -- the final determination of whether your password has been breached happens entirely in your browser. The result is never communicated back to the server.</li>
+                <li><strong>No logging risk</strong> -- even if the API server logs every request, the logs contain only hash prefixes, which are useless for recovering passwords.</li>
+            </ul>
+            <p>This approach has been endorsed by organizations including NIST, which recommends checking passwords against known breach lists as part of its digital identity guidelines (NIST SP 800-63B). The k-anonymity model makes this check practical without introducing new privacy risks.</p>
+
+            <h2>What to Do If Your Password Is Breached</h2>
+            <p>If the breach checker indicates that your password has been found in a breach database, you should take immediate action:</p>
+            <ol>
+                <li><strong>Change the password immediately</strong> -- on every account where you used that password. Do not reuse the breached password anywhere. Replace it with a long, randomly generated password created by a password manager or a tool like duckTyped's Password Generator.</li>
+                <li><strong>Enable two-factor authentication (2FA)</strong> -- wherever it is available. Even if an attacker has your password, 2FA requires a second verification step (typically a time-based code from an authenticator app) that the attacker does not have. Prefer authenticator apps (like Google Authenticator or Authy) over SMS-based 2FA, which is vulnerable to SIM-swapping attacks.</li>
+                <li><strong>Check other accounts</strong> -- if you reused the breached password on multiple services, every one of those accounts is at risk. This is the single biggest danger of password reuse and the primary reason security experts recommend unique passwords for every account.</li>
+                <li><strong>Review account activity</strong> -- check for unauthorized logins, unfamiliar devices, or unexpected changes to account settings (email address, phone number, recovery options). Many services provide login history in their security settings.</li>
+                <li><strong>Consider a password manager</strong> -- tools like 1Password, Bitwarden, or KeePass generate and store unique, strong passwords for every account. You only need to remember one master password.</li>
+            </ol>
+
+            <h2>Credential Stuffing Attacks</h2>
+            <p><strong>Credential stuffing</strong> is an automated attack where adversaries take username-password pairs from one breach and systematically try them against other services. The attack exploits a simple reality: most people reuse passwords across multiple accounts. If your LinkedIn password was exposed in a breach and you used the same password for your email, an attacker can gain access to your email account without ever specifically targeting you.</p>
+            <p>Credential stuffing is carried out at massive scale using botnets and specialized tools. Attackers test millions of credential pairs per hour across thousands of websites. Success rates are typically between 0.1% and 2%, but given the volume of attempts, this translates to millions of compromised accounts. The breached password databases that power these attacks are the same ones checked by tools like HIBP's Pwned Passwords.</p>
+            <p>The most effective defense against credential stuffing is simple: <strong>never reuse passwords</strong>. If every account has a unique password, a breach at one service cannot cascade to others.</p>
+
+            <h2>Breach Notification Services</h2>
+            <p>Beyond one-time password checks, several services provide ongoing monitoring and alerts:</p>
+            <ul>
+                <li><strong>Have I Been Pwned notification</strong> -- you can register your email address with HIBP to receive automatic alerts when it appears in a newly discovered breach.</li>
+                <li><strong>Browser-integrated checks</strong> -- Google Chrome, Firefox, and Safari all include built-in password monitoring that warns you if saved credentials appear in known breaches.</li>
+                <li><strong>Password manager audits</strong> -- most password managers include a security audit feature (sometimes called "Watchtower" or "Security Dashboard") that checks all stored passwords against breach databases and flags weak, reused, or compromised credentials.</li>
+                <li><strong>Enterprise monitoring</strong> -- organizations can use domain-level monitoring to detect when employee credentials appear in breaches, enabling proactive password resets before attackers exploit the data.</li>
+            </ul>
+            <p>Proactive monitoring is significantly more effective than periodic manual checks because breaches are discovered continuously, and the window between a breach and exploitation by attackers can be very short.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Password Breach Checker makes it simple to verify whether a password has been compromised:</p>
+            <ol>
+                <li><strong>Enter a password</strong> in the input field. The password is processed entirely in your browser -- it is never sent to any server in plaintext.</li>
+                <li><strong>Click "Check"</strong> to initiate the lookup. Your browser computes the SHA-1 hash, sends only the first 5 characters to the Pwned Passwords API, and compares the results locally.</li>
+                <li><strong>Review the result</strong>. The tool tells you whether the password has been found in any known breach and, if so, how many times it has appeared. A password that appears even once should be considered compromised and should not be used.</li>
+            </ol>
+            <p>You can check as many passwords as you like. Each check is independent and privacy-safe thanks to the k-anonymity model described above.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Password Breach Checker for comprehensive account security:</p>
+            <ul>
+                <li><a href="/password-generator/">Password Generator</a> -- generate strong, random passwords to replace any credentials that have been found in breaches.</li>
+                <li><a href="/security-headers/">Security Headers Checker</a> -- verify that websites you use implement proper security headers, reducing the risk of attacks that could lead to breaches.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/breach-checker/" class="standalone-nav-btn">Try Password Breach Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

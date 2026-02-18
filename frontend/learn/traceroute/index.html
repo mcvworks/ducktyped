@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traceroute Explained — Network Path Analysis — duckTyped</title>
+    <meta name="description" content="Learn how traceroute works, how TTL determines the network path, how to read traceroute output, identify bottlenecks, and use duckTyped's traceroute tool for network path analysis.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Traceroute Explained — Network Path Analysis — duckTyped">
+    <meta property="og:description" content="Learn how traceroute works, how TTL determines the network path, how to read output, and identify bottlenecks.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/traceroute/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Traceroute Explained — Network Path Analysis — duckTyped">
+    <meta name="twitter:description" content="Learn how traceroute works, how to read output, and how to identify network bottlenecks and routing issues.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/traceroute/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Traceroute</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Traceroute Explained</h1>
+            <p class="standalone-intro">Understand how traceroute maps the network path between your machine and a destination, how TTL (Time to Live) drives the discovery process, how to read and interpret traceroute output, and how to use duckTyped's traceroute tool for network diagnostics.</p>
+
+            <h2>What Is Traceroute?</h2>
+            <p><strong>Traceroute</strong> is a network diagnostic tool that reveals the path packets take from your computer to a destination host. While ping tells you whether a host is reachable and how long the round trip takes, traceroute shows every intermediate router (or "hop") along the way, along with the latency at each step. This makes traceroute invaluable for diagnosing where in the network a problem is occurring.</p>
+            <p>When you experience slow connections or intermittent failures to a remote server, the issue might not be with the destination server itself -- it could be with any router or link along the path. Traceroute lets you pinpoint exactly where packets are being delayed, dropped, or rerouted. The tool was originally written by Van Jacobson in 1987 and has been a staple of network troubleshooting ever since.</p>
+
+            <h2>How TTL (Time to Live) Works</h2>
+            <p>Traceroute exploits a fundamental feature of IP packets: the <strong>Time to Live (TTL)</strong> field. Despite its name, TTL does not represent a time value -- it is a hop counter. Every IP packet includes a TTL value, and each router that forwards the packet decrements the TTL by one. When the TTL reaches zero, the router discards the packet and sends an <strong>ICMP Time Exceeded</strong> message back to the sender.</p>
+            <p>Traceroute uses this behavior systematically:</p>
+            <ol>
+                <li>It sends a packet with <strong>TTL = 1</strong>. The first router decrements the TTL to zero and returns an ICMP Time Exceeded message. The traceroute program records the router's IP address and the round-trip time.</li>
+                <li>It sends a packet with <strong>TTL = 2</strong>. The first router decrements to 1 and forwards it. The second router decrements to zero and sends back an ICMP Time Exceeded message.</li>
+                <li>This process repeats, incrementing the TTL by one each time, until the packet reaches the destination host. The destination responds differently (with an ICMP Port Unreachable or Echo Reply, depending on the implementation), signaling that the trace is complete.</li>
+            </ol>
+            <p>At each hop, traceroute typically sends three probes to capture multiple latency measurements, providing a more reliable picture of performance at each router.</p>
+
+            <h2>ICMP vs UDP vs TCP Traceroute</h2>
+            <p>Different traceroute implementations use different protocols for their probe packets. The choice of protocol affects which routers respond and what firewalls allow through.</p>
+
+            <h3>ICMP Traceroute</h3>
+            <p>The Windows <code>tracert</code> command uses <strong>ICMP Echo Request</strong> packets (the same packets used by ping). Each probe is an ICMP ping with an incrementing TTL. This is the simplest approach, but many firewalls and routers are configured to drop or deprioritize ICMP traffic, which can cause gaps in the traceroute output.</p>
+
+            <h3>UDP Traceroute</h3>
+            <p>The traditional Unix <code>traceroute</code> command sends <strong>UDP packets</strong> to high-numbered ports (typically starting at 33434). When the packet reaches the destination, the target host responds with an ICMP Port Unreachable message (since nothing is listening on that port), signaling the end of the trace. UDP probes may pass through firewalls that block ICMP, but they can also be blocked by firewalls that restrict outbound UDP.</p>
+
+            <h3>TCP Traceroute</h3>
+            <p><strong>TCP traceroute</strong> (often implemented by tools like <code>tcptraceroute</code> or <code>traceroute -T</code>) sends TCP SYN packets to a specific port, commonly port 80 or 443. Since firewalls almost always allow traffic to web ports, TCP traceroute is the most likely to produce complete results through firewalls and NAT devices. This makes it particularly useful for tracing paths to web servers.</p>
+
+            <h2>Reading Traceroute Output</h2>
+            <p>A typical traceroute output consists of numbered lines, one per hop. Each line contains several pieces of information:</p>
+            <pre><code> 1  router.local (192.168.1.1)  1.234 ms  0.987 ms  1.102 ms
+ 2  10.0.0.1 (10.0.0.1)  8.456 ms  8.234 ms  8.567 ms
+ 3  isp-core.example.net (203.0.113.1)  12.345 ms  11.987 ms  12.102 ms
+ 4  * * *
+ 5  cdn-edge.example.com (198.51.100.1)  15.678 ms  15.456 ms  15.789 ms</code></pre>
+            <ul>
+                <li><strong>Hop number</strong> -- the sequential position of the router in the path (1 is the first router after your machine).</li>
+                <li><strong>Hostname</strong> -- the reverse DNS name of the router's interface, if available. This often reveals the ISP or network operator.</li>
+                <li><strong>IP address</strong> -- the IP address of the router's interface that processed the packet.</li>
+                <li><strong>Latency measurements</strong> -- the round-trip time for each of the three probes, measured in milliseconds. These represent the time from your machine to that specific hop and back.</li>
+            </ul>
+
+            <h2>Understanding Timeouts and Asterisks</h2>
+            <p>The <code>*</code> symbol in traceroute output indicates a <strong>timeout</strong> -- the probe packet was sent, but no response was received within the timeout period. This does not necessarily mean the hop is unreachable or that traffic is being dropped. Common reasons for timeouts include:</p>
+            <ul>
+                <li><strong>ICMP rate limiting</strong> -- many routers limit the rate at which they generate ICMP responses to prevent resource exhaustion. Your probe may have been deprioritized.</li>
+                <li><strong>Firewall filtering</strong> -- the router or a firewall in front of it is configured to not respond to traceroute probes.</li>
+                <li><strong>Router policy</strong> -- some network operators deliberately configure their routers to not participate in traceroute to obscure their network topology.</li>
+            </ul>
+            <p>A single line of <code>* * *</code> is common and usually not cause for concern. However, if all remaining hops show timeouts and the destination is never reached, this indicates either the destination is truly unreachable or a firewall is blocking the specific type of probe being used.</p>
+
+            <h2>Identifying Bottlenecks</h2>
+            <p>The primary purpose of traceroute is to identify where in the network path performance degrades. Look for these patterns:</p>
+
+            <h3>Sudden Latency Increase</h3>
+            <p>If latency jumps significantly at a particular hop and <strong>remains high</strong> for all subsequent hops, the link between the previous hop and the high-latency hop is likely the bottleneck. For example, if hops 1--4 show 10 ms latency and hops 5--10 show 150 ms, the link between hops 4 and 5 is adding approximately 140 ms of delay. This often occurs at international submarine cable links or congested peering points.</p>
+
+            <h3>High Latency at a Single Hop</h3>
+            <p>If one hop shows high latency but subsequent hops return to normal levels, the elevated latency is likely caused by <strong>ICMP rate limiting</strong> on that specific router rather than actual congestion. The router deprioritizes generating ICMP responses but forwards your actual data traffic at full speed. Do not misinterpret this as a bottleneck.</p>
+
+            <h3>Packet Loss at Intermediate Hops</h3>
+            <p>If some probes at a hop return results while others time out (e.g., <code>12.3 ms * 11.8 ms</code>), this suggests intermittent packet loss or ICMP rate limiting. If packet loss at a hop correlates with loss at the final destination, the intermediate hop may be the source of the problem.</p>
+
+            <h2>Asymmetric Routing</h2>
+            <p>An important caveat when interpreting traceroute results is that <strong>internet routing is often asymmetric</strong>. The path your packets take to reach a destination may be completely different from the path the response packets take to return. Traceroute only reveals the forward path -- you cannot assume the return path mirrors it.</p>
+            <p>This means that high latency at a particular hop could actually be caused by a slow return path rather than a slow forward path. The round-trip time reported by traceroute includes both directions, but you can only see the routers on the outbound leg. For this reason, running a traceroute from both ends (your machine to the server, and the server back to you) provides a more complete picture.</p>
+
+            <h2>Common Patterns</h2>
+
+            <h3>ISP Handoff</h3>
+            <p>Traceroute output typically shows your traffic passing through your local ISP's network, then transitioning to one or more transit providers, and finally arriving at the destination's network. The handoff points between networks (called <strong>peering points</strong> or <strong>internet exchange points</strong>) are often where latency increases, especially if the peering link is congested.</p>
+
+            <h3>CDN Termination</h3>
+            <p>When tracing to a website that uses a CDN (Content Delivery Network), the traceroute typically terminates at a CDN edge node close to your location rather than traveling to the origin server. This results in a short traceroute with low latency -- which is exactly the CDN's purpose. If you see a traceroute to a major website completing in just a few hops with very low latency, the CDN is doing its job.</p>
+
+            <h2>Traceroute vs Ping</h2>
+            <p><strong>Ping</strong> sends ICMP Echo Request packets to a destination and measures the round-trip time, providing a simple connectivity test and overall latency measurement. <strong>Traceroute</strong> provides a much richer picture by revealing every hop along the path and the latency at each one. Use ping to quickly check if a host is reachable; use traceroute when you need to understand where in the network path a problem is occurring.</p>
+
+            <h2>How to Use the Traceroute Tool</h2>
+            <p>The duckTyped Traceroute tool makes it easy to trace the network path to any destination:</p>
+            <ol>
+                <li><strong>Enter a hostname or IP address</strong> in the input field (e.g., <code>example.com</code> or <code>93.184.216.34</code>).</li>
+                <li><strong>Click "Trace"</strong> to initiate the traceroute.</li>
+                <li><strong>Review the results</strong>, which display each hop along the path with its hop number, IP address, hostname (when available), and round-trip latency.</li>
+            </ol>
+            <p>The tool performs a real traceroute from the server and displays results as each hop is discovered. Look for significant latency increases between consecutive hops to identify potential bottlenecks, and note the network operators at each hop to understand the routing path.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement Traceroute for comprehensive network diagnostics:</p>
+            <ul>
+                <li><a href="/http-latency/">HTTP Latency Checker</a> -- measure total HTTP response times including DNS, TLS, and server processing.</li>
+                <li><a href="/isp-lookup/">ISP Lookup</a> -- identify the ISP, ASN, and geolocation for any IP address seen in your traceroute.</li>
+                <li><a href="/dns-lookup/">DNS Record Checker</a> -- verify DNS configuration for the domain you are tracing.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/traceroute/" class="standalone-nav-btn">Try Traceroute</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

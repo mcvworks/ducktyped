@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMTP Testing Explained — Mail Server Diagnostics &amp; Relay Checks — duckTyped</title>
+    <meta name="description" content="Learn how SMTP works, SMTP conversation flow, response codes, ports, STARTTLS vs implicit TLS, open relay testing, and how to diagnose common mail server issues with duckTyped's SMTP checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="SMTP Testing Explained — Mail Server Diagnostics & Relay Checks — duckTyped">
+    <meta property="og:description" content="Learn how SMTP works, SMTP conversation flow, response codes, ports, and how to diagnose common mail server issues.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/smtp-checker/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SMTP Testing Explained — Mail Server Diagnostics & Relay Checks — duckTyped">
+    <meta name="twitter:description" content="Learn how SMTP works, SMTP conversation flow, response codes, and how to diagnose mail server issues.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/smtp-checker/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>SMTP Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>SMTP Testing Explained</h1>
+            <p class="standalone-intro">Understand how the Simple Mail Transfer Protocol works, how mail servers communicate, what SMTP response codes mean, and how to diagnose common mail delivery issues using duckTyped's SMTP checker.</p>
+
+            <h2>What Is SMTP?</h2>
+            <p><strong>SMTP (Simple Mail Transfer Protocol)</strong> is the standard protocol used to send email across the internet. Defined originally in RFC 821 (1982) and updated by RFC 5321, SMTP governs how mail servers communicate with each other to route messages from sender to recipient. Every email you send -- whether from Gmail, Outlook, or your own mail server -- relies on SMTP to reach its destination.</p>
+            <p>SMTP is a <strong>text-based, command-response protocol</strong>. A sending server (the SMTP client) connects to a receiving server (the SMTP server) on a designated port and issues a series of commands. The receiving server responds with numeric status codes indicating success, failure, or the need for further action. This back-and-forth exchange is called the <strong>SMTP conversation</strong> or <strong>SMTP session</strong>.</p>
+            <p>It is important to understand that SMTP handles only the <strong>sending and relaying</strong> of email. Retrieving email from a mailbox is handled by separate protocols -- <strong>IMAP (Internet Message Access Protocol)</strong> for synchronized mailbox access and <strong>POP3 (Post Office Protocol)</strong> for downloading messages. This distinction maps to three components in the email ecosystem: the <strong>MUA</strong>, <strong>MTA</strong>, and <strong>MDA</strong>.</p>
+
+            <h2>MUA, MTA, and MDA -- The Email Architecture</h2>
+            <p>Understanding how email flows requires knowing the three key components:</p>
+            <ul>
+                <li><strong>MUA (Mail User Agent)</strong> -- the email client that the end user interacts with. This could be a desktop application like Thunderbird, a mobile app, or a web interface like Gmail. The MUA composes messages and submits them to an MTA via SMTP.</li>
+                <li><strong>MTA (Mail Transfer Agent)</strong> -- the server software responsible for routing and relaying email between servers. Examples include Postfix, Exim, Sendmail, and Microsoft Exchange. MTAs use SMTP to communicate with each other, looking up the recipient domain's MX records in DNS to determine where to deliver the message.</li>
+                <li><strong>MDA (Mail Delivery Agent)</strong> -- the component that receives mail from the MTA and places it into the recipient's mailbox. The MDA handles local delivery, sorting messages into folders, and making them available for retrieval via IMAP or POP3. Dovecot is a widely used MDA.</li>
+            </ul>
+            <p>A typical email journey looks like this: <strong>Sender's MUA</strong> submits the message via SMTP to the <strong>Sender's MTA</strong>, which relays it via SMTP to the <strong>Recipient's MTA</strong>, which hands it off to the <strong>Recipient's MDA</strong>, which stores it for retrieval by the <strong>Recipient's MUA</strong> via IMAP or POP3.</p>
+
+            <h2>The SMTP Conversation Flow</h2>
+            <p>An SMTP session follows a well-defined sequence of commands and responses. Here is what a typical conversation looks like:</p>
+            <ol>
+                <li><strong>Connection</strong> -- the client establishes a TCP connection to the server on the designated port. The server responds with a <code>220</code> greeting message that identifies itself.</li>
+                <li><strong>EHLO / HELO</strong> -- the client introduces itself using the <code>EHLO</code> command (Extended HELO) or the older <code>HELO</code> command. <code>EHLO</code> is preferred because it signals support for SMTP extensions and prompts the server to list its capabilities (such as STARTTLS, AUTH, PIPELINING, and SIZE limits).</li>
+                <li><strong>STARTTLS (optional)</strong> -- if the server advertises <code>STARTTLS</code>, the client can issue this command to upgrade the connection to TLS encryption before proceeding.</li>
+                <li><strong>AUTH (optional)</strong> -- if the client needs to authenticate (common when submitting mail through an outbound server), it provides credentials using mechanisms like <code>AUTH PLAIN</code> or <code>AUTH LOGIN</code>.</li>
+                <li><strong>MAIL FROM</strong> -- the client specifies the sender's email address (the envelope sender, also known as the return path). This is not necessarily the same as the "From" header visible in the email.</li>
+                <li><strong>RCPT TO</strong> -- the client specifies the recipient's email address. This command can be issued multiple times for multiple recipients.</li>
+                <li><strong>DATA</strong> -- the client signals that it is ready to transmit the message body. The server responds with <code>354</code>, and the client sends the email headers and body, terminating with a single line containing only a period (<code>.</code>).</li>
+                <li><strong>QUIT</strong> -- the client ends the session, and the server closes the connection.</li>
+            </ol>
+            <pre><code>S: 220 mail.example.com ESMTP ready
+C: EHLO client.example.com
+S: 250-mail.example.com Hello
+S: 250-STARTTLS
+S: 250-AUTH PLAIN LOGIN
+S: 250 SIZE 52428800
+C: STARTTLS
+S: 220 Ready to start TLS
+C: MAIL FROM:&lt;sender@example.com&gt;
+S: 250 OK
+C: RCPT TO:&lt;recipient@example.org&gt;
+S: 250 OK
+C: DATA
+S: 354 Start mail input
+C: Subject: Test message
+C: .
+S: 250 OK: queued
+C: QUIT
+S: 221 Bye</code></pre>
+
+            <h2>SMTP Response Codes</h2>
+            <p>Every SMTP server response begins with a three-digit numeric code. The first digit indicates the general category of the response:</p>
+
+            <h3>2xx -- Success</h3>
+            <p>The command was accepted and completed successfully.</p>
+            <ul>
+                <li><code>220</code> -- service ready (the server's greeting when you first connect).</li>
+                <li><code>221</code> -- service closing transmission channel (response to QUIT).</li>
+                <li><code>250</code> -- requested action completed (the most common success code, used after EHLO, MAIL FROM, RCPT TO, and DATA completion).</li>
+                <li><code>235</code> -- authentication successful.</li>
+                <li><code>354</code> -- start mail input (technically a 3xx intermediate reply, signaling readiness to receive the message body).</li>
+            </ul>
+
+            <h3>4xx -- Temporary Failure</h3>
+            <p>The command failed, but the condition may be temporary. The client should retry later.</p>
+            <ul>
+                <li><code>421</code> -- service not available, closing connection (the server is overloaded or shutting down).</li>
+                <li><code>450</code> -- mailbox unavailable (temporary; the mailbox may be locked or the server is applying greylisting).</li>
+                <li><code>451</code> -- requested action aborted due to a local error in processing.</li>
+                <li><code>452</code> -- insufficient storage space.</li>
+            </ul>
+
+            <h3>5xx -- Permanent Failure</h3>
+            <p>The command failed permanently. The client should not retry with the same parameters.</p>
+            <ul>
+                <li><code>550</code> -- mailbox unavailable (the recipient does not exist, or delivery is refused by policy).</li>
+                <li><code>551</code> -- user not local (the server suggests forwarding to a different address).</li>
+                <li><code>552</code> -- exceeded storage allocation (the recipient's mailbox is full).</li>
+                <li><code>553</code> -- mailbox name not allowed (invalid syntax in the address).</li>
+                <li><code>554</code> -- transaction failed (a general rejection, often used when the server blocks a connection outright).</li>
+            </ul>
+
+            <h2>SMTP Ports and Encryption</h2>
+            <p>SMTP uses different ports depending on the purpose and encryption method:</p>
+            <ul>
+                <li><strong>Port 25</strong> -- the original SMTP port, used primarily for <strong>server-to-server relay</strong> (MTA to MTA communication). Many ISPs and cloud providers block outbound port 25 to prevent spam from compromised machines. Port 25 connections typically start unencrypted and may upgrade via STARTTLS.</li>
+                <li><strong>Port 587</strong> -- the standard port for <strong>mail submission</strong> (MUA to MTA). This is the port your email client should use to send outgoing mail. It requires authentication and supports STARTTLS to encrypt the connection after the initial handshake.</li>
+                <li><strong>Port 465</strong> -- originally assigned for <strong>SMTPS (implicit TLS)</strong>, then revoked, and later reassigned by RFC 8314 (2018) for message submission over implicit TLS. Unlike STARTTLS, the TLS handshake occurs immediately upon connection -- there is no plaintext phase.</li>
+            </ul>
+
+            <h3>STARTTLS vs Implicit TLS</h3>
+            <p><strong>STARTTLS</strong> is an opportunistic encryption upgrade. The client connects on a plaintext port (25 or 587), and after the initial EHLO exchange, issues the STARTTLS command to negotiate TLS. The risk is that a man-in-the-middle attacker could strip the STARTTLS capability advertisement, causing the client to proceed without encryption.</p>
+            <p><strong>Implicit TLS</strong> (port 465) establishes TLS from the very first byte of the connection. There is no plaintext phase, eliminating the risk of downgrade attacks. RFC 8314 now recommends implicit TLS on port 465 as the preferred method for mail submission.</p>
+
+            <h2>Open Relay Testing</h2>
+            <p>An <strong>open relay</strong> is a mail server that accepts and forwards email from any sender to any recipient, without requiring authentication. In the early days of the internet, open relays were common and considered useful. Today, they are a serious security and reputation risk -- spammers exploit open relays to send bulk unsolicited email while hiding their true origin.</p>
+            <p>Testing for an open relay involves connecting to the server's SMTP port and attempting to send mail from an external address to another external address (one that the server is not responsible for). If the server accepts the message for delivery, it is an open relay. Modern mail servers should reject such attempts with a <code>550</code> or <code>554</code> error, indicating that relaying is denied for unauthenticated senders.</p>
+            <p>If your server is identified as an open relay, it will quickly be listed on DNS-based blacklists (DNSBLs), causing your legitimate email to be rejected by other servers. Ensure that your MTA is configured to require authentication for relaying and to accept mail only for domains it is authoritative for.</p>
+
+            <h2>SMTP Authentication</h2>
+            <p><strong>SMTP AUTH</strong> is an extension (defined in RFC 4954) that requires the client to provide credentials before the server will accept mail for relay. This prevents unauthorized users from sending mail through your server. Common authentication mechanisms include:</p>
+            <ul>
+                <li><strong>PLAIN</strong> -- sends the username and password in base64 encoding. Simple but only safe over a TLS-encrypted connection.</li>
+                <li><strong>LOGIN</strong> -- similar to PLAIN but sends the username and password in separate base64-encoded exchanges. Also requires TLS for security.</li>
+                <li><strong>CRAM-MD5</strong> -- a challenge-response mechanism that avoids sending the password in cleartext. Less common today because TLS makes PLAIN and LOGIN sufficiently secure.</li>
+                <li><strong>XOAUTH2</strong> -- uses OAuth 2.0 tokens instead of passwords, commonly used by Gmail and Microsoft 365.</li>
+            </ul>
+
+            <h2>Common SMTP Issues</h2>
+            <p>Mail delivery problems are among the most frustrating issues to diagnose. Here are the most common SMTP problems and their causes.</p>
+
+            <h3>Connection Refused</h3>
+            <p>The client cannot establish a TCP connection to the mail server. This typically means the server is down, the port is blocked by a firewall, or the IP address resolved from MX records is incorrect. Verify that the server is running, the firewall allows inbound connections on the correct port, and DNS MX records point to the right host.</p>
+
+            <h3>Connection Timeout</h3>
+            <p>The client connects but receives no response, or the connection hangs during the session. This can be caused by network issues, an overloaded server, or a firewall that silently drops packets instead of rejecting them. Timeouts are especially common when outbound port 25 is blocked by your ISP or cloud provider.</p>
+
+            <h3>TLS Handshake Failures</h3>
+            <p>The STARTTLS command succeeds but the TLS negotiation fails. Common causes include expired or self-signed certificates, protocol version mismatches (the server supports only TLS 1.0 while the client requires TLS 1.2+), or misconfigured cipher suites. Check the server's certificate and TLS configuration.</p>
+
+            <h3>Rejected Recipients</h3>
+            <p>The server responds with <code>550 User not found</code> or similar when the RCPT TO command is issued. This means the recipient address does not exist on the destination server, or the server has a strict policy that rejects unknown addresses. Verify the recipient address is correct and that the server is the authoritative destination for that domain.</p>
+
+            <h3>Greylisting</h3>
+            <p>Some servers temporarily reject the first delivery attempt from an unknown sender with a <code>450</code> code, expecting legitimate senders to retry after a short delay (typically 5-15 minutes). Spambots usually do not retry, so greylisting is an effective anti-spam technique. If you see temporary rejections that resolve on retry, greylisting is the likely cause.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped SMTP Checker lets you test any mail server's SMTP configuration and connectivity:</p>
+            <ol>
+                <li><strong>Enter a domain name or mail server hostname</strong> in the input field (e.g., <code>example.com</code> or <code>mail.example.com</code>).</li>
+                <li><strong>Click "Check"</strong> to initiate the SMTP connection test.</li>
+                <li><strong>Review the results</strong>, which include the server's greeting banner, supported SMTP extensions, TLS capability and certificate details, authentication methods offered, and whether the server is configured as an open relay.</li>
+            </ol>
+            <p>Use this tool to verify that your mail server is reachable, correctly configured for TLS, and not acting as an open relay. Regular testing helps catch configuration issues before they impact email delivery.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the SMTP Checker for comprehensive email diagnostics:</p>
+            <ul>
+                <li><a href="/email-validator/">Email Validator</a> -- test whether an email address is valid, check MX records, and verify deliverability.</li>
+                <li><a href="/email-header-analyzer/">Email Header Analyzer</a> -- parse email headers to trace the delivery path, check authentication results (SPF, DKIM, DMARC), and identify delays.</li>
+                <li><a href="/dns-lookup/">DNS Lookup</a> -- query MX, TXT, and other DNS records that are essential for email routing and authentication.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/smtp-checker/" class="standalone-nav-btn">Try SMTP Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

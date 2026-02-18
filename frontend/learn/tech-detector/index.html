@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology Detection Explained — Identifying Web Stacks &amp; Frameworks — duckTyped</title>
+    <meta name="description" content="Learn how web technology detection works, what signals reveal a site's tech stack, and how to identify CMS platforms, frameworks, analytics, and hosting with duckTyped's Tech Detector.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Technology Detection Explained — Identifying Web Stacks & Frameworks — duckTyped">
+    <meta property="og:description" content="Learn how web technology detection works, what signals reveal a site's tech stack, and how to identify frameworks, CMS platforms, and hosting.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/tech-detector/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Technology Detection Explained — Identifying Web Stacks & Frameworks — duckTyped">
+    <meta name="twitter:description" content="Learn how web technology detection works and how to identify a site's tech stack.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/tech-detector/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Tech Stack Detector</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Technology Detection Explained</h1>
+            <p class="standalone-intro">Understand how technology detection works, what signals and fingerprints reveal the frameworks, CMS platforms, analytics tools, and hosting providers behind any website, and how to use duckTyped's Tech Stack Detector for research and analysis.</p>
+
+            <h2>What Is Technology Detection?</h2>
+            <p><strong>Technology detection</strong> (also called web technology fingerprinting or stack detection) is the process of identifying the software, frameworks, services, and infrastructure that power a website. Every website leaves traces of the technologies it uses -- in HTTP response headers, HTML source code, JavaScript variables, CSS class naming patterns, cookies, and loaded resources. Technology detection tools analyze these signals to build a profile of the site's tech stack.</p>
+            <p>This is possible because most web technologies follow predictable patterns. WordPress adds a <code>&lt;meta name="generator"&gt;</code> tag, React injects a <code>__REACT_DEVTOOLS_GLOBAL_HOOK__</code> JavaScript global, Cloudflare sets specific HTTP headers, and Google Analytics loads a recognizable script from <code>googletagmanager.com</code>. By maintaining a database of thousands of such signatures, detection tools can reliably identify hundreds of different technologies from a single page load.</p>
+
+            <h2>How Technology Detection Works</h2>
+            <p>Detection tools analyze multiple layers of a webpage, each revealing different categories of technology. Here are the primary detection methods.</p>
+
+            <h3>HTTP Response Headers</h3>
+            <p>HTTP headers are one of the most reliable detection signals because they are set by the server itself, not by client-side code that might be minified or obfuscated:</p>
+            <ul>
+                <li><strong><code>X-Powered-By</code></strong> -- explicitly declares the server-side technology, such as <code>Express</code>, <code>PHP/8.2</code>, or <code>ASP.NET</code>. Many security guides recommend removing this header to reduce information disclosure, but it remains common.</li>
+                <li><strong><code>Server</code></strong> -- identifies the web server software, such as <code>nginx</code>, <code>Apache</code>, <code>cloudflare</code>, or <code>Microsoft-IIS</code>.</li>
+                <li><strong><code>X-Generator</code></strong> -- used by some CMS platforms and static site generators to identify themselves.</li>
+                <li><strong><code>Set-Cookie</code></strong> -- cookie names and formats can reveal technologies. For example, <code>PHPSESSID</code> indicates PHP, <code>_shopify_s</code> indicates Shopify, and <code>wp-settings-</code> indicates WordPress.</li>
+                <li><strong>CDN and hosting headers</strong> -- headers like <code>CF-Ray</code> (Cloudflare), <code>X-Vercel-Id</code> (Vercel), <code>X-Amz-Cf-Id</code> (AWS CloudFront), and <code>X-Netlify-Request-Id</code> (Netlify) identify the hosting and CDN infrastructure.</li>
+            </ul>
+
+            <h3>HTML Source Patterns</h3>
+            <p>The HTML document itself contains numerous clues:</p>
+            <ul>
+                <li><strong><code>&lt;meta name="generator"&gt;</code></strong> -- many CMS platforms and site builders include this tag. WordPress, Drupal, Joomla, Wix, Squarespace, and Hugo all use it to identify themselves and their version numbers.</li>
+                <li><strong>Script sources</strong> -- the URLs of loaded JavaScript files are highly revealing. Scripts from <code>cdn.shopify.com</code>, <code>static.parastorage.com</code> (Wix), <code>www.googletagmanager.com</code>, or <code>cdn.jsdelivr.net</code> immediately identify specific platforms and services.</li>
+                <li><strong>HTML comments</strong> -- some frameworks leave comments in the HTML output, such as Webpack build hashes or template engine markers.</li>
+                <li><strong>DOM structure</strong> -- React applications often have a root <code>&lt;div id="root"&gt;</code> or <code>&lt;div id="__next"&gt;</code> (Next.js). Vue.js apps typically mount on <code>&lt;div id="app"&gt;</code>. These patterns, while not conclusive on their own, provide strong hints when combined with other signals.</li>
+            </ul>
+
+            <h3>JavaScript Globals</h3>
+            <p>Client-side JavaScript frameworks expose global variables that detection tools can check for:</p>
+            <ul>
+                <li><strong><code>window.__NEXT_DATA__</code></strong> -- present on all Next.js pages, containing the page's serialized props.</li>
+                <li><strong><code>window.__NUXT__</code></strong> -- indicates a Nuxt.js application.</li>
+                <li><strong><code>window.jQuery</code> or <code>window.$</code></strong> -- indicates jQuery is loaded, along with <code>jQuery.fn.jquery</code> for the version number.</li>
+                <li><strong><code>window.React</code></strong> or <code>window.__REACT_DEVTOOLS_GLOBAL_HOOK__</code> -- indicates React.</li>
+                <li><strong><code>window.angular</code></strong> -- indicates AngularJS (1.x), while Angular 2+ uses different detection methods based on <code>ng-version</code> attributes.</li>
+                <li><strong><code>window.Shopify</code></strong> -- present on all Shopify storefronts.</li>
+            </ul>
+
+            <h3>CSS Class Naming Conventions</h3>
+            <p>Many frameworks and CMS platforms use distinctive CSS class naming patterns:</p>
+            <ul>
+                <li><strong>WordPress</strong> -- classes like <code>wp-block-</code>, <code>wp-image-</code>, and <code>entry-content</code>.</li>
+                <li><strong>Bootstrap</strong> -- utility classes like <code>container</code>, <code>row</code>, <code>col-md-</code>, <code>btn btn-primary</code>.</li>
+                <li><strong>Tailwind CSS</strong> -- distinctive utility-first classes like <code>flex</code>, <code>pt-4</code>, <code>text-center</code>, <code>bg-blue-500</code>.</li>
+                <li><strong>Material UI</strong> -- classes with the <code>Mui</code> prefix or <code>css-</code> hash patterns.</li>
+            </ul>
+
+            <h2>Categories of Detected Technologies</h2>
+            <p>A comprehensive technology detection scan can reveal technologies across many categories:</p>
+            <ul>
+                <li><strong>Content Management Systems (CMS)</strong> -- WordPress, Drupal, Joomla, Ghost, Contentful, Strapi, Sanity.</li>
+                <li><strong>JavaScript frameworks</strong> -- React, Vue.js, Angular, Svelte, Ember.js, Preact, Alpine.js.</li>
+                <li><strong>Meta-frameworks</strong> -- Next.js, Nuxt.js, Gatsby, Remix, Astro, SvelteKit.</li>
+                <li><strong>E-commerce platforms</strong> -- Shopify, WooCommerce, Magento, BigCommerce, PrestaShop.</li>
+                <li><strong>Analytics and tracking</strong> -- Google Analytics, Google Tag Manager, Hotjar, Mixpanel, Segment, Plausible.</li>
+                <li><strong>CDN and hosting</strong> -- Cloudflare, AWS CloudFront, Fastly, Vercel, Netlify, GitHub Pages.</li>
+                <li><strong>Web servers</strong> -- Nginx, Apache, LiteSpeed, Microsoft IIS, Caddy.</li>
+                <li><strong>Server-side languages</strong> -- PHP, Python, Ruby, Java, Node.js, Go, .NET.</li>
+                <li><strong>CSS frameworks</strong> -- Bootstrap, Tailwind CSS, Bulma, Foundation, Material Design.</li>
+                <li><strong>Marketing and chat</strong> -- Intercom, Drift, HubSpot, Mailchimp, Zendesk, LiveChat.</li>
+                <li><strong>Security</strong> -- reCAPTCHA, hCaptcha, Sucuri, Wordfence, Cloudflare Bot Management.</li>
+            </ul>
+
+            <h2>Popular Web Stacks</h2>
+            <p>Certain technology combinations appear frequently together, forming recognizable "stacks":</p>
+            <ul>
+                <li><strong>WordPress stack</strong> -- WordPress + PHP + MySQL + Apache/Nginx + WooCommerce (for e-commerce). Powers roughly 43% of all websites on the internet.</li>
+                <li><strong>React/Next.js stack</strong> -- Next.js + React + Vercel + Tailwind CSS. Popular for modern web applications and marketing sites.</li>
+                <li><strong>Shopify stack</strong> -- Shopify + Liquid templates + Shopify CDN. The dominant hosted e-commerce platform.</li>
+                <li><strong>JAMstack</strong> -- a static site generator (Gatsby, Hugo, Astro) + a headless CMS (Contentful, Sanity) + a CDN (Netlify, Vercel). Optimized for performance and security.</li>
+                <li><strong>LAMP/LEMP</strong> -- Linux + Apache (or Nginx) + MySQL + PHP. The classic server stack that still powers a significant portion of the web.</li>
+            </ul>
+
+            <h2>Use Cases for Technology Detection</h2>
+            <p>Understanding a website's technology stack serves several practical purposes:</p>
+
+            <h3>Competitive Analysis</h3>
+            <p>Knowing what tools and platforms your competitors use helps inform your own technology decisions. If competing sites in your industry have migrated to a particular framework or platform, there may be performance, SEO, or user experience benefits driving that choice.</p>
+
+            <h3>Security Research</h3>
+            <p>Identifying the specific software versions a site runs can reveal known vulnerabilities. An outdated WordPress version or an unpatched jQuery library represents a potential attack surface. Security researchers use technology detection as a first step in vulnerability assessment.</p>
+
+            <h3>Sales and Lead Generation</h3>
+            <p>SaaS companies use technology detection to identify potential customers. If a company uses a competitor's product or an outdated technology, that represents a sales opportunity. Services like BuiltWith and Wappalyzer are widely used for this purpose.</p>
+
+            <h3>Migration Planning</h3>
+            <p>Before migrating a site to a new platform, understanding the full current stack -- including third-party integrations, analytics tools, and marketing scripts -- ensures nothing is lost in the transition.</p>
+
+            <h2>Limitations of Technology Detection</h2>
+            <p>Technology detection is not infallible. Several factors can obscure or mislead detection attempts:</p>
+            <ul>
+                <li><strong>Server-side rendering (SSR)</strong> -- when JavaScript frameworks render on the server, client-side detection signals may be reduced or absent.</li>
+                <li><strong>Code obfuscation</strong> -- minified and obfuscated JavaScript removes readable variable names and patterns that detection relies on.</li>
+                <li><strong>Header stripping</strong> -- security-conscious sites remove revealing headers like <code>X-Powered-By</code> and <code>Server</code>.</li>
+                <li><strong>Custom frameworks</strong> -- proprietary or heavily customized frameworks do not match any known signatures.</li>
+                <li><strong>Edge rendering</strong> -- content served from edge functions or CDN workers may not expose the underlying application technology.</li>
+                <li><strong>False positives</strong> -- similar patterns across different technologies can cause misidentification. A site using Preact might be detected as React, or generic class names might be attributed to Bootstrap.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Tech Stack Detector makes it simple to analyze any website's technology profile:</p>
+            <ol>
+                <li><strong>Enter a URL</strong> in the input field (e.g., <code>https://example.com</code>).</li>
+                <li><strong>Click "Detect"</strong> to start the analysis. The tool fetches the page and examines headers, HTML, scripts, and other signals.</li>
+                <li><strong>Review the results</strong>, which list detected technologies organized by category. Each detected technology includes the evidence that triggered its identification.</li>
+            </ol>
+            <p>Use this tool for competitive research, security assessments, technology audits, or simply to satisfy your curiosity about how your favorite websites are built.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Tech Stack Detector for comprehensive site analysis:</p>
+            <ul>
+                <li><a href="/security-headers/">Security Headers Checker</a> -- analyze HTTP security headers that often overlap with technology detection signals.</li>
+                <li><a href="/metadata-extractor/">URL Metadata Extractor</a> -- inspect Open Graph tags, SEO metadata, and structured data alongside technology information.</li>
+                <li><a href="/robots-analyzer/">Robots.txt Analyzer</a> -- check how the site controls search engine and bot access, which can reveal CMS and hosting patterns.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/tech-detector/" class="standalone-nav-btn">Try Tech Stack Detector</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

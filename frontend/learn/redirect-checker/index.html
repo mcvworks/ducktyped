@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Redirects Explained — 301, 302 &amp; Redirect Chains — duckTyped</title>
+    <meta name="description" content="Learn how HTTP redirects work, the differences between 301, 302, 307, and 308 status codes, redirect chains, SEO implications, and how to diagnose redirect issues with duckTyped's Redirect Checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="HTTP Redirects Explained — 301, 302 & Redirect Chains — duckTyped">
+    <meta property="og:description" content="Learn how HTTP redirects work, the differences between 301, 302, 307, and 308 status codes, and how to diagnose redirect issues.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/redirect-checker/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HTTP Redirects Explained — 301, 302 & Redirect Chains — duckTyped">
+    <meta name="twitter:description" content="Learn how HTTP redirects work, redirect status codes, chains, and how to diagnose redirect issues.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/redirect-checker/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Redirect Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>HTTP Redirects Explained</h1>
+            <p class="standalone-intro">Understand how HTTP redirects work, the differences between redirect status codes, how redirect chains affect performance and SEO, and how to trace and diagnose redirect behavior using duckTyped's Redirect Checker.</p>
+
+            <h2>What Are HTTP Redirects?</h2>
+            <p>An <strong>HTTP redirect</strong> is a server response that instructs the client (typically a web browser) to request a different URL instead of the one originally requested. When a server returns a redirect status code (in the 3xx range), it includes a <code>Location</code> header specifying the new URL. The browser then automatically follows the redirect and requests the new URL, usually without any visible interruption to the user.</p>
+            <p>Redirects are a fundamental mechanism of the web. They enable websites to move content to new URLs without breaking existing links, enforce preferred URL formats (such as HTTPS or a canonical domain), and guide users through authentication and authorization flows. Nearly every website uses redirects in some form -- from simple HTTP-to-HTTPS upgrades to complex multi-step redirect chains in advertising and analytics tracking.</p>
+            <p>While redirects are essential, they must be implemented correctly. Misconfigured redirects can cause <strong>redirect loops</strong> (where the browser bounces endlessly between URLs), excessive <strong>redirect chains</strong> (where multiple hops slow down page loads), and <strong>SEO problems</strong> (where search engines lose track of where content actually lives).</p>
+
+            <h2>Redirect Status Codes</h2>
+            <p>HTTP defines several redirect status codes, each with different semantics that affect how browsers, search engines, and caching systems treat the redirect. Understanding these distinctions is essential for choosing the right redirect type.</p>
+
+            <h3>301 -- Moved Permanently</h3>
+            <p>The <strong>301 redirect</strong> is the most commonly used redirect for permanent URL changes. It tells the client that the resource has been permanently moved to a new URL and that all future requests should use the new location. Search engines treat a 301 as a strong signal to transfer ranking authority (often called "link equity" or "link juice") from the old URL to the new one. Browsers cache 301 redirects aggressively, meaning subsequent visits to the old URL go directly to the new one without contacting the server.</p>
+            <p>Use 301 when: you have permanently moved a page to a new URL, changed your domain name, or restructured your site's URL hierarchy.</p>
+
+            <h3>302 -- Found (Temporary Redirect)</h3>
+            <p>The <strong>302 redirect</strong> indicates that the resource is temporarily located at a different URL and the client should continue using the original URL for future requests. Despite its name ("Found"), this code has a complicated history. In HTTP/1.0, it was defined as "Moved Temporarily," but early browser implementations incorrectly changed POST requests to GET when following 302 redirects -- a behavior that became so widespread it was effectively standardized.</p>
+            <p>Use 302 when: a page is temporarily unavailable, during A/B testing, or when redirecting users based on geolocation or device type while preserving the original URL for later use.</p>
+
+            <h3>303 -- See Other</h3>
+            <p>The <strong>303 redirect</strong> was introduced in HTTP/1.1 specifically to address the ambiguity of 302. It explicitly tells the client to retrieve the target resource using a GET request, regardless of the original request method. This is the correct status code to use after a POST request to redirect the user to a confirmation or result page -- a pattern known as the <strong>Post/Redirect/Get (PRG)</strong> pattern, which prevents duplicate form submissions when the user refreshes the page.</p>
+            <p>Use 303 when: redirecting after a form submission to prevent duplicate submissions on page refresh.</p>
+
+            <h3>307 -- Temporary Redirect</h3>
+            <p>The <strong>307 redirect</strong> is the HTTP/1.1 replacement for 302 that explicitly preserves the request method. If the original request was a POST, the redirected request must also be a POST with the same body. This makes 307 the correct choice when temporarily redirecting an API endpoint or form action where maintaining the HTTP method is critical.</p>
+            <p>Use 307 when: you need a temporary redirect that strictly preserves the original request method (GET stays GET, POST stays POST).</p>
+
+            <h3>308 -- Permanent Redirect</h3>
+            <p>The <strong>308 redirect</strong> is the permanent counterpart of 307. Like 301, it indicates the resource has permanently moved, but like 307, it strictly preserves the request method. A POST to a URL returning 308 must be retried as a POST to the new location. This code was defined in RFC 7538 to fill the gap left by 301's method-changing behavior.</p>
+            <p>Use 308 when: you need a permanent redirect that strictly preserves the original request method, particularly for API endpoints.</p>
+
+            <h2>How Browsers Follow Redirects</h2>
+            <p>When a browser receives a redirect response, it extracts the URL from the <code>Location</code> header and issues a new request to that URL. This process happens automatically and is usually invisible to the user -- the address bar updates to show the final URL, and the page loads as if the user had navigated there directly.</p>
+            <p>For each redirect hop, the browser performs a complete HTTP request-response cycle, including DNS resolution, TCP connection, TLS handshake (for HTTPS), and the actual data transfer. This means that each redirect adds latency to the page load. On mobile networks with high round-trip times, even a single unnecessary redirect can add hundreds of milliseconds to the loading time.</p>
+            <p>Browsers impose a <strong>maximum redirect limit</strong> to prevent infinite loops. Most browsers follow a maximum of <strong>20 redirects</strong> before giving up and displaying an error ("too many redirects" or "ERR_TOO_MANY_REDIRECTS"). The HTTP specification does not mandate a specific limit but recommends that clients detect loops. In practice, the <code>curl</code> command-line tool defaults to a maximum of 50 redirects (configurable with the <code>--max-redirs</code> flag).</p>
+
+            <h2>Redirect Chains</h2>
+            <p>A <strong>redirect chain</strong> occurs when a URL redirects to another URL, which in turn redirects to yet another URL, and so on until a final destination is reached. For example:</p>
+            <pre><code>http://example.com
+  --> 301 --> https://example.com
+    --> 301 --> https://www.example.com
+      --> 301 --> https://www.example.com/home/</code></pre>
+            <p>In this chain, the browser makes <strong>four requests</strong> to reach the final page. Each hop adds latency and consumes server resources. While a two-hop chain is sometimes unavoidable (such as HTTP to HTTPS plus www normalization), chains of three or more hops indicate an optimization opportunity.</p>
+            <p>To minimize chains, redirect directly to the final destination wherever possible. Instead of redirecting <code>http://example.com</code> to <code>https://example.com</code> and then to <code>https://www.example.com</code>, configure the first redirect to go straight to <code>https://www.example.com</code>.</p>
+
+            <h2>Redirect Loops</h2>
+            <p>A <strong>redirect loop</strong> occurs when URL A redirects to URL B, and URL B redirects back to URL A (or through a longer circular chain). The browser bounces endlessly between URLs until it hits the maximum redirect limit and displays an error.</p>
+            <p>Common causes of redirect loops include:</p>
+            <ul>
+                <li><strong>Misconfigured HTTP-to-HTTPS redirects</strong> -- if a load balancer or CDN terminates SSL and forwards requests to the origin server as HTTP, the origin server may redirect back to HTTPS, which the CDN again forwards as HTTP, creating an infinite loop.</li>
+                <li><strong>Conflicting redirect rules</strong> -- one rule redirects <code>www</code> to <code>non-www</code>, while another redirects <code>non-www</code> to <code>www</code>.</li>
+                <li><strong>CMS or plugin conflicts</strong> -- WordPress and other CMS platforms sometimes have redirect settings that conflict with server-level redirect rules.</li>
+                <li><strong>Incorrect trailing slash handling</strong> -- one rule adds a trailing slash while another removes it, causing an endless loop.</li>
+            </ul>
+            <p>Diagnosing redirect loops requires tracing the full redirect chain to identify the circular pattern. A redirect checker tool makes this straightforward by showing each hop in sequence.</p>
+
+            <h2>SEO Implications of Redirects</h2>
+            <p>Redirects have a significant impact on search engine optimization. Understanding how search engines treat different redirects is crucial for maintaining your site's ranking.</p>
+
+            <h3>Link Equity Transfer</h3>
+            <p>When external sites link to a URL that redirects, the ranking authority ("link equity" or "link juice") associated with those links needs to be transferred to the final destination. <strong>301 redirects</strong> pass the vast majority of link equity to the target URL. Google has confirmed that 301 redirects transfer full PageRank. <strong>302 redirects</strong> were historically treated differently -- search engines might keep the original URL indexed rather than the destination -- though Google now treats 302s and 301s similarly for link equity in most cases. Nonetheless, using the semantically correct redirect type is still best practice.</p>
+
+            <h3>Crawl Budget</h3>
+            <p><strong>Crawl budget</strong> refers to the number of pages a search engine crawler will fetch from your site in a given time period. Each redirect in a chain consumes crawl budget because the crawler must follow each hop. Long redirect chains and redirect loops waste crawl budget, potentially causing important pages to be crawled less frequently. For large sites with thousands of pages, this can meaningfully impact indexing.</p>
+
+            <h3>Canonical Signals</h3>
+            <p>A 301 redirect is one of the strongest canonical signals you can send to search engines. It explicitly tells crawlers that the content has moved permanently and the new URL should be indexed. This is more definitive than a <code>rel="canonical"</code> tag, which is treated as a hint rather than a directive. When migrating content, a 301 redirect combined with a canonical tag on the destination page provides the clearest signal.</p>
+
+            <h2>Common Redirect Patterns</h2>
+            <p>Several redirect patterns are so common that they are considered standard web configuration:</p>
+
+            <h3>HTTP to HTTPS</h3>
+            <p>Redirecting all HTTP traffic to HTTPS is a fundamental security practice. This should be a <strong>301 redirect</strong> because the change is permanent. The redirect is typically configured at the web server level (Apache, Nginx) or at the CDN/load balancer level. Once HTTPS is enforced, the site should also implement <strong>HSTS (HTTP Strict Transport Security)</strong> headers to instruct browsers to always use HTTPS, eliminating even the initial HTTP request on subsequent visits.</p>
+
+            <h3>WWW to Non-WWW (or Vice Versa)</h3>
+            <p>Most sites choose one canonical form -- either <code>www.example.com</code> or <code>example.com</code> -- and redirect the other to it using a 301. This prevents search engines from treating the www and non-www versions as separate sites with duplicate content. The choice between www and non-www is largely a preference, though the www version offers slightly more flexibility with DNS (CNAME records can be used at subdomains but not at the zone apex).</p>
+
+            <h3>Trailing Slash Normalization</h3>
+            <p>URLs with and without trailing slashes (e.g., <code>/about</code> vs <code>/about/</code>) are technically different URLs. Most sites pick one format and redirect the other to prevent duplicate content. Directory-style URLs typically use trailing slashes, while file-style URLs do not. Consistency is more important than which format you choose.</p>
+
+            <h2>Meta Refresh vs JavaScript vs Server-Side Redirects</h2>
+            <p>Not all redirects are implemented using HTTP status codes. Some are performed at the page level:</p>
+
+            <h3>Server-Side Redirects (3xx Status Codes)</h3>
+            <p>Server-side redirects are the <strong>recommended approach</strong>. The redirect happens before any page content is sent, making it fast and efficient. Search engines handle server-side redirects well, and browsers follow them instantly. Configure these in your web server (Apache <code>.htaccess</code>, Nginx config), application code, or CDN rules.</p>
+
+            <h3>Meta Refresh</h3>
+            <p>A <code>&lt;meta http-equiv="refresh" content="0;url=https://example.com"&gt;</code> tag in the HTML head instructs the browser to navigate to a new URL after a specified delay (in seconds). While functional, meta refreshes are slower than server-side redirects because the browser must download and begin parsing the HTML before encountering the redirect instruction. Search engines generally follow meta refreshes but may not pass link equity as effectively as 301 redirects. The <code>content="0"</code> value indicates an immediate redirect, but there is still more latency than a server-side redirect.</p>
+
+            <h3>JavaScript Redirects</h3>
+            <p>A JavaScript redirect like <code>window.location.href = "https://example.com"</code> executes a redirect from the client side. This is the slowest redirect method because the browser must download, parse, and execute the JavaScript before the redirect occurs. Search engines may not follow JavaScript redirects reliably, and no link equity transfer is guaranteed. JavaScript redirects should be used only as a last resort when server-side configuration is not possible.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Redirect Checker traces the complete redirect chain for any URL:</p>
+            <ol>
+                <li><strong>Enter a URL</strong> in the input field (e.g., <code>http://example.com</code> or <code>https://short.link/abc</code>). Include the protocol (http:// or https://) to test specific redirect behavior.</li>
+                <li><strong>Click "Check"</strong> to trace the redirect chain.</li>
+                <li><strong>Review the results</strong>, which show each hop in the chain: the URL requested, the HTTP status code returned, the <code>Location</code> header value, response time for each hop, and the final destination URL.</li>
+            </ol>
+            <p>Use this tool to identify unnecessary redirect chains that slow down your site, detect redirect loops before they affect users, verify that HTTP-to-HTTPS and domain canonicalization redirects are working correctly, and check where shortened or suspicious URLs ultimately lead.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Redirect Checker for comprehensive website diagnostics:</p>
+            <ul>
+                <li><a href="/http-latency/">HTTP Latency Checker</a> -- measure response times to identify slow redirects and overall site performance issues.</li>
+                <li><a href="/link-checker/">Link Checker</a> -- scan pages for broken links, including those caused by misconfigured redirects that lead to 404 errors.</li>
+                <li><a href="/url-safety/">URL Safety Checker</a> -- verify that redirect destinations are safe and not leading to phishing or malware pages.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/redirect-checker/" class="standalone-nav-btn">Try Redirect Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Security Headers Explained — CSP, HSTS &amp; More — duckTyped</title>
+    <meta name="description" content="Learn what HTTP security headers are, how Content-Security-Policy, HSTS, X-Frame-Options, and other headers protect your site, with implementation examples for nginx, Apache, and Express.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="HTTP Security Headers Explained — CSP, HSTS & More — duckTyped">
+    <meta property="og:description" content="Learn what HTTP security headers are, how CSP, HSTS, and other headers protect your site, with implementation examples.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/security-headers/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HTTP Security Headers Explained — CSP, HSTS & More — duckTyped">
+    <meta name="twitter:description" content="Learn what HTTP security headers are, how CSP, HSTS, and other headers protect your site, with implementation examples.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/security-headers/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Security Headers</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>HTTP Security Headers Explained</h1>
+            <p class="standalone-intro">Understand what HTTP security headers are, how each one protects your website and users, learn recommended configurations, and use duckTyped's security headers checker to audit any site.</p>
+
+            <h2>What Are Security Headers?</h2>
+            <p><strong>HTTP security headers</strong> are directives sent by a web server in its HTTP response that instruct the browser how to behave when handling the site's content. They act as a critical layer of defense against common web attacks including cross-site scripting (XSS), clickjacking, data injection, and protocol downgrade attacks.</p>
+            <p>Security headers are added to the HTTP response by the web server or application framework. They cost nothing to implement, require no changes to your application code, and provide immediate protection against entire classes of vulnerabilities. Despite this, many websites fail to deploy them correctly -- or at all.</p>
+            <p>Each header addresses a specific attack vector. Together, they form a defense-in-depth strategy that significantly reduces your site's attack surface.</p>
+
+            <h2>Content-Security-Policy (CSP)</h2>
+            <p>The <strong>Content-Security-Policy</strong> header is the most powerful and complex security header available. It defines an allowlist of content sources that the browser is permitted to load for a given page. Any resource (script, stylesheet, image, font, frame, etc.) that does not match the policy is blocked by the browser.</p>
+            <p>CSP is the primary defense against <strong>cross-site scripting (XSS)</strong> attacks. By restricting which scripts the browser is allowed to execute, CSP prevents injected malicious scripts from running -- even if an attacker successfully injects HTML into your page.</p>
+            <p>A basic CSP policy looks like this:</p>
+            <pre><code>Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' 'unsafe-inline'; img-src *; frame-ancestors 'none'</code></pre>
+            <p>Key directives include:</p>
+            <ul>
+                <li><strong>default-src</strong> -- fallback policy for all resource types not explicitly specified.</li>
+                <li><strong>script-src</strong> -- controls which scripts can execute. Avoid <code>'unsafe-inline'</code> and <code>'unsafe-eval'</code> whenever possible, as they weaken CSP's XSS protection. Use nonces or hashes instead.</li>
+                <li><strong>style-src</strong> -- controls which stylesheets can be applied.</li>
+                <li><strong>img-src</strong> -- controls which image sources are allowed.</li>
+                <li><strong>connect-src</strong> -- controls which URLs the page can contact via XHR, Fetch, or WebSocket.</li>
+                <li><strong>frame-ancestors</strong> -- controls which sites can embed your page in an iframe (replaces X-Frame-Options).</li>
+                <li><strong>report-uri / report-to</strong> -- specifies an endpoint where the browser sends violation reports, invaluable for monitoring and tuning your policy.</li>
+            </ul>
+            <p><strong>Recommended approach</strong>: Start with <code>Content-Security-Policy-Report-Only</code> to monitor violations without blocking content, then transition to an enforcing policy once you have resolved all legitimate violations.</p>
+
+            <h2>Strict-Transport-Security (HSTS)</h2>
+            <p>The <strong>Strict-Transport-Security</strong> header tells browsers to only communicate with your site over HTTPS, never HTTP. Once a browser receives this header, it will automatically upgrade all future HTTP requests to HTTPS for the specified duration -- even if the user types <code>http://</code> in the address bar or clicks an HTTP link.</p>
+            <p>HSTS protects against <strong>protocol downgrade attacks</strong> and <strong>cookie hijacking</strong>. Without HSTS, an attacker on the same network (e.g., a public Wi-Fi hotspot) can intercept the initial HTTP request before it redirects to HTTPS and perform a man-in-the-middle attack.</p>
+            <pre><code>Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</code></pre>
+            <ul>
+                <li><strong>max-age</strong> -- the duration in seconds that the browser should remember to enforce HTTPS. A value of <code>31536000</code> (one year) is standard.</li>
+                <li><strong>includeSubDomains</strong> -- applies the HSTS policy to all subdomains as well.</li>
+                <li><strong>preload</strong> -- signals that you want your domain added to the browser's built-in HSTS preload list, which enforces HTTPS from the very first visit (eliminating even the initial HTTP request). Submit your domain at <code>hstspreload.org</code>.</li>
+            </ul>
+            <p><strong>Recommended value</strong>: <code>max-age=31536000; includeSubDomains; preload</code></p>
+
+            <h2>X-Content-Type-Options</h2>
+            <p>The <strong>X-Content-Type-Options</strong> header prevents browsers from MIME-type sniffing -- the practice of guessing a file's content type by examining its contents rather than trusting the declared <code>Content-Type</code> header. MIME sniffing can be exploited to execute malicious content disguised as a harmless file type.</p>
+            <p>For example, an attacker could upload a file with a <code>.jpg</code> extension that actually contains JavaScript. Without this header, some browsers might detect the JavaScript content and execute it.</p>
+            <pre><code>X-Content-Type-Options: nosniff</code></pre>
+            <p><strong>Recommended value</strong>: <code>nosniff</code> -- there is only one valid value for this header, and it should always be set.</p>
+
+            <h2>X-Frame-Options</h2>
+            <p>The <strong>X-Frame-Options</strong> header controls whether your page can be embedded in an <code>&lt;iframe&gt;</code>, <code>&lt;frame&gt;</code>, <code>&lt;embed&gt;</code>, or <code>&lt;object&gt;</code> element on another site. This is the primary defense against <strong>clickjacking</strong> attacks, where an attacker overlays a transparent iframe of your site on top of a malicious page, tricking users into clicking buttons or links they cannot see.</p>
+            <pre><code>X-Frame-Options: DENY</code></pre>
+            <p>Valid values are:</p>
+            <ul>
+                <li><strong>DENY</strong> -- the page cannot be framed by any site, including itself.</li>
+                <li><strong>SAMEORIGIN</strong> -- the page can only be framed by pages on the same origin.</li>
+            </ul>
+            <p>Note that X-Frame-Options is being superseded by the CSP <code>frame-ancestors</code> directive, which offers more granular control. However, X-Frame-Options should still be set for compatibility with older browsers that do not support CSP.</p>
+            <p><strong>Recommended value</strong>: <code>DENY</code> (or <code>SAMEORIGIN</code> if your site uses iframes internally).</p>
+
+            <h2>Referrer-Policy</h2>
+            <p>The <strong>Referrer-Policy</strong> header controls how much referrer information the browser includes when navigating away from your site. By default, browsers send the full URL of the referring page in the <code>Referer</code> header, which can leak sensitive information such as session tokens in URLs, internal page paths, or search queries.</p>
+            <pre><code>Referrer-Policy: strict-origin-when-cross-origin</code></pre>
+            <p>Common values include:</p>
+            <ul>
+                <li><strong>no-referrer</strong> -- never send the Referer header.</li>
+                <li><strong>same-origin</strong> -- only send the referrer for same-origin requests.</li>
+                <li><strong>strict-origin-when-cross-origin</strong> -- send the full URL for same-origin requests, only the origin for cross-origin requests over HTTPS, and nothing when downgrading from HTTPS to HTTP. This is the recommended default.</li>
+                <li><strong>no-referrer-when-downgrade</strong> -- send the full URL except when navigating from HTTPS to HTTP.</li>
+            </ul>
+            <p><strong>Recommended value</strong>: <code>strict-origin-when-cross-origin</code></p>
+
+            <h2>Permissions-Policy</h2>
+            <p>The <strong>Permissions-Policy</strong> header (formerly Feature-Policy) controls which browser features and APIs your page and its embedded iframes are allowed to use. This prevents malicious or compromised third-party scripts from accessing sensitive device capabilities.</p>
+            <pre><code>Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(self)</code></pre>
+            <p>Key features you can control:</p>
+            <ul>
+                <li><strong>camera</strong> -- access to the device camera.</li>
+                <li><strong>microphone</strong> -- access to the device microphone.</li>
+                <li><strong>geolocation</strong> -- access to the user's location.</li>
+                <li><strong>payment</strong> -- use of the Payment Request API.</li>
+                <li><strong>usb</strong> -- access to USB devices.</li>
+                <li><strong>autoplay</strong> -- automatic playback of media.</li>
+                <li><strong>fullscreen</strong> -- use of the Fullscreen API.</li>
+            </ul>
+            <p>Setting a feature to <code>()</code> disables it entirely. Setting it to <code>(self)</code> allows it only for the site's own origin. You can also allowlist specific origins.</p>
+            <p><strong>Recommended approach</strong>: Disable all features you do not use and only enable the ones your application requires.</p>
+
+            <h2>X-XSS-Protection (Deprecated)</h2>
+            <p>The <strong>X-XSS-Protection</strong> header was designed to activate the browser's built-in XSS filter, which attempted to detect and block reflected XSS attacks. However, this header is now <strong>deprecated</strong> and should be set to <code>0</code> to disable the filter entirely.</p>
+            <pre><code>X-XSS-Protection: 0</code></pre>
+            <p>The reason for disabling it is that the XSS auditor itself introduced security vulnerabilities in certain edge cases. Modern browsers (Chrome, Edge, Firefox) have removed the XSS auditor entirely. A properly configured Content-Security-Policy provides far superior XSS protection.</p>
+            <p><strong>Recommended value</strong>: <code>0</code></p>
+
+            <h2>CORS Headers Overview</h2>
+            <p><strong>Cross-Origin Resource Sharing (CORS)</strong> headers control which external origins are allowed to make requests to your API or access your resources from client-side JavaScript. While CORS headers are not strictly "security headers" in the same sense as CSP or HSTS, misconfiguring them can expose your API to unauthorized cross-origin access.</p>
+            <p>The key CORS headers are:</p>
+            <ul>
+                <li><strong>Access-Control-Allow-Origin</strong> -- specifies which origins can access the resource. Avoid using <code>*</code> for APIs that handle sensitive data or use credentials.</li>
+                <li><strong>Access-Control-Allow-Methods</strong> -- specifies which HTTP methods (GET, POST, PUT, DELETE, etc.) are permitted for cross-origin requests.</li>
+                <li><strong>Access-Control-Allow-Headers</strong> -- specifies which request headers are permitted in cross-origin requests.</li>
+                <li><strong>Access-Control-Allow-Credentials</strong> -- indicates whether the browser should include cookies and authorization headers with cross-origin requests. When set to <code>true</code>, <code>Access-Control-Allow-Origin</code> must not be <code>*</code>.</li>
+            </ul>
+            <p>A common security mistake is setting <code>Access-Control-Allow-Origin: *</code> on APIs that require authentication. Always restrict the allowed origin to the specific domains that need access.</p>
+
+            <h2>How to Implement Security Headers</h2>
+            <p>Security headers are configured at the web server or application level. Here are examples for common platforms:</p>
+
+            <h3>Nginx</h3>
+            <pre><code>server {
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+    add_header X-XSS-Protection "0" always;
+}</code></pre>
+
+            <h3>Apache (.htaccess or httpd.conf)</h3>
+            <pre><code>Header always set Content-Security-Policy "default-src 'self'; script-src 'self'"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+Header always set X-XSS-Protection "0"</code></pre>
+
+            <h3>Express.js (Node.js)</h3>
+            <pre><code>const helmet = require('helmet');
+app.use(helmet());
+
+// Or configure individually:
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'");
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    res.setHeader('X-XSS-Protection', '0');
+    next();
+});</code></pre>
+
+            <h2>How to Use the Security Headers Checker</h2>
+            <p>The duckTyped Security Headers Checker lets you audit the security headers of any website in seconds:</p>
+            <ol>
+                <li><strong>Enter a URL</strong> in the input field (e.g., <code>https://example.com</code>).</li>
+                <li><strong>Click "Scan"</strong> to fetch and analyze the site's response headers.</li>
+                <li><strong>Review the results</strong>, which show each security header with its current value, a pass/fail/warning status, and a brief explanation of what the header does and why it matters.</li>
+            </ol>
+            <p>The tool checks for all major security headers and provides actionable recommendations for any that are missing or misconfigured. Use it to audit your own sites before deployment or to evaluate the security posture of third-party services.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the Security Headers Checker for comprehensive web security analysis:</p>
+            <ul>
+                <li><a href="/ssl-checker/">SSL Certificate Checker</a> -- verify your certificate chain, expiration dates, protocol versions, and cipher suite configuration.</li>
+                <li><a href="/tech-detector/">Tech Detector</a> -- identify the technologies, frameworks, and services a website is built with.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/security-headers/" class="standalone-nav-btn">Try Security Headers Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

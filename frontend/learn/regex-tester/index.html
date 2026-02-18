@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regular Expressions Explained — Syntax, Flags &amp; Common Patterns — duckTyped</title>
+    <meta name="description" content="Learn regular expression syntax, metacharacters, character classes, quantifiers, groups, lookahead/lookbehind, flags, common patterns, and performance pitfalls.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Regular Expressions Explained — Syntax, Flags & Common Patterns — duckTyped">
+    <meta property="og:description" content="Learn regular expression syntax, metacharacters, character classes, quantifiers, groups, flags, and common patterns.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/regex-tester/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Regular Expressions Explained — Syntax, Flags & Common Patterns — duckTyped">
+    <meta name="twitter:description" content="Learn regular expression syntax, flags, and common patterns for text matching.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/regex-tester/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Regex Tester</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Regular Expressions Explained</h1>
+            <p class="standalone-intro">Understand regular expression syntax from the ground up -- literal characters, metacharacters, character classes, quantifiers, groups, lookaround assertions, flags, and common patterns -- along with performance pitfalls to avoid.</p>
+
+            <h2>What Are Regular Expressions?</h2>
+            <p>A <strong>regular expression</strong> (regex or regexp) is a sequence of characters that defines a search pattern. Regular expressions are used to match, search, extract, and replace text based on patterns rather than fixed strings. They are one of the most powerful and widely used tools in programming, supported natively or through libraries in virtually every modern language.</p>
+            <p>The concept dates back to the 1950s, when mathematician Stephen Kleene formalized the notion of "regular sets" in automata theory. The practical implementation came in the 1960s and 1970s, when <strong>Ken Thompson</strong> built regular expression matching into the QED and ed text editors at Bell Labs. Thompson's work directly led to the creation of <strong>grep</strong> (Global Regular Expression Print), one of the foundational Unix command-line tools. From there, regex engines proliferated -- Perl popularized an extended syntax in the 1980s and 1990s that became the de facto standard, and today the PCRE (Perl Compatible Regular Expressions) library underpins regex support in PHP, Python, JavaScript, Java, and many other languages.</p>
+
+            <h2>Basic Syntax</h2>
+            <p>At the most basic level, a regular expression is composed of <strong>literal characters</strong> and <strong>metacharacters</strong>. Literal characters match themselves -- the pattern <code>cat</code> matches the exact string "cat". Metacharacters have special meaning and control how the pattern matching engine behaves.</p>
+            <p>The core metacharacters in most regex flavors are:</p>
+            <pre><code>.   ^   $   *   +   ?   |   \   [   ]   (   )   {   }</code></pre>
+            <ul>
+                <li><code>.</code> -- Matches any single character except a newline (by default).</li>
+                <li><code>^</code> -- Matches the start of the string (or start of a line in multiline mode).</li>
+                <li><code>$</code> -- Matches the end of the string (or end of a line in multiline mode).</li>
+                <li><code>|</code> -- Alternation (logical OR). <code>cat|dog</code> matches "cat" or "dog".</li>
+                <li><code>\</code> -- Escape character. Precede a metacharacter with <code>\</code> to match it literally: <code>\.</code> matches a literal period.</li>
+            </ul>
+            <p>If you want to match a metacharacter literally, you must escape it with a backslash. For example, to match the string <code>$100</code>, use the pattern <code>\$100</code>.</p>
+
+            <h2>Character Classes</h2>
+            <p>Character classes define a set of characters to match at a single position. They are enclosed in square brackets:</p>
+            <ul>
+                <li><code>[abc]</code> -- Matches any one of <code>a</code>, <code>b</code>, or <code>c</code>.</li>
+                <li><code>[a-z]</code> -- Matches any lowercase letter from a to z (range).</li>
+                <li><code>[A-Za-z0-9]</code> -- Matches any alphanumeric character.</li>
+                <li><code>[^abc]</code> -- Negated class: matches any character <strong>except</strong> a, b, or c.</li>
+            </ul>
+            <p>Most regex engines also provide shorthand character classes for common sets:</p>
+            <ul>
+                <li><code>\d</code> -- Matches any digit (equivalent to <code>[0-9]</code>).</li>
+                <li><code>\D</code> -- Matches any non-digit.</li>
+                <li><code>\w</code> -- Matches any "word" character: letters, digits, and underscore (<code>[A-Za-z0-9_]</code>).</li>
+                <li><code>\W</code> -- Matches any non-word character.</li>
+                <li><code>\s</code> -- Matches any whitespace character (space, tab, newline, carriage return, form feed).</li>
+                <li><code>\S</code> -- Matches any non-whitespace character.</li>
+            </ul>
+
+            <h2>Quantifiers</h2>
+            <p>Quantifiers specify how many times the preceding element must appear for a match:</p>
+            <ul>
+                <li><code>*</code> -- Zero or more times. <code>ab*c</code> matches "ac", "abc", "abbc", etc.</li>
+                <li><code>+</code> -- One or more times. <code>ab+c</code> matches "abc", "abbc", but not "ac".</li>
+                <li><code>?</code> -- Zero or one time (optional). <code>colou?r</code> matches "color" and "colour".</li>
+                <li><code>{n}</code> -- Exactly n times. <code>\d{4}</code> matches exactly four digits.</li>
+                <li><code>{n,}</code> -- At least n times. <code>\d{2,}</code> matches two or more digits.</li>
+                <li><code>{n,m}</code> -- Between n and m times (inclusive). <code>\d{2,4}</code> matches two, three, or four digits.</li>
+            </ul>
+            <p>By default, quantifiers are <strong>greedy</strong> -- they match as much text as possible. Appending a <code>?</code> after any quantifier makes it <strong>lazy</strong> (non-greedy), matching as little as possible: <code>.*?</code> matches the shortest possible run of characters.</p>
+
+            <h2>Anchors</h2>
+            <p>Anchors do not match characters -- they match <strong>positions</strong> in the string:</p>
+            <ul>
+                <li><code>^</code> -- Start of the string (or line, with the <code>m</code> flag).</li>
+                <li><code>$</code> -- End of the string (or line, with the <code>m</code> flag).</li>
+                <li><code>\b</code> -- Word boundary: the position between a word character and a non-word character. <code>\bcat\b</code> matches "cat" in "the cat sat" but not in "concatenate".</li>
+                <li><code>\B</code> -- Non-word boundary: any position that is not a word boundary.</li>
+            </ul>
+            <p>Anchors are essential for ensuring a pattern matches the entire string (e.g., <code>^\d{5}$</code> matches exactly five digits and nothing else) or a specific word boundary.</p>
+
+            <h2>Groups and Capturing</h2>
+            <p>Parentheses serve two purposes in regex: <strong>grouping</strong> and <strong>capturing</strong>.</p>
+            <ul>
+                <li><code>(abc)</code> -- A capturing group. Groups the expression and stores the matched text for later reference (via backreferences or extraction).</li>
+                <li><code>(?:abc)</code> -- A non-capturing group. Groups the expression without storing the match. Useful for applying quantifiers to a group without the overhead of capturing.</li>
+            </ul>
+            <p><strong>Backreferences</strong> let you refer to previously captured groups within the same pattern. <code>\1</code> refers to the first capture group, <code>\2</code> to the second, and so on. For example, <code>(\w+)\s+\1</code> matches a repeated word like "the the".</p>
+            <p>In replacement strings, captured groups are typically referenced as <code>$1</code>, <code>$2</code>, etc. This enables powerful search-and-replace operations: replacing <code>(\d{2})/(\d{2})/(\d{4})</code> with <code>$3-$1-$2</code> converts a date from MM/DD/YYYY to YYYY-MM-DD.</p>
+
+            <h2>Lookahead and Lookbehind</h2>
+            <p>Lookaround assertions check whether a pattern exists ahead of or behind the current position without including it in the match. They are "zero-width" -- they do not consume characters.</p>
+            <ul>
+                <li><code>(?=...)</code> -- <strong>Positive lookahead</strong>: matches if the pattern ahead exists. <code>\d+(?= dollars)</code> matches "100" in "100 dollars" but not in "100 euros".</li>
+                <li><code>(?!...)</code> -- <strong>Negative lookahead</strong>: matches if the pattern ahead does not exist. <code>\d+(?! dollars)</code> matches "100" in "100 euros" but not in "100 dollars".</li>
+                <li><code>(?&lt;=...)</code> -- <strong>Positive lookbehind</strong>: matches if the pattern behind exists. <code>(?&lt;=\$)\d+</code> matches "50" in "$50".</li>
+                <li><code>(?&lt;!...)</code> -- <strong>Negative lookbehind</strong>: matches if the pattern behind does not exist.</li>
+            </ul>
+            <p>Lookbehind support varies by engine. JavaScript added lookbehind support in ES2018 and it is available in all modern browsers.</p>
+
+            <h2>Flags</h2>
+            <p>Flags (also called modifiers) change the overall behavior of the regex engine. The most commonly used flags are:</p>
+            <ul>
+                <li><code>g</code> -- <strong>Global</strong>: find all matches instead of stopping at the first one.</li>
+                <li><code>i</code> -- <strong>Case-insensitive</strong>: treat uppercase and lowercase letters as equivalent.</li>
+                <li><code>m</code> -- <strong>Multiline</strong>: make <code>^</code> and <code>$</code> match the start and end of each line, not just the entire string.</li>
+                <li><code>s</code> -- <strong>Dotall</strong>: make <code>.</code> match newline characters as well (normally it does not).</li>
+                <li><code>u</code> -- <strong>Unicode</strong>: treat the pattern as a sequence of Unicode code points, enabling correct handling of surrogate pairs and Unicode property escapes.</li>
+            </ul>
+            <p>In JavaScript, flags are placed after the closing slash of a regex literal: <code>/pattern/gi</code>. In languages like Python, they are passed as optional arguments to the regex function.</p>
+
+            <h2>Common Patterns</h2>
+            <p>Here are several widely used regex patterns. Keep in mind that "perfect" regex for complex formats like email is extremely difficult -- these are practical approximations:</p>
+            <ul>
+                <li><strong>Email (simplified)</strong>: <code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}</code> -- Matches most standard email addresses. The full RFC 5322 email regex is thousands of characters long and impractical for most use cases.</li>
+                <li><strong>URL</strong>: <code>https?:\/\/[^\s/$.?#].[^\s]*</code> -- Matches HTTP and HTTPS URLs. A rough approximation suitable for link detection.</li>
+                <li><strong>IPv4 address</strong>: <code>\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b</code> -- Matches dotted decimal notation. Note: this does not validate that each octet is 0--255; additional logic is needed for strict validation.</li>
+                <li><strong>Phone number (US)</strong>: <code>\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}</code> -- Matches formats like (555) 123-4567, 555-123-4567, 555.123.4567.</li>
+                <li><strong>Date (YYYY-MM-DD)</strong>: <code>\d{4}-\d{2}-\d{2}</code> -- Matches ISO 8601 date format. Does not validate month/day ranges.</li>
+            </ul>
+
+            <h2>Performance Pitfalls</h2>
+            <p>A poorly written regex can cause <strong>catastrophic backtracking</strong>, where the engine takes exponential time to determine that a string does not match. This occurs when a pattern has nested quantifiers or overlapping alternatives that create millions of possible matching paths.</p>
+            <p>The classic example is the pattern <code>(a+)+b</code> tested against a string of all <code>a</code> characters with no trailing <code>b</code>. The engine tries every possible way to divide the <code>a</code> characters between the inner and outer groups before concluding there is no match. With each additional <code>a</code>, the time doubles.</p>
+            <p>To avoid catastrophic backtracking: avoid nested quantifiers on overlapping patterns, use atomic groups or possessive quantifiers where available, and test your patterns against long non-matching inputs to catch performance problems early. When validating untrusted input, consider setting a timeout on regex execution.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Regex Tester provides an interactive environment for writing and testing regular expressions:</p>
+            <ol>
+                <li>Enter your regular expression pattern in the pattern field.</li>
+                <li>Set the desired flags (global, case-insensitive, multiline, etc.).</li>
+                <li>Paste your test string in the input area.</li>
+                <li>Matches are highlighted in real time. Captured groups and their contents are displayed separately.</li>
+            </ol>
+            <p>The tool runs entirely in your browser using JavaScript's native regex engine. No data is transmitted to any server.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/json-formatter/">JSON Formatter</a> -- Format, validate, and minify JSON data that you might be extracting or processing with regex.</li>
+                <li><a href="/url-encoder/">URL Encoder</a> -- Percent-encode special characters in URLs, which often interact with regex patterns.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/regex-tester/" class="standalone-nav-btn">Try Regex Tester</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

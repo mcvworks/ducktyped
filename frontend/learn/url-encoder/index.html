@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoding Explained — Percent-Encoding &amp; URI Components — duckTyped</title>
+    <meta name="description" content="Learn what URL encoding (percent-encoding) is, how it works under RFC 3986, reserved vs unreserved characters, encoding spaces, UTF-8 handling, and common pitfalls.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="URL Encoding Explained — Percent-Encoding & URI Components — duckTyped">
+    <meta property="og:description" content="Learn what URL encoding is, how percent-encoding works, reserved vs unreserved characters, and common encoding scenarios.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/url-encoder/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="URL Encoding Explained — Percent-Encoding & URI Components — duckTyped">
+    <meta name="twitter:description" content="Learn what URL encoding is, how percent-encoding works, and when to use it.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/url-encoder/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>URL Encode / Decode</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>URL Encoding Explained</h1>
+            <p class="standalone-intro">Understand what percent-encoding is, why URLs require it, how reserved and unreserved characters differ, and how to correctly encode query parameters, path segments, and international characters in your web applications.</p>
+
+            <h2>What Is URL Encoding?</h2>
+            <p>URL encoding -- also called <strong>percent-encoding</strong> -- is a mechanism for representing characters in a URI (Uniform Resource Identifier) that would otherwise be unsafe, ambiguous, or invalid. The formal specification is defined in <strong>RFC 3986</strong>, which governs the syntax of URIs on the web.</p>
+            <p>URIs are restricted to a limited set of ASCII characters. When a URL needs to contain characters outside this set -- such as spaces, special symbols, or non-ASCII Unicode characters -- those characters must be replaced with a percent sign (<code>%</code>) followed by two hexadecimal digits representing the character's byte value. For example, a space becomes <code>%20</code>, and a forward slash becomes <code>%2F</code>.</p>
+            <p>Without URL encoding, a browser or server would have no reliable way to distinguish between characters that are part of the URL's structure (like <code>?</code> and <code>&amp;</code>) and characters that are part of the actual data being transmitted. Percent-encoding resolves this ambiguity.</p>
+
+            <h2>Reserved vs Unreserved Characters</h2>
+            <p>RFC 3986 divides ASCII characters into two categories that determine whether they need encoding:</p>
+
+            <h3>Unreserved Characters</h3>
+            <p>These characters can appear in a URI without encoding. They carry no special structural meaning:</p>
+            <pre><code>A-Z  a-z  0-9  -  _  .  ~</code></pre>
+            <p>These 66 characters are safe to use anywhere in a URL. Encoding them is allowed but unnecessary and discouraged, since it increases URL length without adding meaning.</p>
+
+            <h3>Reserved Characters</h3>
+            <p>These characters have special meaning within the URI syntax and serve as delimiters between components:</p>
+            <pre><code>:  /  ?  #  [  ]  @  !  $  &  '  (  )  *  +  ,  ;  =</code></pre>
+            <p>When these characters appear in a URI component as <strong>data</strong> rather than as delimiters, they must be percent-encoded. For instance, the <code>&amp;</code> character separates query parameters, so if a parameter value itself contains an ampersand, it must be encoded as <code>%26</code> to prevent the parser from treating it as a separator.</p>
+
+            <h2>How Percent-Encoding Works</h2>
+            <p>The encoding process is straightforward. Each byte of the character to be encoded is represented as a percent sign followed by two uppercase hexadecimal digits:</p>
+            <pre><code>Character:   space     &       =       /       @
+ASCII code:  32        38      61      47      64
+Hex value:   20        26      3D      2F      40
+Encoded:     %20       %26     %3D     %2F     %40</code></pre>
+            <p>The percent sign itself must be encoded as <code>%25</code> when it appears literally in data. This is essential -- if a URL contains the text <code>100%</code>, it must be written as <code>100%25</code> to avoid the parser interpreting the <code>%</code> as the start of an encoded sequence.</p>
+            <p>Decoding reverses the process: the parser encounters a <code>%</code>, reads the next two hexadecimal digits, and replaces the triplet with the corresponding byte value.</p>
+
+            <h2>Encoding Spaces: + vs %20</h2>
+            <p>Spaces in URLs are a common source of confusion because there are two valid ways to encode them, depending on context:</p>
+            <ul>
+                <li><strong><code>%20</code></strong> -- The standard percent-encoding for a space, valid in all URI components (path, query, fragment). This is the encoding defined by RFC 3986.</li>
+                <li><strong><code>+</code></strong> -- An alternative encoding for spaces that is only valid in the query string component. This convention comes from the <code>application/x-www-form-urlencoded</code> content type, which is used when HTML forms submit data via GET or POST.</li>
+            </ul>
+            <p>In the query string <code>?name=John+Doe</code>, the <code>+</code> represents a space. But in a path segment like <code>/users/John+Doe</code>, the <code>+</code> is interpreted as a literal plus sign, not a space. If you mean a space in a path, you must use <code>/users/John%20Doe</code>.</p>
+            <p>The safest general rule: use <code>%20</code> for spaces unless you are specifically building form-encoded query strings, in which case <code>+</code> is conventional.</p>
+
+            <h2>UTF-8 and International Characters</h2>
+            <p>Modern URLs often contain characters beyond the ASCII range -- accented letters, CJK characters, Arabic script, emoji, and other Unicode code points. RFC 3986 mandates that these characters be encoded using their <strong>UTF-8 byte representation</strong>, with each byte individually percent-encoded.</p>
+            <p>For example, the character <code>e</code> with an accent (U+00E9) is encoded in UTF-8 as the two bytes <code>0xC3 0xA9</code>, which becomes <code>%C3%A9</code> in the URL. A single emoji like a smiley face might produce four bytes and therefore four percent-encoded triplets.</p>
+            <pre><code>Character:  e (with accent)   (Chinese character for "big")
+UTF-8 hex:  C3 A9              E5 A4 A7
+Encoded:    %C3%A9             %E5%A4%A7</code></pre>
+            <p>Browsers display these encoded sequences as their original characters in the address bar -- a convenience feature called <strong>Internationalized Resource Identifiers (IRIs)</strong>. Behind the scenes, the encoded form is what is actually sent in the HTTP request.</p>
+
+            <h2>encodeURIComponent vs encodeURI in JavaScript</h2>
+            <p>JavaScript provides two built-in functions for URL encoding, and using the wrong one is a frequent source of bugs:</p>
+
+            <h3>encodeURIComponent()</h3>
+            <p>Encodes a <strong>single URI component</strong> -- a query parameter value, a path segment, or a fragment identifier. It encodes all characters that are not unreserved, including reserved delimiters like <code>/</code>, <code>?</code>, <code>&amp;</code>, and <code>=</code>.</p>
+            <pre><code>encodeURIComponent("price=10&currency=USD")
+// "price%3D10%26currency%3DUSD"</code></pre>
+            <p>Use this function when you are encoding a <strong>value</strong> to embed inside a URL. It is the correct choice in the vast majority of cases.</p>
+
+            <h3>encodeURI()</h3>
+            <p>Encodes a <strong>complete URI</strong>. It does not encode reserved characters that are structurally meaningful in a full URL, such as <code>:</code>, <code>/</code>, <code>?</code>, <code>#</code>, and <code>&amp;</code>.</p>
+            <pre><code>encodeURI("https://example.com/path?name=John Doe")
+// "https://example.com/path?name=John%20Doe"</code></pre>
+            <p>Use this function only when you have a complete URL that already has its structural delimiters in place and you simply want to encode any spaces or non-ASCII characters within it. Using <code>encodeURI()</code> on individual parameter values will leave dangerous characters unescaped.</p>
+
+            <h2>Common Encoding Scenarios</h2>
+            <p>Understanding when and where to apply URL encoding prevents many common web development bugs:</p>
+            <ul>
+                <li><strong>Query parameters</strong> -- Each parameter key and value should be individually encoded with <code>encodeURIComponent()</code>, then joined with <code>=</code> and <code>&amp;</code>:
+<pre><code>const key = encodeURIComponent("search query");
+const val = encodeURIComponent("cats & dogs");
+const url = `/api?${key}=${val}`;
+// "/api?search%20query=cats%20%26%20dogs"</code></pre></li>
+                <li><strong>Path segments</strong> -- User-provided values in URL paths must be encoded to prevent slashes and special characters from breaking the routing structure. A username like <code>user/admin</code> must become <code>user%2Fadmin</code>.</li>
+                <li><strong>Form data</strong> -- When an HTML form submits with <code>method="GET"</code>, the browser automatically encodes the form fields using <code>application/x-www-form-urlencoded</code> format, which uses <code>+</code> for spaces.</li>
+                <li><strong>Hash fragments</strong> -- The fragment portion of a URL (after <code>#</code>) is never sent to the server, but it should still be encoded for the browser to parse it correctly.</li>
+            </ul>
+
+            <h2>The Double Encoding Pitfall</h2>
+            <p>Double encoding occurs when data that is already percent-encoded gets encoded a second time. The <code>%</code> sign in the already-encoded string is itself encoded to <code>%25</code>, producing mangled results:</p>
+            <pre><code>Original:       hello world
+First encoding: hello%20world
+Double encoded: hello%2520world  (the % became %25)</code></pre>
+            <p>This typically happens when encoding is applied at multiple layers -- for example, manually encoding a value before passing it to a library that also encodes it, or when a framework's routing layer double-encodes path parameters.</p>
+            <p>To avoid double encoding: encode data exactly once, as close to the point of URL construction as possible. If you are unsure whether a string is already encoded, try decoding it first -- if decoding changes the string, it was encoded; if not, it was raw.</p>
+
+            <h2>application/x-www-form-urlencoded</h2>
+            <p>This content type is the default encoding for HTML form submissions. It is closely related to standard percent-encoding but has a few differences:</p>
+            <ul>
+                <li>Spaces are encoded as <code>+</code> instead of <code>%20</code>.</li>
+                <li>The encoding follows the rules of the HTML specification rather than RFC 3986.</li>
+                <li>Key/value pairs are separated by <code>&amp;</code>, and keys are separated from values by <code>=</code>.</li>
+            </ul>
+            <p>When a form with <code>method="POST"</code> and no explicit <code>enctype</code> is submitted, the browser sends the form data in the request body using this format. The result looks like: <code>username=John+Doe&amp;password=s%26cret</code>.</p>
+            <p>In JavaScript, the <code>URLSearchParams</code> API handles this format natively and takes care of encoding and decoding automatically.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped URL Encoder/Decoder makes it easy to encode and decode URL strings:</p>
+            <ol>
+                <li>Paste your plain text or encoded URL string into the input field.</li>
+                <li>Click <strong>Encode</strong> to percent-encode the text, or <strong>Decode</strong> to convert percent-encoded sequences back to readable characters.</li>
+                <li>Copy the result with one click.</li>
+            </ol>
+            <p>The tool handles UTF-8 characters automatically and runs entirely in your browser -- no data is sent to any server.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/base64-encoder/">Base64 Encoder</a> -- Encode binary data or text as Base64 for embedding in URLs, APIs, or data URIs.</li>
+                <li><a href="/regex-tester/">Regex Tester</a> -- Test regular expression patterns to validate or extract URL components.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/url-encoder/" class="standalone-nav-btn">Try URL Encoder</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

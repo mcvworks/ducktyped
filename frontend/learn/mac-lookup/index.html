@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAC Address Lookup Explained — OUI &amp; Vendor Identification — duckTyped</title>
+    <meta name="description" content="Learn what MAC addresses are, how the OUI identifies device manufacturers, understand MAC formats and special bits, and use duckTyped's MAC lookup tool for vendor identification.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MAC Address Lookup Explained — OUI & Vendor Identification — duckTyped">
+    <meta property="og:description" content="Learn what MAC addresses are, how the OUI identifies device manufacturers, and how to look up vendor information.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/mac-lookup/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MAC Address Lookup Explained — OUI & Vendor Identification — duckTyped">
+    <meta name="twitter:description" content="Learn what MAC addresses are, how the OUI identifies device manufacturers, and how to look up vendor information.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/mac-lookup/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>MAC Address Lookup</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>MAC Address Lookup Explained</h1>
+            <p class="standalone-intro">Understand how MAC addresses work, what the OUI reveals about device manufacturers, and how to use duckTyped's MAC lookup tool to identify vendors and troubleshoot network devices.</p>
+
+            <h2>What Is a MAC Address?</h2>
+            <p>A <strong>MAC (Media Access Control) address</strong> is a unique hardware identifier assigned to every network interface controller (NIC) -- whether it is an Ethernet port, a Wi-Fi adapter, or a Bluetooth radio. MAC addresses operate at <strong>Layer 2 (Data Link Layer)</strong> of the OSI model and are used to deliver frames between devices on the same local network segment.</p>
+            <p>Unlike IP addresses, which are logical and can change depending on the network a device connects to, MAC addresses are typically burned into the hardware by the manufacturer. They provide a persistent, globally unique identity for each network interface. Every Ethernet frame contains both a source and destination MAC address, enabling switches to forward traffic to the correct physical port.</p>
+
+            <h2>MAC Address Structure</h2>
+            <p>A standard MAC address (also called an EUI-48 address) is <strong>48 bits (6 bytes)</strong> long. It is divided into two equal halves:</p>
+            <ul>
+                <li><strong>First 3 bytes (24 bits) -- OUI (Organizationally Unique Identifier)</strong>: This portion identifies the manufacturer or vendor that produced the network interface. The OUI is assigned by the IEEE (Institute of Electrical and Electronics Engineers) to organizations that register for one.</li>
+                <li><strong>Last 3 bytes (24 bits) -- NIC Specific</strong>: This portion is assigned by the manufacturer and uniquely identifies the individual network interface within that vendor's product line. The manufacturer is responsible for ensuring no two devices share the same full MAC address.</li>
+            </ul>
+            <p>For example, in the MAC address <code>00:1A:2B:3C:4D:5E</code>, the OUI is <code>00:1A:2B</code> (which might identify a specific manufacturer) and the NIC-specific portion is <code>3C:4D:5E</code>.</p>
+
+            <h2>OUI -- Organizationally Unique Identifier</h2>
+            <p>The <strong>OUI</strong> is the cornerstone of MAC address vendor identification. The IEEE maintains a public registry of OUI assignments, which maps each 3-byte prefix to the organization that owns it. Major manufacturers own multiple OUIs -- Apple, for example, has dozens of registered OUI prefixes to accommodate its vast product lines.</p>
+            <p>There are three sizes of identifier blocks that organizations can register:</p>
+            <ul>
+                <li><strong>MA-L (MAC Address Block Large)</strong> -- the traditional 24-bit OUI, providing approximately 16.7 million unique addresses per block.</li>
+                <li><strong>MA-M (MAC Address Block Medium)</strong> -- a 28-bit prefix, providing approximately 1 million addresses.</li>
+                <li><strong>MA-S (MAC Address Block Small)</strong> -- a 36-bit prefix, providing 4,096 addresses. Also known as OUI-36.</li>
+            </ul>
+            <p>By looking up the OUI in the IEEE registry, you can determine which company manufactured a network device -- even without physical access to it. This is the core function of a MAC address lookup tool.</p>
+
+            <h2>MAC Address Formats</h2>
+            <p>MAC addresses can be written in several different notations depending on the operating system or network equipment in use:</p>
+            <ul>
+                <li><strong>Colon notation</strong>: <code>00:1A:2B:3C:4D:5E</code> -- the most common format, used by Linux, macOS, and most networking documentation.</li>
+                <li><strong>Hyphen notation</strong>: <code>00-1A-2B-3C-4D-5E</code> -- used by Windows (<code>ipconfig /all</code>) and the IEEE's official format in registration documents.</li>
+                <li><strong>Dot notation</strong>: <code>001A.2B3C.4D5E</code> -- used by Cisco IOS and other network equipment, grouping bytes into three sets of four hex digits.</li>
+            </ul>
+            <p>All three formats represent the same address. A robust MAC lookup tool accepts any of these formats and normalizes them for lookup.</p>
+
+            <h2>Special Bits in MAC Addresses</h2>
+            <p>The least significant two bits of the first byte carry special meaning:</p>
+
+            <h3>Unicast vs. Multicast Bit</h3>
+            <p>The <strong>least significant bit (bit 0)</strong> of the first octet indicates whether the address is unicast or multicast. If this bit is <strong>0</strong>, the address is a <strong>unicast</strong> address -- it identifies a single network interface. If the bit is <strong>1</strong>, the address is a <strong>multicast</strong> address -- frames sent to this address are received by multiple interfaces that have subscribed to the multicast group. The broadcast address <code>FF:FF:FF:FF:FF:FF</code> is a special case of multicast where all devices on the segment receive the frame.</p>
+
+            <h3>Locally Administered Bit</h3>
+            <p>The <strong>second least significant bit (bit 1)</strong> of the first octet indicates whether the address is <strong>universally administered</strong> (assigned by the manufacturer via the OUI system) or <strong>locally administered</strong> (overridden by a network administrator or software). When this bit is <strong>0</strong>, the address is universally administered. When it is <strong>1</strong>, the address has been set locally and may not correspond to any OUI in the IEEE registry.</p>
+            <p>Locally administered addresses are commonly encountered in virtualized environments (hypervisors often generate MAC addresses with the locally administered bit set) and in modern privacy features on mobile devices.</p>
+
+            <h2>Use Cases for MAC Address Lookup</h2>
+            <p>MAC address lookup serves several practical purposes in network management and security:</p>
+            <ul>
+                <li><strong>Identifying device manufacturers</strong> -- when you see an unknown device on your network, looking up its MAC address reveals the manufacturer. This can help you determine if it is a laptop (Dell, Lenovo), a phone (Apple, Samsung), a smart home device (Amazon, Google), or potentially an unauthorized device.</li>
+                <li><strong>Network inventory and asset management</strong> -- organizations use MAC address data to maintain inventories of network-connected devices, track hardware across locations, and verify that only authorized equipment is connected.</li>
+                <li><strong>Troubleshooting connectivity issues</strong> -- when diagnosing network problems, knowing the vendor behind a MAC address helps identify the type of device and narrow down potential driver, firmware, or configuration issues.</li>
+                <li><strong>Security monitoring</strong> -- intrusion detection systems and network access control (NAC) solutions use MAC addresses to enforce policies about which devices are permitted on the network.</li>
+            </ul>
+
+            <h2>MAC Spoofing</h2>
+            <p><strong>MAC spoofing</strong> is the practice of changing a device's MAC address to impersonate another device or bypass MAC-based access controls. While MAC addresses are burned into hardware, most operating systems allow software-level overrides. Attackers may spoof MAC addresses to evade network access control lists, bypass captive portals, or impersonate trusted devices.</p>
+            <p>Because of the ease of spoofing, MAC addresses should never be used as the sole mechanism for network authentication or security. Modern networks use 802.1X authentication, certificates, or other cryptographic methods in addition to MAC-based controls.</p>
+
+            <h2>Randomized MAC Addresses -- Privacy on Mobile Devices</h2>
+            <p>Starting with iOS 14 and Android 10, mobile operating systems began using <strong>randomized (private) MAC addresses</strong> when scanning for and connecting to Wi-Fi networks. This is a privacy feature designed to prevent tracking of users across different locations based on their device's MAC address.</p>
+            <p>When MAC randomization is active, the device generates a different MAC address for each network it connects to, and the locally administered bit is set to 1. This means the OUI will not correspond to Apple, Samsung, or any real manufacturer -- instead, it will appear as a locally administered address.</p>
+            <p>This has significant implications for network administrators:</p>
+            <ul>
+                <li>MAC-based device identification becomes unreliable for mobile clients.</li>
+                <li>DHCP reservations tied to MAC addresses may break when the randomized address changes.</li>
+                <li>Network analytics that count unique devices by MAC address will overcount mobile users.</li>
+            </ul>
+            <p>Most enterprise network solutions have adapted by using alternative identification methods such as 802.1X certificates or device management profiles.</p>
+
+            <h2>How to Find Your MAC Address</h2>
+            <p>You can find the MAC address of your own device using the following commands:</p>
+            <ul>
+                <li><strong>Windows</strong>: Open Command Prompt and run <code>ipconfig /all</code>. Look for "Physical Address" under your active network adapter.</li>
+                <li><strong>macOS</strong>: Open Terminal and run <code>ifconfig en0</code> (for Wi-Fi) or <code>ifconfig en1</code>. The MAC address is listed next to "ether".</li>
+                <li><strong>Linux</strong>: Open a terminal and run <code>ip link show</code> or <code>ifconfig</code>. The MAC address appears next to "link/ether" or "HWaddr".</li>
+                <li><strong>iOS</strong>: Go to Settings &gt; General &gt; About and look for "Wi-Fi Address".</li>
+                <li><strong>Android</strong>: Go to Settings &gt; About Phone &gt; Status (or Wi-Fi MAC Address, depending on the manufacturer).</li>
+            </ul>
+
+            <h2>How to Use the MAC Lookup Tool</h2>
+            <p>The duckTyped MAC Address Lookup tool makes vendor identification fast and straightforward:</p>
+            <ol>
+                <li><strong>Enter a MAC address</strong> in any format -- colon-separated (<code>00:1A:2B:3C:4D:5E</code>), hyphen-separated (<code>00-1A-2B-3C-4D-5E</code>), or dot notation (<code>001A.2B3C.4D5E</code>). You can also enter just the first 3 bytes (the OUI) if that is all you have.</li>
+                <li><strong>Click "Lookup"</strong> to query the IEEE OUI database.</li>
+                <li><strong>Review the results</strong>, which display the registered vendor name, the OUI prefix, and the organization's registered address.</li>
+            </ol>
+            <p>This is particularly useful when auditing devices on your network, investigating unknown hardware in ARP tables or DHCP logs, or verifying that a device's claimed identity matches its actual manufacturer.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the MAC Address Lookup for network analysis:</p>
+            <ul>
+                <li><a href="/isp-lookup/">ISP Lookup</a> -- identify the ISP, ASN, and geolocation for any IP address on your network.</li>
+                <li><a href="/port-scanner/">Port Scanner</a> -- check which ports are open on a device to understand its running services.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/mac-lookup/" class="standalone-nav-btn">Try MAC Address Lookup</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

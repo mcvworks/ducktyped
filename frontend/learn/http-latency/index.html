@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Latency Explained — Measuring Response Times — duckTyped</title>
+    <meta name="description" content="Learn what HTTP latency is, how to measure response times, understand the components of a web request, HTTP status codes, and how to use duckTyped's HTTP latency checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="HTTP Latency Explained — Measuring Response Times — duckTyped">
+    <meta property="og:description" content="Learn what HTTP latency is, how to measure response times, understand the components of a web request, and HTTP status codes.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/http-latency/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HTTP Latency Explained — Measuring Response Times — duckTyped">
+    <meta name="twitter:description" content="Learn what HTTP latency is, how to measure and optimize response times for web applications.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/http-latency/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>HTTP Latency Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>HTTP Latency Explained</h1>
+            <p class="standalone-intro">Understand what HTTP latency is, how each phase of a web request contributes to total response time, what HTTP status codes mean, and how to use duckTyped's HTTP latency checker to measure and diagnose performance issues.</p>
+
+            <h2>What Is HTTP Latency?</h2>
+            <p><strong>HTTP latency</strong> is the total time elapsed between a client sending an HTTP request and receiving the complete response from the server. It is commonly measured in milliseconds (ms) and is one of the most important metrics for web application performance. High latency leads to slow page loads, poor user experience, and lower search engine rankings.</p>
+            <p>Latency is distinct from <strong>bandwidth</strong>, which measures the volume of data that can be transferred per unit of time. A connection can have high bandwidth (capable of transferring large files quickly) but still suffer from high latency (each individual request takes a long time to start). Think of bandwidth as the width of a highway and latency as the time it takes to drive from one end to the other -- both affect your overall experience, but in different ways.</p>
+
+            <h2>Components of HTTP Latency</h2>
+            <p>A single HTTP request involves multiple sequential phases, each contributing to the total response time. Understanding these components is essential for diagnosing performance bottlenecks.</p>
+
+            <h3>DNS Resolution</h3>
+            <p>Before the browser can connect to a server, it must resolve the domain name to an IP address. This <strong>DNS lookup</strong> involves querying recursive resolvers and potentially authoritative nameservers. A cached DNS result may resolve in under 1 ms, while an uncached lookup can take 20--100 ms or more. DNS resolution happens once per domain and is then cached according to the record's TTL.</p>
+
+            <h3>TCP Handshake</h3>
+            <p>Once the IP address is known, the client initiates a <strong>TCP three-way handshake</strong> with the server. The client sends a SYN packet, the server responds with SYN-ACK, and the client sends a final ACK. This process typically takes one round-trip time (RTT) -- the time for a packet to travel from client to server and back. For a server 100 ms away, the TCP handshake alone adds approximately 100 ms of latency.</p>
+
+            <h3>TLS Negotiation</h3>
+            <p>For HTTPS connections (which account for the vast majority of modern web traffic), a <strong>TLS handshake</strong> follows the TCP handshake. During this phase, the client and server negotiate encryption parameters, exchange certificates, and establish a shared secret key. A TLS 1.2 handshake requires two additional round trips, while <strong>TLS 1.3</strong> reduces this to a single round trip. On subsequent connections, TLS session resumption can further reduce or eliminate this overhead.</p>
+
+            <h3>Time to First Byte (TTFB)</h3>
+            <p><strong>TTFB</strong> is the time from when the client sends the HTTP request to when it receives the first byte of the response. This metric reflects server-side processing time -- how long the server takes to receive the request, execute any application logic, query databases, generate the response, and begin sending it back. TTFB is often the most revealing metric for backend performance. A high TTFB indicates that the server is struggling to process requests, which could be caused by slow database queries, unoptimized application code, or resource contention.</p>
+
+            <h3>Content Transfer</h3>
+            <p>After the first byte arrives, the remaining response data must be transferred. The <strong>content transfer time</strong> depends on the response size and the available bandwidth. A small API response of a few kilobytes transfers almost instantly, while a large page with embedded resources may take significantly longer. Compression (gzip or Brotli) dramatically reduces transfer sizes for text-based content like HTML, CSS, and JavaScript.</p>
+
+            <h2>HTTP Status Codes</h2>
+            <p>When measuring latency, the HTTP status code in the response tells you whether the request succeeded and, if not, what went wrong. Status codes are grouped into five classes:</p>
+            <ul>
+                <li><strong>1xx (Informational)</strong> -- the server has received the request and is continuing to process it. The most common is <code>100 Continue</code>, which tells the client to proceed with sending the request body.</li>
+                <li><strong>2xx (Success)</strong> -- the request was successfully received, understood, and accepted. <code>200 OK</code> is the standard success response. <code>201 Created</code> indicates a new resource was created. <code>204 No Content</code> means success with no response body.</li>
+                <li><strong>3xx (Redirection)</strong> -- the client must take additional action to complete the request. <code>301 Moved Permanently</code> and <code>302 Found</code> redirect to a different URL. <code>304 Not Modified</code> indicates the cached version is still valid. Each redirect adds an additional round trip, increasing total latency.</li>
+                <li><strong>4xx (Client Error)</strong> -- the request contains an error on the client side. <code>400 Bad Request</code> means malformed syntax. <code>401 Unauthorized</code> requires authentication. <code>403 Forbidden</code> means the server refuses to fulfill the request. <code>404 Not Found</code> means the resource does not exist.</li>
+                <li><strong>5xx (Server Error)</strong> -- the server failed to fulfill a valid request. <code>500 Internal Server Error</code> is a generic server failure. <code>502 Bad Gateway</code> means an upstream server returned an invalid response. <code>503 Service Unavailable</code> means the server is temporarily overloaded or under maintenance. <code>504 Gateway Timeout</code> means an upstream server did not respond in time.</li>
+            </ul>
+
+            <h2>Factors Affecting Latency</h2>
+            <p>Many variables influence the latency of an HTTP request. Understanding these factors helps you identify optimization opportunities.</p>
+
+            <h3>Geographic Distance</h3>
+            <p>The physical distance between client and server is a fundamental constraint. Data travels through fiber optic cables at roughly two-thirds the speed of light. A request from New York to a server in London (approximately 5,500 km) has a minimum theoretical round-trip time of about 55 ms, though real-world routing adds overhead. This is why geographic proximity to your users matters.</p>
+
+            <h3>Server Processing Time</h3>
+            <p>The time the server spends processing a request -- executing application code, querying databases, rendering templates -- directly impacts TTFB. Inefficient queries, memory pressure, or CPU contention can dramatically increase processing time, especially under heavy load.</p>
+
+            <h3>Content Delivery Networks (CDNs)</h3>
+            <p>A <strong>CDN</strong> distributes cached copies of your content across a global network of edge servers. When a user requests a resource, the CDN serves it from the nearest edge location rather than the origin server. This dramatically reduces latency for static assets (images, CSS, JavaScript) and can also cache dynamic content in some configurations. Major CDN providers include Cloudflare, AWS CloudFront, Fastly, and Akamai.</p>
+
+            <h3>Caching</h3>
+            <p>Caching at multiple levels reduces latency by serving previously computed results:</p>
+            <ul>
+                <li><strong>Browser cache</strong> -- stores resources locally based on <code>Cache-Control</code> and <code>Expires</code> headers. A cached resource has zero network latency.</li>
+                <li><strong>CDN cache</strong> -- stores resources at edge locations, reducing the need to contact the origin server.</li>
+                <li><strong>Server-side cache</strong> -- application-level caches (Redis, Memcached) store computed results to avoid repeated database queries or expensive calculations.</li>
+            </ul>
+
+            <h3>Connection Reuse</h3>
+            <p>HTTP/1.1 introduced <strong>keep-alive connections</strong>, which allow multiple requests to reuse the same TCP connection, avoiding repeated handshakes. <strong>HTTP/2</strong> goes further with multiplexing, allowing multiple requests and responses to be interleaved over a single connection. <strong>HTTP/3</strong> uses QUIC (built on UDP) to eliminate head-of-line blocking and reduce connection establishment time to a single round trip.</p>
+
+            <h2>Tips for Reducing Latency</h2>
+            <p>Based on the factors above, here are practical strategies for reducing HTTP latency:</p>
+            <ol>
+                <li><strong>Use a CDN</strong> to serve content from locations close to your users.</li>
+                <li><strong>Enable compression</strong> (gzip or Brotli) for all text-based responses.</li>
+                <li><strong>Optimize server-side code</strong> -- profile database queries, add caching layers, and reduce unnecessary computation.</li>
+                <li><strong>Minimize redirects</strong> -- each redirect adds a full round trip of latency.</li>
+                <li><strong>Upgrade to TLS 1.3</strong> to reduce handshake overhead from two round trips to one.</li>
+                <li><strong>Set appropriate cache headers</strong> so browsers and CDNs can serve cached responses.</li>
+                <li><strong>Adopt HTTP/2 or HTTP/3</strong> to benefit from multiplexing and reduced connection overhead.</li>
+                <li><strong>Reduce response size</strong> -- optimize images, minify CSS and JavaScript, and eliminate unnecessary data from API responses.</li>
+            </ol>
+
+            <h2>How to Use the HTTP Latency Checker</h2>
+            <p>The duckTyped HTTP Latency Checker makes it easy to measure response times for any URL:</p>
+            <ol>
+                <li><strong>Enter a URL</strong> in the input field (e.g., <code>https://example.com</code>). Include the protocol (http:// or https://).</li>
+                <li><strong>Click "Check"</strong> to initiate the measurement.</li>
+                <li><strong>Review the results</strong>, which display the HTTP status code, total response time, and a breakdown of the latency components.</li>
+            </ol>
+            <p>The tool performs a real HTTP request to the target URL and measures timing at each phase of the connection. This gives you an accurate picture of the latency a real user would experience. Run multiple checks at different times to account for natural variation in response times.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the HTTP Latency Checker for comprehensive web performance and network analysis:</p>
+            <ul>
+                <li><a href="/dns-lookup/">DNS Record Checker</a> -- inspect DNS records to verify domain configuration and identify DNS-related latency issues.</li>
+                <li><a href="/ssl-checker/">SSL Certificate Checker</a> -- verify TLS certificate validity and configuration, which affects the TLS handshake phase.</li>
+                <li><a href="/traceroute/">Traceroute</a> -- trace the network path between you and the server to identify routing bottlenecks.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/http-latency/" class="standalone-nav-btn">Try HTTP Latency Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

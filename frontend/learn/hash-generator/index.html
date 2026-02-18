@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptographic Hashing Explained — SHA-256, MD5 &amp; Integrity Checks — duckTyped</title>
+    <meta name="description" content="Learn what cryptographic hash functions are, how SHA-256, MD5, and SHA-512 work, their properties, use cases like file integrity and password storage, and why MD5 and SHA-1 are deprecated.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Cryptographic Hashing Explained — SHA-256, MD5 & Integrity Checks — duckTyped">
+    <meta property="og:description" content="Learn what cryptographic hash functions are, how SHA-256 and MD5 work, and their use cases for integrity, passwords, and security.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/hash-generator/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cryptographic Hashing Explained — SHA-256, MD5 & Integrity Checks — duckTyped">
+    <meta name="twitter:description" content="Learn about cryptographic hash functions, SHA-256, MD5, and their practical applications.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/hash-generator/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Hash Generator</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Cryptographic Hashing Explained</h1>
+            <p class="standalone-intro">Understand what cryptographic hash functions are, how they work, the key properties that make them useful, the differences between algorithms like SHA-256, MD5, and SHA-3, and why hashing is fundamental to file integrity, password storage, digital signatures, and more.</p>
+
+            <h2>What Is a Hash Function?</h2>
+            <p>A <strong>cryptographic hash function</strong> is a mathematical algorithm that takes an arbitrary amount of input data and produces a fixed-size output -- called a <strong>hash</strong>, <strong>digest</strong>, or <strong>checksum</strong>. The same input always produces the same output, but even the smallest change to the input produces a completely different hash.</p>
+            <p>Hash functions are one-way operations: given a hash output, it is computationally infeasible to recover the original input. This fundamental property distinguishes hashing from encoding (like Base64) and encryption (like AES), both of which are reversible. A hash is a fingerprint of data -- it uniquely identifies the input without revealing what the input was.</p>
+
+            <h2>Properties of Cryptographic Hash Functions</h2>
+            <p>A well-designed cryptographic hash function exhibits several critical properties:</p>
+            <ul>
+                <li><strong>Deterministic</strong> -- The same input always produces the same hash. There is no randomness involved. Hashing "hello" with SHA-256 will produce the same 64-character hex string on any machine, in any language, at any time.</li>
+                <li><strong>Fixed output size</strong> -- Regardless of whether the input is one byte or one terabyte, the hash output is always the same length. SHA-256 always produces 256 bits (64 hex characters). MD5 always produces 128 bits (32 hex characters).</li>
+                <li><strong>Fast to compute</strong> -- For general-purpose hash functions, computing the hash of a given input should be efficient. This allows practical use in file integrity checks, data structures, and real-time verification.</li>
+                <li><strong>Pre-image resistance</strong> -- Given a hash output, it should be computationally infeasible to find any input that produces that hash. You cannot "reverse" a hash to recover the original data.</li>
+                <li><strong>Second pre-image resistance</strong> -- Given an input and its hash, it should be infeasible to find a different input that produces the same hash.</li>
+                <li><strong>Collision resistance</strong> -- It should be infeasible to find any two different inputs that produce the same hash output. A collision means two different messages have the same fingerprint, which undermines the entire trust model.</li>
+                <li><strong>Avalanche effect</strong> -- A tiny change in the input -- even flipping a single bit -- should produce a drastically different hash output. There should be no detectable pattern or correlation between similar inputs and their hashes.</li>
+            </ul>
+
+            <h2>Common Hash Algorithms</h2>
+            <p>Several hash algorithms are in wide use today, each with different output sizes and security profiles:</p>
+
+            <h3>MD5 (128-bit) -- Deprecated</h3>
+            <p>MD5 was designed by Ronald Rivest in 1991 and produces a 128-bit (16-byte) hash, typically displayed as 32 hexadecimal characters. MD5 was once ubiquitous, but practical collision attacks were demonstrated in 2004 by Xiaoyun Wang, and it is now considered <strong>cryptographically broken</strong>. Researchers have shown the ability to create two different files with the same MD5 hash in seconds. MD5 should never be used for security purposes but is still occasionally used for non-security checksums where collision resistance is not critical.</p>
+
+            <h3>SHA-1 (160-bit) -- Deprecated</h3>
+            <p>SHA-1 produces a 160-bit hash and was the standard for digital signatures and certificates for years. In 2017, Google and CWI Amsterdam demonstrated the first practical SHA-1 collision (the "SHAttered" attack), producing two different PDF files with the same hash. All major browsers and certificate authorities have since deprecated SHA-1. Like MD5, it should not be used for any security-critical application.</p>
+
+            <h3>SHA-256, SHA-384, SHA-512</h3>
+            <p>These algorithms belong to the <strong>SHA-2</strong> family, designed by the NSA and published by NIST. SHA-256 produces a 256-bit hash (64 hex characters), SHA-384 produces 384 bits, and SHA-512 produces 512 bits. SHA-2 algorithms are currently considered secure with no known practical attacks. SHA-256 is the most widely used variant and is the backbone of Bitcoin's proof-of-work system, TLS certificate signing, and file integrity verification across the industry.</p>
+
+            <h3>SHA-3</h3>
+            <p>SHA-3 was standardized by NIST in 2015 after a public competition won by the Keccak algorithm. Unlike SHA-2 (which is based on the Merkle-Damgard construction), SHA-3 uses a fundamentally different internal structure called a sponge construction. This architectural diversity provides a fallback in the unlikely event that a structural weakness is found in SHA-2. SHA-3 is available in 224, 256, 384, and 512-bit variants.</p>
+
+            <h2>Hash Output Formats</h2>
+            <p>A hash is a sequence of raw bytes. To represent it as text, two formats are commonly used:</p>
+            <ul>
+                <li><strong>Hexadecimal (hex)</strong> -- Each byte is represented as two hex characters (0--9, a--f). A SHA-256 hash is 32 bytes, displayed as 64 hex characters. This is the most common format: <code>2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824</code>.</li>
+                <li><strong>Base64</strong> -- The raw bytes are encoded using the Base64 alphabet, producing a shorter string. The same SHA-256 hash in Base64 might look like: <code>LPJNul+wow4m6DsqxbnOnh sWHlwfp0JecwQzYpOLiYQ=</code>. Base64 is more compact but less human-readable than hex.</li>
+            </ul>
+            <p>Both formats represent the exact same underlying data -- they are just different text representations of the same byte sequence.</p>
+
+            <h2>Use Cases</h2>
+            <p>Cryptographic hashing is a foundational building block in software engineering and security:</p>
+            <ul>
+                <li><strong>File integrity and checksums</strong> -- Download pages often publish SHA-256 hashes alongside files. After downloading, you compute the hash of the file and compare it to the published value. If they match, the file has not been corrupted or tampered with during transfer.</li>
+                <li><strong>Password storage</strong> -- Storing passwords in plaintext is a catastrophic security failure. Instead, systems store the hash of each password. When a user logs in, the system hashes the entered password and compares it to the stored hash. A <strong>salt</strong> -- a random value unique to each user -- is prepended to the password before hashing to prevent rainbow table attacks. Purpose-built password hashing functions like bcrypt, scrypt, and Argon2 add deliberate computational cost to make brute-force attacks impractical.</li>
+                <li><strong>Digital signatures</strong> -- When you digitally sign a document or software package, the signing process hashes the content and then encrypts the hash with a private key. The recipient decrypts the signature with the corresponding public key and compares the hash to a freshly computed hash of the content. A match proves both authenticity and integrity.</li>
+                <li><strong>Blockchain and proof-of-work</strong> -- Bitcoin and other blockchain systems use SHA-256 extensively. Miners repeatedly hash block data with different nonce values until they find a hash that meets a difficulty target (e.g., starts with a certain number of zeros). The deterministic and computationally intensive nature of hashing makes this possible.</li>
+                <li><strong>Data deduplication</strong> -- Storage systems and backup tools hash file chunks to identify duplicates. If two chunks produce the same hash, they are (almost certainly) identical, and only one copy needs to be stored.</li>
+                <li><strong>HMAC (Hash-based Message Authentication Code)</strong> -- HMAC combines a hash function with a secret key to produce an authentication code. It verifies both the data integrity and authenticity of a message. HMACs are used in API authentication, JWT signing, and secure cookie verification.</li>
+            </ul>
+
+            <h2>Why MD5 and SHA-1 Are Broken</h2>
+            <p>When we say a hash function is "broken," we mean that <strong>collision attacks</strong> are computationally feasible -- an attacker can find two different inputs that produce the same hash output. For MD5, this can be done in seconds on a modern computer. For SHA-1, the SHAttered attack required significant computational resources but was well within the capabilities of a determined attacker.</p>
+            <p>A practical collision allows an attacker to substitute one document for another without changing the hash. This undermines digital signatures, certificate validation, and any system that relies on hash equality to prove integrity. Both algorithms should be considered compromised for all security applications. Use SHA-256 or SHA-3 instead.</p>
+
+            <h2>Hash vs Encryption vs Encoding</h2>
+            <p>These three operations are frequently confused, but they serve fundamentally different purposes:</p>
+            <ul>
+                <li><strong>Hashing</strong> is a one-way operation. Given a hash, you cannot recover the input. Hashing is for verification and integrity -- "Is this the same data as before?"</li>
+                <li><strong>Encryption</strong> is a two-way operation using a key. Encrypted data can be decrypted by someone with the correct key. Encryption is for confidentiality -- "Only authorized parties can read this."</li>
+                <li><strong>Encoding</strong> is a reversible transformation with no key. Base64, URL encoding, and hex encoding are all publicly documented schemes that anyone can reverse. Encoding is for compatibility -- "Transform this data so it can pass through a text-only channel."</li>
+            </ul>
+            <p>Never use encoding where you need encryption, and never use general-purpose hashing where you need password hashing (use bcrypt or Argon2 instead).</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Hash Generator computes cryptographic hashes instantly:</p>
+            <ol>
+                <li>Enter or paste your text into the input field.</li>
+                <li>Select the hash algorithm you want to use (MD5, SHA-1, SHA-256, SHA-384, SHA-512).</li>
+                <li>The hash is computed in real time and displayed in hexadecimal format.</li>
+                <li>Copy the result with one click.</li>
+            </ol>
+            <p>All computation happens in your browser using the Web Crypto API. No data is sent to any server.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/password-generator/">Password Generator</a> -- Generate strong, random passwords to pair with proper hashing and storage practices.</li>
+                <li><a href="/base64-encoder/">Base64 Encoder</a> -- Encode hash output or other binary data as Base64 text.</li>
+                <li><a href="/jwt-decoder/">JWT Decoder</a> -- Inspect JSON Web Tokens, which use HMAC-SHA256 or RSA signatures to verify integrity.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/hash-generator/" class="standalone-nav-btn">Try Hash Generator</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>
