@@ -62,8 +62,7 @@ function updateVisibleToolCount() {
 function toggleAllTools() {
     const checkboxes = document.querySelectorAll('[id^="toggle-"]');
     const btn = document.getElementById('toggleAllBtn');
-    const icon = btn.querySelector('.toggle-icon');
-    const text = btn.querySelector('.toggle-text');
+    const cmd = document.getElementById('termCommand');
     const anyUnchecked = Array.from(checkboxes).some(cb => !cb.checked);
     
     checkboxes.forEach(checkbox => {
@@ -81,15 +80,20 @@ function toggleAllTools() {
         }
     });
     
-    // Update button to show next action
+    // Typing animation + update command text
+    btn.classList.remove('typing');
+    void btn.offsetWidth; // force reflow
+    btn.classList.add('typing');
+    setTimeout(function() { btn.classList.remove('typing'); }, 350);
+
     if (anyUnchecked) {
-        // We just showed all, so next action is "Hide All"
-        icon.classList.remove('eye-closed');
-        text.textContent = 'Hide All';
+        // We just showed all, so next action is "hide"
+        btn.classList.add('tools-visible');
+        cmd.textContent = 'hide --all';
     } else {
-        // We just hid all, so next action is "Show All"
-        icon.classList.add('eye-closed');
-        text.textContent = 'Show All';
+        // We just hid all, so next action is "show"
+        btn.classList.remove('tools-visible');
+        cmd.textContent = 'show --all';
     }
     
     saveToolVisibility();
@@ -247,24 +251,16 @@ function updateToggleAllButton() {
     const anyUnchecked = Array.from(checkboxes).some(cb => !cb.checked);
     
     if (btn) {
-        const icon = btn.querySelector('.toggle-icon');
-        const text = btn.querySelector('.toggle-text');
+        const cmd = document.getElementById('termCommand');
         
-        if (icon && text) {
+        if (cmd) {
             if (anyUnchecked) {
-                // Some tools hidden - show "Show All" with closed eye
-                icon.classList.add('eye-closed');
-                text.textContent = 'Show All';
+                btn.classList.remove('tools-visible');
+                cmd.textContent = 'show --all';
             } else {
-                // All tools visible - show "Hide All" with open eye
-                icon.classList.remove('eye-closed');
-                text.textContent = 'Hide All';
+                btn.classList.add('tools-visible');
+                cmd.textContent = 'hide --all';
             }
-        } else {
-            // Fallback if structure not found
-            btn.innerHTML = anyUnchecked 
-                ? '<span class="toggle-icon eye-closed"></span><span class="toggle-text">Show All</span>'
-                : '<span class="toggle-icon"></span><span class="toggle-text">Hide All</span>';
         }
     }
 }
@@ -802,7 +798,7 @@ function trackRecentTool(toolId) {
     let recent = JSON.parse(localStorage.getItem('qt_recent') || '[]');
     recent = recent.filter(id => id !== toolId);
     recent.unshift(toolId);
-    recent = recent.slice(0, 8);
+    recent = recent.slice(0, 6);
     localStorage.setItem('qt_recent', JSON.stringify(recent));
     renderRecentTools();
 }
@@ -857,6 +853,11 @@ function renderRecentTools() {
             '<span class="chip-icon">' + icon + '</span>' +
             '<span class="chip-name">' + name + '</span>';
         row.appendChild(chip);
+    });
+
+    // Toggle fade indicator if chips overflow the row
+    requestAnimationFrame(function() {
+        section.classList.toggle('has-overflow', row.scrollWidth > row.clientWidth);
     });
 }
 

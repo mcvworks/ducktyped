@@ -319,9 +319,10 @@
         </div>
 
         <div class="tool-toggle-bar" style="border: none; background: transparent; padding: 12px 0 0; margin-bottom: 0; backdrop-filter: none;">
-            <button class="toggle-all-btn" onclick="toggleAllTools()" id="toggleAllBtn">
-                <span class="toggle-icon eye-closed"></span>
-                <span class="toggle-text">Show All</span>
+            <button class="toggle-all-btn terminal-toggle" onclick="toggleAllTools()" id="toggleAllBtn">
+                <span class="term-prompt">$</span>
+                <span class="term-command" id="termCommand">show --all</span>
+                <span class="term-cursor"></span>
             </button>
             <div class="info-icon">
                 i
@@ -530,16 +531,14 @@
                     </div>
                     
                     <!-- Preset Buttons -->
-                    <div style="display: flex; gap: 6px; justify-content: center; max-width: 300px;">
-                        <button onclick="setPasswordLength(12)" class="preset-btn green" style="flex: 1 1 0; min-width: 0;">
+                    <div style="display: flex; gap: 8px; justify-content: center; max-width: 320px;">
+                        <button onclick="setPasswordLength(12)" class="preset-btn green">
                             Min (12)
                         </button>
-                        
-                        <button onclick="setPasswordLength(16)" class="preset-btn blue" style="flex: 1 1 0; min-width: 0;">
+                        <button onclick="setPasswordLength(16)" class="preset-btn blue">
                             Med (16)
                         </button>
-                        
-                        <button onclick="setPasswordLength(32)" class="preset-btn red" style="flex: 1 1 0; min-width: 0;">
+                        <button onclick="setPasswordLength(32)" class="preset-btn red">
                             Max (32)
                         </button>
                     </div>

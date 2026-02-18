@@ -329,67 +329,90 @@
             box-shadow: none;
         }
 
-        .toggle-all-btn {
-            background: var(--primary-color);
-            border: none;
-            color: #0F1114;
-            padding: 10px 20px;
-            border-radius: 8px;
+        /* Terminal-style toggle button */
+        .terminal-toggle {
+            background: #0D1117;
+            border: 1px solid #30363D;
+            color: #7EE787;
+            padding: 8px 18px;
+            border-radius: 6px;
             font-size: 0.82em;
             font-weight: 600;
             font-family: var(--font-mono);
-            letter-spacing: 0.03em;
+            letter-spacing: 0.04em;
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
             width: auto;
             margin: 0;
-            box-shadow: 0 2px 8px rgba(242, 194, 0, 0.12);
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-        
-        .toggle-all-btn .toggle-icon {
-            width: 20px;
-            height: 20px;
+            gap: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
             position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
+            overflow: hidden;
         }
 
-        /* Simple eye icon - open eye */
-        .toggle-icon::before {
-            content: '👁';
-            font-size: 16px;
-            display: block;
+        .terminal-toggle .term-prompt {
+            color: var(--primary-color);
+            margin-right: 8px;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
-        /* Closed eye when tools are hidden */
-        .toggle-icon.eye-closed::before {
-            content: '⏺';
-            font-size: 6px;
-        }
-        
-        .toggle-all-btn .toggle-text {
-            transition: all 0.3s ease;
+        .terminal-toggle .term-command {
+            color: #7EE787;
+            transition: opacity 0.15s;
         }
 
-        .toggle-all-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(242, 194, 0, 0.25);
-            background: var(--primary-hover);
+        .terminal-toggle .term-cursor {
+            display: inline-block;
+            width: 7px;
+            height: 14px;
+            background: var(--primary-color);
+            margin-left: 4px;
+            animation: termBlink 1s step-end infinite;
+            flex-shrink: 0;
+            vertical-align: middle;
+            opacity: 0.8;
         }
-        
-        .toggle-all-btn:hover .toggle-icon {
-            transform: scale(1.1);
+
+        @keyframes termBlink {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0; }
         }
-        
-        .toggle-all-btn:active {
+
+        .terminal-toggle:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 16px rgba(242, 194, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .terminal-toggle:hover .term-cursor {
+            animation: none;
+            opacity: 0.9;
+        }
+
+        .terminal-toggle:active {
             transform: translateY(0);
-            box-shadow: var(--shadow-sm);
+        }
+
+        /* When showing "hide" command, change text color to indicate active/danger */
+        .terminal-toggle.tools-visible .term-command {
+            color: #FF7B72;
+        }
+        
+        /* Typing animation on state change */
+        .terminal-toggle.typing .term-command {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: none;
+            animation: termType 0.3s steps(12) forwards;
+        }
+
+        @keyframes termType {
+            from { max-width: 0; }
+            to { max-width: 200px; }
         }
 
         /* ============================================
@@ -527,8 +550,12 @@
         }
 
         /* Toggle all */
-        body.light-theme .toggle-all-btn { background: #0F1114; color: #F2C200; }
-        body.light-theme .toggle-all-btn:hover { background: #1D2430; }
+        body.light-theme .terminal-toggle { background: #F6F8FA; border-color: #D0D7DE; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        body.light-theme .terminal-toggle:hover { border-color: #0F1114; box-shadow: 0 0 12px rgba(15,17,20,0.08); }
+        body.light-theme .terminal-toggle .term-prompt { color: #0F1114; }
+        body.light-theme .terminal-toggle .term-command { color: #1A7F37; }
+        body.light-theme .terminal-toggle.tools-visible .term-command { color: #CF222E; }
+        body.light-theme .terminal-toggle .term-cursor { background: #0F1114; }
 
         /* Preset buttons */
         body.light-theme .preset-btn { background: transparent; }
@@ -1414,6 +1441,10 @@
             background: #0F1114;
         }
 
+        body.light-theme .recent-tools-section::after {
+            background: linear-gradient(to right, transparent, #F8F9FA);
+        }
+
         body.light-theme .category-heading .cat-title {
             color: #555;
         }
@@ -1442,6 +1473,24 @@
         
         .recent-tools-section {
             margin: 16px 0 8px;
+            position: relative;
+        }
+
+        .recent-tools-section::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 40px;
+            height: calc(100% - 24px);
+            pointer-events: none;
+            background: linear-gradient(to right, transparent, var(--bg-primary));
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .recent-tools-section.has-overflow::after {
+            opacity: 1;
         }
 
         .recent-tools-header {
@@ -1482,6 +1531,7 @@
             overflow-x: auto;
             scrollbar-width: none;
             padding-bottom: 4px;
+            max-width: 100%;
         }
 
         .recent-tools-row::-webkit-scrollbar { display: none; }
@@ -2329,12 +2379,12 @@
             font-size: 0.9em;
         }
 
-        /* Password preset buttons */
+        /* Preset buttons (password generator, subnet, etc.) */
         .preset-btn {
             flex: 1 1 0;
-            min-width: 0;
-            padding: 5px 8px;
-            font-size: 0.72em;
+            min-width: 70px;
+            padding: 8px 14px;
+            font-size: 0.78em;
             font-weight: 600;
             font-family: var(--font-mono);
             letter-spacing: 0.03em;
@@ -2344,6 +2394,7 @@
             transition: all 0.2s;
             white-space: nowrap;
             text-align: center;
+            box-sizing: border-box;
         }
 
         .preset-btn:hover {
