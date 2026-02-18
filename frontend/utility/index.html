@@ -141,6 +141,12 @@
         </header>
 
         <!-- Tool Visibility Toggles -->
+
+        <div class="construction-notice">
+            <span class="construction-icon">▲</span>
+            <span>This site is still under construction. Some tools may be incomplete or change without notice.</span>
+        </div>
+
         <!-- Site Info Section -->
         <div class="site-info-section">
             <div class="site-info-header" onclick="toggleSiteInfo()">
@@ -319,9 +325,9 @@
         </div>
 
         <div class="tool-toggle-bar" style="border: none; background: transparent; padding: 12px 0 0; margin-bottom: 0; backdrop-filter: none;">
-            <button class="toggle-all-btn terminal-toggle" onclick="toggleAllTools()" id="toggleAllBtn">
+            <button class="toggle-all-btn terminal-toggle tools-visible" onclick="toggleAllTools()" id="toggleAllBtn">
                 <span class="term-prompt">$</span>
-                <span class="term-command" id="termCommand">show --all</span>
+                <span class="term-command" id="termCommand">hide --all</span>
                 <span class="term-cursor"></span>
             </button>
             <div class="info-icon">

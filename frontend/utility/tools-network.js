@@ -22,72 +22,131 @@ async function checkDNS(dkimSelector = '', additionalSelectors = '') {
     resultsDiv.innerHTML = '<div class="success">Checking DNS records...</div>';
 
     try {
-        const types = ['A', 'AAAA', 'MX', 'NS', 'CNAME', 'SOA', 'TXT'];
+        const data = await callWorker('dns', { domain });
+
+        if (CONFIG.DEBUG) console.log('DNS result:', data);
+
         let html = '<div class="dns-results">';
         let hasAnyResults = false;
-        let errors = [];
         let spfRecord = null;
         let dmarcRecord = null;
 
-        for (const type of types) {
-            try {
-                const data = await callWorker('dns', { domain, recordType: type });
-                
-                if (CONFIG.DEBUG) console.log(`DNS ${type} result:`, data);
-                
-                if (data && data.Answer && data.Answer.length > 0) {
-                    hasAnyResults = true;
-                    html += `<div class="dns-record">`;
-                    html += `<strong>${type} Records:</strong>`;
-                    html += `<div class="dns-record-value">`;
-                    
-                    data.Answer.forEach(record => {
-                        html += `${escapeHtml(record.data)}<br>`;
-                        
-                        // Check for SPF in TXT records
-                        if (type === 'TXT' && record.data.includes('v=spf1')) {
-                            spfRecord = record.data;
-                        }
-                    });
-                    
-                    html += `</div></div>`;
+        // A Records
+        if (data.A && data.A.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>A Records:</strong><div class="dns-record-value">';
+            data.A.forEach(ip => { html += `${escapeHtml(ip)}<br>`; });
+            html += '</div></div>';
+        }
+
+        // AAAA Records
+        if (data.AAAA && data.AAAA.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>AAAA Records:</strong><div class="dns-record-value">';
+            data.AAAA.forEach(ip => { html += `${escapeHtml(ip)}<br>`; });
+            html += '</div></div>';
+        }
+
+        // MX Records
+        if (data.MX && data.MX.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>MX Records:</strong><div class="dns-record-value">';
+            data.MX.forEach(mx => { html += `${escapeHtml(mx.exchange)} (priority: ${mx.priority})<br>`; });
+            html += '</div></div>';
+        }
+
+        // NS Records
+        if (data.NS && data.NS.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>NS Records:</strong><div class="dns-record-value">';
+            data.NS.forEach(ns => { html += `${escapeHtml(ns)}<br>`; });
+            html += '</div></div>';
+        }
+
+        // CNAME Records
+        if (data.CNAME && data.CNAME.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>CNAME Records:</strong><div class="dns-record-value">';
+            data.CNAME.forEach(cn => { html += `${escapeHtml(cn)}<br>`; });
+            html += '</div></div>';
+        }
+
+        // SOA Record
+        if (data.SOA && data.SOA.nsname) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>SOA Record:</strong><div class="dns-record-value">';
+            html += `Primary NS: ${escapeHtml(data.SOA.nsname)}<br>`;
+            html += `Hostmaster: ${escapeHtml(data.SOA.hostmaster)}<br>`;
+            html += `Serial: ${data.SOA.serial}<br>`;
+            html += `Refresh: ${data.SOA.refresh}s | Retry: ${data.SOA.retry}s | Expire: ${data.SOA.expire}s<br>`;
+            html += `Min TTL: ${data.SOA.minttl}s<br>`;
+            html += '</div></div>';
+        }
+
+        // TXT Records
+        if (data.TXT && data.TXT.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>TXT Records:</strong><div class="dns-record-value">';
+            data.TXT.forEach(txt => {
+                const txtStr = Array.isArray(txt) ? txt.join('') : txt;
+                html += `${escapeHtml(txtStr)}<br>`;
+                if (txtStr.includes('v=spf1')) {
+                    spfRecord = txtStr;
                 }
-            } catch (error) {
-                console.error(`Error checking ${type} record:`, error);
-                errors.push(`${type}: ${error.message}`);
-            }
+            });
+            html += '</div></div>';
         }
-        
-        // Check DMARC
-        try {
-            const dmarcData = await callWorker('dns', { domain: `_dmarc.${domain}`, recordType: 'TXT' });
-            if (dmarcData && dmarcData.Answer && dmarcData.Answer.length > 0) {
-                hasAnyResults = true;
-                dmarcRecord = dmarcData.Answer[0].data;
-                html += `<div class="dns-record">`;
-                html += `<strong>DMARC Record:</strong>`;
-                html += `<div class="dns-record-value">`;
-                html += `${escapeHtml(dmarcRecord)}<br>`;
-                html += `</div></div>`;
-            }
-        } catch (error) {
-            if (CONFIG.DEBUG) console.log('No DMARC record found');
+
+        // CAA Records
+        if (data.CAA && data.CAA.length > 0) {
+            hasAnyResults = true;
+            html += '<div class="dns-record"><strong>CAA Records:</strong><div class="dns-record-value">';
+            data.CAA.forEach(caa => {
+                const flags = caa.critical ? ' (critical)' : '';
+                const tag = caa.issue ? 'issue' : caa.issuewild ? 'issuewild' : caa.iodef ? 'iodef' : '';
+                const value = caa.issue || caa.issuewild || caa.iodef || JSON.stringify(caa);
+                html += `${tag}: ${escapeHtml(value)}${flags}<br>`;
+            });
+            html += '</div></div>';
         }
-        
+
+        // SPF Record (from backend's dedicated field)
+        if (data.SPF && data.SPF.length > 0) {
+            hasAnyResults = true;
+            spfRecord = data.SPF[0];
+        }
+
+        // DMARC Record (from backend's dedicated field)
+        if (data.DMARC && data.DMARC.length > 0) {
+            hasAnyResults = true;
+            dmarcRecord = data.DMARC[0];
+            html += '<div class="dns-record"><strong>DMARC Record:</strong><div class="dns-record-value">';
+            html += `${escapeHtml(dmarcRecord)}<br>`;
+            html += '</div></div>';
+        }
+
         // SPF Summary
         if (spfRecord) {
-            html += `<div class="dns-record">`;
-            html += `<strong>SPF Summary:</strong>`;
-            html += `<div class="dns-record-value" style="color: var(--success-color);">`;
-            html += `✓ SPF record found<br>`;
-            html += `</div></div>`;
+            html += '<div class="dns-record"><strong>SPF Summary:</strong>';
+            html += '<div class="dns-record-value" style="color: var(--success-color);">';
+            html += '✓ SPF record found<br>';
+            html += '</div></div>';
         }
-        
+
         // DKIM Check Section
-        html += `<div class="dns-record">`;
-        html += `<strong>DKIM Records:</strong>`;
-        html += `<div class="dns-record-value">`;
-        html += `Check DKIM with common selectors:<br><br>`;
+        html += '<div class="dns-record">';
+        html += '<strong>DKIM Records:</strong>';
+        html += '<div class="dns-record-value">';
+
+        // Show DKIM results from backend if available
+        if (data.DKIM && typeof data.DKIM === 'object' && Object.keys(data.DKIM).length > 0) {
+            Object.entries(data.DKIM).forEach(([selector, record]) => {
+                html += `<div style="margin-bottom: 8px;"><strong style="color: var(--success-color);">✓ ${escapeHtml(selector)}:</strong><br>`;
+                html += `<span style="font-size: 0.9em; word-break: break-all;">${escapeHtml(typeof record === 'string' ? record : JSON.stringify(record))}</span></div>`;
+            });
+        }
+
+        html += 'Check DKIM with common selectors:<br><br>';
         const safeDomain = domain.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         html += `<button onclick="checkDKIMSelector('${safeDomain}', 'default')" style="margin: 4px; padding: 8px 12px; font-size: 0.85em;">default</button>`;
         html += `<button onclick="checkDKIMSelector('${safeDomain}', 'google')" style="margin: 4px; padding: 8px 12px; font-size: 0.85em;">google</button>`;
@@ -96,16 +155,12 @@ async function checkDNS(dkimSelector = '', additionalSelectors = '') {
         html += `<button onclick="checkDKIMSelector('${safeDomain}', 's2')" style="margin: 4px; padding: 8px 12px; font-size: 0.85em;">s2</button>`;
         html += `<button onclick="checkDKIMSelector('${safeDomain}', 'selector1')" style="margin: 4px; padding: 8px 12px; font-size: 0.85em;">selector1</button>`;
         html += `<button onclick="checkDKIMSelector('${safeDomain}', 'selector2')" style="margin: 4px; padding: 8px 12px; font-size: 0.85em;">selector2</button>`;
-        html += `</div>`;
-        html += `<div id="dkimResults" style="margin-top: 10px;"></div>`;
-        html += `</div>`;
+        html += '</div>';
+        html += '<div id="dkimResults" style="margin-top: 10px;"></div>';
+        html += '</div>';
 
         if (!hasAnyResults) {
-            if (errors.length > 0) {
-                html += '<div class="error">Errors occurred:<br>' + errors.join('<br>') + '</div>';
-            } else {
-                html += '<div class="error">No DNS records found for this domain.</div>';
-            }
+            html += '<div class="error">No DNS records found for this domain.</div>';
         }
 
         html += '</div>';
@@ -127,12 +182,20 @@ async function checkDKIMSelector(domain, selector) {
         const dkimDomain = `${selector}._domainkey.${domain}`;
         const data = await callWorker('dns', { domain: dkimDomain, recordType: 'TXT' });
         
-        if (data && data.Answer && data.Answer.length > 0) {
+        // Handle both formats: new backend (data.TXT) and legacy (data.Answer)
+        let records = [];
+        if (data && data.TXT && data.TXT.length > 0) {
+            records = data.TXT.map(txt => Array.isArray(txt) ? txt.join('') : txt);
+        } else if (data && data.Answer && data.Answer.length > 0) {
+            records = data.Answer.map(r => r.data);
+        }
+
+        if (records.length > 0) {
             let html = `<div style="margin-top: 10px; padding: 10px; background: var(--success-bg); border-left: 3px solid var(--success-color); border-radius: 4px;">`;
             html += `<strong style="color: var(--success-color);">✓ DKIM Found (${selector}):</strong><br>`;
             html += `<div style="margin-top: 8px; font-size: 0.9em; word-break: break-all; color: var(--text-primary); font-family: var(--font-mono); line-height: 1.6;">`;
-            data.Answer.forEach(record => {
-                html += `<span style="color: var(--text-secondary);">${escapeHtml(record.data)}</span><br>`;
+            records.forEach(txt => {
+                html += `<span style="color: var(--text-secondary);">${escapeHtml(txt)}</span><br>`;
             });
             html += `</div></div>`;
             dkimResults.innerHTML = html;

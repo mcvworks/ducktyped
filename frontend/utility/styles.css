@@ -1576,6 +1576,42 @@
         }
 
         /* ============================================
+           CONSTRUCTION NOTICE
+           ============================================ */
+
+        .construction-notice {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            margin: 0 0 12px;
+            background: rgba(242, 194, 0, 0.05);
+            border: 1px solid rgba(242, 194, 0, 0.15);
+            border-left: 3px solid var(--primary-color);
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.72em;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+        }
+
+        .construction-notice .construction-icon {
+            color: var(--primary-color);
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
+        body.light-theme .construction-notice {
+            background: rgba(15, 17, 20, 0.03);
+            border-color: rgba(15, 17, 20, 0.1);
+            border-left-color: #0F1114;
+        }
+
+        body.light-theme .construction-notice .construction-icon {
+            color: #0F1114;
+        }
+
+        /* ============================================
            CATEGORY SECTIONS
            ============================================ */
         
