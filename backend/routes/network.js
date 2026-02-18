@@ -129,6 +129,46 @@ router.post('/port-scan', async (req, res) => {
 });
 
 // ============================================
+// HTTP LATENCY
+// ============================================
+router.post('/http-latency', async (req, res) => {
+    try {
+        let url = (req.body.host || '').trim();
+        if (!url) return res.status(400).json(fail('Invalid host'));
+
+        // Ensure URL has a scheme
+        if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+        const start = Date.now();
+        const response = await axios.get(url, {
+            timeout: 10000,
+            maxRedirects: 5,
+            validateStatus: () => true,
+            headers: { 'User-Agent': 'duckTyped-latency-checker/1.0' }
+        });
+        const latency = Date.now() - start;
+
+        res.json(success({
+            host: req.body.host,
+            url,
+            statusCode: response.status,
+            statusText: response.statusText,
+            latency,
+            contentType: response.headers['content-type'] || null,
+            redirected: response.request?.res?.responseUrl !== url
+        }));
+    } catch (err) {
+        if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
+            return res.status(200).json(success({ host: req.body.host, error: 'Host unreachable or DNS failed' }));
+        }
+        if (err.code === 'ETIMEDOUT' || err.message?.includes('timeout')) {
+            return res.status(200).json(success({ host: req.body.host, error: 'Request timed out (>10s)' }));
+        }
+        res.status(500).json(fail('HTTP latency check failed'));
+    }
+});
+
+// ============================================
 // PING / LATENCY
 // ============================================
 router.post('/ping', async (req, res) => {

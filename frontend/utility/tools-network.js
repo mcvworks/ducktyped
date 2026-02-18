@@ -617,6 +617,8 @@ async function scanSelectedPorts() {
 async function checkPing() {
     const host = document.getElementById('pingHost').value.trim();
     const resultsDiv = document.getElementById('pingResults');
+    const modeEl = document.getElementById('pingMode');
+    const mode = modeEl ? modeEl.value : 'icmp';
 
     if (!host) {
         resultsDiv.innerHTML = '<div class="error">Please enter a host!</div>';
@@ -628,51 +630,66 @@ async function checkPing() {
         return;
     }
 
-    resultsDiv.innerHTML = '<div class="success">Checking latency...</div>';
+    if (mode === 'icmp') {
+        resultsDiv.innerHTML = '<div class="success">Sending ICMP ping (4 packets)...</div>';
+        try {
+            const data = await callWorker('ping', { host });
+            if (CONFIG.DEBUG) console.log('ICMP ping data:', data);
 
-    try {
-        const data = await callWorker('ping', { host });
-        
-        if (CONFIG.DEBUG) console.log('Ping data received:', data);
-        
-        let html = '<div class="dns-record">';
-        html += `<strong>Latency Check Results</strong>`;
-        html += `<div class="dns-record-value">`;
-        html += `<strong>Host:</strong> ${data.host}<br>`;
-        html += `<strong>Status:</strong> ${data.status}<br>`;
-        if (data.latency) {
-            html += `<strong>Response Time:</strong> ${data.latency}ms<br>`;
+            let html = '<div class="dns-record">';
+            html += `<strong>ICMP Ping Results</strong>`;
+            html += `<div class="dns-record-value">`;
+            html += `<strong>Host:</strong> ${data.host}<br>`;
+
+            if (data.error) {
+                html += `<br><strong style="color: var(--error-color);">Error:</strong> ${data.error}`;
+            } else {
+                const loss = data.packetLoss ?? 0;
+                const lossColor = loss === 0 ? 'var(--success-color)' : loss < 50 ? 'orange' : 'var(--error-color)';
+                html += `<strong>Packet Loss:</strong> <span style="color:${lossColor}">${loss}%</span><br>`;
+                if (data.avg != null) {
+                    html += `<strong>Avg Latency:</strong> ${data.avg} ms<br>`;
+                    html += `<strong>Min / Max:</strong> ${data.min} ms / ${data.max} ms<br>`;
+                } else {
+                    html += `<span style="color: var(--error-color);">No response — host may be blocking ICMP or is unreachable.</span><br>`;
+                }
+            }
+
+            html += `</div></div>`;
+            resultsDiv.innerHTML = html;
+        } catch (error) {
+            resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
         }
-        if (data.note) {
-            html += `<br><em style="color: var(--text-secondary); font-size: 0.9em;">${data.note}</em>`;
+    } else {
+        resultsDiv.innerHTML = '<div class="success">Checking HTTP response time...</div>';
+        try {
+            const data = await callWorker('http-latency', { host });
+            if (CONFIG.DEBUG) console.log('HTTP latency data:', data);
+
+            let html = '<div class="dns-record">';
+            html += `<strong>HTTP Latency Results</strong>`;
+            html += `<div class="dns-record-value">`;
+            html += `<strong>Host:</strong> ${data.host}<br>`;
+            html += `<strong>URL:</strong> <span style="font-size:0.9em">${data.url}</span><br>`;
+
+            if (data.error) {
+                html += `<br><strong style="color: var(--error-color);">Error:</strong> ${data.error}`;
+            } else {
+                const statusColor = data.statusCode >= 200 && data.statusCode < 300 ? 'var(--success-color)'
+                    : data.statusCode >= 300 && data.statusCode < 400 ? 'orange'
+                    : 'var(--error-color)';
+                html += `<strong>Status:</strong> <span style="color:${statusColor}">${data.statusCode} ${data.statusText}</span><br>`;
+                html += `<strong>Response Time:</strong> ${data.latency} ms<br>`;
+                if (data.contentType) {
+                    html += `<strong>Content-Type:</strong> <span style="font-size:0.9em">${data.contentType}</span><br>`;
+                }
+            }
+
+            html += `</div></div>`;
+            resultsDiv.innerHTML = html;
+        } catch (error) {
+            resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
         }
-        if (data.error) {
-            html += `<br><strong>Error:</strong> ${data.error}`;
-        }
-        
-        html += `</div></div>`;
-        
-        // Add external ICMP ping tools section
-        html += `<div style="margin-top: 20px; padding: 15px; background: var(--input-background); border-radius: 8px; border: 1px solid var(--border-color);">`;
-        html += `<strong style="color: var(--primary-color);">🌐 Need true ICMP ping?</strong><br>`;
-        html += `<p style="color: var(--text-secondary); margin: 10px 0; font-size: 0.9em; line-height: 1.5;">`;
-        html += `This tool measures HTTP response time. For real ICMP ping tests, try these tools:`;
-        html += `</p>`;
-        html += `<div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">`;
-        html += `<a href="https://ping.eu/ping/" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 0.9em;">`;
-        html += `→ <strong>Ping.eu</strong> - Free ICMP ping test from multiple locations</a>`;
-        html += `<a href="https://www.site24x7.com/tools/ping-test.html" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 0.9em;">`;
-        html += `→ <strong>Site24x7</strong> - Ping test with detailed statistics</a>`;
-        html += `<a href="https://centralops.net/co/Ping.aspx" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 0.9em;">`;
-        html += `→ <strong>CentralOps</strong> - Ping and traceroute tools</a>`;
-        html += `<a href="https://tools.keycdn.com/ping" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 0.9em;">`;
-        html += `→ <strong>KeyCDN</strong> - Ping from 14 global locations</a>`;
-        html += `</div>`;
-        html += `</div>`;
-        
-        resultsDiv.innerHTML = html;
-    } catch (error) {
-        resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     }
 }
 

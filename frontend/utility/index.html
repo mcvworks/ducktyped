@@ -799,17 +799,25 @@
             </div>
 
             <!-- Ping/Latency Checker -->
-            <div class="tool-card" id="pingChecker" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="ping latency rtt packet loss jitter http response time">
-                <h2>HTTP Latency Checker</h2>
+            <div class="tool-card" id="pingChecker" draggable="true" data-categories="network" data-usertypes="itpro,netadmin" data-keywords="ping latency rtt packet loss icmp http response time">
+                <h2>Ping / Latency Checker</h2>
                 <a href="/http-latency/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
                 <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Measure website HTTP response time and connection latency. Test server connectivity and network performance. For true ICMP ping, use the external tools below.
+                    <strong>ICMP Ping</strong> — sends real ping packets to measure round-trip time and packet loss.<br>
+                    <strong>HTTP Latency</strong> — measures how long a server takes to respond to an HTTP request; useful for URLs that block ICMP.
                 </p>
                 <div class="input-group">
-                    <label>Target URL or IP:</label>
-                    <input type="text" id="pingHost" placeholder="google.com or 8.8.8.8" aria-label="Host for latency check" onkeypress="if(event.key==='Enter') checkPing()">
+                    <label>Mode:</label>
+                    <select id="pingMode" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
+                        <option value="icmp">ICMP Ping (RTT + packet loss)</option>
+                        <option value="http">HTTP Latency (response time)</option>
+                    </select>
                 </div>
-                <button onclick="checkPing()">Check Latency</button>
+                <div class="input-group">
+                    <label>Target host or URL:</label>
+                    <input type="text" id="pingHost" placeholder="google.com or 8.8.8.8" aria-label="Host for ping or latency check" onkeypress="if(event.key==='Enter') checkPing()">
+                </div>
+                <button onclick="checkPing()">Run</button>
                 <div id="pingResults"></div>
             </div>
 
