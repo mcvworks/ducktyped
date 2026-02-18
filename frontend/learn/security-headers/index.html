@@ -8,6 +8,9 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"HTTP Security Headers Explained","description":"Learn what HTTP security headers are, how Content-Security-Policy, HSTS, X-Frame-Options, and other headers protect your site, with implementation examples for nginx, Apache, and Express.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/security-headers/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"Security Headers"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are HTTP security headers?","acceptedAnswer":{"@type":"Answer","text":"HTTP security headers are directives sent by a web server in its response that instruct the browser how to behave when handling the site's content, protecting against cross-site scripting (XSS), clickjacking, data injection, and protocol downgrade attacks."}},{"@type":"Question","name":"What is Content-Security-Policy (CSP)?","acceptedAnswer":{"@type":"Answer","text":"CSP is a security header that defines an allowlist of content sources the browser may load, serving as the primary defense against cross-site scripting (XSS) attacks by restricting which scripts can execute on a page."}},{"@type":"Question","name":"What does Strict-Transport-Security (HSTS) do?","acceptedAnswer":{"@type":"Answer","text":"HSTS tells browsers to only communicate with your site over HTTPS, automatically upgrading HTTP requests for a specified duration, protecting against protocol downgrade attacks and cookie hijacking on insecure networks."}}]}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTTP Security Headers Explained — CSP, HSTS &amp; More — duckTyped</title>
@@ -198,6 +201,7 @@ app.use((req, res, next) => {
                 <li><a href="/ssl-checker/">SSL Certificate Checker</a> -- verify your certificate chain, expiration dates, protocol versions, and cipher suite configuration.</li>
                 <li><a href="/tech-detector/">Tech Detector</a> -- identify the technologies, frameworks, and services a website is built with.</li>
             </ul>
+            <p class="related-guides">📖 <strong>Further reading:</strong> <a href="/learn/ssl-checker/">SSL Certificates</a>, <a href="/learn/tech-detector/">Tech Detection</a></p>
         </article>
 
         <div class="learn-cta">

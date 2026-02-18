@@ -8,6 +8,9 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"JSON Web Tokens Explained","description":"Learn how JSON Web Tokens work, their three-part structure, standard claims like exp and iat, signing algorithms, and security best practices for token-based authentication.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/jwt-decoder/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"JWT Decoder"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a JSON Web Token (JWT)?","acceptedAnswer":{"@type":"Answer","text":"A JSON Web Token (JWT) is a compact, URL-safe token format for securely transmitting claims between two parties. Defined in RFC 7519, JWTs are the de facto standard for authentication and authorization in modern web applications, enabling stateless verification without server-side session storage."}},{"@type":"Question","name":"What is the structure of a JWT?","acceptedAnswer":{"@type":"Answer","text":"Every JWT consists of three Base64url-encoded parts separated by dots: the header (specifying the algorithm and token type), the payload (containing claims like user ID, roles, and expiration), and the signature (which ensures the token has not been tampered with)."}},{"@type":"Question","name":"What are JWT signing algorithms?","acceptedAnswer":{"@type":"Answer","text":"JWTs support three main algorithm families: HMAC (HS256/384/512) which uses a shared secret key, RSA (RS256/384/512) which uses public/private key pairs, and ECDSA (ES256/384/512) which provides equivalent security with smaller keys. The \"none\" algorithm should never be used in production."}},{"@type":"Question","name":"What are important JWT security considerations?","acceptedAnswer":{"@type":"Answer","text":"JWT payloads are encoded, not encrypted, so never store sensitive data in them. Always verify the signature, check expiration claims, use HTTPS, guard against the alg:none attack, keep tokens short-lived, and prefer HTTP-only cookies over localStorage to mitigate XSS attacks."}}]}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JWT Tokens Explained — Structure, Claims &amp; Security — duckTyped</title>
@@ -162,6 +165,7 @@
                 <li><a href="/json-formatter/">JSON Formatter</a> -- format and validate the decoded JWT header and payload as readable JSON.</li>
                 <li><a href="/timestamp-converter/">Unix Timestamp Converter</a> -- convert <code>exp</code>, <code>iat</code>, and <code>nbf</code> claim values between Unix timestamps and human-readable dates.</li>
             </ul>
+            <p class="related-guides">📖 <strong>Further reading:</strong> <a href="/learn/base64-encoder/">Base64 Encoding guide</a>, <a href="/learn/json-formatter/">JSON guide</a></p>
         </article>
 
         <div class="learn-cta">

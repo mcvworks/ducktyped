@@ -8,6 +8,9 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Reverse DNS Explained","description":"Learn how reverse DNS works, what PTR records are, the in-addr.arpa and ip6.arpa zones, why rDNS matters for email deliverability and security, and how to use duckTyped's reverse DNS tool.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/reverse-dns/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"Reverse DNS"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is reverse DNS?","acceptedAnswer":{"@type":"Answer","text":"Reverse DNS (rDNS) resolves an IP address back to a domain name -- the opposite of forward DNS. It is used to verify the identity of IP addresses for email deliverability, logging, and security verification."}},{"@type":"Question","name":"What are PTR records?","acceptedAnswer":{"@type":"Answer","text":"PTR (Pointer) records map IP addresses to hostnames, functioning as the reverse counterpart of A records. They are managed by whoever controls the IP address block (typically the ISP or hosting provider), not the domain owner."}},{"@type":"Question","name":"Why does reverse DNS matter for email?","acceptedAnswer":{"@type":"Answer","text":"Most major email providers check reverse DNS of connecting mail servers and may reject connections from IPs with no PTR record. Proper rDNS configuration is a baseline requirement for email deliverability."}}]}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reverse DNS Explained — PTR Records &amp; IP Resolution — duckTyped</title>
@@ -144,6 +147,7 @@
                 <li><a href="/email-validator/">Email Validator</a> -- test email address validity, MX record existence, and mail server connectivity.</li>
                 <li><a href="/blacklist-checker/">Blacklist Checker</a> -- check whether an IP address or domain appears on DNS-based blacklists.</li>
             </ul>
+            <p class="related-guides">📖 <strong>Further reading:</strong> <a href="/learn/dns-lookup/">DNS Records guide</a></p>
         </article>
 
         <div class="learn-cta">

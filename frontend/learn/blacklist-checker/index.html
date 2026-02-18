@@ -8,6 +8,9 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"IP Blacklist Checking Explained","description":"Learn how IP blacklists and DNSBLs work, why IPs get listed, how to check and delist, and how to maintain email reputation with duckTyped's Blacklist Checker.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/blacklist-checker/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"Blacklist Checker"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are IP blacklists and DNSBLs?","acceptedAnswer":{"@type":"Answer","text":"IP blacklists are databases of IP addresses identified as sources of spam or abuse. DNSBLs (DNS-based Blackhole Lists) use standard DNS queries to publish and check these lists in real time, enabling mail servers to reject connections from known bad actors."}},{"@type":"Question","name":"How do DNSBL lookups work?","acceptedAnswer":{"@type":"Answer","text":"The IP address octets are reversed and appended to the DNSBL's domain, then a DNS A record query is performed. A response in the 127.0.0.x range means the IP is listed; NXDOMAIN (not found) means it is clean."}},{"@type":"Question","name":"How do I get delisted from a blacklist?","acceptedAnswer":{"@type":"Answer","text":"First identify and fix the root cause (compromised accounts, open relay, spam sending), then submit a removal request through the blacklist's self-service portal. Some lists like SpamCop automatically delist after abuse stops."}}]}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Blacklist Checking Explained — DNSBLs &amp; Email Reputation — duckTyped</title>
@@ -159,6 +162,7 @@
                 <li><a href="/smtp-checker/">SMTP Checker</a> -- test your mail server's SMTP configuration, TLS support, and open relay status.</li>
                 <li><a href="/reverse-dns/">Reverse DNS Lookup</a> -- verify that your sending IP has a valid PTR record, which many mail servers require for acceptance.</li>
             </ul>
+            <p class="related-guides">📖 <strong>Further reading:</strong> <a href="/learn/email-validator/">Email Validation</a>, <a href="/learn/smtp-checker/">SMTP Testing</a>, <a href="/learn/reverse-dns/">Reverse DNS</a></p>
         </article>
 
         <div class="learn-cta">

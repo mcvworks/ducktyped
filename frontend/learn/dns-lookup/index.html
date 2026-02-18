@@ -8,6 +8,9 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"DNS Records Explained","description":"Learn how DNS works, what A, AAAA, MX, TXT, CNAME, NS, SOA, and CAA records do, and how to troubleshoot domain configuration with duckTyped's DNS checker.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/dns-lookup/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"DNS Record Checker"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is DNS?","acceptedAnswer":{"@type":"Answer","text":"The Domain Name System (DNS) is often described as the internet's phone book. It translates human-readable domain names like example.com into machine-readable IP addresses such as 93.184.216.34 so computers can communicate."}},{"@type":"Question","name":"What are the most common DNS record types?","acceptedAnswer":{"@type":"Answer","text":"The most common DNS record types are A (maps a domain to an IPv4 address), AAAA (maps to an IPv6 address), CNAME (creates an alias pointing to another domain), MX (specifies mail servers), TXT (stores text data for SPF, DKIM, and domain verification), NS (delegates a zone to nameservers), and CAA (controls which Certificate Authorities can issue SSL certificates)."}},{"@type":"Question","name":"How does DNS resolution work?","acceptedAnswer":{"@type":"Answer","text":"When you enter a URL, your browser checks its DNS cache, then the OS cache, then queries a recursive resolver. The resolver contacts root nameservers, TLD nameservers, and finally the authoritative nameserver to obtain the IP address. Results are cached based on TTL values."}},{"@type":"Question","name":"What are common DNS issues?","acceptedAnswer":{"@type":"Answer","text":"Common DNS issues include domains not resolving due to missing A or AAAA records, email failures from incorrect MX records, SPF/DKIM/DMARC misconfiguration causing emails to land in spam, and propagation delays after making DNS changes."}}]}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DNS Records Explained — How DNS Works &amp; Record Types — duckTyped</title>
@@ -153,6 +156,7 @@ example.com.  CAA  0 issuewild "letsencrypt.org"</code></pre>
                 <li><a href="/whois-lookup/">WHOIS Lookup</a> -- check domain registration details, registrar information, and expiry dates.</li>
                 <li><a href="/email-validator/">Email Validator</a> -- test email address validity, MX record existence, and deliverability.</li>
             </ul>
+            <p class="related-guides">📖 <strong>Further reading:</strong> <a href="/learn/ssl-checker/">SSL Certificates guide</a>, <a href="/learn/whois-lookup/">WHOIS Lookup guide</a></p>
         </article>
 
         <div class="learn-cta">

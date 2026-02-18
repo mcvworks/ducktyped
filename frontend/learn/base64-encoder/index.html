@@ -8,6 +8,9 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Base64 Encoding Explained","description":"Learn what Base64 encoding is, how the algorithm converts binary to text, Unicode handling, and practical use cases like data URIs and API payloads.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/base64-encoder/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"Base64 Encode / Decode"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Base64 encoding?","acceptedAnswer":{"@type":"Answer","text":"Base64 is a binary-to-text encoding scheme that represents arbitrary binary data using a set of 64 printable ASCII characters (A-Z, a-z, 0-9, +, /). It ensures binary data can be transported safely through text-only channels like email protocols, JSON payloads, or URL parameters."}},{"@type":"Question","name":"How does Base64 encoding work?","acceptedAnswer":{"@type":"Answer","text":"The Base64 algorithm reads input as bytes, concatenates all bits into a stream, splits them into 6-bit chunks, maps each chunk to one of 64 characters, and adds padding with = signs to make the output length a multiple of 4. Every 3 input bytes produce 4 output characters."}},{"@type":"Question","name":"Is Base64 the same as encryption?","acceptedAnswer":{"@type":"Answer","text":"No. Base64 provides zero security. It is a deterministic, publicly documented encoding with no key or secret. Anyone can decode a Base64 string instantly. Never use Base64 to hide passwords, tokens, or sensitive data."}},{"@type":"Question","name":"What are common use cases for Base64?","acceptedAnswer":{"@type":"Answer","text":"Common use cases include embedding images as data URIs in HTML/CSS, encoding email attachments via MIME, sending binary data in JSON API payloads, HTTP Basic Authentication headers, and storing binary data in text-based configuration files."}}]}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base64 Encoding Explained — How It Works &amp; When to Use It — duckTyped</title>
@@ -146,6 +149,7 @@ const decoded = decodeURIComponent(escape(atob(encoded)));</code></pre>
                 <li><a href="/hash-generator/">Hash Generator</a> -- One-way cryptographic hashing with SHA-256, SHA-512, MD5, and more.</li>
                 <li><a href="/jwt-decoder/">JWT Decoder</a> -- Decode and inspect JSON Web Tokens, which use Base64url encoding internally.</li>
             </ul>
+            <p class="related-guides">📖 <strong>Further reading:</strong> <a href="/learn/jwt-decoder/">JWT guide</a></p>
         </article>
 
         <div class="learn-cta">
