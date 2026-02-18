@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Explained — Syntax, Validation &amp; Formatting Guide — duckTyped</title>
+    <meta name="description" content="Learn JSON syntax rules, common validation errors, the difference between formatting and minifying, and tips for working with JSON data effectively.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="JSON Explained — Syntax, Validation & Formatting Guide — duckTyped">
+    <meta property="og:description" content="Learn JSON syntax rules, common validation errors, formatting vs minifying, and tips for working with JSON data.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/json-formatter/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSON Explained — Syntax, Validation & Formatting Guide — duckTyped">
+    <meta name="twitter:description" content="Learn JSON syntax, validation, and formatting best practices.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/json-formatter/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>JSON Formatter / Validator</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>JSON Explained</h1>
+            <p class="standalone-intro">Understand JSON syntax rules, common validation pitfalls, the difference between formatting and minifying, and best practices for working with JSON data in APIs and configuration files.</p>
+
+            <h2>What Is JSON?</h2>
+            <p><strong>JSON</strong> (JavaScript Object Notation) is a lightweight, text-based data interchange format. Despite its name, JSON is completely language-independent and is supported natively or through libraries in virtually every programming language in use today.</p>
+            <p>JSON is both human-readable and machine-parseable, which makes it an excellent choice for transmitting structured data between systems. It is formally defined in two standards: <strong>RFC 8259</strong> (by the IETF) and <strong>ECMA-404</strong> (by Ecma International).</p>
+            <p>Originally derived from a subset of JavaScript object literal syntax, JSON rose to dominance in the mid-2000s as web APIs shifted away from XML. Today, it is the standard data format for REST APIs, configuration files, NoSQL databases, and inter-service communication. Its simplicity and universal support make it the default choice for data exchange on the modern web.</p>
+
+            <h2>JSON Syntax Rules</h2>
+            <p>JSON has a small, strict set of syntax rules. Unlike JavaScript, JSON does not tolerate shortcuts or informal syntax. Every valid JSON document must follow these rules exactly:</p>
+            <ul>
+                <li>Data is organized in <strong>key/value pairs</strong>.</li>
+                <li>Keys <strong>must</strong> be double-quoted strings. Single quotes and unquoted keys are not allowed.</li>
+                <li>Values can be one of six types: <code>string</code>, <code>number</code>, <code>boolean</code> (<code>true</code>/<code>false</code>), <code>null</code>, <code>object</code>, or <code>array</code>.</li>
+                <li>Objects are wrapped in curly braces <code>{}</code>.</li>
+                <li>Arrays are wrapped in square brackets <code>[]</code>.</li>
+                <li>Items are separated by commas -- but <strong>trailing commas are not allowed</strong>.</li>
+                <li><strong>No comments</strong> of any kind. Unlike JavaScript, JSON does not support <code>//</code> or <code>/* */</code> comments.</li>
+                <li>Strings must use <strong>double quotes</strong> only. Single quotes are invalid.</li>
+                <li>Values like <code>undefined</code>, <code>NaN</code>, <code>Infinity</code>, and functions are not valid in JSON.</li>
+            </ul>
+            <p>Here is a valid JSON example demonstrating several value types:</p>
+<pre><code>{
+  "name": "Alice",
+  "age": 32,
+  "isActive": true,
+  "address": {
+    "city": "Portland",
+    "zip": "97201"
+  },
+  "tags": ["developer", "admin"],
+  "deletedAt": null
+}</code></pre>
+
+            <h2>Common JSON Errors</h2>
+            <p>Most JSON validation failures come from a handful of recurring mistakes. These are the errors you will encounter most often:</p>
+            <ul>
+                <li><strong>Trailing commas</strong> after the last item in an object or array. This is valid in JavaScript but not in JSON:
+<pre><code>{"a": 1, "b": 2,}</code></pre></li>
+                <li><strong>Single quotes</strong> instead of double quotes:
+<pre><code>{'key': 'value'}</code></pre></li>
+                <li><strong>Unquoted keys</strong> -- this is JavaScript object syntax, not JSON:
+<pre><code>{key: "value"}</code></pre></li>
+                <li><strong>Comments</strong> of any kind:
+<pre><code>// this is not allowed
+/* neither is this */</code></pre></li>
+                <li><strong>Missing quotes on string values</strong> -- bare words are not valid unless they are <code>true</code>, <code>false</code>, or <code>null</code>.</li>
+                <li>Using <strong><code>undefined</code></strong> or <strong><code>NaN</code></strong> -- neither exists in the JSON specification.</li>
+            </ul>
+
+            <h2>JSON Data Types</h2>
+            <p>JSON supports exactly six data types. Understanding the rules for each one helps you write valid JSON and debug problems faster.</p>
+
+            <h3>Strings</h3>
+            <p>Strings are enclosed in double quotes and support standard escape sequences: <code>\n</code> (newline), <code>\t</code> (tab), <code>\"</code> (literal quote), <code>\\</code> (backslash), and <code>\uXXXX</code> (Unicode code point). Raw control characters are not allowed inside strings.</p>
+
+            <h3>Numbers</h3>
+            <p>Numbers can be integers or floating-point values. Leading zeros are not permitted (e.g., <code>007</code> is invalid). Scientific notation is supported (<code>1.5e10</code>), but hexadecimal (<code>0xFF</code>) and octal (<code>0o77</code>) literals are not. <code>NaN</code> and <code>Infinity</code> are also excluded from the spec.</p>
+
+            <h3>Booleans</h3>
+            <p>Boolean values are <code>true</code> and <code>false</code>, always lowercase. <code>True</code>, <code>False</code>, <code>TRUE</code>, and <code>FALSE</code> are all invalid. This is a common source of errors when converting from Python, which uses capitalized <code>True</code>/<code>False</code>.</p>
+
+            <h3>Null</h3>
+            <p>The null type is represented by the literal <code>null</code>, always lowercase. <code>None</code> (Python), <code>NULL</code> (SQL), and <code>nil</code> (Ruby/Go) are not valid JSON.</p>
+
+            <h3>Objects</h3>
+            <p>Objects are unordered collections of key/value pairs enclosed in curly braces. While many implementations preserve insertion order, the JSON specification does not guarantee it. Keys must be unique strings, and duplicate keys produce undefined behavior across parsers.</p>
+
+            <h3>Arrays</h3>
+            <p>Arrays are ordered lists of values enclosed in square brackets. Unlike objects, element order is guaranteed. Arrays can contain mixed types -- strings, numbers, objects, other arrays, and nulls can all appear in the same array.</p>
+
+            <h2>Formatting vs Minifying</h2>
+            <p>JSON whitespace is insignificant to parsers, which means the same data can be represented in a compact or expanded form. The two operations are:</p>
+
+            <h3>Formatting (Pretty-Printing)</h3>
+            <p>Formatting adds indentation and line breaks to make JSON human-readable. The most common indentation levels are 2 spaces or 4 spaces. Formatted JSON is easier to scan, debug, and compare in diffs. It is the preferred form for configuration files, documentation, and development environments.</p>
+
+            <h3>Minifying</h3>
+            <p>Minifying strips all unnecessary whitespace -- spaces, tabs, and newlines -- from a JSON document. The result is a single, dense line of text. This reduces file size, which matters for network transfer and storage. A 10KB formatted JSON file might shrink to around 6KB when minified. Production APIs and log pipelines typically use minified JSON.</p>
+
+            <h2>JSON in Practice</h2>
+            <p>JSON appears in nearly every layer of modern software development:</p>
+            <ul>
+                <li><strong>REST APIs</strong> -- JSON is the default response format for web APIs. Responses are served with the <code>Content-Type: application/json</code> header.</li>
+                <li><strong>Configuration files</strong> -- Widely used in tooling: <code>package.json</code> (Node.js), <code>tsconfig.json</code> (TypeScript), <code>.eslintrc.json</code> (ESLint), <code>composer.json</code> (PHP).</li>
+                <li><strong>Data storage</strong> -- NoSQL databases like MongoDB store documents in BSON (Binary JSON), a binary-encoded superset of JSON. PostgreSQL and MySQL also support native JSON column types.</li>
+                <li><strong>Web storage</strong> -- Browser APIs like <code>localStorage</code> and <code>sessionStorage</code> store string values, so developers use <code>JSON.stringify()</code> and <code>JSON.parse()</code> to persist structured data.</li>
+                <li><strong>Data exchange</strong> -- JSON is the common language between microservices, between frontend and backend, and between third-party integrations. Its simplicity makes it easy to produce and consume across language boundaries.</li>
+            </ul>
+
+            <h2>JSON vs Similar Formats</h2>
+            <p>JSON is not the only structured data format. Here is how it compares to its most common alternatives:</p>
+            <ul>
+                <li><strong>YAML</strong> -- A superset of JSON that allows comments, multiline strings, and indentation-based nesting. More human-friendly for writing by hand. Widely used in CI/CD configs (GitHub Actions, Docker Compose, Kubernetes manifests). The flexibility comes at the cost of more complex parsing rules.</li>
+                <li><strong>XML</strong> -- More verbose than JSON, with support for attributes, namespaces, schemas, and processing instructions. Still dominant in enterprise environments, SOAP APIs, and document formats (XHTML, SVG, RSS). Higher overhead per byte of actual data.</li>
+                <li><strong>TOML</strong> -- Simpler and more opinionated than YAML, designed specifically for configuration files. Used in Rust (<code>Cargo.toml</code>), Python (<code>pyproject.toml</code>), and Hugo. Supports comments and is less ambiguous than YAML, but less widely supported for data interchange.</li>
+            </ul>
+
+            <h2>How to Use the Tool</h2>
+            <p>Paste your JSON into the input area and click <strong>Format</strong> to pretty-print it with syntax highlighting and proper indentation. Click <strong>Minify</strong> to compress it into a single line with all whitespace removed. If the input contains invalid JSON, the tool displays a descriptive error message indicating the type of error and the position where parsing failed, making it easy to locate and fix the problem.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/jwt-decoder/">JWT Decoder</a> -- JSON Web Tokens contain Base64-encoded JSON payloads. Decode and inspect them directly.</li>
+                <li><a href="/base64-encoder/">Base64 Encoder</a> -- Encode JSON data as Base64 for safe transport in URLs, headers, or embedded payloads.</li>
+                <li><a href="/regex-tester/">Regex Tester</a> -- Test regular expression patterns against JSON strings or extract values from raw JSON text.</li>
+            </ul>
+
+        </article>
+
+        <div class="learn-cta">
+            <a href="/json-formatter/" class="standalone-nav-btn">Try JSON Formatter</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

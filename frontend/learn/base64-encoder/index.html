@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoding Explained — How It Works &amp; When to Use It — duckTyped</title>
+    <meta name="description" content="Learn what Base64 encoding is, how the algorithm converts binary to text, Unicode handling, and practical use cases like data URIs and API payloads.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Base64 Encoding Explained — How It Works & When to Use It — duckTyped">
+    <meta property="og:description" content="Learn what Base64 encoding is, how the algorithm converts binary to text, Unicode handling, and practical use cases.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/base64-encoder/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Base64 Encoding Explained — How It Works & When to Use It — duckTyped">
+    <meta name="twitter:description" content="Learn what Base64 encoding is, how it works, and when to use it.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/base64-encoder/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>Base64 Encode / Decode</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>Base64 Encoding Explained</h1>
+            <p class="standalone-intro">Understand what Base64 encoding is, how the algorithm transforms binary data into ASCII text, how Unicode is handled, and when you should (and shouldn't) use it.</p>
+
+            <h2>What Is Base64?</h2>
+            <p>Base64 is a binary-to-text encoding scheme that represents arbitrary binary data using a set of 64 printable ASCII characters. It is formally defined in <strong>RFC 4648</strong> and has been a cornerstone of data interchange on the web for decades.</p>
+            <p>The 64 characters used are: <code>A-Z</code>, <code>a-z</code>, <code>0-9</code>, <code>+</code>, and <code>/</code>, with <code>=</code> serving as a padding character. Every combination of input bytes maps deterministically to an output string composed entirely of these safe, printable characters.</p>
+            <p><strong>Base64 is not encryption.</strong> It provides no confidentiality whatsoever. Anyone with access to a Base64 string can decode it instantly. Its purpose is not to hide data but to ensure binary data can be transported safely through text-only channels -- systems that might corrupt or reject raw binary bytes, such as email protocols, JSON payloads, or URL parameters.</p>
+
+            <h2>How Base64 Encoding Works</h2>
+            <p>The Base64 algorithm converts binary data into text through a straightforward series of steps:</p>
+            <ol>
+                <li><strong>Read the input as bytes.</strong> Each byte is 8 bits. The input <code>"Hi"</code> consists of two bytes: <code>H</code> = 72 (01001000) and <code>i</code> = 105 (01101001).</li>
+                <li><strong>Concatenate all bits.</strong> Join the bytes into a continuous bit stream. For <code>"Hi"</code>: <code>01001000 01101001</code> = 16 bits total.</li>
+                <li><strong>Group into 6-bit chunks.</strong> Split the bit stream into groups of 6 bits. Since 16 is not evenly divisible by 6, pad the end with zeros to reach the next multiple of 6 (18 bits): <code>010010</code> | <code>000110</code> | <code>100100</code>.</li>
+                <li><strong>Map each 6-bit value to the Base64 alphabet.</strong> Each 6-bit group represents a decimal value from 0 to 63. Look up the corresponding character: 18 = <code>S</code>, 6 = <code>G</code>, 36 = <code>k</code>.</li>
+                <li><strong>Apply padding.</strong> Base64 output must be a multiple of 4 characters. Since we produced 3 characters, append one <code>=</code> to reach 4.</li>
+            </ol>
+            <p>The final result: <code>"Hi"</code> encodes to <code>SGk=</code>.</p>
+            <pre><code>Input text:    H           i
+ASCII value:   72          105
+Binary:        01001000    01101001
+                    |
+Concatenated:  01001000 01101001 00  (padded to 18 bits)
+                    |
+6-bit groups:  010010  000110  100100
+Decimal:       18      6       36
+Base64 char:   S       G       k       =
+                    |
+Output:        SGk=</code></pre>
+            <p>When the input length is a multiple of 3 bytes, no padding is needed. One byte of input requires two <code>=</code> pads; two bytes require one <code>=</code> pad; three bytes require none.</p>
+
+            <h2>The Base64 Alphabet</h2>
+            <p>The standard Base64 alphabet maps 6-bit values (0 through 63) to printable characters:</p>
+            <table>
+                <thead>
+                    <tr><th>Value Range</th><th>Characters</th><th>Count</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0 -- 25</td><td><code>A</code> through <code>Z</code></td><td>26</td></tr>
+                    <tr><td>26 -- 51</td><td><code>a</code> through <code>z</code></td><td>26</td></tr>
+                    <tr><td>52 -- 61</td><td><code>0</code> through <code>9</code></td><td>10</td></tr>
+                    <tr><td>62</td><td><code>+</code></td><td>1</td></tr>
+                    <tr><td>63</td><td><code>/</code></td><td>1</td></tr>
+                    <tr><td>Padding</td><td><code>=</code></td><td>--</td></tr>
+                </tbody>
+            </table>
+            <h3>Base64url Variant</h3>
+            <p>The standard <code>+</code> and <code>/</code> characters are problematic in URLs and filenames because they have special meaning in those contexts. The <strong>Base64url</strong> variant (also defined in RFC 4648) replaces them:</p>
+            <ul>
+                <li><code>+</code> becomes <code>-</code> (hyphen)</li>
+                <li><code>/</code> becomes <code>_</code> (underscore)</li>
+            </ul>
+            <p>Base64url is used in <strong>JSON Web Tokens (JWTs)</strong>, URL query parameters, and filename-safe contexts. Padding (<code>=</code>) is often omitted in Base64url since the decoder can infer it from the string length.</p>
+
+            <h2>Handling Unicode Text</h2>
+            <p>Base64 operates on <strong>raw bytes</strong>, not characters. For plain ASCII text (code points 0--127), each character maps directly to a single byte, so Base64 encoding is straightforward. However, Unicode text -- characters like accented letters, CJK scripts, or emoji -- requires an extra step.</p>
+            <p>Before Base64-encoding Unicode text, you must first convert the characters to their <strong>UTF-8 byte representation</strong>. UTF-8 encodes each character as one to four bytes. The Base64 algorithm then operates on those bytes.</p>
+            <p>In JavaScript, the built-in <code>btoa()</code> function only handles Latin-1 characters (code points 0--255) and will throw an error on anything beyond that range. The standard workaround is:</p>
+            <pre><code>// Encode Unicode text to Base64
+const encoded = btoa(unescape(encodeURIComponent(text)));
+
+// Decode Base64 back to Unicode text
+const decoded = decodeURIComponent(escape(atob(encoded)));</code></pre>
+            <p>The duckTyped Base64 tool handles Unicode automatically -- you can paste text containing any characters, including emoji and non-Latin scripts, and it will encode and decode correctly without any extra steps.</p>
+
+            <h2>Common Use Cases</h2>
+            <p>Base64 encoding is used widely across web development and systems programming. Here are the most common applications:</p>
+            <ul>
+                <li><strong>Data URIs</strong> -- Embedding images, fonts, or other assets directly in HTML or CSS without a separate HTTP request: <code>data:image/png;base64,iVBORw0KGgo...</code>. This is common for small icons and inline SVGs.</li>
+                <li><strong>Email Attachments</strong> -- The MIME standard uses Base64 to encode binary attachments (images, PDFs, archives) so they can travel through SMTP, which was originally designed for 7-bit ASCII text only.</li>
+                <li><strong>API Payloads</strong> -- JSON does not support binary data natively. When you need to send a file, image, or binary blob in a JSON request body, Base64 encoding converts it to a text string that JSON can handle.</li>
+                <li><strong>HTTP Basic Authentication</strong> -- The <code>Authorization</code> header for Basic Auth is constructed by Base64-encoding the <code>username:password</code> string: <code>Authorization: Basic dXNlcjpwYXNz</code>. Note that this provides no security on its own -- always use HTTPS.</li>
+                <li><strong>Storing Binary in Text Formats</strong> -- Configuration files (YAML, XML, JSON), databases with text-only columns, environment variables, and other text-based storage can hold binary data when it is Base64-encoded.</li>
+            </ul>
+
+            <h2>Base64 Is Not Encryption</h2>
+            <p>This point is worth emphasizing: <strong>Base64 provides zero security</strong>. It is a deterministic, publicly documented encoding with no key, no secret, and no randomness. Anyone can decode a Base64 string in milliseconds using freely available tools -- including the one on this site.</p>
+            <p>Never use Base64 to "hide" passwords, tokens, API keys, or any sensitive data. If you see a Base64-encoded string in a configuration file or URL, treat it as plaintext.</p>
+            <p>For actual confidentiality, use proper encryption algorithms such as AES-256-GCM with a strong key derivation function like PBKDF2 or Argon2. If you need to send a secret securely, consider using an end-to-end encrypted tool like the <a href="/secure-note/">Secure Note Sender</a> on duckTyped.</p>
+
+            <h2>Size Overhead</h2>
+            <p>Base64 encoding increases the size of data by approximately <strong>33%</strong>. This happens because every 3 input bytes (24 bits) are represented as 4 output characters (4 bytes in ASCII). The ratio is exactly 4/3, or about 1.33x.</p>
+            <p>For small payloads like authentication tokens or short strings, this overhead is negligible. For larger data -- such as embedding a 500 KB image as a data URI -- the 33% increase becomes meaningful and can negatively impact page load times and bandwidth usage.</p>
+            <p>If you are transmitting Base64-encoded data over HTTP, <strong>gzip or Brotli compression</strong> applied at the transport layer can partially offset this overhead, since Base64 text compresses reasonably well. However, the compressed result will still typically be larger than the original binary data would have been, so for large files, serving them as actual binary (e.g., a separate image file) is almost always more efficient.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped Base64 encoder/decoder is designed for speed and simplicity:</p>
+            <ol>
+                <li>Paste your plain text or Base64-encoded string into the input field.</li>
+                <li>Click <strong>Encode</strong> to convert text to Base64, or <strong>Decode</strong> to convert Base64 back to text.</li>
+                <li>Copy the result with one click.</li>
+            </ol>
+            <p>Unicode is handled automatically -- no need to manually convert to UTF-8 first. The tool runs entirely in your browser; no data is sent to any server.</p>
+
+            <h2>Related Tools</h2>
+            <ul>
+                <li><a href="/url-encoder/">URL Encoder/Decoder</a> -- Percent-encoding for safely embedding special characters in URLs.</li>
+                <li><a href="/hash-generator/">Hash Generator</a> -- One-way cryptographic hashing with SHA-256, SHA-512, MD5, and more.</li>
+                <li><a href="/jwt-decoder/">JWT Decoder</a> -- Decode and inspect JSON Web Tokens, which use Base64url encoding internally.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/base64-encoder/" class="standalone-nav-btn">Try Base64 Encoder</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

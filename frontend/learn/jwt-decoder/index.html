@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Tokens Explained — Structure, Claims &amp; Security — duckTyped</title>
+    <meta name="description" content="Learn how JSON Web Tokens work, their three-part structure, standard claims like exp and iat, signing algorithms, and security best practices for token-based authentication.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="JWT Tokens Explained — Structure, Claims & Security — duckTyped">
+    <meta property="og:description" content="Learn how JSON Web Tokens work, their structure, standard claims, signing algorithms, and security best practices.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/jwt-decoder/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JWT Tokens Explained — Structure, Claims & Security — duckTyped">
+    <meta name="twitter:description" content="Learn how JSON Web Tokens work, their structure, claims, and security best practices.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/jwt-decoder/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>JWT Decoder</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>JSON Web Tokens Explained</h1>
+            <p class="standalone-intro">Understand how JWTs work, their three-part structure, standard claims, signing algorithms, expiration handling, and security considerations for token-based authentication.</p>
+
+            <h2>What Is a JWT?</h2>
+            <p>A <strong>JSON Web Token (JWT)</strong>, pronounced "jot," is a compact, URL-safe token format for securely transmitting claims between two parties. Defined in <strong>RFC 7519</strong>, JWTs have become the de facto standard for authentication and authorization in modern web applications and APIs.</p>
+            <p>The core idea behind JWTs is <strong>statelessness</strong>. Unlike traditional session-based authentication where the server stores session data in memory or a database, a JWT contains all the information the server needs to verify the user's identity and permissions. The server issues a signed token, the client stores it, and the server validates the signature on each request without needing to look anything up. This makes JWTs particularly well-suited for distributed systems and microservice architectures where sharing session state across multiple servers would be complex and expensive.</p>
+
+            <h2>JWT Structure</h2>
+            <p>Every JWT consists of three parts separated by dots: <code>header.payload.signature</code>. Each part is <strong>Base64url-encoded</strong> JSON (a URL-safe variant of standard Base64). A typical token looks like this:</p>
+            <pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNjE2MjM5MDIyLCJleHAiOjE2MTYyNDI2MjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code></pre>
+            <p>Let's break down each part.</p>
+
+            <h3>Header</h3>
+            <p>The header is a JSON object that describes the token type and the signing algorithm being used. It typically contains two fields:</p>
+            <pre><code>{
+  "alg": "HS256",
+  "typ": "JWT"
+}</code></pre>
+            <ul>
+                <li><strong><code>alg</code></strong> -- the signing algorithm (e.g., HS256, RS256, ES256).</li>
+                <li><strong><code>typ</code></strong> -- the token type, which is almost always <code>"JWT"</code>.</li>
+            </ul>
+            <p>This JSON is Base64url-encoded to produce the first segment of the token.</p>
+
+            <h3>Payload</h3>
+            <p>The payload contains the <strong>claims</strong> -- statements about the user or entity and any additional metadata. This is where your data lives:</p>
+            <pre><code>{
+  "sub": "1234567890",
+  "name": "Jane Doe",
+  "iat": 1616239022,
+  "exp": 1616242622
+}</code></pre>
+            <p>Claims can be registered (standard), public (custom but collision-resistant), or private (agreed upon between parties). The payload is Base64url-encoded to produce the second segment of the token.</p>
+
+            <h3>Signature</h3>
+            <p>The signature is created by taking the encoded header, a dot, the encoded payload, and signing that string with a secret key using the algorithm specified in the header:</p>
+            <pre><code>HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload),
+  secret
+)</code></pre>
+            <p>The signature serves one critical purpose: it ensures the token has not been <strong>tampered with</strong>. When the server receives a JWT, it recalculates the signature using its secret key and compares it against the signature in the token. If they do not match, the token is rejected.</p>
+
+            <h2>Standard Claims</h2>
+            <p>RFC 7519 defines a set of <strong>registered claim names</strong> with standardized meanings. All of them are optional, but using them ensures interoperability across different systems and libraries:</p>
+            <ul>
+                <li><strong><code>iss</code> (Issuer)</strong> -- identifies who issued the token (e.g., <code>"auth.example.com"</code>).</li>
+                <li><strong><code>sub</code> (Subject)</strong> -- identifies who the token is about, typically a user ID (e.g., <code>"user_1234"</code>).</li>
+                <li><strong><code>aud</code> (Audience)</strong> -- identifies the intended recipient of the token (e.g., <code>"api.example.com"</code>).</li>
+                <li><strong><code>exp</code> (Expiration Time)</strong> -- a Unix timestamp indicating when the token expires. Servers must reject tokens past this time.</li>
+                <li><strong><code>nbf</code> (Not Before)</strong> -- a Unix timestamp before which the token must not be accepted.</li>
+                <li><strong><code>iat</code> (Issued At)</strong> -- a Unix timestamp indicating when the token was created.</li>
+                <li><strong><code>jti</code> (JWT ID)</strong> -- a unique identifier for the token, useful for preventing replay attacks.</li>
+            </ul>
+            <p>In addition to these registered claims, you can include any <strong>custom claims</strong> your application needs -- roles, permissions, tenant IDs, or any other metadata. Just be mindful that the payload is encoded, not encrypted, so anyone with the token can read its contents.</p>
+
+            <h2>Signing Algorithms</h2>
+            <p>The algorithm specified in the header determines how the signature is generated and verified. There are three main families, plus one dangerous option.</p>
+
+            <h3>HMAC (HS256, HS384, HS512)</h3>
+            <p><strong>Symmetric</strong> algorithms that use the same secret key for both signing and verification. HMAC-based signing is simple and fast, making it a good choice when the same server issues and verifies tokens. The downside is that the secret must be shared with any party that needs to verify the token, which increases the risk of key compromise in distributed systems.</p>
+
+            <h3>RSA (RS256, RS384, RS512)</h3>
+            <p><strong>Asymmetric</strong> algorithms that use a private key to sign and a public key to verify. RSA is ideal for distributed systems where multiple services need to verify tokens but should not have the ability to create them. The signing server keeps its private key secret, while verifiers only need the public key. RSA keys are larger (2048+ bits) and signing is slower than HMAC, but the security model is more flexible.</p>
+
+            <h3>ECDSA (ES256, ES384, ES512)</h3>
+            <p><strong>Asymmetric</strong> like RSA, but based on elliptic curve cryptography. ECDSA provides equivalent security with <strong>significantly smaller keys</strong> and better performance. A 256-bit ECDSA key offers comparable security to a 3072-bit RSA key. This makes ECDSA increasingly popular for modern applications, particularly those running on resource-constrained environments or handling high token volumes.</p>
+
+            <h3>None (No Signature)</h3>
+            <p>The <code>"none"</code> algorithm produces an unsigned token with no signature segment. This should <strong>never be used in production</strong>. It is one of the most well-known JWT attack vectors: an attacker modifies a token, sets the algorithm to <code>"none"</code>, and strips the signature. If the server naively trusts the algorithm field in the header, it accepts the forged token without verification. Always validate the algorithm server-side and reject tokens using <code>"none"</code>.</p>
+
+            <h2>How JWT Authentication Works</h2>
+            <p>The typical JWT authentication flow in a web application follows these steps:</p>
+            <ol>
+                <li><strong>Login</strong> -- the user submits their credentials (username and password) to the authentication endpoint.</li>
+                <li><strong>Token creation</strong> -- the server validates the credentials, creates a JWT containing user claims (ID, roles, expiration), and signs it with the server's secret or private key.</li>
+                <li><strong>Token delivery</strong> -- the server sends the signed JWT back to the client in the response body or as a cookie.</li>
+                <li><strong>Token storage</strong> -- the client stores the JWT. Common locations include <code>localStorage</code>, <code>sessionStorage</code>, in-memory variables, or HTTP-only cookies.</li>
+                <li><strong>Authenticated requests</strong> -- for subsequent API requests, the client includes the JWT in the <code>Authorization</code> header using the Bearer scheme: <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+                <li><strong>Token verification</strong> -- the server extracts the token, verifies the signature using its secret or public key, checks the <code>exp</code> claim, and extracts the user claims from the payload.</li>
+                <li><strong>Access decision</strong> -- the server grants or denies access based on the claims in the token (user identity, roles, permissions).</li>
+            </ol>
+
+            <h2>Security Considerations</h2>
+            <p>JWTs are powerful, but they come with important security caveats that developers must understand.</p>
+            <p><strong>Encoded does not mean encrypted.</strong> JWT payloads are Base64url-encoded, which is trivially reversible. Anyone who possesses a token can decode and read its contents. Never store sensitive data such as passwords, credit card numbers, or personal secrets in a JWT payload.</p>
+            <p><strong>Always validate the signature.</strong> The entire security model of JWTs depends on signature verification. Never trust a token without verifying its signature using your known secret or public key. Skipping validation defeats the purpose of signed tokens entirely.</p>
+            <p><strong>Check expiration.</strong> Always validate the <code>exp</code> claim and reject expired tokens. Without expiration enforcement, a leaked token grants indefinite access.</p>
+            <p><strong>Use HTTPS.</strong> JWTs transmitted over plain HTTP can be intercepted by attackers through man-in-the-middle attacks. Always serve your application over HTTPS to protect tokens in transit.</p>
+            <p><strong>Guard against the <code>alg: "none"</code> attack.</strong> Never allow the token's header to dictate the verification algorithm without server-side validation. Your server should enforce a specific expected algorithm and reject anything else.</p>
+            <p><strong>Keep tokens short-lived.</strong> Access tokens should have a short expiration window -- typically 15 minutes to 1 hour. For longer sessions, use a separate <strong>refresh token</strong> (stored securely, often in an HTTP-only cookie) that can issue new access tokens without requiring the user to log in again.</p>
+            <p><strong>Store tokens securely.</strong> HTTP-only cookies are generally preferred over <code>localStorage</code> because they are not accessible to JavaScript, which mitigates cross-site scripting (XSS) attacks. If you must use <code>localStorage</code>, ensure your application has strong XSS protections in place.</p>
+
+            <h2>JWTs vs Sessions</h2>
+            <p>Both JWTs and server-side sessions solve the same problem -- maintaining user state across HTTP requests -- but they take fundamentally different approaches:</p>
+            <ul>
+                <li><strong>JWTs</strong> are stateless. All user data is embedded in the token itself. This makes them easy to scale horizontally since no shared session store is needed. However, JWTs cannot be easily revoked once issued -- you must wait for the token to expire or implement a token blacklist, which partially negates the stateless advantage.</li>
+                <li><strong>Sessions</strong> are stateful. The server stores session data (in memory, a database, or a cache like Redis), and the client holds only a session ID in a cookie. Sessions are easy to invalidate (just delete the record), but they require shared storage in distributed systems, adding infrastructure complexity.</li>
+            </ul>
+            <p>In practice, many applications use a hybrid approach: JWTs for stateless API authentication between services, and traditional sessions for web application authentication where easy revocation is important.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped JWT Decoder lets you inspect any JWT token instantly:</p>
+            <ol>
+                <li><strong>Paste a JWT token</strong> into the input field.</li>
+                <li><strong>Click Decode</strong> to parse the token.</li>
+                <li><strong>Review the results</strong> -- the tool displays the decoded header and payload with syntax highlighting, the expiration status (whether the token is expired or still valid, with time remaining), and the issued-at timestamp in a human-readable format.</li>
+            </ol>
+            <p>Everything runs entirely in your browser. Your tokens are <strong>never sent to a server</strong>, so it is safe to decode production tokens for debugging without risking exposure.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools work well alongside the JWT Decoder:</p>
+            <ul>
+                <li><a href="/base64-encoder/">Base64 Encoder</a> -- JWTs use Base64url encoding for each segment. Encode or decode arbitrary data.</li>
+                <li><a href="/json-formatter/">JSON Formatter</a> -- format and validate the decoded JWT header and payload as readable JSON.</li>
+                <li><a href="/timestamp-converter/">Unix Timestamp Converter</a> -- convert <code>exp</code>, <code>iat</code>, and <code>nbf</code> claim values between Unix timestamps and human-readable dates.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/jwt-decoder/" class="standalone-nav-btn">Try JWT Decoder</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

@@ -40,4 +40,11 @@
   <url><loc>https://ducktyped.xyz/jwt-decoder/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ducktyped.xyz/timestamp-converter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ducktyped.xyz/color-converter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Learn pages -->
+  <url><loc>https://ducktyped.xyz/learn/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/learn/dns-lookup/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ducktyped.xyz/learn/ssl-checker/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ducktyped.xyz/learn/base64-encoder/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ducktyped.xyz/learn/json-formatter/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ducktyped.xyz/learn/jwt-decoder/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

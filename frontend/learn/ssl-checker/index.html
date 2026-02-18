@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSL/TLS Certificates Explained — How HTTPS Works — duckTyped</title>
+    <meta name="description" content="Learn how SSL/TLS certificates work, certificate chains, the TLS handshake, expiry monitoring, and how to diagnose common HTTPS issues with duckTyped's SSL checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="SSL/TLS Certificates Explained — How HTTPS Works — duckTyped">
+    <meta property="og:description" content="Learn how SSL/TLS certificates work, certificate chains, the TLS handshake, and how to diagnose common HTTPS issues.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/ssl-checker/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SSL/TLS Certificates Explained — How HTTPS Works — duckTyped">
+    <meta name="twitter:description" content="Learn how SSL/TLS certificates work, certificate chains, and how to diagnose HTTPS issues.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/ssl-checker/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>SSL Certificate Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>SSL/TLS Certificates Explained</h1>
+            <p class="standalone-intro">Understand how SSL/TLS certificates secure web traffic, how certificate chains and trust work, the TLS handshake process, and how to diagnose common HTTPS configuration issues.</p>
+
+            <h2>What Are SSL/TLS Certificates?</h2>
+            <p>An <strong>SSL/TLS certificate</strong> is a digital document that authenticates a website's identity and enables an encrypted connection between a client (typically a browser) and a server. When you see the padlock icon in your browser's address bar, it means the site presented a valid certificate and your connection is encrypted.</p>
+            <p>SSL stands for <strong>Secure Sockets Layer</strong>, the original protocol developed by Netscape in the 1990s. TLS (<strong>Transport Layer Security</strong>) is its modern successor. SSL 3.0 was deprecated in 2015 due to critical vulnerabilities, and today all secure connections use TLS -- specifically <strong>TLS 1.2</strong> or <strong>TLS 1.3</strong>. Despite this, the term "SSL" persists colloquially, and "SSL certificate" remains the common name even though the certificate is used within a TLS connection.</p>
+            <p>Certificates serve two purposes: <strong>authentication</strong> (proving the server is who it claims to be) and <strong>encryption</strong> (establishing a secure channel so data cannot be read in transit). Without a valid certificate, browsers display security warnings that discourage users from proceeding.</p>
+
+            <h2>How TLS Encryption Works</h2>
+            <p>Before any encrypted data is exchanged, the client and server perform a <strong>TLS handshake</strong> to agree on encryption parameters and verify identity. Here is the process simplified:</p>
+            <ol>
+                <li><strong>ClientHello</strong> -- the client initiates the connection by sending a message that includes the TLS versions it supports, a list of supported cipher suites, and a randomly generated value.</li>
+                <li><strong>ServerHello</strong> -- the server responds with its chosen TLS version, the selected cipher suite, its own random value, and its <strong>certificate</strong>.</li>
+                <li><strong>Certificate verification</strong> -- the client verifies the server's certificate by walking the certificate chain up to a trusted Certificate Authority (CA) that is pre-installed in the operating system or browser.</li>
+                <li><strong>Key exchange</strong> -- using asymmetric cryptography (such as ECDHE), the client and server agree on a <strong>shared secret</strong> without ever transmitting it directly over the network.</li>
+                <li><strong>Session key derivation</strong> -- both sides independently derive identical <strong>session keys</strong> from the shared secret and the random values exchanged earlier.</li>
+                <li><strong>Encrypted communication</strong> -- all subsequent data is encrypted using fast <strong>symmetric encryption</strong> (typically AES-GCM) with the derived session keys.</li>
+            </ol>
+            <p><strong>TLS 1.3</strong>, finalized in 2018, simplified this handshake significantly. It removed support for legacy cipher suites, reduced the handshake to a single round trip (1-RTT), and introduced 0-RTT resumption for repeat connections. This makes TLS 1.3 both faster and more secure than its predecessors.</p>
+
+            <h2>Certificate Chain of Trust</h2>
+            <p>Certificates do not exist in isolation. Trust is established through a hierarchical chain that links your server's certificate back to a trusted authority.</p>
+
+            <h3>Root CA Certificates</h3>
+            <p><strong>Root Certificate Authority (CA) certificates</strong> are the ultimate trust anchors. They are pre-installed in operating systems and browsers -- your device ships with a curated set of root certificates from organizations like DigiCert, Let's Encrypt (ISRG Root), and GlobalSign. Root CA private keys are kept offline in highly secured facilities and are never used to sign end-entity certificates directly.</p>
+
+            <h3>Intermediate Certificates</h3>
+            <p><strong>Intermediate certificates</strong> are signed by a root CA and are used to sign end-entity certificates. This extra layer protects the root key: if an intermediate certificate is compromised, the root CA can revoke it without affecting the entire trust hierarchy. Most certificates you encounter in the wild are signed by an intermediate CA, not a root CA.</p>
+
+            <h3>End-Entity (Leaf) Certificate</h3>
+            <p>The <strong>end-entity certificate</strong> (also called the leaf certificate) is the certificate installed on your web server. It is signed by an intermediate CA and contains your domain name, public key, and validity period. This is the certificate presented to browsers during the TLS handshake.</p>
+
+            <p>The full chain looks like this:</p>
+            <pre><code>Your certificate (leaf)  -->  Intermediate CA  -->  Root CA</code></pre>
+            <p>During the handshake, the server must send its leaf certificate <strong>and</strong> any intermediate certificates. The browser then walks the chain up to a root CA it already trusts. A missing intermediate certificate is one of the most common SSL misconfigurations -- it may appear to work in some browsers (which cache intermediates from previous connections) while failing in others.</p>
+
+            <h2>Certificate Types</h2>
+            <p>Certificates are categorized by their <strong>validation level</strong> and the <strong>scope of domains</strong> they cover.</p>
+
+            <h3>Validation Levels</h3>
+            <ul>
+                <li><strong>Domain Validated (DV)</strong> -- the CA verifies only that the applicant controls the domain, typically via a DNS record or HTTP challenge. DV certificates are the cheapest and fastest to obtain. Let's Encrypt issues DV certificates for free.</li>
+                <li><strong>Organization Validated (OV)</strong> -- the CA verifies the legal existence of the organization requesting the certificate. The company name appears in the certificate details, providing users with additional assurance about who operates the site.</li>
+                <li><strong>Extended Validation (EV)</strong> -- the most rigorous verification process. The CA performs extensive checks on the organization's legal identity, operational existence, and physical address. EV certificates previously triggered a green address bar in browsers, but most browsers no longer distinguish them visually from OV or DV certificates.</li>
+            </ul>
+
+            <h3>Domain Scope</h3>
+            <ul>
+                <li><strong>Single-domain</strong> -- covers one specific domain name (e.g., <code>example.com</code>).</li>
+                <li><strong>Wildcard</strong> -- covers all subdomains at one level using a wildcard: <code>*.example.com</code> matches <code>www.example.com</code>, <code>api.example.com</code>, etc., but does not match <code>sub.api.example.com</code>.</li>
+                <li><strong>Multi-domain (SAN)</strong> -- a single certificate that covers multiple distinct domain names using <strong>Subject Alternative Names</strong>. For example, one certificate could cover <code>example.com</code>, <code>example.org</code>, and <code>app.example.com</code>.</li>
+            </ul>
+
+            <h2>Certificate Fields</h2>
+            <p>Every X.509 certificate contains a standard set of fields. Understanding these helps when diagnosing issues:</p>
+            <ul>
+                <li><strong>Subject</strong> -- the entity the certificate is issued to. Includes the Common Name (CN), which historically held the domain name, and optionally the Organization (O) and Country (C).</li>
+                <li><strong>Issuer</strong> -- the Certificate Authority that signed the certificate.</li>
+                <li><strong>Validity Period</strong> -- defined by <strong>Not Before</strong> and <strong>Not After</strong> dates. The certificate is only valid within this window.</li>
+                <li><strong>Subject Alternative Names (SANs)</strong> -- the authoritative list of domain names the certificate covers. Modern browsers use SANs rather than the Common Name for domain matching.</li>
+                <li><strong>Public Key</strong> -- the server's public key used during the key exchange. Commonly RSA (2048-bit or 4096-bit) or ECDSA (P-256).</li>
+                <li><strong>Signature Algorithm</strong> -- the algorithm the CA used to sign the certificate. <code>SHA-256 with RSA</code> is the current standard; SHA-1 signatures are considered insecure and rejected by browsers.</li>
+                <li><strong>Serial Number</strong> -- a unique identifier assigned by the issuing CA, used for tracking and revocation purposes.</li>
+            </ul>
+
+            <h2>Common SSL/TLS Issues</h2>
+            <p>SSL/TLS misconfigurations are a frequent source of outages and security warnings. Here are the most common problems and how to address them.</p>
+
+            <h3>Expired Certificate</h3>
+            <p>The single most common SSL issue. Certificates have a fixed validity period -- 90 days for Let's Encrypt, up to 398 days (roughly 13 months) for commercially issued certificates. When a certificate expires, browsers display a full-page warning and refuse to establish a secure connection. The fix is straightforward: renew the certificate and set up <strong>automated renewal</strong> to prevent future lapses.</p>
+
+            <h3>Name Mismatch</h3>
+            <p>This occurs when the domain name in the browser does not match any of the domains listed in the certificate's SANs. A common scenario: the certificate covers <code>www.example.com</code> but the user visits <code>example.com</code> (without the <code>www</code> prefix), or vice versa. The solution is to ensure the certificate includes all domain variations your site uses.</p>
+
+            <h3>Missing Intermediate Certificate</h3>
+            <p>The server sends only its leaf certificate without the necessary intermediate certificates. Some browsers work around this by using cached intermediates from previous sessions, which makes the problem intermittent and harder to detect. Other clients -- particularly API clients, mobile apps, and command-line tools like <code>curl</code> -- will fail outright. Always configure your server to send the <strong>full certificate chain</strong>.</p>
+
+            <h3>Self-Signed Certificate</h3>
+            <p>A certificate signed by its own private key rather than a trusted CA. Browsers do not trust self-signed certificates and will display prominent security warnings. Self-signed certificates are acceptable for local development and internal testing but should never be used in production. Use Let's Encrypt for free, trusted certificates.</p>
+
+            <h3>Mixed Content</h3>
+            <p>An HTTPS page that loads sub-resources (images, scripts, stylesheets) over plain HTTP. Browsers block or warn about mixed content because it undermines the security of the encrypted page. Audit your site to ensure all resources use HTTPS URLs, or use protocol-relative paths.</p>
+
+            <h3>Weak Protocols and Cipher Suites</h3>
+            <p>Servers that still support <strong>TLS 1.0</strong> or <strong>TLS 1.1</strong> (both deprecated since 2020) or use weak cipher suites (such as RC4 or 3DES) are considered insecure. Modern configurations should support only TLS 1.2 and TLS 1.3 with strong cipher suites like <code>AES-256-GCM</code> and <code>CHACHA20-POLY1305</code>.</p>
+
+            <h2>Let's Encrypt and ACME</h2>
+            <p><strong>Let's Encrypt</strong>, launched in 2016 by the Internet Security Research Group (ISRG), transformed the SSL landscape by providing free, automated DV certificates. Before Let's Encrypt, obtaining a certificate typically required payment and manual setup, which discouraged adoption of HTTPS.</p>
+            <p>Let's Encrypt uses the <strong>ACME (Automatic Certificate Management Environment)</strong> protocol, an open standard that automates certificate issuance and renewal. <strong>Certbot</strong> is the most widely used ACME client, but dozens of alternatives exist for different platforms and use cases. Certificates are valid for 90 days, a deliberately short lifetime that encourages automation and limits the damage window if a key is compromised.</p>
+            <p>Today, most hosting platforms and CDNs (Cloudflare, Vercel, Netlify, AWS) handle certificate provisioning automatically. If you manage your own server, setting up Certbot with a cron job or systemd timer ensures certificates are renewed well before they expire.</p>
+
+            <h2>How to Use the Tool</h2>
+            <p>The duckTyped SSL Certificate Checker makes it simple to inspect any site's certificate and TLS configuration:</p>
+            <ol>
+                <li><strong>Enter a domain name</strong> in the input field (e.g., <code>example.com</code> or <code>sub.example.com</code>). You do not need to include <code>https://</code>.</li>
+                <li><strong>Click "Check"</strong> to initiate the connection.</li>
+                <li><strong>Review the results</strong>, which include the certificate subject and issuer, validity dates, days until expiration, Subject Alternative Names, the TLS protocol version negotiated, and the full certificate chain from leaf to root.</li>
+            </ol>
+            <p>Use this tool to verify that your certificate is correctly installed, that intermediates are properly configured, and that expiration is not imminent. Regular checks help catch issues before they affect your users.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the SSL Certificate Checker for comprehensive site diagnostics:</p>
+            <ul>
+                <li><a href="/dns-lookup/">DNS Record Checker</a> -- verify domain DNS configuration, including CAA records that control which CAs can issue certificates for your domain.</li>
+                <li><a href="/security-headers/">Security Headers Checker</a> -- check HTTP security headers like HSTS (which enforces HTTPS) alongside your SSL configuration.</li>
+                <li><a href="/whois-lookup/">WHOIS Lookup</a> -- check domain registration details and expiry dates to ensure your domain does not lapse alongside your certificate.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/ssl-checker/" class="standalone-nav-btn">Try SSL Certificate Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

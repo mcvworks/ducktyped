@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Records Explained — How DNS Works &amp; Record Types — duckTyped</title>
+    <meta name="description" content="Learn how DNS works, what A, AAAA, MX, TXT, CNAME, NS, SOA, and CAA records do, and how to troubleshoot domain configuration with duckTyped's DNS checker.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="DNS Records Explained — How DNS Works & Record Types — duckTyped">
+    <meta property="og:description" content="Learn how DNS works, what A, AAAA, MX, TXT, CNAME, NS, SOA, and CAA records do, and how to troubleshoot domain configuration.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/dns-lookup/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DNS Records Explained — How DNS Works & Record Types — duckTyped">
+    <meta name="twitter:description" content="Learn how DNS works, what each DNS record type does, and how to troubleshoot domain configuration.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/dns-lookup/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="learn-breadcrumb">
+            <a href="/learn/">Learn</a> <span>/</span> <span>DNS Record Checker</span>
+        </div>
+
+        <article class="learn-article">
+            <h1>DNS Records Explained</h1>
+            <p class="standalone-intro">Understand how the Domain Name System works, what each record type does, and how to use duckTyped's DNS checker to troubleshoot domain configuration issues.</p>
+
+            <h2>What Is DNS?</h2>
+            <p>The <strong>Domain Name System (DNS)</strong> is often described as the internet's phone book. Every time you type a domain name like <code>example.com</code> into your browser, DNS is responsible for translating that human-readable name into a machine-readable IP address such as <code>93.184.216.34</code>. Without DNS, you would need to memorize numeric addresses for every website you visit.</p>
+            <p>DNS is a globally distributed, hierarchical database. When your browser needs to resolve a domain name, the request follows a specific path:</p>
+            <ol>
+                <li>Your device sends a query to a <strong>recursive resolver</strong> (typically operated by your ISP or a public service like <code>1.1.1.1</code> or <code>8.8.8.8</code>).</li>
+                <li>The recursive resolver contacts a <strong>root nameserver</strong>, which directs it to the appropriate top-level domain (TLD) server (e.g., the server responsible for <code>.com</code>).</li>
+                <li>The <strong>TLD nameserver</strong> responds with the address of the domain's <strong>authoritative nameserver</strong> -- the server that holds the actual DNS records for the domain.</li>
+                <li>The authoritative nameserver returns the requested record, and the resolver passes it back to your device.</li>
+            </ol>
+            <p>This entire process typically completes in milliseconds, and results are cached at multiple levels to reduce latency for subsequent lookups.</p>
+
+            <h2>DNS Record Types</h2>
+            <p>DNS records are instructions stored on authoritative nameservers. Each record type serves a specific purpose. Below are the most common types you will encounter.</p>
+
+            <h3>A Record</h3>
+            <p>The <strong>A record</strong> is the most fundamental DNS record type. It maps a domain name to an <strong>IPv4 address</strong> (a 32-bit address like <code>93.184.216.34</code>). When someone visits your website, the browser uses the A record to find the server's IP address. A domain can have multiple A records for load balancing, and these are sometimes called round-robin DNS.</p>
+
+            <h3>AAAA Record</h3>
+            <p>The <strong>AAAA record</strong> (pronounced "quad-A") is the IPv6 equivalent of the A record. It maps a domain name to an <strong>IPv6 address</strong> (a 128-bit address like <code>2606:2800:0220:0001:0248:1893:25c8:1946</code>). As IPv4 address space has been exhausted, AAAA records are increasingly important for ensuring your domain is reachable over modern networks.</p>
+
+            <h3>CNAME Record</h3>
+            <p>A <strong>CNAME (Canonical Name) record</strong> creates an alias that points one domain name to another. For example, you might configure <code>www.example.com</code> as a CNAME pointing to <code>example.com</code>, so that both addresses serve the same content. When a resolver encounters a CNAME, it follows the alias and performs a second lookup on the target domain.</p>
+            <p>There is an important restriction: a CNAME record <strong>cannot coexist</strong> with other record types at the same name. This means you cannot place a CNAME at the zone apex (e.g., <code>example.com</code>) if you also need MX or TXT records there. Some DNS providers offer proprietary alternatives (like ALIAS or ANAME records) to work around this limitation.</p>
+
+            <h3>MX Record</h3>
+            <p>The <strong>MX (Mail Exchange) record</strong> specifies which mail servers are responsible for receiving email on behalf of a domain. Each MX record includes a <strong>priority value</strong> -- a lower number indicates higher priority. For example:</p>
+            <pre><code>example.com.  MX  10  mail1.example.com.
+example.com.  MX  20  mail2.example.com.</code></pre>
+            <p>In this configuration, mail is delivered to <code>mail1.example.com</code> first. If it is unavailable, the sending server falls back to <code>mail2.example.com</code>. Correctly configured MX records are essential for email delivery.</p>
+
+            <h3>TXT Record</h3>
+            <p>The <strong>TXT record</strong> stores arbitrary text data associated with a domain. While originally intended for human-readable notes, TXT records now serve critical machine-readable functions:</p>
+            <ul>
+                <li><strong>SPF (Sender Policy Framework)</strong> -- specifies which mail servers are authorized to send email for the domain, helping prevent spoofing.</li>
+                <li><strong>DKIM (DomainKeys Identified Mail)</strong> -- publishes public keys used to verify cryptographic signatures on outgoing email.</li>
+                <li><strong>DMARC (Domain-based Message Authentication)</strong> -- defines policies for handling emails that fail SPF or DKIM checks.</li>
+                <li><strong>Domain verification</strong> -- services like Google Workspace, Microsoft 365, and various SaaS platforms use TXT records to prove domain ownership.</li>
+            </ul>
+
+            <h3>NS Record</h3>
+            <p>The <strong>NS (Nameserver) record</strong> delegates a DNS zone to specific authoritative nameservers. These records tell the rest of the internet where to find the definitive DNS data for a domain. For example, if your domain uses Cloudflare for DNS, your NS records might point to <code>ada.ns.cloudflare.com</code> and <code>bob.ns.cloudflare.com</code>. NS records are typically set at your domain registrar and must point to servers that actually host your zone file.</p>
+
+            <h3>SOA Record</h3>
+            <p>The <strong>SOA (Start of Authority) record</strong> contains administrative information about a DNS zone. Every zone has exactly one SOA record, and it includes:</p>
+            <ul>
+                <li><strong>Primary nameserver</strong> -- the authoritative server for the zone.</li>
+                <li><strong>Admin email</strong> -- contact address for the zone administrator (the <code>@</code> symbol is replaced with a dot).</li>
+                <li><strong>Serial number</strong> -- a version number that increments when the zone is updated, used by secondary servers to detect changes.</li>
+                <li><strong>Refresh, Retry, Expire timers</strong> -- control how often secondary nameservers check for updates and how long they serve cached data if the primary becomes unreachable.</li>
+            </ul>
+
+            <h3>CAA Record</h3>
+            <p>The <strong>CAA (Certificate Authority Authorization) record</strong> specifies which Certificate Authorities (CAs) are permitted to issue SSL/TLS certificates for a domain. This is a security best practice that prevents unauthorized CAs from issuing certificates. For example:</p>
+            <pre><code>example.com.  CAA  0 issue "letsencrypt.org"
+example.com.  CAA  0 issuewild "letsencrypt.org"</code></pre>
+            <p>The <code>issue</code> tag authorizes standard certificates, while <code>issuewild</code> controls wildcard certificate issuance. If no CAA record exists, any CA may issue a certificate for the domain.</p>
+
+            <h2>How DNS Resolution Works</h2>
+            <p>When you enter a URL in your browser, the following steps occur before the page loads:</p>
+            <ol>
+                <li><strong>Browser cache</strong> -- the browser checks its own DNS cache for a recent result.</li>
+                <li><strong>Operating system cache</strong> -- if the browser cache misses, the OS-level DNS cache (also called the stub resolver) is consulted.</li>
+                <li><strong>Recursive resolver</strong> -- if no cached result exists locally, the query is sent to a recursive resolver, which performs the full lookup on your behalf.</li>
+                <li><strong>Root nameserver</strong> -- the resolver queries one of the 13 root server clusters, which responds with the address of the appropriate TLD nameserver.</li>
+                <li><strong>TLD nameserver</strong> -- the resolver queries the TLD server (e.g., the <code>.com</code> server), which responds with the address of the domain's authoritative nameserver.</li>
+                <li><strong>Authoritative nameserver</strong> -- the resolver queries the authoritative server, which returns the requested record (e.g., the A record with the IP address).</li>
+                <li><strong>Response</strong> -- the resolver caches the result and returns it to your device. The browser can now connect to the server.</li>
+            </ol>
+            <p>Each DNS record has a <strong>TTL (Time to Live)</strong> value, measured in seconds, that determines how long resolvers and clients should cache the record before requesting a fresh copy. A TTL of <code>3600</code> means the record is cached for one hour. Lower TTLs allow faster propagation of changes but increase query volume to authoritative servers.</p>
+
+            <h2>How to Use the DNS Checker</h2>
+            <p>The duckTyped DNS Record Checker makes it straightforward to inspect the DNS configuration for any domain:</p>
+            <ol>
+                <li><strong>Enter a domain name</strong> in the input field (e.g., <code>example.com</code> or <code>sub.example.com</code>). You do not need to include <code>http://</code> or <code>https://</code>.</li>
+                <li><strong>Click "Check"</strong> to initiate the lookup.</li>
+                <li><strong>Review the results</strong>, which are grouped by record type. Each record displays its type, value, and TTL.</li>
+            </ol>
+            <p>The tool queries authoritative DNS servers directly, so results reflect the current state of your domain's configuration rather than potentially stale cached data.</p>
+
+            <h2>Common DNS Issues</h2>
+            <p>DNS misconfigurations are among the most frequent causes of website and email outages. Here are the issues you are most likely to encounter.</p>
+
+            <h3>Domain Not Resolving</h3>
+            <p>If your domain returns an <code>NXDOMAIN</code> error or no results at all, the most likely cause is <strong>missing A or AAAA records</strong>. Verify that your DNS zone includes at least one A record pointing to your web server's IP address. Also check that your NS records are correctly configured at your registrar.</p>
+
+            <h3>Email Not Working</h3>
+            <p>Email delivery failures are commonly caused by <strong>missing or incorrect MX records</strong>. Ensure that your MX records point to valid, reachable mail servers and that the priority values are set correctly. If you use a hosted email service (Gmail, Outlook, etc.), follow the provider's specific MX configuration instructions.</p>
+
+            <h3>SPF / DKIM / DMARC Failures</h3>
+            <p>If your emails are landing in spam folders or being rejected, the problem often lies in <strong>TXT record misconfiguration</strong>. Common mistakes include having multiple SPF records (only one is allowed per domain), exceeding the SPF 10-lookup limit, or publishing DKIM keys with incorrect formatting. Use the DNS checker to verify that your TXT records are syntactically correct and contain the expected values.</p>
+
+            <h3>SSL Certificate Issues</h3>
+            <p>If a Certificate Authority refuses to issue or renew your SSL certificate, check your <strong>CAA records</strong>. A CAA record that does not include your CA will block certificate issuance. If you are unsure which CA you use, either add the appropriate CAA record or remove CAA records entirely (which allows any CA to issue).</p>
+
+            <h3>Propagation Delays</h3>
+            <p>After making DNS changes, it can take time for the updates to propagate globally. This delay is governed by the <strong>TTL</strong> of the previous record -- resolvers will continue serving the cached version until the TTL expires. If you anticipate making changes, lower the TTL in advance (e.g., to 300 seconds) to minimize propagation time. Full global propagation can take anywhere from minutes to 48 hours depending on caching behavior.</p>
+
+            <h2>Related Tools</h2>
+            <p>These duckTyped tools complement the DNS Record Checker for comprehensive domain diagnostics:</p>
+            <ul>
+                <li><a href="/ssl-checker/">SSL Certificate Checker</a> -- verify your certificate chain, expiration dates, and TLS configuration.</li>
+                <li><a href="/whois-lookup/">WHOIS Lookup</a> -- check domain registration details, registrar information, and expiry dates.</li>
+                <li><a href="/email-validator/">Email Validator</a> -- test email address validity, MX record existence, and deliverability.</li>
+            </ul>
+        </article>
+
+        <div class="learn-cta">
+            <a href="/dns-lookup/" class="standalone-nav-btn">Try DNS Record Checker</a>
+            <a href="/learn/" class="learn-more-link">Browse all guides</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

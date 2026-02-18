@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(echo:*)",
+      "Bash(dir frontenddns-lookupindex.html)",
+      "Bash(test:*)"
     ]
   }
 }

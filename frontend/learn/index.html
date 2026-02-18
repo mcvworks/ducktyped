@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn — Technical Guides for Every Tool — duckTyped</title>
+    <meta name="description" content="Learn how to use duckTyped tools with in-depth guides. DNS records, SSL certificates, JSON formatting, JWT tokens, Base64 encoding, and more.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Learn — Technical Guides for Every Tool — duckTyped">
+    <meta property="og:description" content="Learn how to use duckTyped tools with in-depth guides. DNS records, SSL certificates, JSON formatting, JWT tokens, Base64 encoding, and more.">
+    <meta property="og:url" content="https://ducktyped.xyz/learn/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Learn — Technical Guides for Every Tool — duckTyped">
+    <meta name="twitter:description" content="Learn how to use duckTyped tools with in-depth guides.">
+    <link rel="canonical" href="https://ducktyped.xyz/learn/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/learn/" class="standalone-nav-learn" style="color: var(--primary-color);">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="standalone-hero">
+            <h1>Learn</h1>
+            <p class="standalone-intro">In-depth guides for every tool on duckTyped. Understand the technology behind each tool, learn how to use it effectively, and see real-world examples.</p>
+        </div>
+
+        <!-- Network Tools -->
+        <div class="learn-category-section">
+            <h2>🌐 Network</h2>
+            <div class="learn-grid">
+                <a href="/learn/dns-lookup/" class="learn-card">
+                    <span class="category-badge">Network</span>
+                    <h3>DNS Record Checker</h3>
+                    <p>Understand DNS record types — A, AAAA, MX, TXT, CNAME, NS, SOA, CAA — and how to troubleshoot domain configuration.</p>
+                </a>
+                <a href="/learn/ssl-checker/" class="learn-card">
+                    <span class="category-badge">Security</span>
+                    <h3>SSL Certificate Checker</h3>
+                    <p>Learn about SSL/TLS certificates, certificate chains, expiry monitoring, and how to diagnose HTTPS issues.</p>
+                </a>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>WHOIS Lookup</h3><p>Domain registration details, registrars, and expiry dates.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>Port Scanner</h3><p>TCP ports, common services, and firewall diagnostics.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>HTTP Latency Checker</h3><p>Measuring response times and diagnosing slow connections.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>ISP Lookup</h3><p>IP geolocation, ASN data, and ISP identification.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>Traceroute</h3><p>Network path tracing, hop analysis, and latency diagnosis.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>Reverse DNS</h3><p>PTR records, IP-to-hostname resolution, and verification.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>Subnet Calculator</h3><p>CIDR notation, network ranges, and IP address planning.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Network</span><h3>MAC Address Lookup</h3><p>OUI databases, vendor identification, and hardware addresses.</p></div>
+            </div>
+        </div>
+
+        <!-- Security Tools -->
+        <div class="learn-category-section">
+            <h2>🔒 Security</h2>
+            <div class="learn-grid">
+                <div class="learn-card coming-soon"><span class="category-badge">Security</span><h3>Password Generator</h3><p>Cryptographic randomness, password strength, and best practices.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Security</span><h3>Secure Note Sender</h3><p>AES-GCM encryption, PBKDF2 key derivation, and secure messaging.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Security</span><h3>Password Breach Checker</h3><p>Have I Been Pwned, k-anonymity, and credential exposure.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Security</span><h3>Security Headers</h3><p>CSP, HSTS, X-Frame-Options, and HTTP security best practices.</p></div>
+            </div>
+        </div>
+
+        <!-- Email Tools -->
+        <div class="learn-category-section">
+            <h2>📧 Email</h2>
+            <div class="learn-grid">
+                <div class="learn-card coming-soon"><span class="category-badge">Email</span><h3>Email Validator</h3><p>Email syntax, MX verification, and disposable email detection.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Email</span><h3>Email Header Analyzer</h3><p>SPF, DKIM, DMARC, email routing hops, and authentication.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Email</span><h3>SMTP Checker</h3><p>SMTP connections, mail server testing, and relay diagnostics.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Email</span><h3>Blacklist Checker</h3><p>RBLs, DNSBLs, IP reputation, and delisting procedures.</p></div>
+            </div>
+        </div>
+
+        <!-- URL / Web Tools -->
+        <div class="learn-category-section">
+            <h2>🔗 Web / URL</h2>
+            <div class="learn-grid">
+                <div class="learn-card coming-soon"><span class="category-badge">URL</span><h3>URL Safety Checker</h3><p>Phishing detection, suspicious patterns, and link analysis.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">URL</span><h3>Redirect Checker</h3><p>301/302 redirects, redirect chains, and SEO implications.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">URL</span><h3>Broken Link Checker</h3><p>HTTP status codes, dead links, and site maintenance.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">URL</span><h3>URL Metadata Extractor</h3><p>Open Graph tags, Twitter Cards, and SEO metadata.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">URL</span><h3>Tech Stack Detector</h3><p>Identifying frameworks, CMS platforms, and server technology.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">URL</span><h3>Robots.txt Analyzer</h3><p>Crawl directives, sitemaps, and search engine optimization.</p></div>
+            </div>
+        </div>
+
+        <!-- QR Tools -->
+        <div class="learn-category-section">
+            <h2>📱 QR</h2>
+            <div class="learn-grid">
+                <div class="learn-card coming-soon"><span class="category-badge">QR</span><h3>QR Code Generator</h3><p>QR encoding, data formats, WiFi/vCard payloads, and customization.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">QR</span><h3>QR Code Scanner</h3><p>Camera-based scanning, image upload decoding, and supported formats.</p></div>
+            </div>
+        </div>
+
+        <!-- Dev Tools -->
+        <div class="learn-category-section">
+            <h2>🛠️ Dev Tools</h2>
+            <div class="learn-grid">
+                <a href="/learn/base64-encoder/" class="learn-card">
+                    <span class="category-badge">Dev</span>
+                    <h3>Base64 Encode/Decode</h3>
+                    <p>What Base64 is, how the encoding works, Unicode handling, and practical use cases like data URIs and API payloads.</p>
+                </a>
+                <a href="/learn/json-formatter/" class="learn-card">
+                    <span class="category-badge">Dev</span>
+                    <h3>JSON Formatter / Validator</h3>
+                    <p>JSON syntax rules, common validation errors, formatting vs minifying, and tips for working with JSON data.</p>
+                </a>
+                <a href="/learn/jwt-decoder/" class="learn-card">
+                    <span class="category-badge">Dev / Security</span>
+                    <h3>JWT Decoder</h3>
+                    <p>JSON Web Token structure, standard claims, expiration handling, and security considerations for token-based auth.</p>
+                </a>
+                <div class="learn-card coming-soon"><span class="category-badge">Dev</span><h3>URL Encode/Decode</h3><p>Percent-encoding, reserved characters, and URI components.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Dev</span><h3>Regex Tester</h3><p>Regular expression syntax, flags, capture groups, and common patterns.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Dev</span><h3>Hash Generator</h3><p>Cryptographic hash functions, SHA family, and integrity verification.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Dev</span><h3>Unix Timestamp Converter</h3><p>Epoch time, date formatting, timezone handling, and time arithmetic.</p></div>
+                <div class="learn-card coming-soon"><span class="category-badge">Dev</span><h3>Color Converter</h3><p>Color models (HEX, RGB, HSL), conversion math, and CSS color values.</p></div>
+            </div>
+        </div>
+
+        <!-- Other -->
+        <div class="learn-category-section">
+            <h2>📝 Other</h2>
+            <div class="learn-grid">
+                <div class="learn-card coming-soon"><span class="category-badge">Utility</span><h3>Plain Notes</h3><p>Local browser storage, auto-save, and ephemeral note-taking.</p></div>
+            </div>
+        </div>
+
+        <div class="standalone-footer-cta">
+            <p>Guides are being added regularly. Check back soon for more documentation.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

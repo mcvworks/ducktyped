@@ -17,10 +17,12 @@
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/learn/" class="standalone-nav-learn">Learn</a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
             <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button></div></nav>
     <div class="container">
-        <div class="standalone-hero"><h1>SSL Certificate Checker</h1><p class="standalone-intro">Validate any website's SSL/TLS certificate in seconds. See the issuer, expiration date, supported protocols, and full certificate chain. Catch expiring certs before they cause downtime.</p><div class="example-box"><strong>Example uses:</strong><p>Verifying a new SSL certificate was installed correctly, checking when a certificate expires, auditing third-party vendor security, or troubleshooting mixed-content warnings.</p></div></div>
+        <div class="standalone-hero"><h1>SSL Certificate Checker</h1><p class="standalone-intro">Validate any website's SSL/TLS certificate in seconds. See the issuer, expiration date, supported protocols, and full certificate chain. Catch expiring certs before they cause downtime.</p><div class="example-box"><strong>Example uses:</strong><p>Verifying a new SSL certificate was installed correctly, checking when a certificate expires, auditing third-party vendor security, or troubleshooting mixed-content warnings.</p></div>
+            <a href="/learn/ssl-checker/" class="learn-more-link">Learn how SSL/TLS certificates work</a></div>
         <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="sslChecker"><h2>SSL Certificate Checker</h2>
             <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Check SSL certificate validity, expiration dates, and issuer information for any domain. Free SSL certificate validator.</p>
             <div class="input-group"><label>Domain Name:</label><input type="text" id="sslDomain" placeholder="example.com" aria-label="Domain Name:" onkeypress="if(event.key==='Enter') checkSSL()"></div>
