@@ -4,9 +4,9 @@ const dns = require('dns').promises;
 const net = require('net');
 const NodeCache = require('node-cache');
 
+const { success, fail } = require('../utils');
+
 const cache = new NodeCache({ stdTTL: 3600 });
-function success(data) { return { error: false, data }; }
-function fail(msg) { return { error: true, message: msg }; }
 
 // ============================================
 // EMAIL VALIDATION (DNS + SMTP check)

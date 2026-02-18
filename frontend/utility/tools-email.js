@@ -325,78 +325,40 @@ async function analyzeEmailHeaders() {
 // BLACKLIST / RBL CHECKER (Uses Worker)
 // ============================================
 async function checkBlacklist() {
-    const ip = document.getElementById('blacklistIp').value.trim();
-    const resultsDiv = document.getElementById('blacklistResults');
+    await runTool({
+        inputId: 'blacklistIp',
+        resultsId: 'blacklistResults',
+        tool: 'blacklist',
+        validate: validateIpInput,
+        loadingMsg: '📋 Checking against blacklists... This may take a moment.',
+        errorPrefix: 'Error checking blacklists',
+        getPayload: (ip) => ({ ip }),
+        render: (data, ip) => {
+            const listedCount = data.listedCount || 0;
+            const totalChecked = data.totalChecked || 0;
+            const variant = listedCount === 0 ? 'success' : listedCount <= 2 ? 'warning' : 'error';
+            const statusIcon = listedCount === 0 ? '✅' : '🚨';
 
-    if (!ip) {
-        resultsDiv.innerHTML = '<div class="error">Please enter an IP address!</div>';
-        return;
-    }
+            let html = resultHeading(`Blacklist Check for ${escapeHtml(data.ip || ip)}`);
+            html += resultNote(`<strong style="font-size: 1.1em;">${statusIcon} ${listedCount === 0 ? 'Clean — Not Blacklisted' : listedCount + ' Blacklist(s) Found'}</strong><br><span class="text-muted" style="font-size: 0.9em;">Checked ${totalChecked} blacklist databases</span>`, variant === 'success' ? '' : variant);
 
-    // Basic IP validation
-    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-    if (!ipRegex.test(ip)) {
-        resultsDiv.innerHTML = '<div class="error">Invalid IP format! Please enter a valid IPv4 address (e.g., 203.0.113.1)</div>';
-        return;
-    }
+            let rows = '';
+            if (data.results && data.results.length > 0) {
+                data.results.forEach(rbl => {
+                    const icon = rbl.listed ? '🚨' : '✅';
+                    const cls = rbl.listed ? 'text-error' : 'text-success';
+                    const status = rbl.listed ? 'LISTED' : 'Clean';
+                    rows += resultRow(icon, rbl.name, `<span class="${cls}">${status}</span>${rbl.zone ? ` <small class="text-muted">(${escapeHtml(rbl.zone)})</small>` : ''}`);
+                });
+            }
+            html += resultWrap(rows);
 
-    if (!workerAvailable) {
-        resultsDiv.innerHTML = '<div class="error">Backend service unavailable. Please try again later.</div>';
-        return;
-    }
-
-    resultsDiv.innerHTML = '<div class="success">📋 Checking ' + ip + ' against blacklists... This may take a moment.</div>';
-
-    try {
-        const data = await callWorker('blacklist', { ip });
-
-        let html = '<div style="margin-bottom: 15px;"><strong style="font-size: 1.1em;">Blacklist Check for ' + escapeHtml(data.ip || ip) + '</strong></div>';
-
-        // Overall status
-        const listedCount = data.listedCount || 0;
-        const totalChecked = data.totalChecked || 0;
-        const statusColor = listedCount === 0 ? 'var(--success-color)' : listedCount <= 2 ? 'var(--warning-color)' : 'var(--error-color)';
-        const statusIcon = listedCount === 0 ? '✅' : '🚨';
-
-        html += `<div style="margin-bottom: 15px; padding: 15px; background: var(--input-background); border-radius: 8px; border-left: 4px solid ${statusColor};">`;
-        html += `<strong style="font-size: 1.1em;">${statusIcon} ${listedCount === 0 ? 'Clean — Not Blacklisted' : listedCount + ' Blacklist(s) Found'}</strong><br>`;
-        html += `<span style="color: var(--text-secondary); font-size: 0.9em;">Checked ${totalChecked} blacklist databases</span>`;
-        html += `</div>`;
-
-        html += '<div class="dns-results">';
-
-        if (data.results && data.results.length > 0) {
-            data.results.forEach(rbl => {
-                const icon = rbl.listed ? '🚨' : '✅';
-                const color = rbl.listed ? 'var(--error-color)' : 'var(--success-color)';
-                const status = rbl.listed ? 'LISTED' : 'Clean';
-
-                html += `<div class="dns-record">`;
-                html += `<strong>${icon} ${escapeHtml(rbl.name)}</strong>`;
-                html += `<div class="dns-record-value" style="color: ${color};">`;
-                html += `${status}`;
-                if (rbl.zone) {
-                    html += ` <small style="color: var(--text-secondary);">(${escapeHtml(rbl.zone)})</small>`;
-                }
-                html += `</div></div>`;
-            });
+            if (listedCount > 0) {
+                html += resultSummary(`<p><strong>⚠️ What to do if listed:</strong> Contact the blacklist operator for delisting procedures. Common causes include spam complaints, open relays, or compromised servers. Fix the underlying issue first, then request removal.</p>`, 'warning');
+            }
+            return html;
         }
-
-        html += '</div>';
-
-        // Info note
-        if (listedCount > 0) {
-            html += `<div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--warning-color);">`;
-            html += `<p style="color: var(--text-secondary); margin: 0; font-size: 0.9em; line-height: 1.5;">`;
-            html += `<strong>⚠️ What to do if listed:</strong> Contact the blacklist operator for delisting procedures. Common causes include spam complaints, open relays, or compromised servers. Fix the underlying issue first, then request removal.`;
-            html += `</p></div>`;
-        }
-
-        resultsDiv.innerHTML = html;
-
-    } catch (error) {
-        resultsDiv.innerHTML = `<div class="error">Error checking blacklists: ${error.message}</div>`;
-    }
+    });
 }
 
 // ============================================

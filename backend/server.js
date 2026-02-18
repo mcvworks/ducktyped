@@ -32,9 +32,10 @@ app.use(cors({
     maxAge: 86400
 }));
 
-// Body parsing
-app.use(express.json({ limit: '1mb' }));
-app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+// Body parsing — 100KB is sufficient for all text-based tools
+// (AI image upload uses multer with its own 10MB limit)
+app.use(express.json({ limit: '100kb' }));
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
 // Rate limiter
 const rateLimiter = new RateLimiterMemory({

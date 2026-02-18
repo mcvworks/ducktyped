@@ -306,6 +306,8 @@
                 <button onclick="filterByCategory('qr')" id="filter-qr" class="category-tag filter-tag">📱 QR</button>
                 
                 <button onclick="filterByCategory('lookup')" id="filter-lookup" class="category-tag filter-tag">🔍 Lookup</button>
+
+                <button onclick="filterByCategory('dev')" id="filter-dev" class="category-tag filter-tag">🛠️ Dev</button>
             </div>
             
             <!-- User Type Tags (hidden by default) -->
@@ -456,6 +458,38 @@
                     <input type="checkbox" id="toggle-robotsAnalyzer" checked onchange="toggleToolVisibility('robotsAnalyzer')">
                     <label for="toggle-robotsAnalyzer">Robots.txt & Sitemap Analyzer</label>
                 </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-base64Tool" checked onchange="toggleToolVisibility('base64Tool')">
+                    <label for="toggle-base64Tool">Base64 Encode/Decode</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-urlEncodeTool" checked onchange="toggleToolVisibility('urlEncodeTool')">
+                    <label for="toggle-urlEncodeTool">URL Encode/Decode</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-jsonFormatter" checked onchange="toggleToolVisibility('jsonFormatter')">
+                    <label for="toggle-jsonFormatter">JSON Formatter / Validator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-regexTester" checked onchange="toggleToolVisibility('regexTester')">
+                    <label for="toggle-regexTester">Regex Tester</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-hashGenerator" checked onchange="toggleToolVisibility('hashGenerator')">
+                    <label for="toggle-hashGenerator">Hash Generator</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-jwtDecoder" checked onchange="toggleToolVisibility('jwtDecoder')">
+                    <label for="toggle-jwtDecoder">JWT Decoder</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-timestampConverter" checked onchange="toggleToolVisibility('timestampConverter')">
+                    <label for="toggle-timestampConverter">Unix Timestamp Converter</label>
+                </div>
+                <div class="tool-toggle-item">
+                    <input type="checkbox" id="toggle-colorConverter" checked onchange="toggleToolVisibility('colorConverter')">
+                    <label for="toggle-colorConverter">Color Converter</label>
+                </div>
             </div>
         </div>
             </div> <!-- end filterContent -->
@@ -474,7 +508,7 @@
                         <span class="search-shortcut" aria-hidden="true">/</span>
                         <button class="search-clear" id="searchClear" onclick="clearToolSearch()" aria-label="Clear search">×</button>
                     </div>
-                    <div class="tool-count-badge" id="toolCountBadge"><span id="visibleToolCount">27</span> tools</div>
+                    <div class="tool-count-badge" id="toolCountBadge"><span id="visibleToolCount">35</span> tools</div>
                 </div>
                 <div class="filter-row" id="filterRow">
                     <button class="filter-pill active" onclick="filterByCat(this, 'all')">All</button>
@@ -484,6 +518,7 @@
                     <button class="filter-pill" onclick="filterByCat(this, 'url')">🔗 Web / URL</button>
                     <button class="filter-pill" onclick="filterByCat(this, 'lookup')">🔍 Lookup</button>
                     <button class="filter-pill" onclick="filterByCat(this, 'qr')">📱 QR</button>
+                    <button class="filter-pill" onclick="filterByCat(this, 'dev')">🛠️ Dev</button>
                 </div>
             </div>
         </div>
@@ -1256,7 +1291,7 @@
                     <label>Password to Check:</label>
                     <div style="position: relative;">
                         <input type="password" id="breachPassword" placeholder="Enter a password to check" aria-label="Password to check for breaches" onkeypress="if(event.key==='Enter') checkPasswordBreach()">
-                        <button onclick="toggleBreachPasswordVisibility()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; width: auto; min-width: auto;">👁️</button>
+                        <button onclick="toggleBreachPasswordVisibility()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; width: auto; min-width: auto; margin-top: 0;">👁️</button>
                     </div>
                 </div>
                 <button onclick="checkPasswordBreach()">🔓 Check for Breaches</button>
@@ -1312,6 +1347,155 @@
                 <button onclick="analyzeRobots()">🤖 Analyze Robots & Sitemap</button>
                 <div id="robotsResults"></div>
             </div>
+
+            <!-- Base64 Encode/Decode -->
+            <div class="tool-card" id="base64Tool" draggable="true" data-categories="dev" data-usertypes="webdev,itpro" data-keywords="base64 encode decode binary text convert btoa atob data encoding">
+                <h2>Base64 Encode/Decode</h2>
+                <a href="/base64-encoder/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Encode text to Base64 or decode Base64 back to text. Supports Unicode characters. Useful for encoding data in URLs, APIs, and data URIs.
+                </p>
+                <div class="input-group">
+                    <label>Input:</label>
+                    <textarea id="base64Input" placeholder="Enter text to encode, or Base64 string to decode..." style="min-height: 120px; font-family: var(--font-mono); font-size: 0.88em;"></textarea>
+                </div>
+                <div class="encode-decode-btns">
+                    <button onclick="encodeBase64()">Encode</button>
+                    <button onclick="decodeBase64()">Decode</button>
+                </div>
+                <div id="base64Results"></div>
+            </div>
+
+            <!-- URL Encode/Decode -->
+            <div class="tool-card" id="urlEncodeTool" draggable="true" data-categories="dev,url" data-usertypes="webdev" data-keywords="url encode decode percent encoding uri component query string escape unescape">
+                <h2>URL Encode/Decode</h2>
+                <a href="/url-encoder/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Encode special characters for safe use in URLs, or decode percent-encoded strings back to readable text. Essential for working with query strings and API parameters.
+                </p>
+                <div class="input-group">
+                    <label>Input:</label>
+                    <textarea id="urlEncodeInput" placeholder="Enter text to URL-encode, or encoded string to decode..." style="min-height: 120px; font-family: var(--font-mono); font-size: 0.88em;"></textarea>
+                </div>
+                <div class="encode-decode-btns">
+                    <button onclick="encodeURL()">Encode</button>
+                    <button onclick="decodeURL()">Decode</button>
+                </div>
+                <div id="urlEncodeResults"></div>
+            </div>
+
+            <!-- JSON Formatter / Validator -->
+            <div class="tool-card" id="jsonFormatter" draggable="true" data-categories="dev" data-usertypes="webdev,itpro" data-keywords="json format validate beautify minify pretty print parse lint syntax">
+                <h2>JSON Formatter / Validator</h2>
+                <a href="/json-formatter/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Format, validate, and minify JSON data. Paste messy JSON and get clean, syntax-highlighted output with instant error detection.
+                </p>
+                <div class="input-group">
+                    <label>JSON Input:</label>
+                    <textarea id="jsonInput" placeholder='{"key": "value", "nested": {"array": [1, 2, 3]}}' style="min-height: 180px; font-family: var(--font-mono); font-size: 0.88em;"></textarea>
+                </div>
+                <div class="encode-decode-btns">
+                    <button onclick="formatJSON()">Format</button>
+                    <button onclick="minifyJSON()">Minify</button>
+                </div>
+                <div id="jsonResults"></div>
+            </div>
+
+            <!-- Regex Tester -->
+            <div class="tool-card" id="regexTester" draggable="true" data-categories="dev" data-usertypes="webdev" data-keywords="regex regular expression pattern test match replace flags global case insensitive multiline">
+                <h2>Regex Tester</h2>
+                <a href="/regex-tester/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Test regular expressions against sample text in real time. See highlighted matches, capture groups, and match count.
+                </p>
+                <div class="input-group">
+                    <label>Pattern:</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="font-size: 1.2em; color: var(--text-secondary);">/</span>
+                        <input type="text" id="regexPattern" placeholder="[a-z]+@[a-z]+\.[a-z]+" style="flex: 1; font-family: var(--font-mono);" oninput="testRegex()">
+                        <span style="font-size: 1.2em; color: var(--text-secondary);">/</span>
+                        <input type="text" id="regexFlags" value="g" placeholder="gi" style="width: 60px; text-align: center; font-family: var(--font-mono);" oninput="testRegex()">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Test String:</label>
+                    <textarea id="regexTestString" placeholder="Enter text to test your regex against..." style="min-height: 120px; font-family: var(--font-mono); font-size: 0.88em;" oninput="testRegex()"></textarea>
+                </div>
+                <div id="regexResults"></div>
+            </div>
+
+            <!-- Hash Generator -->
+            <div class="tool-card" id="hashGenerator" draggable="true" data-categories="dev,security" data-usertypes="webdev,security,itpro" data-keywords="hash sha256 sha512 sha1 sha384 digest checksum crypto web crypto api fingerprint">
+                <h2>Hash Generator</h2>
+                <a href="/hash-generator/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text using the Web Crypto API. All hashing is done locally in your browser.
+                </p>
+                <div class="input-group">
+                    <label>Text to Hash:</label>
+                    <textarea id="hashInput" placeholder="Enter text to generate hashes..." style="min-height: 100px;"></textarea>
+                </div>
+                <button onclick="generateHashes()">Generate Hashes</button>
+                <div id="hashResults"></div>
+            </div>
+
+            <!-- JWT Decoder -->
+            <div class="tool-card" id="jwtDecoder" draggable="true" data-categories="dev,security" data-usertypes="webdev,security" data-keywords="jwt json web token decode parse header payload claims expiry iat exp sub iss">
+                <h2>JWT Decoder</h2>
+                <a href="/jwt-decoder/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Decode JSON Web Tokens to inspect header, payload, and claims. Check expiration status and issued-at time. Runs entirely in your browser.
+                </p>
+                <div class="input-group">
+                    <label>JWT Token:</label>
+                    <textarea id="jwtInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="min-height: 100px; font-family: var(--font-mono); font-size: 0.85em; word-break: break-all;"></textarea>
+                </div>
+                <button onclick="decodeJWT()">Decode JWT</button>
+                <div id="jwtResults"></div>
+            </div>
+
+            <!-- Unix Timestamp Converter -->
+            <div class="tool-card" id="timestampConverter" draggable="true" data-categories="dev" data-usertypes="webdev,itpro" data-keywords="unix timestamp epoch date time convert utc iso 8601 seconds milliseconds human readable now">
+                <h2>Unix Timestamp Converter</h2>
+                <a href="/timestamp-converter/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Convert between Unix timestamps and human-readable dates. See the current epoch time live. Supports seconds and milliseconds.
+                </p>
+                <div class="timestamp-live" id="timestampLive">Current Epoch: --</div>
+                <div class="input-group">
+                    <label>Unix Timestamp:</label>
+                    <input type="text" id="timestampInput" placeholder="1700000000" aria-label="Unix timestamp" onkeypress="if(event.key==='Enter') convertTimestamp()">
+                </div>
+                <button onclick="convertTimestamp()">Timestamp → Date</button>
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>Date/Time:</label>
+                    <input type="datetime-local" id="dateInput" aria-label="Date and time" style="font-family: var(--font-mono);">
+                </div>
+                <button onclick="convertDateToTimestamp()">Date → Timestamp</button>
+                <div id="timestampResults"></div>
+            </div>
+
+            <!-- Color Converter -->
+            <div class="tool-card" id="colorConverter" draggable="true" data-categories="dev" data-usertypes="webdev" data-keywords="color hex rgb hsl convert picker preview css web design palette swatch">
+                <h2>Color Converter</h2>
+                <a href="/color-converter/" class="fullscreen-link" title="Open in full page">⛶ Open full page</a>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Convert colors between HEX, RGB, and HSL formats. Use the color picker or type a value. Instant visual preview with one-click copy.
+                </p>
+                <div style="display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;">
+                    <div class="input-group" style="flex: 1; min-width: 200px;">
+                        <label>Color Value:</label>
+                        <input type="text" id="colorInput" placeholder="#F2C200, rgb(242,194,0), hsl(48,100%,47%)" aria-label="Color value" onkeypress="if(event.key==='Enter') convertColor()" oninput="convertColor()">
+                    </div>
+                    <div class="input-group" style="width: 60px;">
+                        <label>Pick:</label>
+                        <input type="color" id="colorPicker" value="#F2C200" oninput="updateColorFromPicker()" style="width: 50px; height: 40px; padding: 2px; cursor: pointer; border: 2px solid var(--border-color); border-radius: 6px; background: var(--input-background);">
+                    </div>
+                </div>
+                <div id="colorResults"></div>
+            </div>
+
         </div>
     </div>
 
@@ -1590,12 +1774,15 @@
 
     <!-- Core (config, cache, worker, toast, utilities) - must load first -->
     <script defer src="core.js"></script>
-    <!-- Tool modules (order doesn't matter, all depend on core) -->
+    <!-- Shared helpers (must load before tool modules) -->
+    <script defer src="tools-helpers.js"></script>
+    <!-- Tool modules (order doesn't matter, all depend on core + helpers) -->
     <script defer src="tools-password.js"></script>
     <script defer src="tools-network.js"></script>
     <script defer src="tools-email.js"></script>
     <script defer src="tools-qr.js"></script>
     <script defer src="tools-url.js"></script>
+    <script defer src="tools-dev.js"></script>
     <!-- UI (depends on everything above) - must load last -->
     <script defer src="ui.js"></script>
 

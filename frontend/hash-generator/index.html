@@ -11,20 +11,20 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped</title>
-    <meta name="description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
+    <title>Hash Generator — SHA-1, SHA-256, SHA-512 Online — duckTyped</title>
+    <meta name="description" content="Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text. Uses Web Crypto API — all hashing done locally in your browser. Free hash generator.">
     <meta name="author" content="duckTyped">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped">
-    <meta property="og:description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
-    <meta property="og:url" content="https://ducktyped.xyz/dns-lookup/">
+    <meta property="og:title" content="Hash Generator — SHA-1, SHA-256, SHA-512 Online — duckTyped">
+    <meta property="og:description" content="Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text. Uses Web Crypto API — all hashing done locally in your browser. Free hash generator.">
+    <meta property="og:url" content="https://ducktyped.xyz/hash-generator/">
     <meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped">
-    <meta name="twitter:description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
-    <link rel="canonical" href="https://ducktyped.xyz/dns-lookup/">
+    <meta name="twitter:title" content="Hash Generator — SHA-1, SHA-256, SHA-512 Online — duckTyped">
+    <meta name="twitter:description" content="Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text. Uses Web Crypto API — all hashing done locally in your browser. Free hash generator.">
+    <link rel="canonical" href="https://ducktyped.xyz/hash-generator/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
     <link rel="stylesheet" href="/utility/styles.css">
 </head>
@@ -45,24 +45,24 @@
     <div class="container">
         <!-- SEO Content -->
         <div class="standalone-hero">
-            <h1>DNS Record Checker</h1>
-            <p class="standalone-intro">Query all DNS record types for any domain — A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM selectors. Essential for verifying DNS configuration, troubleshooting email delivery, or migrating domains.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Verifying MX records after migrating email providers, checking SPF/DKIM/DMARC records for email authentication, confirming A records point to the right server, or auditing CAA records for certificate issuance.</p></div>
+            <h1>Hash Generator</h1>
+            <p class="standalone-intro">Generate cryptographic hashes from any text using the Web Crypto API. Supports SHA-1, SHA-256, SHA-384, and SHA-512. All processing is done locally in your browser — nothing is sent to a server.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Creating checksums to verify file integrity, generating content digests for caching, computing password hashes for comparison, or verifying API payload signatures.</p></div>
         </div>
 
         <!-- Tool -->
         <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="dnsChecker">
-                <h2>DNS Record Checker</h2>
+            <div class="tool-card standalone-card" id="hashGenerator">
+                <h2>Hash Generator</h2>
                 <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Check all DNS records for any domain including A, AAAA, MX, NS, TXT, SPF, DKIM, and DMARC. Free DNS lookup tool for troubleshooting email delivery and domain configuration.
+                    Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text using the Web Crypto API. All hashing is done locally in your browser.
                 </p>
                 <div class="input-group">
-                    <label>Domain Name:</label>
-                    <input type="text" id="domainName" placeholder="example.com" aria-label="Domain for DNS lookup" onkeypress="if(event.key==='Enter') checkDNS()">
+                    <label>Text to Hash:</label>
+                    <textarea id="hashInput" placeholder="Enter text to generate hashes..." style="min-height: 100px;"></textarea>
                 </div>
-                <button onclick="checkDNS()">Check All DNS Records</button>
-                <div id="dnsResults"></div>
+                <button onclick="generateHashes()">Generate Hashes</button>
+                <div id="hashResults"></div>
             </div>
         </div>
 
@@ -74,12 +74,12 @@
     </div>
 
     <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
     </footer>
 
     <script src="/utility/core.js"></script>
     <script src="/utility/tools-helpers.js"></script>
-    <script src="/utility/tools-network.js"></script>
+    <script src="/utility/tools-dev.js"></script>
     <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

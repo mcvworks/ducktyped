@@ -11,20 +11,20 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped</title>
-    <meta name="description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
+    <title>JWT Decoder — Decode JSON Web Tokens Online — duckTyped</title>
+    <meta name="description" content="Decode JSON Web Tokens (JWT) to inspect header, payload, claims, and expiration. Runs entirely in your browser. Free JWT decoder tool.">
     <meta name="author" content="duckTyped">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped">
-    <meta property="og:description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
-    <meta property="og:url" content="https://ducktyped.xyz/dns-lookup/">
+    <meta property="og:title" content="JWT Decoder — Decode JSON Web Tokens Online — duckTyped">
+    <meta property="og:description" content="Decode JSON Web Tokens (JWT) to inspect header, payload, claims, and expiration. Runs entirely in your browser. Free JWT decoder tool.">
+    <meta property="og:url" content="https://ducktyped.xyz/jwt-decoder/">
     <meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped">
-    <meta name="twitter:description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
-    <link rel="canonical" href="https://ducktyped.xyz/dns-lookup/">
+    <meta name="twitter:title" content="JWT Decoder — Decode JSON Web Tokens Online — duckTyped">
+    <meta name="twitter:description" content="Decode JSON Web Tokens (JWT) to inspect header, payload, claims, and expiration. Runs entirely in your browser. Free JWT decoder tool.">
+    <link rel="canonical" href="https://ducktyped.xyz/jwt-decoder/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
     <link rel="stylesheet" href="/utility/styles.css">
 </head>
@@ -45,24 +45,24 @@
     <div class="container">
         <!-- SEO Content -->
         <div class="standalone-hero">
-            <h1>DNS Record Checker</h1>
-            <p class="standalone-intro">Query all DNS record types for any domain — A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM selectors. Essential for verifying DNS configuration, troubleshooting email delivery, or migrating domains.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Verifying MX records after migrating email providers, checking SPF/DKIM/DMARC records for email authentication, confirming A records point to the right server, or auditing CAA records for certificate issuance.</p></div>
+            <h1>JWT Decoder</h1>
+            <p class="standalone-intro">Decode JSON Web Tokens to inspect the header algorithm, payload claims, expiration status, and signature. Everything runs locally in your browser — your tokens are never sent to a server.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Debugging authentication issues by inspecting JWT claims, checking token expiration times, verifying the algorithm used for signing, or examining custom claims in API tokens.</p></div>
         </div>
 
         <!-- Tool -->
         <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="dnsChecker">
-                <h2>DNS Record Checker</h2>
+            <div class="tool-card standalone-card" id="jwtDecoder">
+                <h2>JWT Decoder</h2>
                 <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Check all DNS records for any domain including A, AAAA, MX, NS, TXT, SPF, DKIM, and DMARC. Free DNS lookup tool for troubleshooting email delivery and domain configuration.
+                    Decode JSON Web Tokens to inspect header, payload, and claims. Check expiration status and issued-at time. Runs entirely in your browser.
                 </p>
                 <div class="input-group">
-                    <label>Domain Name:</label>
-                    <input type="text" id="domainName" placeholder="example.com" aria-label="Domain for DNS lookup" onkeypress="if(event.key==='Enter') checkDNS()">
+                    <label>JWT Token:</label>
+                    <textarea id="jwtInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="min-height: 100px; font-family: var(--font-mono); font-size: 0.85em; word-break: break-all;"></textarea>
                 </div>
-                <button onclick="checkDNS()">Check All DNS Records</button>
-                <div id="dnsResults"></div>
+                <button onclick="decodeJWT()">Decode JWT</button>
+                <div id="jwtResults"></div>
             </div>
         </div>
 
@@ -74,12 +74,12 @@
     </div>
 
     <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
     </footer>
 
     <script src="/utility/core.js"></script>
     <script src="/utility/tools-helpers.js"></script>
-    <script src="/utility/tools-network.js"></script>
+    <script src="/utility/tools-dev.js"></script>
     <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

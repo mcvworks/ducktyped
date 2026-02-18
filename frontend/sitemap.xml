@@ -31,4 +31,13 @@
   <url><loc>https://ducktyped.xyz/blacklist-checker/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ducktyped.xyz/tech-detector/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ducktyped.xyz/robots-analyzer/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Dev tools -->
+  <url><loc>https://ducktyped.xyz/base64-encoder/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/url-encoder/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/json-formatter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/regex-tester/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/hash-generator/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/jwt-decoder/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/timestamp-converter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ducktyped.xyz/color-converter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

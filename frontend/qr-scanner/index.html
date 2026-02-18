@@ -85,39 +85,8 @@
     </footer>
 
     <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
     <script src="/utility/tools-qr.js"></script>
-    <script>
-        // Minimal theme support
-        function changeTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-theme');
-            } else {
-                document.body.classList.remove('light-theme');
-            }
-            localStorage.setItem('selectedTheme', theme);
-            // Update logo
-            const logo = document.getElementById('siteLogo');
-            if (logo) {
-                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
-            }
-            // Update toggle icon
-            const btn = document.getElementById('themeToggleBtn');
-            if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
-        }
-        function toggleTheme() {
-            const isLight = document.body.classList.contains('light-theme');
-            changeTheme(isLight ? 'dark' : 'light');
-        }
-        // Load saved theme on init
-        (function() {
-            const saved = localStorage.getItem('selectedTheme');
-            if (saved) changeTheme(saved);
-        })();
-        // Stubs for functions that might be called
-        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
-        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
-        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
-        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
-    </script>
+    <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

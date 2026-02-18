@@ -3,10 +3,9 @@ const router = express.Router();
 const axios = require('axios');
 const { URL } = require('url');
 const NodeCache = require('node-cache');
+const { success, fail, validateUrl } = require('../utils');
 
 const cache = new NodeCache({ stdTTL: 3600 });
-function success(data) { return { error: false, data }; }
-function fail(msg) { return { error: true, message: msg }; }
 
 // ============================================
 // SECURITY HEADERS — (already in security.js, cross-reference)
@@ -17,8 +16,9 @@ function fail(msg) { return { error: true, message: msg }; }
 // ============================================
 router.post('/headers', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const resp = await axios.get(url, {
             timeout: 10000,
@@ -44,8 +44,9 @@ router.post('/headers', async (req, res) => {
 // ============================================
 router.post('/redirects', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const chain = [];
         let currentUrl = url;
@@ -86,8 +87,9 @@ router.post('/redirects', async (req, res) => {
 // ============================================
 router.post('/metadata', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const resp = await axios.get(url, {
             timeout: 10000,
@@ -124,8 +126,9 @@ router.post('/metadata', async (req, res) => {
 // ============================================
 router.post('/tech-detect', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const cacheKey = `tech:${url}`;
         const cached = cache.get(cacheKey);
@@ -201,8 +204,9 @@ router.post('/tech-detect', async (req, res) => {
 // ============================================
 router.post('/robots', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const baseUrl = new URL(url).origin;
 
@@ -238,8 +242,9 @@ router.post('/robots', async (req, res) => {
 // ============================================
 router.post('/url-status', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const startTime = Date.now();
         const resp = await axios.get(url, {

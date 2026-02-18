@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
-
-function success(data) { return { error: false, data }; }
-function fail(msg) { return { error: true, message: msg }; }
+const { success, fail } = require('../utils');
 
 // ============================================
 // FAKE DATA GENERATOR

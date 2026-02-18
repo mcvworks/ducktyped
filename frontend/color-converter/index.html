@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Converter — HEX, RGB, HSL Converter — duckTyped</title>
+    <meta name="description" content="Convert colors between HEX, RGB, and HSL formats. Visual color picker and preview swatch. One-click copy. Free color conversion tool.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Color Converter — HEX, RGB, HSL Converter — duckTyped">
+    <meta property="og:description" content="Convert colors between HEX, RGB, and HSL formats. Visual color picker and preview swatch. One-click copy. Free color conversion tool.">
+    <meta property="og:url" content="https://ducktyped.xyz/color-converter/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Color Converter — HEX, RGB, HSL Converter — duckTyped">
+    <meta name="twitter:description" content="Convert colors between HEX, RGB, and HSL formats. Visual color picker and preview swatch. One-click copy. Free color conversion tool.">
+    <link rel="canonical" href="https://ducktyped.xyz/color-converter/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>Color Converter</h1>
+            <p class="standalone-intro">Convert colors between HEX, RGB, and HSL formats instantly. Use the visual color picker or type any color value. See a live preview swatch and copy values with one click.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Converting design mockup colors from HEX to RGB for CSS, finding HSL values for dynamic theming, matching brand colors across different format requirements, or quickly picking colors visually.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="colorConverter">
+                <h2>Color Converter</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Convert colors between HEX, RGB, and HSL formats. Use the color picker or type a value. Instant visual preview with one-click copy.
+                </p>
+                <div style="display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;">
+                    <div class="input-group" style="flex: 1; min-width: 200px;">
+                        <label>Color Value:</label>
+                        <input type="text" id="colorInput" placeholder="#F2C200, rgb(242,194,0), hsl(48,100%,47%)" aria-label="Color value" onkeypress="if(event.key==='Enter') convertColor()" oninput="convertColor()">
+                    </div>
+                    <div class="input-group" style="width: 60px;">
+                        <label>Pick:</label>
+                        <input type="color" id="colorPicker" value="#F2C200" oninput="updateColorFromPicker()" style="width: 50px; height: 40px; padding: 2px; cursor: pointer; border: 2px solid var(--border-color); border-radius: 6px; background: var(--input-background);">
+                    </div>
+                </div>
+                <div id="colorResults"></div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
+    <script src="/utility/tools-dev.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

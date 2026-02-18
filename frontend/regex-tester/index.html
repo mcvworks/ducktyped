@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester — Test Regular Expressions Online — duckTyped</title>
+    <meta name="description" content="Test regular expressions against sample text in real time. See highlighted matches, capture groups, and match count. Free online regex tester.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Regex Tester — Test Regular Expressions Online — duckTyped">
+    <meta property="og:description" content="Test regular expressions against sample text in real time. See highlighted matches, capture groups, and match count. Free online regex tester.">
+    <meta property="og:url" content="https://ducktyped.xyz/regex-tester/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Regex Tester — Test Regular Expressions Online — duckTyped">
+    <meta name="twitter:description" content="Test regular expressions against sample text in real time. See highlighted matches, capture groups, and match count. Free online regex tester.">
+    <link rel="canonical" href="https://ducktyped.xyz/regex-tester/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>Regex Tester</h1>
+            <p class="standalone-intro">Test regular expressions against sample text in real time. See highlighted matches, capture groups, and match details. Supports all JavaScript regex flags (g, i, m, s, u).</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Validating email or phone number patterns, extracting data from log files, testing URL routing patterns, or building find-and-replace patterns for code refactoring.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="regexTester">
+                <h2>Regex Tester</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Test regular expressions against sample text in real time. See highlighted matches, capture groups, and match count.
+                </p>
+                <div class="input-group">
+                    <label>Pattern:</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="font-size: 1.2em; color: var(--text-secondary);">/</span>
+                        <input type="text" id="regexPattern" placeholder="[a-z]+@[a-z]+\.[a-z]+" style="flex: 1; font-family: var(--font-mono);" oninput="testRegex()">
+                        <span style="font-size: 1.2em; color: var(--text-secondary);">/</span>
+                        <input type="text" id="regexFlags" value="g" placeholder="gi" style="width: 60px; text-align: center; font-family: var(--font-mono);" oninput="testRegex()">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Test String:</label>
+                    <textarea id="regexTestString" placeholder="Enter text to test your regex against..." style="min-height: 120px; font-family: var(--font-mono); font-size: 0.88em;" oninput="testRegex()"></textarea>
+                </div>
+                <div id="regexResults"></div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
+    <script src="/utility/tools-dev.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

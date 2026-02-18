@@ -447,6 +447,7 @@
         body.light-theme input[type="email"],
         body.light-theme input[type="url"],
         body.light-theme input[type="password"],
+        body.light-theme input[type="tel"],
         body.light-theme textarea,
         body.light-theme select {
             background: #ffffff;
@@ -562,10 +563,9 @@
 
         /* Preset buttons */
         body.light-theme .preset-btn { background: transparent; }
+        body.light-theme .preset-btn:hover { box-shadow: 0 0 12px rgba(242, 194, 0, 0.4); }
         body.light-theme .preset-btn.green { color: #0F1114; border-color: #0F1114; }
-        body.light-theme .preset-btn.green:hover { background: #0F1114; color: #F2C200; }
         body.light-theme .preset-btn.blue { color: #555; border-color: #D0D5DD; }
-        body.light-theme .preset-btn.blue:hover { border-color: #0F1114; color: #0F1114; }
         body.light-theme .preset-btn.red { color: #d44; border-color: rgba(221,68,68,0.3); }
 
         /* Site info, tool toggle bar */
@@ -612,6 +612,18 @@
         body.light-theme .theme-toggle-btn:hover { border-color: #0F1114; background: #ECEEF2; box-shadow: 0 0 12px rgba(22,19,28,0.08); }
         body.light-theme .theme-toggle-btn svg { color: #0F1114; }
 
+        /* Dev tools light theme */
+        body.light-theme .json-output { background: #F8F9FB; border-color: #D0D5DD; }
+        body.light-theme .json-key { color: #0066cc; }
+        body.light-theme .json-string { color: #c7254e; }
+        body.light-theme .json-number { color: #d14; }
+        body.light-theme .json-boolean { color: #e67e00; }
+        body.light-theme .json-null { color: #999; }
+        body.light-theme .regex-match { background: rgba(242, 194, 0, 0.3); }
+        body.light-theme .color-preview-swatch { border-color: #D0D5DD; }
+        body.light-theme .color-value-row { background: #F8F9FB; border-color: #D0D5DD; }
+        body.light-theme .timestamp-live { background: #F8F9FB; border-color: #D0D5DD; }
+        body.light-theme .hash-result-row { background: #F8F9FB; border-color: #D0D5DD; }
 
         /* Hide intro button on very small screens */
         @media (max-width: 600px) {
@@ -2008,6 +2020,7 @@
         input[type="email"],
         input[type="url"],
         input[type="password"],
+        input[type="tel"],
         textarea,
         select {
             width: 100%;
@@ -2200,6 +2213,154 @@
 
         .dns-record-value a:hover {
             text-decoration: underline;
+        }
+
+        /* ============================================
+           RESULT HELPER CLASSES
+           Used by resultRow() / resultSummary() / resultNote()
+           ============================================ */
+        .result-heading {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .result-summary {
+            margin-top: 15px;
+            padding: 12px;
+            background: var(--input-background);
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .result-summary p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .result-summary.success-border { border-left-color: var(--success-color); }
+        .result-summary.warning-border { border-left-color: var(--warning-color); }
+        .result-summary.error-border   { border-left-color: var(--error-color); }
+
+        .result-note {
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--input-background);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .result-note.warning { border-left-color: var(--warning-color); }
+        .result-note.error   { border-left-color: var(--error-color); }
+
+        .text-success { color: var(--success-color); }
+        .text-warning { color: var(--warning-color); }
+        .text-error   { color: var(--error-color); }
+        .text-muted   { color: var(--text-secondary); }
+
+        /* === DEV TOOLS === */
+        .json-output {
+            font-family: var(--font-mono);
+            font-size: 0.88em;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.6;
+            padding: 16px;
+            background: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-height: 400px;
+            overflow: auto;
+        }
+        .json-key { color: #48E0C7; }
+        .json-string { color: #F2C200; }
+        .json-number { color: #ff6b6b; }
+        .json-boolean { color: #FA6216; }
+        .json-null { color: #8892A0; }
+
+        .regex-match {
+            background: rgba(242, 194, 0, 0.25);
+            border-bottom: 2px solid var(--primary-color);
+            padding: 1px 0;
+        }
+        .regex-output {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .color-preview-swatch {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            margin: 12px 0;
+            transition: background-color 0.2s;
+        }
+        .color-values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .color-value-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+        }
+
+        .timestamp-live {
+            font-family: var(--font-mono);
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 12px;
+            background: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        .encode-decode-btns {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .encode-decode-btns button { flex: 1; }
+
+        .hash-result-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .hash-result-row .hash-algo {
+            font-weight: 700;
+            color: var(--primary-color);
+            min-width: 70px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+        }
+        .hash-result-row .hash-value {
+            font-family: var(--font-mono);
+            font-size: 0.82em;
+            word-break: break-all;
+            flex: 1;
+            color: var(--text-secondary);
         }
 
         .error {
@@ -2446,6 +2607,7 @@
 
         .preset-btn:hover {
             transform: translateY(-1px);
+            box-shadow: 0 0 12px rgba(242, 194, 0, 0.35);
         }
 
         .preset-btn.green {
@@ -2453,28 +2615,14 @@
             border: 1.5px solid var(--primary-color);
         }
 
-        .preset-btn.green:hover {
-            background: var(--primary-color);
-            color: #0F1114;
-        }
-
         .preset-btn.blue {
             color: var(--text-secondary);
             border: 1.5px solid var(--border-color);
         }
 
-        .preset-btn.blue:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
         .preset-btn.red {
             color: var(--error-color);
             border: 1.5px solid rgba(255, 107, 107, 0.4);
-        }
-
-        .preset-btn.red:hover {
-            background: rgba(255, 107, 107, 0.1);
         }
 
         /* Tool description paragraphs */

@@ -32,28 +32,12 @@
                 <div class="output" id="encryptOutput"><div class="output-label" style="color: var(--primary-color); font-weight: 700;">Share this link:</div><div class="output-content" id="encryptedLink" style="word-break: break-all;"></div><button class="copy-btn" onclick="copyLink()">Copy Link</button><div class="info-box" id="passwordInfo"><strong>🔒 Password Protected:</strong> Share the password separately for maximum security.</div><div class="info-box hidden" id="noPasswordInfo"><strong>⚠️ No Password:</strong> Anyone with this link can read the message.</div></div>
             </div>
             <div id="decryptView" style="display: none;"><div class="success" style="margin-bottom: 15px;" id="decryptHeader"><strong>🔑 Encrypted message received</strong><br>Enter the password to decrypt.</div><div class="input-group"><label>Decryption Password:</label><input type="text" id="decryptPassword" placeholder="Enter the password shared with you"></div><button onclick="decryptNote()" id="decryptBtn">Decrypt Message</button><div class="output" id="decryptOutput"><div class="output-label">Decrypted Message:</div><div class="output-content" id="decryptedText"></div></div><button onclick="resetNoteApp()" style="background: var(--text-secondary); color: #ffffff; margin-top: 15px;">Create New Message</button></div></div></div>
-        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
     <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
-    <script src="/utility/core.js"></script><script src="/utility/tools-password.js"></script>
-    <script>
-        // Theme support
-        function changeTheme(theme) {
-            if (theme === 'light') { document.body.classList.add('light-theme'); }
-            else { document.body.classList.remove('light-theme'); }
-            localStorage.setItem('selectedTheme', theme);
-            var logo = document.getElementById('siteLogo');
-            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
-            var btn = document.getElementById('themeToggleBtn');
-            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
-        }
-        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
-        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
-        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
-        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
-        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
-        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
-        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
-    </script>
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
+    <script src="/utility/tools-password.js"></script>
+    <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

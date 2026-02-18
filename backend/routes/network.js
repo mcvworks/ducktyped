@@ -6,24 +6,10 @@ const dns = require('dns');
 const { Resolver } = require('dns').promises;
 const NodeCache = require('node-cache');
 const axios = require('axios');
+const { success, fail, sanitizeHost, validateUrl } = require('../utils');
 
 const execAsync = promisify(exec);
 const cache = new NodeCache({ stdTTL: 300 }); // 5 min default
-
-// Helper: sanitize domain/IP input
-function sanitizeHost(input) {
-    if (!input) return null;
-    const cleaned = input.trim().toLowerCase()
-        .replace(/^https?:\/\//, '')
-        .replace(/\/.*$/, '')
-        .replace(/[^a-z0-9.\-:]/g, '');
-    if (cleaned.length > 253) return null;
-    return cleaned;
-}
-
-// Helper: wrap response
-function success(data) { return { error: false, data }; }
-function fail(msg) { return { error: true, message: msg }; }
 
 // ============================================
 // DNS LOOKUP
@@ -133,11 +119,9 @@ router.post('/port-scan', async (req, res) => {
 // ============================================
 router.post('/http-latency', async (req, res) => {
     try {
-        let url = (req.body.host || '').trim();
-        if (!url) return res.status(400).json(fail('Invalid host'));
-
-        // Ensure URL has a scheme
-        if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+        const check = await validateUrl(req.body.host);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        let url = check.url;
 
         const start = Date.now();
         const response = await axios.get(url, {

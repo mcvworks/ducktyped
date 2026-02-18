@@ -29,28 +29,12 @@
             <div id="qrModeVcardContent" style="display: none;"><div class="input-group"><label>Full Name:</label><input type="text" id="vcardName" placeholder="John Doe"></div><div class="input-group"><label>Organization:</label><input type="text" id="vcardOrg" placeholder="Acme Corp (optional)"></div><div class="input-group"><label>Job Title:</label><input type="text" id="vcardTitle" placeholder="CEO (optional)"></div><div class="input-group"><label>Phone:</label><input type="tel" id="vcardPhone" placeholder="+1-555-123-4567"></div><div class="input-group"><label>Email:</label><input type="email" id="vcardEmail" placeholder="john@example.com"></div><div class="input-group"><label>Website:</label><input type="url" id="vcardWebsite" placeholder="https://example.com (optional)"></div><div class="input-group"><label>Address:</label><textarea id="vcardAddress" placeholder="123 Main St, City, State, ZIP (optional)" style="min-height: 60px;"></textarea></div></div>
             <div class="input-group"><label>Size:</label><select id="qrSize" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;"><option value="200">Small (200x200)</option><option value="300" selected>Medium (300x300)</option><option value="400">Large (400x400)</option><option value="500">Extra Large (500x500)</option></select></div>
             <button onclick="generateUnifiedQR()" id="generateQRBtn">Generate QR Code</button><div id="qrOutput" style="margin-top: 15px; text-align: center;"></div></div></div>
-        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
     <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
-    <script src="/utility/core.js"></script><script src="/utility/tools-qr.js"></script>
-    <script>
-        // Theme support
-        function changeTheme(theme) {
-            if (theme === 'light') { document.body.classList.add('light-theme'); }
-            else { document.body.classList.remove('light-theme'); }
-            localStorage.setItem('selectedTheme', theme);
-            var logo = document.getElementById('siteLogo');
-            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
-            var btn = document.getElementById('themeToggleBtn');
-            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
-        }
-        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
-        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
-        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
-        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
-        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
-        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
-        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
-    </script>
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
+    <script src="/utility/tools-qr.js"></script>
+    <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

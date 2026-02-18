@@ -5,6 +5,7 @@ const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+const { success, fail } = require('../utils');
 
 // Configure multer for image uploads
 const storage = multer.diskStorage({
@@ -25,9 +26,6 @@ const upload = multer({
         else cb(new Error('Only image files are allowed'));
     }
 });
-
-function success(data) { return { error: false, data }; }
-function fail(msg) { return { error: true, message: msg }; }
 
 // ============================================
 // AI IMAGE DETECTION - COMBINED ANALYSIS

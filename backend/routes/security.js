@@ -5,16 +5,10 @@ const { promisify } = require('util');
 const axios = require('axios');
 const crypto = require('crypto');
 const NodeCache = require('node-cache');
+const { success, fail, sanitizeHost, validateUrl } = require('../utils');
 
 const execAsync = promisify(exec);
 const cache = new NodeCache({ stdTTL: 3600 });
-
-function sanitizeHost(input) {
-    if (!input) return null;
-    return input.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/[^a-z0-9.\-:]/g, '');
-}
-function success(data) { return { error: false, data }; }
-function fail(msg) { return { error: true, message: msg }; }
 
 // ============================================
 // WHOIS LOOKUP (real whois command)
@@ -112,8 +106,9 @@ router.post('/ssl', async (req, res) => {
 // ============================================
 router.post('/security-headers', async (req, res) => {
     try {
-        const url = req.body.url;
-        if (!url) return res.status(400).json(fail('URL required'));
+        const check = await validateUrl(req.body.url);
+        if (!check.valid) return res.status(400).json(fail(check.reason));
+        const url = check.url;
 
         const cacheKey = `secheaders:${url}`;
         const cached = cache.get(cacheKey);

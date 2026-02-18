@@ -11,20 +11,20 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped</title>
-    <meta name="description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
+    <title>URL Encode/Decode — Percent-Encoding Tool — duckTyped</title>
+    <meta name="description" content="Encode special characters for safe use in URLs or decode percent-encoded strings. Free online URL encoder/decoder tool.">
     <meta name="author" content="duckTyped">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped">
-    <meta property="og:description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
-    <meta property="og:url" content="https://ducktyped.xyz/dns-lookup/">
+    <meta property="og:title" content="URL Encode/Decode — Percent-Encoding Tool — duckTyped">
+    <meta property="og:description" content="Encode special characters for safe use in URLs or decode percent-encoded strings. Free online URL encoder/decoder tool.">
+    <meta property="og:url" content="https://ducktyped.xyz/url-encoder/">
     <meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DNS Record Checker — Look Up A, MX, TXT, CNAME & More — duckTyped">
-    <meta name="twitter:description" content="Look up DNS records for any domain: A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM. Check SPF and DMARC configuration. Free DNS lookup tool.">
-    <link rel="canonical" href="https://ducktyped.xyz/dns-lookup/">
+    <meta name="twitter:title" content="URL Encode/Decode — Percent-Encoding Tool — duckTyped">
+    <meta name="twitter:description" content="Encode special characters for safe use in URLs or decode percent-encoded strings. Free online URL encoder/decoder tool.">
+    <link rel="canonical" href="https://ducktyped.xyz/url-encoder/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
     <link rel="stylesheet" href="/utility/styles.css">
 </head>
@@ -45,24 +45,27 @@
     <div class="container">
         <!-- SEO Content -->
         <div class="standalone-hero">
-            <h1>DNS Record Checker</h1>
-            <p class="standalone-intro">Query all DNS record types for any domain — A, AAAA, MX, TXT, NS, SOA, CNAME, CAA, and DKIM selectors. Essential for verifying DNS configuration, troubleshooting email delivery, or migrating domains.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Verifying MX records after migrating email providers, checking SPF/DKIM/DMARC records for email authentication, confirming A records point to the right server, or auditing CAA records for certificate issuance.</p></div>
+            <h1>URL Encode/Decode</h1>
+            <p class="standalone-intro">Encode special characters for safe use in URLs using percent-encoding, or decode percent-encoded strings back to readable text. Essential for working with query parameters and API requests.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Encoding query string parameters with special characters, decoding URLs copied from browser address bars, preparing text for use in API request URLs, or debugging encoded redirect URLs.</p></div>
         </div>
 
         <!-- Tool -->
         <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="dnsChecker">
-                <h2>DNS Record Checker</h2>
+            <div class="tool-card standalone-card" id="urlEncodeTool">
+                <h2>URL Encode/Decode</h2>
                 <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Check all DNS records for any domain including A, AAAA, MX, NS, TXT, SPF, DKIM, and DMARC. Free DNS lookup tool for troubleshooting email delivery and domain configuration.
+                    Encode special characters for safe use in URLs, or decode percent-encoded strings back to readable text. Essential for working with query strings and API parameters.
                 </p>
                 <div class="input-group">
-                    <label>Domain Name:</label>
-                    <input type="text" id="domainName" placeholder="example.com" aria-label="Domain for DNS lookup" onkeypress="if(event.key==='Enter') checkDNS()">
+                    <label>Input:</label>
+                    <textarea id="urlEncodeInput" placeholder="Enter text to URL-encode, or encoded string to decode..." style="min-height: 120px; font-family: var(--font-mono); font-size: 0.88em;"></textarea>
                 </div>
-                <button onclick="checkDNS()">Check All DNS Records</button>
-                <div id="dnsResults"></div>
+                <div class="encode-decode-btns">
+                    <button onclick="encodeURL()">Encode</button>
+                    <button onclick="decodeURL()">Decode</button>
+                </div>
+                <div id="urlEncodeResults"></div>
             </div>
         </div>
 
@@ -74,12 +77,12 @@
     </div>
 
     <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
     </footer>
 
     <script src="/utility/core.js"></script>
     <script src="/utility/tools-helpers.js"></script>
-    <script src="/utility/tools-network.js"></script>
+    <script src="/utility/tools-dev.js"></script>
     <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

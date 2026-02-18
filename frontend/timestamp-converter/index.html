@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-003ETVX66J');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter — Epoch to Date & Back — duckTyped</title>
+    <meta name="description" content="Convert Unix timestamps to human-readable dates and vice versa. Live epoch clock, supports seconds and milliseconds. Free timestamp converter.">
+    <meta name="author" content="duckTyped">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Unix Timestamp Converter — Epoch to Date & Back — duckTyped">
+    <meta property="og:description" content="Convert Unix timestamps to human-readable dates and vice versa. Live epoch clock, supports seconds and milliseconds. Free timestamp converter.">
+    <meta property="og:url" content="https://ducktyped.xyz/timestamp-converter/">
+    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unix Timestamp Converter — Epoch to Date & Back — duckTyped">
+    <meta name="twitter:description" content="Convert Unix timestamps to human-readable dates and vice versa. Live epoch clock, supports seconds and milliseconds. Free timestamp converter.">
+    <link rel="canonical" href="https://ducktyped.xyz/timestamp-converter/">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="stylesheet" href="/utility/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="standalone-nav">
+        <div class="standalone-nav-inner">
+            <a href="/" class="standalone-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="standalone-nav-title">duckTyped</span>
+            </a>
+            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SEO Content -->
+        <div class="standalone-hero">
+            <h1>Unix Timestamp Converter</h1>
+            <p class="standalone-intro">Convert between Unix timestamps (epoch time) and human-readable dates. See the current epoch time updating live. Automatically detects seconds vs milliseconds.</p>
+            <div class="example-box"><strong>Example uses:</strong><p>Converting API response timestamps to readable dates, checking JWT token expiration times, debugging date-related issues in logs, or generating timestamps for database queries.</p></div>
+        </div>
+
+        <!-- Tool -->
+        <div class="standalone-tool-wrap">
+            <div class="tool-card standalone-card" id="timestampConverter">
+                <h2>Unix Timestamp Converter</h2>
+                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
+                    Convert between Unix timestamps and human-readable dates. See the current epoch time live. Supports seconds and milliseconds.
+                </p>
+                <div class="timestamp-live" id="timestampLive">Current Epoch: --</div>
+                <div class="input-group">
+                    <label>Unix Timestamp:</label>
+                    <input type="text" id="timestampInput" placeholder="1700000000" aria-label="Unix timestamp" onkeypress="if(event.key==='Enter') convertTimestamp()">
+                </div>
+                <button onclick="convertTimestamp()">Timestamp &rarr; Date</button>
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>Date/Time:</label>
+                    <input type="datetime-local" id="dateInput" aria-label="Date and time" style="font-family: var(--font-mono);">
+                </div>
+                <button onclick="convertDateToTimestamp()">Date &rarr; Timestamp</button>
+                <div id="timestampResults"></div>
+            </div>
+        </div>
+
+        <!-- Explore More -->
+        <div class="standalone-footer-cta">
+            <p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
+        </div>
+    </div>
+
+    <footer class="standalone-page-footer">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
+    </footer>
+
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
+    <script src="/utility/tools-dev.js"></script>
+    <script src="/utility/standalone-init.js"></script>
+</body>
+</html>

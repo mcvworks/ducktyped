@@ -26,28 +26,12 @@
             <div class="input-group"><label>URL to Test:</label><input type="url" id="urlToTest" placeholder="https://example.com" aria-label="URL to Test:" onkeypress="if(event.key==='Enter') checkLinkStatus()"></div>
             <button onclick="checkLinkStatus()">✓ Check Link Status</button>
             <div id="urlStatusResults"></div></div></div>
-        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
     <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
-    <script src="/utility/core.js"></script><script src="/utility/tools-url.js"></script>
-    <script>
-        // Theme support
-        function changeTheme(theme) {
-            if (theme === 'light') { document.body.classList.add('light-theme'); }
-            else { document.body.classList.remove('light-theme'); }
-            localStorage.setItem('selectedTheme', theme);
-            var logo = document.getElementById('siteLogo');
-            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
-            var btn = document.getElementById('themeToggleBtn');
-            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
-        }
-        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
-        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
-        if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
-        if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
-        if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
-        if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
-        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
-    </script>
+    <script src="/utility/core.js"></script>
+    <script src="/utility/tools-helpers.js"></script>
+    <script src="/utility/tools-url.js"></script>
+    <script src="/utility/standalone-init.js"></script>
 </body>
 </html>

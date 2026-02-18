@@ -820,7 +820,7 @@ function renderRecentTools() {
     const categoryIcons = {
         'security': '🔒', 'network': '🌐', 'email': '📧',
         'url': '🔗', 'qr': '📱', 'lookup': '🔍', 'web': '🔗',
-        'encoding': '🔧', 'ai': '🤖'
+        'encoding': '🔧', 'ai': '🤖', 'dev': '🛠️'
     };
 
     recent.forEach(toolId => {
