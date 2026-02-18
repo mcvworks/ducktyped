@@ -1,95 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-003ETVX66J');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-003ETVX66J');</script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped</title>
     <meta name="description" content="Trace the network route to any host. See every hop, IP address, and response time along the path. Free online traceroute tool for network diagnostics.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped">
+    <meta name="author" content="duckTyped"><meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"><meta property="og:title" content="Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped">
     <meta property="og:description" content="Trace the network route to any host. See every hop, IP address, and response time along the path. Free online traceroute tool for network diagnostics.">
-    <meta property="og:url" content="https://ducktyped.xyz/traceroute/">
-    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:url" content="https://ducktyped.xyz/traceroute/"><meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Online Traceroute Tool — Trace Network Path Hop-by-Hop — duckTyped">
     <meta name="twitter:description" content="Trace the network route to any host. See every hop, IP address, and response time along the path. Free online traceroute tool for network diagnostics.">
     <link rel="canonical" href="https://ducktyped.xyz/traceroute/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
-    <link rel="stylesheet" href="/utility/styles.css">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
+    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button></div></nav>
     <div class="container">
-        <!-- SEO Content -->
-        <div class="standalone-hero">
-            <h1>Traceroute</h1>
-            <p class="standalone-intro">Trace the network path from our server to any destination. See every router hop along the way, including IP addresses, hostnames, and round-trip times. Essential for diagnosing routing issues, latency spikes, and network bottlenecks.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Diagnosing slow connections to a remote server, identifying which network hop is causing packet loss, verifying traffic is routed through expected ISPs, or troubleshooting VPN routing paths.</p></div>
-        </div>
-
-        <!-- Tool -->
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="traceroute">
-                <h2>Traceroute</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Trace the network path to any host. See every hop your data takes, with IP addresses and response times. Essential for diagnosing routing issues.
-                </p>
-                <div class="input-group">
-                    <label>Host (Domain or IP):</label>
-                    <input type="text" id="tracerouteHost" placeholder="example.com or 8.8.8.8" aria-label="Host for traceroute" onkeypress="if(event.key==='Enter') runTraceroute()">
-                </div>
-                <button onclick="runTraceroute()">🛤️ Run Traceroute</button>
-                <div id="tracerouteResults"></div>
-            </div>
-        </div>
-
-        <!-- Explore More -->
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+        <div class="standalone-hero"><h1>Traceroute</h1><p class="standalone-intro">Trace the network path from our server to any destination. See every router hop along the way, including IP addresses, hostnames, and round-trip times. Essential for diagnosing routing issues, latency spikes, and network bottlenecks.</p><div class="example-box"><strong>Example uses:</strong><p>Diagnosing slow connections to a remote server, identifying which network hop is causing packet loss, verifying traffic is routed through expected ISPs, or troubleshooting VPN routing paths.</p></div></div>
+        <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="traceroute"><h2>Traceroute</h2>
+            <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Trace the network path to any host. See every hop your data takes, with IP addresses and response times. Essential for diagnosing routing issues.</p>
+            <div class="input-group"><label>Host (Domain or IP):</label><input type="text" id="tracerouteHost" placeholder="example.com or 8.8.8.8" aria-label="Host (Domain or IP):" onkeypress="if(event.key==='Enter') runTraceroute()"></div>
+            <button onclick="runTraceroute()">🛤️ Run Traceroute</button>
+            <div id="tracerouteResults"></div></div></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-network.js"></script>
+    <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
+    <script src="/utility/core.js"></script><script src="/utility/tools-network.js"></script>
     <script>
+        // Theme support
         function changeTheme(theme) {
-            if (theme === 'light') { document.body.classList.add('light-theme'); } else { document.body.classList.remove('light-theme'); }
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+            else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            const logo = document.getElementById('siteLogo');
+            var logo = document.getElementById('siteLogo');
             if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() { const isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
         if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
     </script>
 </body>
 </html>

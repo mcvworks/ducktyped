@@ -1,106 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-003ETVX66J');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-003ETVX66J');</script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subnet Calculator — CIDR, Netmask, Host Range — duckTyped</title>
     <meta name="description" content="Calculate subnet details from IP and CIDR notation. Get network address, broadcast, subnet mask, wildcard mask, and usable host range. Free subnet calculator.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Subnet Calculator — CIDR, Netmask, Host Range — duckTyped">
+    <meta name="author" content="duckTyped"><meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"><meta property="og:title" content="Subnet Calculator — CIDR, Netmask, Host Range — duckTyped">
     <meta property="og:description" content="Calculate subnet details from IP and CIDR notation. Get network address, broadcast, subnet mask, wildcard mask, and usable host range. Free subnet calculator.">
-    <meta property="og:url" content="https://ducktyped.xyz/subnet-calculator/">
-    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:url" content="https://ducktyped.xyz/subnet-calculator/"><meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Subnet Calculator — CIDR, Netmask, Host Range — duckTyped">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Subnet Calculator — CIDR, Netmask, Host Range — duckTyped">
     <meta name="twitter:description" content="Calculate subnet details from IP and CIDR notation. Get network address, broadcast, subnet mask, wildcard mask, and usable host range. Free subnet calculator.">
     <link rel="canonical" href="https://ducktyped.xyz/subnet-calculator/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
-    <link rel="stylesheet" href="/utility/styles.css">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
+    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button></div></nav>
     <div class="container">
-        <div class="standalone-hero">
-            <h1>Subnet Calculator</h1>
-            <p class="standalone-intro">Instantly calculate network details from any IP address and CIDR prefix. Get the network address, broadcast address, subnet mask, wildcard mask, first and last usable host, and total host count.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Planning IP address allocation for a new office network, determining usable host range for a /28 subnet, converting between CIDR notation and subnet masks, or verifying firewall ACL rules.</p></div>
-        </div>
-
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="subnetCalc">
-                <h2>Subnet Calculator</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Calculate network address, broadcast address, subnet mask, and usable host range from an IP address and CIDR notation.
-                </p>
-                <div class="input-group">
-                    <label>IP Address:</label>
-                    <input type="text" id="subnetIp" placeholder="192.168.1.0" aria-label="IP address for subnet calculation" onkeypress="if(event.key==='Enter') calculateSubnet()">
-                </div>
-                <div class="input-group">
-                    <label>CIDR Prefix Length:</label>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <span style="font-size: 1.1em; font-weight: 600;">/</span>
-                        <input type="number" id="subnetCidr" placeholder="24" min="0" max="32" value="24" aria-label="CIDR prefix" style="max-width: 100px;" onkeypress="if(event.key==='Enter') calculateSubnet()">
-                    </div>
-                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
-                        <button onclick="document.getElementById('subnetCidr').value='8'; calculateSubnet()" class="preset-btn green" style="padding: 6px 12px; font-size: 0.8em;">/8</button>
-                        <button onclick="document.getElementById('subnetCidr').value='16'; calculateSubnet()" class="preset-btn green" style="padding: 6px 12px; font-size: 0.8em;">/16</button>
-                        <button onclick="document.getElementById('subnetCidr').value='24'; calculateSubnet()" class="preset-btn blue" style="padding: 6px 12px; font-size: 0.8em;">/24</button>
-                        <button onclick="document.getElementById('subnetCidr').value='25'; calculateSubnet()" class="preset-btn blue" style="padding: 6px 12px; font-size: 0.8em;">/25</button>
-                        <button onclick="document.getElementById('subnetCidr').value='28'; calculateSubnet()" class="preset-btn red" style="padding: 6px 12px; font-size: 0.8em;">/28</button>
-                        <button onclick="document.getElementById('subnetCidr').value='30'; calculateSubnet()" class="preset-btn red" style="padding: 6px 12px; font-size: 0.8em;">/30</button>
-                    </div>
-                </div>
-                <button onclick="calculateSubnet()">🔢 Calculate Subnet</button>
-                <div id="subnetResults"></div>
-            </div>
-        </div>
-
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+        <div class="standalone-hero"><h1>Subnet Calculator</h1><p class="standalone-intro">Instantly calculate network details from any IP address and CIDR prefix. Get the network address, broadcast address, subnet mask, wildcard mask, first and last usable host, and total host count.</p><div class="example-box"><strong>Example uses:</strong><p>Planning IP address allocation for a new office network, determining usable host range for a /28 subnet, converting between CIDR notation and subnet masks, or verifying firewall ACL rules.</p></div></div>
+        <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="subnetCalc"><h2>Subnet Calculator</h2>
+            <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Calculate network address, broadcast address, subnet mask, and usable host range from an IP address and CIDR notation.</p>
+            <div class="input-group"><label>IP Address:</label><input type="text" id="subnetIp" placeholder="192.168.1.0" aria-label="IP address" onkeypress="if(event.key==='Enter') calculateSubnet()"></div>
+            <div class="input-group"><label>CIDR Prefix Length:</label><div style="display: flex; gap: 8px; align-items: center;"><span style="font-size: 1.1em; font-weight: 600;">/</span><input type="number" id="subnetCidr" placeholder="24" min="0" max="32" value="24" style="max-width: 100px;" onkeypress="if(event.key==='Enter') calculateSubnet()"></div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+                <button onclick="document.getElementById('subnetCidr').value='8'; calculateSubnet()" class="preset-btn green">/8</button>
+                <button onclick="document.getElementById('subnetCidr').value='16'; calculateSubnet()" class="preset-btn green">/16</button>
+                <button onclick="document.getElementById('subnetCidr').value='24'; calculateSubnet()" class="preset-btn blue">/24</button>
+                <button onclick="document.getElementById('subnetCidr').value='25'; calculateSubnet()" class="preset-btn blue">/25</button>
+                <button onclick="document.getElementById('subnetCidr').value='28'; calculateSubnet()" class="preset-btn red">/28</button>
+                <button onclick="document.getElementById('subnetCidr').value='30'; calculateSubnet()" class="preset-btn red">/30</button>
+            </div></div>
+            <button onclick="calculateSubnet()">🔢 Calculate Subnet</button><div id="subnetResults"></div></div></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-network.js"></script>
+    <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
+    <script src="/utility/core.js"></script><script src="/utility/tools-network.js"></script>
     <script>
+        // Theme support
         function changeTheme(theme) {
-            if (theme === 'light') { document.body.classList.add('light-theme'); } else { document.body.classList.remove('light-theme'); }
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+            else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            const logo = document.getElementById('siteLogo');
+            var logo = document.getElementById('siteLogo');
             if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() { const isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
         if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
     </script>
 </body>
 </html>

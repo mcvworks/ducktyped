@@ -38,6 +38,7 @@
                 <span class="standalone-nav-title">duckTyped</span>
             </a>
             <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
         </div>
     </nav>
 
@@ -67,7 +68,7 @@
 
         <!-- Explore More -->
         <div class="standalone-footer-cta">
-            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
             <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
         </div>
     </div>
@@ -79,29 +80,23 @@
     <script src="/utility/core.js"></script>
     <script src="/utility/tools-network.js"></script>
     <script>
-        // Minimal theme support
+        // Theme support
         function changeTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-theme');
-            } else {
-                document.body.classList.remove('light-theme');
-            }
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+            else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            // Update logo
-            const logo = document.getElementById('siteLogo');
-            if (logo) {
-                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
-            }
+            var logo = document.getElementById('siteLogo');
+            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() {
-            const isLight = document.body.classList.contains('light-theme');
-            changeTheme(isLight ? 'dark' : 'light');
-        }
-        // Stubs for functions that might be called
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
         if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
     </script>
 </body>
 </html>

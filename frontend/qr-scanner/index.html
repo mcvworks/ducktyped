@@ -38,6 +38,7 @@
                 <span class="standalone-nav-title">duckTyped</span>
             </a>
             <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
         </div>
     </nav>
 
@@ -99,11 +100,19 @@
             if (logo) {
                 logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
             }
+            // Update toggle icon
+            const btn = document.getElementById('themeToggleBtn');
+            if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
         }
         function toggleTheme() {
             const isLight = document.body.classList.contains('light-theme');
             changeTheme(isLight ? 'dark' : 'light');
         }
+        // Load saved theme on init
+        (function() {
+            const saved = localStorage.getItem('selectedTheme');
+            if (saved) changeTheme(saved);
+        })();
         // Stubs for functions that might be called
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }

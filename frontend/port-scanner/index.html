@@ -1,171 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-003ETVX66J');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-003ETVX66J');</script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Port Scanner — Check Open Ports — duckTyped</title>
     <meta name="description" content="Scan common ports on any host to check if they're open or closed. Test firewall rules and verify services are running. Free online port scanner.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Online Port Scanner — Check Open Ports — duckTyped">
+    <meta name="author" content="duckTyped"><meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"><meta property="og:title" content="Online Port Scanner — Check Open Ports — duckTyped">
     <meta property="og:description" content="Scan common ports on any host to check if they're open or closed. Test firewall rules and verify services are running. Free online port scanner.">
-    <meta property="og:url" content="https://ducktyped.xyz/port-scanner/">
-    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:url" content="https://ducktyped.xyz/port-scanner/"><meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Online Port Scanner — Check Open Ports — duckTyped">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Online Port Scanner — Check Open Ports — duckTyped">
     <meta name="twitter:description" content="Scan common ports on any host to check if they're open or closed. Test firewall rules and verify services are running. Free online port scanner.">
     <link rel="canonical" href="https://ducktyped.xyz/port-scanner/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
-    <link rel="stylesheet" href="/utility/styles.css">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
+    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button></div></nav>
     <div class="container">
-        <!-- SEO Content -->
-        <div class="standalone-hero">
-            <h1>Port Scanner</h1>
-            <p class="standalone-intro">Check which ports are open on a given host. Quickly verify firewall configurations, confirm services are listening, or troubleshoot connectivity issues — all from your browser.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Verifying a web server is listening on port 443, checking if SSH (port 22) is exposed, testing firewall rules after changes, or confirming a database port is properly restricted.</p></div>
-        </div>
-
-        <!-- Tool -->
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="portScanner">
-                <h2>Port Scanner</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Check if specific ports are open or closed on any server. Select which ports to scan below.
-                </p>
-                <div class="input-group">
-                    <label>Host (Domain or IP):</label>
-                    <input type="text" id="portScanHost" placeholder="example.com or 192.168.1.1" aria-label="Host for port scan" onkeypress="if(event.key==='Enter') scanSelectedPorts()">
-                </div>
-                
-                <div style="margin: 15px 0;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Select Ports to Scan:</label>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 15px;">
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="80" data-name="HTTP" checked >
-                            <span>80 - HTTP</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="443" data-name="HTTPS" checked >
-                            <span>443 - HTTPS</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="22" data-name="SSH" checked >
-                            <span>22 - SSH</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="21" data-name="FTP" checked >
-                            <span>21 - FTP</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="25" data-name="SMTP" checked >
-                            <span>25 - SMTP</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="3389" data-name="RDP" checked >
-                            <span>3389 - RDP</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="110" data-name="POP3" >
-                            <span>110 - POP3</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="143" data-name="IMAP" >
-                            <span>143 - IMAP</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="3306" data-name="MySQL" >
-                            <span>3306 - MySQL</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="5432" data-name="PostgreSQL" >
-                            <span>5432 - PostgreSQL</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="8080" data-name="HTTP Alt" >
-                            <span>8080 - HTTP Alt</span>
-                        </label>
-                        <label class="port-label">
-                            <input type="checkbox" class="port-checkbox" value="8443" data-name="HTTPS Alt" >
-                            <span>8443 - HTTPS Alt</span>
-                        </label>
-                    </div>
-                    
-                    <div style="margin-top: 10px;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 0.9em; color: var(--text-secondary);">Or scan a custom port:</label>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <input type="number" id="customPortNumber" placeholder="e.g., 8888" aria-label="Custom port number" min="1" max="65535" style="flex: 1; max-width: 150px; font-size: 0.9em;" onkeypress="if(event.key==='Enter') addCustomPort()">
-                            <button onclick="addCustomPort()" style="width: auto; margin: 0; padding: 8px 16px; font-size: 0.85em;">+ Add</button>
-                        </div>
-                        <div id="customPortsList" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px;"></div>
-                    </div>
-                </div>
-                
-                <button onclick="scanSelectedPorts()" style="width: 100%;">🔍 Scan Ports</button>
-                <div id="portResults"></div>
+        <div class="standalone-hero"><h1>Port Scanner</h1><p class="standalone-intro">Check which ports are open on a given host. Quickly verify firewall configurations, confirm services are listening, or troubleshoot connectivity issues — all from your browser.</p><div class="example-box"><strong>Example uses:</strong><p>Verifying a web server is listening on port 443, checking if SSH (port 22) is exposed, testing firewall rules after changes, or confirming a database port is properly restricted.</p></div></div>
+        <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="portScanner"><h2>Port Scanner</h2>
+            <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Check if specific ports are open or closed on any server.</p>
+            <div class="input-group"><label>Host (Domain or IP):</label><input type="text" id="portScanHost" placeholder="example.com or 192.168.1.1" aria-label="Host for port scan" onkeypress="if(event.key==='Enter') scanSelectedPorts()"></div>
+            <div style="margin: 15px 0;"><label style="display: block; margin-bottom: 8px; font-weight: 600;">Select Ports to Scan:</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 15px;">
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="80" data-name="HTTP" checked><span>80 - HTTP</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="443" data-name="HTTPS" checked><span>443 - HTTPS</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="22" data-name="SSH" checked><span>22 - SSH</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="21" data-name="FTP" checked><span>21 - FTP</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="25" data-name="SMTP" checked><span>25 - SMTP</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="3389" data-name="RDP" checked><span>3389 - RDP</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="110" data-name="POP3"><span>110 - POP3</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="143" data-name="IMAP"><span>143 - IMAP</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="3306" data-name="MySQL"><span>3306 - MySQL</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="5432" data-name="PostgreSQL"><span>5432 - PostgreSQL</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="8080" data-name="HTTP Alt"><span>8080 - HTTP Alt</span></label>
+                <label class="port-label"><input type="checkbox" class="port-checkbox" value="8443" data-name="HTTPS Alt"><span>8443 - HTTPS Alt</span></label>
             </div>
-        </div>
-
-        <!-- Explore More -->
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+            <div style="margin-top: 10px;"><label style="display: block; margin-bottom: 5px; font-size: 0.9em; color: var(--text-secondary);">Or scan a custom port:</label><div style="display: flex; gap: 8px; align-items: center;"><input type="number" id="customPortNumber" placeholder="e.g., 8888" min="1" max="65535" style="flex: 1; max-width: 150px; font-size: 0.9em;" onkeypress="if(event.key==='Enter') addCustomPort()"><button onclick="addCustomPort()" style="width: auto; margin: 0; padding: 8px 16px; font-size: 0.85em;">+ Add</button></div><div id="customPortsList" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px;"></div></div></div>
+            <button onclick="scanSelectedPorts()" style="width: 100%;">🔍 Scan Ports</button><div id="portResults"></div></div></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-network.js"></script>
+    <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
+    <script src="/utility/core.js"></script><script src="/utility/tools-network.js"></script>
     <script>
-        // Minimal theme support
+        // Theme support
         function changeTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-theme');
-            } else {
-                document.body.classList.remove('light-theme');
-            }
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+            else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            // Update logo
-            const logo = document.getElementById('siteLogo');
-            if (logo) {
-                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
-            }
+            var logo = document.getElementById('siteLogo');
+            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() {
-            const isLight = document.body.classList.contains('light-theme');
-            changeTheme(isLight ? 'dark' : 'light');
-        }
-        // Stubs for functions that might be called
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
         if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
     </script>
 </body>
 </html>

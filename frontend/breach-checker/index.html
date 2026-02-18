@@ -1,95 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-003ETVX66J');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-003ETVX66J');</script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Breach Checker — Have I Been Pwned Lookup — duckTyped</title>
     <meta name="description" content="Check if your password has been exposed in known data breaches. Uses Have I Been Pwned with k-anonymity — your full password never leaves your browser. Free tool.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Password Breach Checker — Have I Been Pwned Lookup — duckTyped">
+    <meta name="author" content="duckTyped"><meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"><meta property="og:title" content="Password Breach Checker — Have I Been Pwned Lookup — duckTyped">
     <meta property="og:description" content="Check if your password has been exposed in known data breaches. Uses Have I Been Pwned with k-anonymity — your full password never leaves your browser. Free tool.">
-    <meta property="og:url" content="https://ducktyped.xyz/breach-checker/">
-    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:url" content="https://ducktyped.xyz/breach-checker/"><meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Password Breach Checker — Have I Been Pwned Lookup — duckTyped">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Password Breach Checker — Have I Been Pwned Lookup — duckTyped">
     <meta name="twitter:description" content="Check if your password has been exposed in known data breaches. Uses Have I Been Pwned with k-anonymity — your full password never leaves your browser. Free tool.">
     <link rel="canonical" href="https://ducktyped.xyz/breach-checker/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
     <link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
+    <nav class="standalone-nav"><div class="standalone-nav-inner">
+        <a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a>
+        <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+        <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button>
+    </div></nav>
     <div class="container">
-        <div class="standalone-hero">
-            <h1>Password Breach Checker</h1>
+        <div class="standalone-hero"><h1>Password Breach Checker</h1>
             <p class="standalone-intro">Check if a password has appeared in any known data breaches using the Have I Been Pwned database. Your password is hashed locally and only the first 5 characters of the hash are sent — your actual password never leaves your browser (k-anonymity model).</p>
             <div class="example-box"><strong>Example uses:</strong><p>Checking if your current passwords have been compromised, auditing password strength as part of a security review, verifying that a newly generated password hasn't appeared in breach databases, or educating users about password reuse risks.</p></div>
         </div>
-
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="breachChecker">
-                <h2>Password Breach Checker</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Check if a password has appeared in known data breaches using the Have I Been Pwned API. Uses k-anonymity — your full password is never sent over the network.
-                </p>
-                <div class="input-group">
-                    <label>Password to Check:</label>
-                    <div style="position: relative;">
-                        <input type="password" id="breachPassword" placeholder="Enter a password to check" aria-label="Password to check for breaches" onkeypress="if(event.key==='Enter') checkPasswordBreach()">
-                        <button onclick="toggleBreachPasswordVisibility()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; width: auto; min-width: auto;">👁️</button>
-                    </div>
-                </div>
-                <button onclick="checkPasswordBreach()">🔓 Check for Breaches</button>
-                <div id="breachResults"></div>
-                <div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--primary-color);">
-                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9em; line-height: 1.5;">
-                        <strong>🔒 Privacy Note:</strong> Your password is hashed locally using SHA-1. Only the first 5 characters of the hash are sent to the API (k-anonymity). Your actual password never leaves your browser.
-                    </p>
+        <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="breachChecker"><h2>Password Breach Checker</h2>
+            <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Check if a password has appeared in known data breaches using the Have I Been Pwned API. Uses k-anonymity — your full password is never sent over the network.</p>
+            <div class="input-group"><label>Password to Check:</label>
+                <div style="position: relative;">
+                    <input type="password" id="breachPassword" placeholder="Enter a password to check" aria-label="Password to check for breaches" onkeypress="if(event.key==='Enter') checkPasswordBreach()">
+                    <button onclick="toggleBreachPasswordVisibility()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; width: auto; min-width: auto;">👁️</button>
                 </div>
             </div>
-        </div>
-
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+            <button onclick="checkPasswordBreach()">🔓 Check for Breaches</button>
+            <div id="breachResults"></div>
+            <div style="margin-top: 15px; padding: 12px; background: var(--input-background); border-radius: 6px; border-left: 3px solid var(--primary-color);">
+                <p style="color: var(--text-secondary); margin: 0; font-size: 0.9em; line-height: 1.5;"><strong>🔒 Privacy Note:</strong> Your password is hashed locally using SHA-1. Only the first 5 characters of the hash are sent to the API (k-anonymity). Your actual password never leaves your browser.</p>
+            </div>
+        </div></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
+            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-password.js"></script>
+    <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
+    <script src="/utility/core.js"></script><script src="/utility/tools-password.js"></script>
     <script>
         function changeTheme(theme) {
             if (theme === 'light') { document.body.classList.add('light-theme'); } else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            const logo = document.getElementById('siteLogo');
-            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var logo = document.getElementById('siteLogo'); if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn'); if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() { const isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }

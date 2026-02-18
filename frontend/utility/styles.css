@@ -2431,6 +2431,11 @@
             white-space: nowrap;
             text-align: center;
             box-sizing: border-box;
+            /* Override global button styles */
+            width: auto;
+            overflow: visible;
+            text-overflow: clip;
+            margin-top: 0;
         }
 
         .preset-btn:hover {

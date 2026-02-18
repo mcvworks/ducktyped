@@ -1,205 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-003ETVX66J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-003ETVX66J');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-003ETVX66J');</script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free QR Code Generator — URL, WiFi, vCard & More — duckTyped</title>
     <meta name="description" content="Generate QR codes for URLs, WiFi networks, vCards, and plain text. Customize size, download as PNG. Free QR code maker with no signup.">
-    <meta name="author" content="duckTyped">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Free QR Code Generator — URL, WiFi, vCard & More — duckTyped">
+    <meta name="author" content="duckTyped"><meta name="robots" content="index, follow">
+    <meta property="og:type" content="website"><meta property="og:title" content="Free QR Code Generator — URL, WiFi, vCard & More — duckTyped">
     <meta property="og:description" content="Generate QR codes for URLs, WiFi networks, vCards, and plain text. Customize size, download as PNG. Free QR code maker with no signup.">
-    <meta property="og:url" content="https://ducktyped.xyz/qr-generator/">
-    <meta property="og:site_name" content="duckTyped">
+    <meta property="og:url" content="https://ducktyped.xyz/qr-generator/"><meta property="og:site_name" content="duckTyped">
     <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free QR Code Generator — URL, WiFi, vCard & More — duckTyped">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Free QR Code Generator — URL, WiFi, vCard & More — duckTyped">
     <meta name="twitter:description" content="Generate QR codes for URLs, WiFi networks, vCards, and plain text. Customize size, download as PNG. Free QR code maker with no signup.">
     <link rel="canonical" href="https://ducktyped.xyz/qr-generator/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
-    <link rel="stylesheet" href="/utility/styles.css">
+    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="standalone-nav">
-        <div class="standalone-nav-inner">
-            <a href="/" class="standalone-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
-                <span class="standalone-nav-title">duckTyped</span>
-            </a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-        </div>
-    </nav>
-
+    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/utility/" class="standalone-nav-btn">View All Tools</a>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">☀️</button></div></nav>
     <div class="container">
-        <!-- SEO Content -->
-        <div class="standalone-hero">
-            <h1>QR Code Generator</h1>
-            <p class="standalone-intro">Create QR codes instantly for URLs, WiFi credentials, contact cards (vCard), or plain text. Customize the size, then download the image. Everything runs in your browser — no data is uploaded.</p>
-            <div class="example-box"><strong>Example uses:</strong><p>Creating a QR code for your business WiFi, generating contactless menus for a restaurant, sharing a URL at a conference, or adding a vCard QR to your business card.</p></div>
-        </div>
-
-        <!-- Tool -->
-        <div class="standalone-tool-wrap">
-            <div class="tool-card standalone-card" id="qrGenerator">
-                <h2>QR Code Generator</h2>
-                <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">
-                    Generate QR codes for URLs, text, WiFi networks, and contact cards. Customize size and download as PNG.
-                </p>
-                
-                <!-- Mode Selector -->
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">QR Code Type:</label>
-                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                        <button onclick="switchQRMode('text')" id="qrModeText" class="qr-mode-btn active" >📝 Text/URL</button>
-                        
-                        <button onclick="switchQRMode('wifi')" id="qrModeWifi" class="qr-mode-btn" >📶 WiFi</button>
-                        
-                        <button onclick="switchQRMode('vcard')" id="qrModeVcard" class="qr-mode-btn" >👤 Contact</button>
-                    </div>
-                </div>
-                
-                <!-- Text/URL Mode -->
-                <div id="qrModeTextContent">
-                    <div class="input-group">
-                        <label>QR Code Type:</label>
-                        <select id="qrType" onchange="updateQRInputs()" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
-                            <option value="url">URL / Website</option>
-                            <option value="text">Plain Text</option>
-                            <option value="email">Email Address</option>
-                            <option value="phone">Phone Number</option>
-                            <option value="sms">SMS Message</option>
-                        </select>
-                    </div>
-                    <div id="qrInputContainer">
-                        <div class="input-group">
-                            <label>URL:</label>
-                            <input type="url" id="qrURL" placeholder="https://example.com" aria-label="URL for QR code">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- WiFi Mode -->
-                <div id="qrModeWifiContent" style="display: none;">
-                    <div class="input-group">
-                        <label>Network Name (SSID):</label>
-                        <input type="text" id="wifiSSID" placeholder="MyWiFiNetwork" aria-label="WiFi network name">
-                    </div>
-                    <div class="input-group">
-                        <label>Password:</label>
-                        <input type="text" id="wifiPassword" placeholder="YourWiFiPassword" aria-label="WiFi password">
-                    </div>
-                    <div class="input-group">
-                        <label>Security Type:</label>
-                        <select id="wifiSecurity" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
-                            <option value="WPA">WPA/WPA2</option>
-                            <option value="WEP">WEP</option>
-                            <option value="">None (Open Network)</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>
-                            <input type="checkbox" id="wifiHidden" style="width: auto; margin-right: 5px;">
-                            Hidden Network (SSID not broadcast)
-                        </label>
-                    </div>
-                </div>
-                
-                <!-- vCard Mode -->
-                <div id="qrModeVcardContent" style="display: none;">
-                    <div class="input-group">
-                        <label>Full Name:</label>
-                        <input type="text" id="vcardName" placeholder="John Doe" aria-label="Contact full name">
-                    </div>
-                    <div class="input-group">
-                        <label>Organization/Company:</label>
-                        <input type="text" id="vcardOrg" placeholder="Acme Corp (optional)" aria-label="Organization name">
-                    </div>
-                    <div class="input-group">
-                        <label>Job Title:</label>
-                        <input type="text" id="vcardTitle" placeholder="CEO (optional)" aria-label="Job title">
-                    </div>
-                    <div class="input-group">
-                        <label>Phone Number:</label>
-                        <input type="tel" id="vcardPhone" placeholder="+1-555-123-4567" aria-label="Phone number">
-                    </div>
-                    <div class="input-group">
-                        <label>Email:</label>
-                        <input type="email" id="vcardEmail" placeholder="john@example.com" aria-label="Email address">
-                    </div>
-                    <div class="input-group">
-                        <label>Website:</label>
-                        <input type="url" id="vcardWebsite" placeholder="https://example.com (optional)" aria-label="Website URL">
-                    </div>
-                    <div class="input-group">
-                        <label>Address:</label>
-                        <textarea id="vcardAddress" aria-label="Mailing address" placeholder="123 Main St, City, State, ZIP (optional)" style="min-height: 60px;"></textarea>
-                    </div>
-                </div>
-                
-                <!-- Common QR Settings -->
-                <div class="input-group">
-                    <label>Size:</label>
-                    <select id="qrSize" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;">
-                        <option value="200">Small (200x200)</option>
-                        <option value="300" selected>Medium (300x300)</option>
-                        <option value="400">Large (400x400)</option>
-                        <option value="500">Extra Large (500x500)</option>
-                    </select>
-                </div>
-                
-                <button onclick="generateUnifiedQR()" id="generateQRBtn">Generate QR Code</button>
-                <div id="qrOutput" style="margin-top: 15px; text-align: center;"></div>
-            </div>
-        </div>
-
-        <!-- Explore More -->
-        <div class="standalone-footer-cta">
-            <p>This is one of <strong>21+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p>
-            <a href="/utility/" class="standalone-nav-btn">Explore All Tools</a>
-        </div>
+        <div class="standalone-hero"><h1>QR Code Generator</h1><p class="standalone-intro">Create QR codes instantly for URLs, WiFi credentials, contact cards (vCard), or plain text. Customize the size, then download the image. Everything runs in your browser.</p><div class="example-box"><strong>Example uses:</strong><p>Creating a QR code for your business WiFi, generating contactless menus for a restaurant, sharing a URL at a conference, or adding a vCard QR to your business card.</p></div></div>
+        <div class="standalone-tool-wrap"><div class="tool-card standalone-card" id="qrGenerator"><h2>QR Code Generator</h2>
+            <p class="tool-description" style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">Generate QR codes for URLs, text, WiFi networks, and contact cards. Customize size and download as PNG.</p>
+            <div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 8px; font-weight: 600;">QR Code Type:</label><div style="display: flex; gap: 6px; flex-wrap: wrap;"><button onclick="switchQRMode('text')" id="qrModeText" class="qr-mode-btn active">📝 Text/URL</button><button onclick="switchQRMode('wifi')" id="qrModeWifi" class="qr-mode-btn">📶 WiFi</button><button onclick="switchQRMode('vcard')" id="qrModeVcard" class="qr-mode-btn">👤 Contact</button></div></div>
+            <div id="qrModeTextContent"><div class="input-group"><label>QR Code Type:</label><select id="qrType" onchange="updateQRInputs()" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;"><option value="url">URL / Website</option><option value="text">Plain Text</option><option value="email">Email Address</option><option value="phone">Phone Number</option><option value="sms">SMS Message</option></select></div><div id="qrInputContainer"><div class="input-group"><label>URL:</label><input type="url" id="qrURL" placeholder="https://example.com" aria-label="URL for QR code"></div></div></div>
+            <div id="qrModeWifiContent" style="display: none;"><div class="input-group"><label>Network Name (SSID):</label><input type="text" id="wifiSSID" placeholder="MyWiFiNetwork"></div><div class="input-group"><label>Password:</label><input type="text" id="wifiPassword" placeholder="YourWiFiPassword"></div><div class="input-group"><label>Security Type:</label><select id="wifiSecurity" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="">None (Open)</option></select></div><div class="input-group"><label><input type="checkbox" id="wifiHidden" style="width: auto; margin-right: 5px;">Hidden Network</label></div></div>
+            <div id="qrModeVcardContent" style="display: none;"><div class="input-group"><label>Full Name:</label><input type="text" id="vcardName" placeholder="John Doe"></div><div class="input-group"><label>Organization:</label><input type="text" id="vcardOrg" placeholder="Acme Corp (optional)"></div><div class="input-group"><label>Job Title:</label><input type="text" id="vcardTitle" placeholder="CEO (optional)"></div><div class="input-group"><label>Phone:</label><input type="tel" id="vcardPhone" placeholder="+1-555-123-4567"></div><div class="input-group"><label>Email:</label><input type="email" id="vcardEmail" placeholder="john@example.com"></div><div class="input-group"><label>Website:</label><input type="url" id="vcardWebsite" placeholder="https://example.com (optional)"></div><div class="input-group"><label>Address:</label><textarea id="vcardAddress" placeholder="123 Main St, City, State, ZIP (optional)" style="min-height: 60px;"></textarea></div></div>
+            <div class="input-group"><label>Size:</label><select id="qrSize" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;"><option value="200">Small (200x200)</option><option value="300" selected>Medium (300x300)</option><option value="400">Large (400x400)</option><option value="500">Extra Large (500x500)</option></select></div>
+            <button onclick="generateUnifiedQR()" id="generateQRBtn">Generate QR Code</button><div id="qrOutput" style="margin-top: 15px; text-align: center;"></div></div></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>27+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
     </div>
-
-    <footer class="standalone-page-footer">
-        <span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span>
-    </footer>
-
-    <script src="/utility/core.js"></script>
-    <script src="/utility/tools-qr.js"></script>
+    <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
+    <script src="/utility/core.js"></script><script src="/utility/tools-qr.js"></script>
     <script>
-        // Minimal theme support
+        // Theme support
         function changeTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-theme');
-            } else {
-                document.body.classList.remove('light-theme');
-            }
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+            else { document.body.classList.remove('light-theme'); }
             localStorage.setItem('selectedTheme', theme);
-            // Update logo
-            const logo = document.getElementById('siteLogo');
-            if (logo) {
-                logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png';
-            }
+            var logo = document.getElementById('siteLogo');
+            if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
         }
-        function toggleTheme() {
-            const isLight = document.body.classList.contains('light-theme');
-            changeTheme(isLight ? 'dark' : 'light');
-        }
-        // Stubs for functions that might be called
+        function toggleTheme() { var isLight = document.body.classList.contains('light-theme'); changeTheme(isLight ? 'dark' : 'light'); }
+        (function() { var saved = localStorage.getItem('selectedTheme'); if (saved) changeTheme(saved); })();
         if (typeof initDragAndDrop === 'undefined') { window.initDragAndDrop = function() {}; }
         if (typeof loadToolOrder === 'undefined') { window.loadToolOrder = function() {}; }
         if (typeof loadSavedNotes === 'undefined') { window.loadSavedNotes = function() {}; }
         if (typeof initializeEncryptedNotes === 'undefined') { window.initializeEncryptedNotes = function() {}; }
+        if (typeof showToast === 'undefined') { window.showToast = function(msg) { console.log(msg); }; }
     </script>
 </body>
 </html>
