@@ -609,7 +609,7 @@
 
         /* Theme toggle button */
         body.light-theme .theme-toggle-btn { background: transparent; }
-        body.light-theme .theme-toggle-btn:hover { filter: drop-shadow(0 0 6px rgba(242, 194, 0, 0.6)); background: #F2C200; }
+        body.light-theme .theme-toggle-btn:hover { filter: drop-shadow(0 0 8px rgba(242, 194, 0, 0.8)); }
 
         /* Dev tools light theme */
         body.light-theme .json-output { background: #F8F9FB; border-color: #D0D5DD; }
