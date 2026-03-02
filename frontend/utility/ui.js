@@ -509,6 +509,9 @@ function changeTheme(themeName) {
     } else {
         document.body.classList.remove('light-theme');
     }
+
+    var icon = document.getElementById('themeToggleIcon');
+    if (icon) { icon.src = themeName === 'light' ? '/Logo 1-05.svg' : '/Logo 1-11.svg'; }
 }
 
 function toggleTheme() {

@@ -11,8 +11,8 @@ function changeTheme(theme) {
     localStorage.setItem('selectedTheme', theme);
     var logo = document.getElementById('siteLogo');
     if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
-    var btn = document.getElementById('themeToggleBtn');
-    if (btn) { btn.textContent = theme === 'light' ? '🌙' : '☀️'; }
+    var icon = document.getElementById('themeToggleIcon');
+    if (icon) { icon.src = theme === 'light' ? '/Logo 1-05.svg' : '/Logo 1-11.svg'; }
 }
 
 function toggleTheme() {

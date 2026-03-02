@@ -610,7 +610,7 @@
         /* Theme toggle button */
         body.light-theme .theme-toggle-btn { background: #ffffff; border-color: #D0D5DD; }
         body.light-theme .theme-toggle-btn:hover { border-color: #0F1114; background: #ECEEF2; box-shadow: 0 0 12px rgba(22,19,28,0.08); }
-        body.light-theme .theme-toggle-btn svg { color: #0F1114; }
+        body.light-theme .theme-toggle-btn svg, body.light-theme .theme-toggle-btn img { color: #0F1114; }
 
         /* Dev tools light theme */
         body.light-theme .json-output { background: #F8F9FB; border-color: #D0D5DD; }
@@ -647,38 +647,11 @@
             transition: all 0.3s;
         }
 
-        .theme-toggle-btn svg {
+        .theme-toggle-btn svg,
+        .theme-toggle-btn img {
             width: 20px;
             height: 20px;
-            color: var(--text-primary);
             transition: all 0.3s;
-        }
-
-        /* Plug icon parts */
-        .plug-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .plug-prong {
-            transition: transform 0.3s ease;
-        }
-
-        /* Dark mode - plug is OUT (prongs separated) */
-        body:not(.light-theme) .plug-prong-left {
-            transform: translateX(-2px) translateY(1px);
-        }
-
-        body:not(.light-theme) .plug-prong-right {
-            transform: translateX(2px) translateY(1px);
-        }
-
-        /* Light mode - plug is IN (prongs together, pushed down) */
-        body.light-theme .plug-prong-left {
-            transform: translateX(0) translateY(3px);
-        }
-
-        body.light-theme .plug-prong-right {
-            transform: translateX(0) translateY(3px);
         }
 
         .theme-toggle-btn:hover {
@@ -686,10 +659,6 @@
             background: var(--hover-background);
             transform: rotate(180deg);
             box-shadow: 0 0 12px rgba(242, 194, 0, 0.12);
-        }
-
-        .theme-toggle-btn:hover svg {
-            color: var(--primary-color);
         }
 
         /* Mobile responsive */
