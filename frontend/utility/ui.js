@@ -511,7 +511,7 @@ function changeTheme(themeName) {
     }
 
     var icon = document.getElementById('themeToggleIcon');
-    if (icon) { icon.src = themeName === 'light' ? '/Logo 1-05.svg' : '/Logo 1-11.svg'; }
+    if (icon) { icon.src = themeName === 'light' ? '/Logo 1-06.svg' : '/Logo 1-11.svg'; }
 }
 
 function toggleTheme() {
