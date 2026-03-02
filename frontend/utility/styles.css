@@ -592,8 +592,8 @@
         }
 
         .theme-toggle-btn {
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
             padding: 0;
             margin: 0;
             background: transparent;
@@ -607,8 +607,8 @@
 
         .theme-toggle-btn svg,
         .theme-toggle-btn img {
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
             transition: filter 0.3s;
         }
 
@@ -2815,7 +2815,7 @@
         .unified-nav {
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1100;
             padding: 14px 24px;
         }
 
