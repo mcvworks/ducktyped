@@ -8,7 +8,7 @@
       gtag('js', new Date());
       gtag('config', 'G-003ETVX66J');
     </script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"JSON Web Tokens Explained","description":"Learn how JSON Web Tokens work, their three-part structure, standard claims like exp and iat, signing algorithms, and security best practices for token-based authentication.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/quacktools-logo-dark.png"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/jwt-decoder/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"JSON Web Tokens Explained","description":"Learn how JSON Web Tokens work, their three-part structure, standard claims like exp and iat, signing algorithms, and security best practices for token-based authentication.","datePublished":"2026-02-18","dateModified":"2026-02-18","author":{"@type":"Organization","name":"duckTyped","url":"https://ducktyped.xyz"},"publisher":{"@type":"Organization","name":"duckTyped","logo":{"@type":"ImageObject","url":"https://ducktyped.xyz/dtlogo_lg.svg"}},"mainEntityOfPage":"https://ducktyped.xyz/learn/jwt-decoder/"}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Learn","item":"https://ducktyped.xyz/learn/"},{"@type":"ListItem","position":2,"name":"JWT Decoder"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a JSON Web Token (JWT)?","acceptedAnswer":{"@type":"Answer","text":"A JSON Web Token (JWT) is a compact, URL-safe token format for securely transmitting claims between two parties. Defined in RFC 7519, JWTs are the de facto standard for authentication and authorization in modern web applications, enabling stateless verification without server-side session storage."}},{"@type":"Question","name":"What is the structure of a JWT?","acceptedAnswer":{"@type":"Answer","text":"Every JWT consists of three Base64url-encoded parts separated by dots: the header (specifying the algorithm and token type), the payload (containing claims like user ID, roles, and expiration), and the signature (which ensures the token has not been tampered with)."}},{"@type":"Question","name":"What are JWT signing algorithms?","acceptedAnswer":{"@type":"Answer","text":"JWTs support three main algorithm families: HMAC (HS256/384/512) which uses a shared secret key, RSA (RS256/384/512) which uses public/private key pairs, and ECDSA (ES256/384/512) which provides equivalent security with smaller keys. The \"none\" algorithm should never be used in production."}},{"@type":"Question","name":"What are important JWT security considerations?","acceptedAnswer":{"@type":"Answer","text":"JWT payloads are encoded, not encrypted, so never store sensitive data in them. Always verify the signature, check expiration claims, use HTTPS, guard against the alg:none attack, keep tokens short-lived, and prefer HTTP-only cookies over localStorage to mitigate XSS attacks."}}]}</script>
     <meta charset="UTF-8">
@@ -22,18 +22,18 @@
     <meta property="og:description" content="Learn how JSON Web Tokens work, their structure, standard claims, signing algorithms, and security best practices.">
     <meta property="og:url" content="https://ducktyped.xyz/learn/jwt-decoder/">
     <meta property="og:site_name" content="duckTyped">
-    <meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+    <meta property="og:image" content="https://ducktyped.xyz/dtlogo_lg.svg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="JWT Tokens Explained — Structure, Claims & Security — duckTyped">
     <meta name="twitter:description" content="Learn how JSON Web Tokens work, their structure, claims, and security best practices.">
     <link rel="canonical" href="https://ducktyped.xyz/learn/jwt-decoder/">
-    <link rel="icon" type="image/png" href="/quacktools-logo-dark.png">
+    <link rel="icon" type="image/png" href="/dtlogo_lg.svg">
     <link rel="stylesheet" href="/utility/styles.css">
 </head>
 <body>    <nav class="unified-nav">
         <div class="unified-nav-inner">
             <a href="/" class="unified-nav-brand">
-                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <img src="/dtlogo_lg.svg" alt="duckTyped" id="siteLogo">
                 <span class="unified-nav-brand-text">duckTyped</span>
             </a>
             <div class="unified-mobile-overlay" id="mobileOverlay"></div>

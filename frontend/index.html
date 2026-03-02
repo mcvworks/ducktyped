@@ -20,12 +20,12 @@
 <meta property="og:description" content="35+ free IT tools: DNS, SSL, passwords, WHOIS, port scanning, QR codes, and more. No registration required.">
 <meta property="og:url" content="https://ducktyped.xyz/">
 <meta property="og:site_name" content="duckTyped">
-<meta property="og:image" content="https://ducktyped.xyz/quacktools-logo-dark.png">
+<meta property="og:image" content="https://ducktyped.xyz/dtlogo_lg.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="duckTyped — Technical tools without the noise.">
 <meta name="twitter:description" content="35+ free IT tools. No registration, no noise.">
 <link rel="canonical" href="https://ducktyped.xyz/">
-<link rel="icon" type="image/png" href="quacktools-logo-dark.png">
+<link rel="icon" type="image/png" href="dtlogo_lg.svg">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"duckTyped","applicationCategory":"DeveloperApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free IT professional tools including DNS checker, SSL certificate validator, password generator, WHOIS lookup, port scanner, and 30+ more utilities.","browserRequirements":"Requires JavaScript","softwareVersion":"3.0","author":{"@type":"Organization","name":"duckTyped"}}
 </script>
@@ -118,7 +118,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear
 </head>
 <body>
 <nav class="unified-nav"><div class="unified-nav-inner">
-  <a href="/" class="unified-nav-brand"><img src="quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="unified-nav-brand-text">duckTyped</span></a>
+  <a href="/" class="unified-nav-brand"><img src="dtlogo_lg.svg" alt="duckTyped" id="siteLogo"><span class="unified-nav-brand-text">duckTyped</span></a>
   <div class="unified-mobile-overlay" id="mobileOverlay"></div>
   <ul class="unified-nav-links" id="navLinks">
     <li><a href="/utility/">Utility</a></li>
@@ -129,8 +129,10 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear
 </div></nav>
 <section class="hero">
   <div class="hero-bg-glow"></div>
-  <a href="/"><img src="quacktools-logo-dark.png" alt="duckTyped mascot" class="hero-mascot"></a>
-  <h1 class="hero-wordmark fade-up">duckTyped<span class="cursor">_</span></h1>
+  <a href="/"><img src="dtlogo_lg.svg" alt="duckTyped mascot" class="hero-mascot">
+    <h1 class="hero-wordmark fade-up">duckTyped<span class="cursor">_</span></h1>
+  </a>
+  
   <p class="hero-headline fade-up delay-1">Technical tools without the <span class="accent">noise.</span></p>
   <p class="hero-sub fade-up delay-2">35+ free utilities for IT pros, sysadmins, and developers. No registration. No tracking. Just tools.</p>
   <div class="hero-ctas fade-up delay-3">
@@ -193,7 +195,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear
   <p class="footer-copy">&copy; <script>document.write(new Date().getFullYear())</script> duckTyped. All rights reserved.</p>
 </div></footer>
 <script>
-function changeTheme(t){if(t==='light'){document.body.classList.add('light-theme')}else{document.body.classList.remove('light-theme')}localStorage.setItem('selectedTheme',t);var l=document.getElementById('siteLogo');if(l)l.src=t==='light'?'/quacktools-logo-light.png':'/quacktools-logo-dark.png';var i=document.getElementById('themeToggleIcon');if(i)i.src=t==='light'?'/Logo 1-06.svg':'/Logo 1-11.svg'}
+function changeTheme(t){if(t==='light'){document.body.classList.add('light-theme')}else{document.body.classList.remove('light-theme')}localStorage.setItem('selectedTheme',t);var l=document.getElementById('siteLogo');if(l)l.src=t==='light'?'/dtlogo_lg.svg':'/dtlogo_lg.svg';var i=document.getElementById('themeToggleIcon');if(i)i.src=t==='light'?'/Logo 1-06.svg':'/Logo 1-11.svg'}
 function toggleTheme(){changeTheme(document.body.classList.contains('light-theme')?'dark':'light')}
 (function(){var s=localStorage.getItem('selectedTheme');if(s)changeTheme(s)})();
 const navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks'),overlay=document.getElementById('mobileOverlay');

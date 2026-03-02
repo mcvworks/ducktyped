@@ -511,7 +511,7 @@ function changeTheme(themeName) {
     }
 
     var logo = document.getElementById('siteLogo');
-    if (logo) { logo.src = themeName === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+    if (logo) { logo.src = themeName === 'light' ? '/dtlogo_lg.svg' : '/dtlogo_lg.svg'; }
     var icon = document.getElementById('themeToggleIcon');
     if (icon) { icon.src = themeName === 'light' ? '/Logo 1-06.svg' : '/Logo 1-11.svg'; }
 }

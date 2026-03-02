@@ -10,7 +10,7 @@ function changeTheme(theme) {
     else { document.body.classList.remove('light-theme'); }
     localStorage.setItem('selectedTheme', theme);
     var logo = document.getElementById('siteLogo');
-    if (logo) { logo.src = theme === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
+    if (logo) { logo.src = theme === 'light' ? '/dtlogo_lg.svg' : '/dtlogo_lg.svg'; }
     var icon = document.getElementById('themeToggleIcon');
     if (icon) { icon.src = theme === 'light' ? '/Logo 1-06.svg' : '/Logo 1-11.svg'; }
 }
