@@ -17,10 +17,28 @@
     <link rel="canonical" href="https://ducktyped.xyz/http-latency/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
-<body>
-    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/learn/" class="standalone-nav-learn">Learn</a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme"><img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme"></button></div></nav>
+<body>    <nav class="unified-nav">
+        <div class="unified-nav-inner">
+            <a href="/" class="unified-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="unified-nav-brand-text">duckTyped</span>
+            </a>
+            <div class="unified-mobile-overlay" id="mobileOverlay"></div>
+            <ul class="unified-nav-links" id="navLinks">
+                <li><a href="/utility/" class="active">Utility</a></li>
+                <li><a href="/learn/">Learn</a></li>
+            </ul>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">
+                <img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme">
+            </button>
+            <button class="unified-nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <script>
+    (function(){var t=document.getElementById('navToggle'),l=document.getElementById('navLinks'),o=document.getElementById('mobileOverlay');
+    t.addEventListener('click',function(){l.classList.toggle('open');o.classList.toggle('open')});
+    o.addEventListener('click',function(){l.classList.remove('open');o.classList.remove('open')});})();
+    </script>
     <div class="container">
         <div class="standalone-hero"><h1>HTTP Latency Checker</h1><p class="standalone-intro">Measure how fast a server responds to HTTP requests. Get response time data to troubleshoot slow sites, compare hosting performance, or monitor uptime from your browser.</p><div class="example-box"><strong>Example uses:</strong><p>Checking if a website is slow or just your connection, comparing CDN performance, verifying a new server deployment responds quickly, or monitoring API endpoint latency.</p></div>
             <a href="/learn/http-latency/" class="learn-more-link">Learn about HTTP latency and response times</a></div>
@@ -30,7 +48,7 @@
             <div class="input-group"><label>Target host or URL:</label><input type="text" id="pingHost" placeholder="google.com or 8.8.8.8" aria-label="Target host or URL" onkeypress="if(event.key==='Enter') checkPing()"></div>
             <button onclick="checkPing()">Run</button>
             <div id="pingResults"></div></div></div>
-        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="cta-btn-primary">Explore All Tools</a></div>
     </div>
     <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
     <script src="/utility/core.js"></script>

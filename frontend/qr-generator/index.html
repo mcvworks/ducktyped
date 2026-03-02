@@ -17,10 +17,28 @@
     <link rel="canonical" href="https://ducktyped.xyz/qr-generator/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
-<body>
-    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/learn/" class="standalone-nav-learn">Learn</a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme"><img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme"></button></div></nav>
+<body>    <nav class="unified-nav">
+        <div class="unified-nav-inner">
+            <a href="/" class="unified-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="unified-nav-brand-text">duckTyped</span>
+            </a>
+            <div class="unified-mobile-overlay" id="mobileOverlay"></div>
+            <ul class="unified-nav-links" id="navLinks">
+                <li><a href="/utility/" class="active">Utility</a></li>
+                <li><a href="/learn/">Learn</a></li>
+            </ul>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">
+                <img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme">
+            </button>
+            <button class="unified-nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <script>
+    (function(){var t=document.getElementById('navToggle'),l=document.getElementById('navLinks'),o=document.getElementById('mobileOverlay');
+    t.addEventListener('click',function(){l.classList.toggle('open');o.classList.toggle('open')});
+    o.addEventListener('click',function(){l.classList.remove('open');o.classList.remove('open')});})();
+    </script>
     <div class="container">
         <div class="standalone-hero"><h1>QR Code Generator</h1><p class="standalone-intro">Create QR codes instantly for URLs, WiFi credentials, contact cards (vCard), or plain text. Customize the size, then download the image. Everything runs in your browser.</p><div class="example-box"><strong>Example uses:</strong><p>Creating a QR code for your business WiFi, generating contactless menus for a restaurant, sharing a URL at a conference, or adding a vCard QR to your business card.</p></div>
             <a href="/learn/qr-generator/" class="learn-more-link">Learn about QR code encoding and formats</a></div>
@@ -32,7 +50,7 @@
             <div id="qrModeVcardContent" style="display: none;"><div class="input-group"><label>Full Name:</label><input type="text" id="vcardName" placeholder="John Doe"></div><div class="input-group"><label>Organization:</label><input type="text" id="vcardOrg" placeholder="Acme Corp (optional)"></div><div class="input-group"><label>Job Title:</label><input type="text" id="vcardTitle" placeholder="CEO (optional)"></div><div class="input-group"><label>Phone:</label><input type="tel" id="vcardPhone" placeholder="+1-555-123-4567"></div><div class="input-group"><label>Email:</label><input type="email" id="vcardEmail" placeholder="john@example.com"></div><div class="input-group"><label>Website:</label><input type="url" id="vcardWebsite" placeholder="https://example.com (optional)"></div><div class="input-group"><label>Address:</label><textarea id="vcardAddress" placeholder="123 Main St, City, State, ZIP (optional)" style="min-height: 60px;"></textarea></div></div>
             <div class="input-group"><label>Size:</label><select id="qrSize" style="width: 100%; padding: 10px; background: var(--input-background); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px;"><option value="200">Small (200x200)</option><option value="300" selected>Medium (300x300)</option><option value="400">Large (400x400)</option><option value="500">Extra Large (500x500)</option></select></div>
             <button onclick="generateUnifiedQR()" id="generateQRBtn">Generate QR Code</button><div id="qrOutput" style="margin-top: 15px; text-align: center;"></div></div></div>
-        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="cta-btn-primary">Explore All Tools</a></div>
     </div>
     <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
     <script src="/utility/core.js"></script>

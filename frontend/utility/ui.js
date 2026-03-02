@@ -510,6 +510,8 @@ function changeTheme(themeName) {
         document.body.classList.remove('light-theme');
     }
 
+    var logo = document.getElementById('siteLogo');
+    if (logo) { logo.src = themeName === 'light' ? '/quacktools-logo-light.png' : '/quacktools-logo-dark.png'; }
     var icon = document.getElementById('themeToggleIcon');
     if (icon) { icon.src = themeName === 'light' ? '/Logo 1-06.svg' : '/Logo 1-11.svg'; }
 }

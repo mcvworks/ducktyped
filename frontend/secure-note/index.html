@@ -17,10 +17,28 @@
     <link rel="canonical" href="https://ducktyped.xyz/secure-note/">
     <link rel="icon" type="image/png" href="/quacktools-logo-dark.png"><link rel="stylesheet" href="/utility/styles.css">
 </head>
-<body>
-    <nav class="standalone-nav"><div class="standalone-nav-inner"><a href="/" class="standalone-nav-brand"><img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo"><span class="standalone-nav-title">duckTyped</span></a><a href="/learn/" class="standalone-nav-learn">Learn</a>
-            <a href="/utility/" class="standalone-nav-btn">View All Tools</a>
-            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme"><img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme"></button></div></nav>
+<body>    <nav class="unified-nav">
+        <div class="unified-nav-inner">
+            <a href="/" class="unified-nav-brand">
+                <img src="/quacktools-logo-dark.png" alt="duckTyped" id="siteLogo">
+                <span class="unified-nav-brand-text">duckTyped</span>
+            </a>
+            <div class="unified-mobile-overlay" id="mobileOverlay"></div>
+            <ul class="unified-nav-links" id="navLinks">
+                <li><a href="/utility/" class="active">Utility</a></li>
+                <li><a href="/learn/">Learn</a></li>
+            </ul>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme">
+                <img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme">
+            </button>
+            <button class="unified-nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <script>
+    (function(){var t=document.getElementById('navToggle'),l=document.getElementById('navLinks'),o=document.getElementById('mobileOverlay');
+    t.addEventListener('click',function(){l.classList.toggle('open');o.classList.toggle('open')});
+    o.addEventListener('click',function(){l.classList.remove('open');o.classList.remove('open')});})();
+    </script>
     <div class="container">
         <div class="standalone-hero"><h1>Secure Note Sender</h1><p class="standalone-intro">Send encrypted messages that can only be read with the right password. Everything is encrypted in your browser using AES-256-GCM before a shareable link is generated. No data ever touches a server.</p><div class="example-box"><strong>Example uses:</strong><p>Sharing a Wi-Fi password with a guest, sending login credentials to a coworker, transmitting sensitive project details, or sharing one-time codes securely.</p></div>
             <a href="/learn/encrypted-note/" class="learn-more-link">Learn how encrypted notes work</a></div>
@@ -35,7 +53,7 @@
                 <div class="output" id="encryptOutput"><div class="output-label" style="color: var(--primary-color); font-weight: 700;">Share this link:</div><div class="output-content" id="encryptedLink" style="word-break: break-all;"></div><button class="copy-btn" onclick="copyLink()">Copy Link</button><div class="info-box" id="passwordInfo"><strong>🔒 Password Protected:</strong> Share the password separately for maximum security.</div><div class="info-box hidden" id="noPasswordInfo"><strong>⚠️ No Password:</strong> Anyone with this link can read the message.</div></div>
             </div>
             <div id="decryptView" style="display: none;"><div class="success" style="margin-bottom: 15px;" id="decryptHeader"><strong>🔑 Encrypted message received</strong><br>Enter the password to decrypt.</div><div class="input-group"><label>Decryption Password:</label><input type="text" id="decryptPassword" placeholder="Enter the password shared with you"></div><button onclick="decryptNote()" id="decryptBtn">Decrypt Message</button><div class="output" id="decryptOutput"><div class="output-label">Decrypted Message:</div><div class="output-content" id="decryptedText"></div></div><button onclick="resetNoteApp()" style="background: var(--text-secondary); color: #ffffff; margin-top: 15px;">Create New Message</button></div></div></div>
-        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="standalone-nav-btn">Explore All Tools</a></div>
+        <div class="standalone-footer-cta"><p>This is one of <strong>35+ free tools</strong> on duckTyped. No accounts, no tracking, no noise.</p><a href="/utility/" class="cta-btn-primary">Explore All Tools</a></div>
     </div>
     <footer class="standalone-page-footer"><span>© <script>document.write(new Date().getFullYear())</script> <a href="/">duckTyped</a>. All rights reserved.</span></footer>
     <script src="/utility/core.js"></script>
