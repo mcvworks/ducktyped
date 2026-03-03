@@ -439,25 +439,32 @@ window.addEventListener('DOMContentLoaded', async function() {
     
     // Load saved tool order
     loadToolOrder();
-    
-    // Ensure all tools are visible and checkboxes checked on load
-    const checkboxes = document.querySelectorAll('[id^="toggle-"]');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = true;
-        const toolId = checkbox.id.replace('toggle-', '');
-        const tool = document.getElementById(toolId);
-        if (tool) {
-            tool.classList.remove('hidden');
-        }
-    });
-    
-    // Set button to "Hide All" since all are visible
+
+    // Load saved tool visibility, or default all to visible
+    const saved = localStorage.getItem('toolVisibility');
+    if (saved) {
+        loadToolVisibility();
+    } else {
+        const checkboxes = document.querySelectorAll('[id^="toggle-"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+            const toolId = checkbox.id.replace('toggle-', '');
+            const tool = document.getElementById(toolId);
+            if (tool) {
+                tool.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Update toggle button text based on current state
     const btn = document.getElementById('toggleAllBtn');
     if (btn) {
+        const checkboxes = document.querySelectorAll('[id^="toggle-"]');
+        const allVisible = Array.from(checkboxes).every(cb => cb.checked);
         const icon = btn.querySelector('.toggle-icon');
         const text = btn.querySelector('.toggle-text');
-        if (icon) icon.classList.remove('eye-closed');
-        if (text) text.textContent = 'Hide All';
+        if (icon) icon.classList.toggle('eye-closed', !allVisible);
+        if (text) text.textContent = allVisible ? 'Hide All' : 'Show All';
     }
 });
 

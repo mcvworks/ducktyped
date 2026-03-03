@@ -1046,7 +1046,7 @@
         
         .command-bar {
             position: sticky;
-            top: 0;
+            top: 72px;
             z-index: 1000;
             background: rgba(15, 17, 20, 0.88);
             backdrop-filter: blur(20px) saturate(1.5);
@@ -1616,7 +1616,7 @@
         }
 
         @media (max-width: 767px) {
-            .command-bar { margin: 0 -20px; }
+            .command-bar { margin: 0 -20px; top: 60px; }
             .search-shortcut { display: none; }
             .tool-count-badge { display: none; }
         }

@@ -704,8 +704,14 @@ async function checkISP() {
     if (!ip) {
         resultsDiv.innerHTML = '<div class="success">Detecting your IP address...</div>';
         try {
-            const ipResponse = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipResponse.json();
+            let ipData;
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                ipData = await res.json();
+            } catch (_) {
+                const res = await fetch('https://jsonip.com');
+                ipData = await res.json();
+            }
             ip = ipData.ip;
             if (CONFIG.DEBUG) console.log('Auto-detected IP:', ip);
         } catch (error) {
