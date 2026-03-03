@@ -50,9 +50,6 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear
 .unified-nav-links a{font-weight:500;font-size:.85rem;color:var(--text-1);text-decoration:none;padding:7px 14px;border-radius:var(--radius-md);letter-spacing:.4px;transition:color .2s,background .2s}
 .unified-nav-links a:hover{color:var(--text-0);background:rgba(255,255,255,.06)}
 .unified-nav-links a.active{color:var(--brand-yellow);background:rgba(242,194,0,.08)}
-.theme-toggle-btn{width:28px;height:28px;padding:0;margin:0 0 0 4px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s,filter .3s;flex-shrink:0}
-.theme-toggle-btn img{width:28px;height:28px}
-.theme-toggle-btn:hover{transform:rotate(180deg);filter:drop-shadow(0 0 6px rgba(242,194,0,0.6))}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:.9rem;letter-spacing:.3px;padding:11px 26px;border-radius:var(--radius-md);cursor:pointer;text-decoration:none;border:none;white-space:nowrap;transition:transform .2s,box-shadow .25s,background .2s,border-color .2s}
 .btn-primary{background:var(--brand-yellow);color:#111318;border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(242,194,0,.18)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(242,194,0,.26);background:#FFD020}
@@ -124,7 +121,6 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear
     <li><a href="/utility/">Utility</a></li>
     <li><a href="/learn/">Learn</a></li>
   </ul>
-  <button onclick="toggleTheme()" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle light/dark theme"><img id="themeToggleIcon" src="/Logo 1-11.svg" alt="Toggle theme"></button>
   <button class="unified-nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
 </div></nav>
 <section class="hero">
@@ -194,9 +190,6 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear
   <p class="footer-copy">&copy; <script>document.write(new Date().getFullYear())</script> duckTyped. All rights reserved.</p>
 </div></footer>
 <script>
-function changeTheme(t){if(t==='light'){document.body.classList.add('light-theme')}else{document.body.classList.remove('light-theme')}localStorage.setItem('selectedTheme',t);var l=document.getElementById('siteLogo');if(l)l.src=t==='light'?'/dtlogo_lg.svg':'/dtlogo_lg.svg';var i=document.getElementById('themeToggleIcon');if(i)i.src=t==='light'?'/Logo 1-06.svg':'/Logo 1-11.svg'}
-function toggleTheme(){changeTheme(document.body.classList.contains('light-theme')?'dark':'light')}
-(function(){var s=localStorage.getItem('selectedTheme');if(s)changeTheme(s)})();
 const navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks'),overlay=document.getElementById('mobileOverlay');
 navToggle.addEventListener('click',()=>{navLinks.classList.toggle('open');overlay.classList.toggle('open')});
 overlay.addEventListener('click',()=>{navLinks.classList.remove('open');overlay.classList.remove('open')});

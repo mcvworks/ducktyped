@@ -54,20 +54,42 @@ function generatePassword() {
     if (includeUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     if (includeLowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
     if (includeNumbers) charset += '0123456789';
-    if (includeSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    if (includeSymbols) charset += '!@#$%^&*_+-';
 
     if (charset === '') {
         showToast('Please select at least one character type!', 'error');
         return;
     }
 
-    let password = '';
-    const array = new Uint32Array(length);
-    crypto.getRandomValues(array);
-    
-    for (let i = 0; i < length; i++) {
-        password += charset[array[i] % charset.length];
+    // Guarantee at least one character from each selected type
+    const required = [];
+    const sets = [];
+    if (includeUppercase) sets.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    if (includeLowercase) sets.push('abcdefghijklmnopqrstuvwxyz');
+    if (includeNumbers) sets.push('0123456789');
+    if (includeSymbols) sets.push('!@#$%^&*_+-');
+
+    const seedArray = new Uint32Array(length);
+    crypto.getRandomValues(seedArray);
+
+    for (let i = 0; i < sets.length; i++) {
+        required.push(sets[i][seedArray[i] % sets[i].length]);
     }
+
+    // Fill remaining slots from full charset
+    let password = '';
+    for (let i = sets.length; i < length; i++) {
+        password += charset[seedArray[i] % charset.length];
+    }
+
+    // Insert required characters at random positions
+    password = required.join('') + password;
+    const shuffled = password.split('');
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = seedArray[i] % (i + 1);
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    password = shuffled.join('');
 
     document.getElementById('passwordText').textContent = password;
     document.getElementById('passwordOutput').classList.add('show');

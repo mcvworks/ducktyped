@@ -2817,6 +2817,7 @@
             top: 0;
             z-index: 1100;
             padding: 14px 24px;
+            background: var(--background-gradient-start);
         }
 
         .unified-nav-inner {
